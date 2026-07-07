@@ -18,7 +18,7 @@ circuit-and-development mechanism.
 
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import List, Tuple
+from typing import List, Tuple, Optional, Dict
 import math
 
 from .core import Appraisal, APPRAISAL_DIMS, clamp
@@ -51,8 +51,11 @@ class EpisodicMemory:
     label: str             # situation archetype
     appraisal: Appraisal   # how it was appraised
     dominant: str          # behavioural network the agent ran
-    valence: float         # environment response: +warm/reward .. -harsh/punish
+    valence: float         # response value -- now the COMPUTED drive reduction (Phase 1)
     importance: float      # salience of the event (0..1)
+    # optional per-variable drive reduction (which needs moved) -- feeds anticipatory-value
+    # learning (Phase 2 / App. C.5). Absent for legacy call sites.
+    drive_reduction: Optional[Dict[str, float]] = None
 
 
 @dataclass
@@ -61,10 +64,11 @@ class MemoryStream:
     _clock: int = 0
 
     def add(self, label: str, appraisal: Appraisal, dominant: str,
-            valence: float, importance: float) -> None:
+            valence: float, importance: float,
+            drive_reduction: Optional[Dict[str, float]] = None) -> None:
         self.events.append(EpisodicMemory(
             self._clock, label, appraisal, dominant,
-            valence, clamp(importance)))
+            valence, clamp(importance), drive_reduction))
         self._clock += 1
 
     def retrieve(self, cue: Appraisal, k: int = RETRIEVE_K

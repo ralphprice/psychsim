@@ -25,6 +25,7 @@ import random
 
 from .core import (Appraisal, GOVERNED, EXPLOITATIVE, clamp)
 from .agent import AffectiveAgent
+from .interocept import reference_child_state, valence_of_event
 
 CTRL_LR = 0.055
 ACCESS_LR = 0.060
@@ -47,10 +48,33 @@ class Environment:
         t.add("structure" if self.structure >= 0.5 else "low_structure")
         return t
 
+    def perturbation(self) -> Dict[str, float]:
+        """WHAT this environment's typical caregiving response DOES to a child's
+        interoceptive state -- a pattern of innate perturbations (interocept/App. B),
+        described, never a decreed valence. Warmth supplies affiliative touch / soothing
+        / contact; structure supplies predictability; recognition supplies acceptance;
+        their absence supplies separation / rejection. Intensities in [0,1]."""
+        w, s, r = self.warmth, self.structure, self.recognition
+        return {
+            "affiliative_touch": w,
+            "soothing": w,
+            "contact_caregiver": w,
+            "predictability": s,
+            "acceptance": r,
+            "separation": clamp(1.0 - w),
+            "rejection": clamp(1.0 - w),
+        }
+
     def response_valence(self) -> float:
-        """Affective colouring of this environment's typical response,
-        -1 (harsh/punishing) .. +1 (warm/rewarding). Written to memory."""
-        return clamp(2.0 * self.warmth - 1.0, -1.0, 1.0)
+        """Affective colouring of this environment's typical response -- now COMPUTED,
+        not stipulated (MASTER Phase 1, honesty-critical #1): the drive reduction its
+        perturbation pattern produces on a developing child's state vector. Warm/firm ->
+        positive (relieves social/arousal deficits); harsh/inconsistent -> negative
+        (deepens them). Clamped to the [-1,1] interface; the sign and ordering are the
+        claim, the magnitude is scaffold-dependent. Because it reads a state vector, the
+        SAME response yields different value in agents with different endowments."""
+        r, _, _ = valence_of_event(reference_child_state(), self.perturbation())
+        return clamp(r, -1.0, 1.0)
 
 
 
