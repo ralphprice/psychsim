@@ -33,6 +33,11 @@ class SubstrateEngine:
         self.eligibility: List[float] = [0.0] * len(m.connections)
         self.external: Dict[str, float] = {}
         self.channel_drive: Dict[str, float] = {}
+        # THROTTLE (Part 3 S4.1): a graded 0..1 HYPOFUNCTION on a circuit -- it still fires but
+        # drives its targets more weakly (output gain 1-fraction), and its connections cannot
+        # fully learn back to normal (a plasticity ceiling). The study manipulation; NOT an
+        # outcome weight. Applied to an otherwise-ordinary substrate; what it produces is measured.
+        self.throttle: Dict[str, float] = {}
         self._silent: List[int] = [0] * len(m.connections)
         self.pruned: List[bool] = [False] * len(m.connections)
         self._step_i = 0
@@ -79,6 +84,16 @@ class SubstrateEngine:
         self.external = {}
         self.channel_drive = {}
 
+    # -- throttle (the study manipulation, S4.1) --------------------------
+    def set_throttle(self, circuit_id: str, fraction: float) -> None:
+        """Throttle a circuit's OUTPUT by `fraction` in [0,1] (0 = normal, 1 = silent output).
+        A graded reactivity/output hypofunction, from birth; its connections also gain a
+        plasticity ceiling so a throttled pathway stays weak."""
+        self.throttle[circuit_id] = max(0.0, min(1.0, fraction))
+
+    def _gain(self, circuit_id: str) -> float:
+        return 1.0 - self.throttle.get(circuit_id, 0.0)
+
     # -- R5 modulator: a neuromodulator SOURCE CIRCUIT's live output ------
     def neuromod_output(self, nmod: str) -> float:
         """The R5 modulator scalar for a connection gated by `nmod`. It is the mean live
@@ -87,7 +102,8 @@ class SubstrateEngine:
         if not nmod or nmod == "none":
             return 1.0
         srcs = self.model.neuromod_source.get(nmod, [])
-        live = [self.activation[s] for s in srcs if self.live_circuit.get(s, False)]
+        live = [self.activation[s] * self._gain(s)
+                for s in srcs if self.live_circuit.get(s, False)]
         if not live:
             return 1.0                       # unresolved/offline source -> ungated (flagged)
         return sum(live) / len(live)
@@ -108,7 +124,8 @@ class SubstrateEngine:
             for j in m.incoming.get(cid, ()):
                 if self.live_conn[j] and not self.pruned[j]:
                     src = m.connections[j].source
-                    inp += m.circuits[src].sign * self.weight[j] * a[src]
+                    inp += (m.circuits[src].sign * self.weight[j]
+                            * a[src] * self._gain(src))    # throttle: weak output drive
             # sensory input edges (channel -> circuit), driven when the channel is injected
             for e in m.incoming_channel.get(cid, ()):
                 edge = m.input_edges[e]
@@ -129,7 +146,8 @@ class SubstrateEngine:
         for j, k in enumerate(m.connections):
             if not self.live_conn[j] or self.pruned[j]:
                 continue
-            a_pre, a_post = new_a[k.source], new_a[k.target]
+            a_pre = new_a[k.source] * self._gain(k.source)       # throttle: weak pre-drive
+            a_post = new_a[k.target]
             corr = P.bcm_term(a_pre, a_post, self.theta[k.target])
             self.eligibility[j] = P.decay_eligibility(self.eligibility[j], dt,
                                                       k.eligibility_tau_ms) + corr
@@ -137,6 +155,9 @@ class SubstrateEngine:
             dw = P.consolidate(self.eligibility[j], mod,
                                P.eta(k.schedule_ref, self.age_years))  # R6
             w = P.clamp_weight(self.weight[j] + dw, k.bounds[0], k.bounds[1])   # R8 clamp
+            thr = max(self.throttle.get(k.source, 0.0), self.throttle.get(k.target, 0.0))
+            if thr > 0.0:                                          # plasticity ceiling (S4.1)
+                w = min(w, k.bounds[1] * (1.0 - thr))
             self.weight[j] = w
             self._silent[j] = self._silent[j] + 1 if w < params.PRUNE_BELOW else 0
 
