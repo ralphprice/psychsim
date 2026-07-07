@@ -23,6 +23,7 @@ from dataclasses import dataclass
 from typing import List, Optional
 
 from . import params
+from . import plasticity as P
 from .engine import SubstrateEngine
 
 STN_HOLD_GAIN = 1.5        # SCAFFOLD executive/STN hold -> raised decision threshold
@@ -39,18 +40,33 @@ def _mean_live(engine: SubstrateEngine, domain: str) -> float:
     return sum(acts) / len(acts) if acts else 0.0
 
 
+def _domain_maturation(engine: SubstrateEngine, domain: str) -> float:
+    """Mean functional CAPACITY of a domain's live circuits at the engine's age (Part 3 S5.4).
+    A domain whose circuits carry late/PFC schedules keeps maturing into the mid-20s; a reward
+    domain matures by adolescence. This is capacity, not plasticity -- fed into selection so the
+    adolescent imbalance emerges. 1.0 if the domain has no live circuits (no scaling)."""
+    m = engine.model
+    facs = [P.maturation(c.schedule_ref, engine.age_years, c.online_age)
+            for cid, c in m.circuits.items()
+            if c.domain == domain and engine.live_circuit.get(cid, False)]
+    return sum(facs) / len(facs) if facs else 1.0
+
+
 def go_drive(engine: SubstrateEngine) -> float:
     """The reward/approach tendency's strength: reward-circuit activation, with the gain set by
-    dopamine (the SNc/VTA output). This is the 'act on reward' pull."""
+    dopamine (the SNc/VTA output) and scaled by the reward system's maturing CAPACITY (matures by
+    adolescence). This is the 'act on reward' pull."""
     reward = _mean_live(engine, "reward_approach")
     da = engine.neuromod_output("DA")            # dopamine sets the Go gain (F.4)
-    return reward * (0.5 + da)
+    return reward * (0.5 + da) * _domain_maturation(engine, "reward_approach")
 
 
 def executive_hold(engine: SubstrateEngine) -> float:
-    """The restraint: the online executive circuits feeding the STN brake. Grows with age as
-    the prefrontal circuits come online (seed developmental_online_age)."""
-    return _mean_live(engine, "executive")
+    """The restraint: the online executive circuits feeding the STN brake, scaled by the
+    executive's control CAPACITY. Grows with age both as the prefrontal circuits come online
+    (seed developmental_online_age) AND as that capacity keeps maturing into the mid-20s (the
+    late/PFC schedules, Part 3 S5.4) -- so control lags reward through adolescence."""
+    return _mean_live(engine, "executive") * _domain_maturation(engine, "executive")
 
 
 @dataclass

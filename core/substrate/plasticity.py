@@ -64,6 +64,29 @@ def eta(schedule_ref: str, age_years: float) -> float:
     return lo + (hi - lo) * (1.0 - _smoothstep(age_years / params.MATURE_AGE))
 
 
+# --- maturation(age, schedule): functional CAPACITY, not a plasticity rate (Part 3 S5.4) -----
+def maturation(schedule_ref: str, age_years: float, online_age: float = 0.0) -> float:
+    """The functional CAPACITY (in [0,1]) a circuit's contribution has reached by `age_years`:
+    it rises monotonically from the circuit's onset to a schedule-dependent maturity. Distinct
+    from eta (a plasticity RATE): this is how strongly a mature circuit CONTRIBUTES. Late/PFC
+    schedules keep rising into the mid-20s; reward ('adolescent') capacities mature by
+    mid-adolescence; other circuits mature in childhood. Age enters only as a rate; the schedule
+    ASSIGNMENT is seed data, the curve shape is scaffold, and nothing references circuit meaning.
+    Feeding this into behaviour selection lets the adolescent-risk imbalance (mature reward vs
+    still-maturing control) emerge, rather than being coded."""
+    s = (schedule_ref or "").lower()
+    if "adolescent" in s:                 # DA/reward system: nonzero floor + mid-adolescent bump
+        d = (age_years - params.REWARD_CAP_PEAK_AGE) / params.REWARD_CAP_WIDTH
+        bump = math.exp(-d * d)
+        return params.REWARD_CAP_FLOOR + (1.0 - params.REWARD_CAP_FLOOR) * bump
+    if "late" in s:                       # PFC protracted control (low early, high late)
+        mature = params.MATURE_AGE_LATE
+    else:                                 # subcortical / early / childhood / flat / moderate
+        mature = params.MATURE_AGE_EARLY
+    span = max(1e-6, mature - online_age)
+    return _smoothstep((age_years - online_age) / span)
+
+
 # --- R5-NMOD consolidation (gate applied with a modulator FROM A CIRCUIT) ----
 def consolidate(eligibility: float, modulator: float, eta_val: float,
                 lr: float = None) -> float:

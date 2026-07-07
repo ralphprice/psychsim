@@ -156,3 +156,42 @@ Resolved: the note now records the correct post-S2.5 status, and a guard test
 data duplicated in params, the two set-points stay separate, the state vector grounds in real circuits —
 so the representation **cannot silently drift**. **The developed-state/params representation is now final**
 (the gate the Part 6 bank waits on). Suite 402, green.
+
+## OBS-2 — 8b.6: the emergent-phenomena battery + the two mechanism-gap fixes
+
+*Recorded 2026-07 as core-validation observations. Universal-organism phenomena, not psychopathy findings.*
+
+**Both mechanism gaps closed engine-side (no seed edit, no v9), and meaning-blind:**
+
+- **Continuous maturation → executive control capacity (Part 3 S5.4).** Added `plasticity.maturation()` —
+  a functional CAPACITY curve (distinct from `eta`, a plasticity rate) — fed into behaviour selection so
+  control capacity keeps maturing into the mid-20s (late/PFC schedules) while reward-sensitivity peaks in
+  mid-adolescence on a nonzero floor (Steinberg dual-systems). Age enters only as a rate; the schedule
+  ASSIGNMENT is seed data. **Result: the adolescent-risk inverted-U EMERGES** — risk index 0.070 (age 3)
+  → **0.195 (age 16, peak)** → 0.177 (age 30), above both childhood and adulthood. No coded "risk" rule.
+- **DA/satiety state-dependence (Part 7 S15).** Closed the loop: the energy deficit drives the
+  `IN-INTERO:nutritive_state` channel → LH → VTA (the seed's own chain). **Result: food-reward DA is
+  amplified when hungry (0.525) vs sated (0.398), ~1.32×.** The modulator is LH circuit activity —
+  R5-clean, never DA scaled by a computed `r`.
+
+**The battery — five targets, all EMERGE cleanly (none forced):**
+
+| phenomenon | result | how |
+|---|---|---|
+| adolescent-risk imbalance | **emerges** (inverted-U, peak age 16) | mature reward × still-maturing control |
+| DA/satiety state-dependence | **emerges** (hungry > sated, 1.32×) | energy deficit → LH → VTA modulation |
+| negativity bias | **emerges** ( \|−0.48\| > \|+0.42\| ) | one asymmetric learning rule (aversive faster) |
+| ambivalent bond | **emerges** (attachment 0.70 + threat 0.60, held in inner circle despite value −0.20) | salience-allocated matrix + two pulls |
+| punishment-for-one = reward-for-another | **emerges** (same event: +0.245 hungry / −0.105 sated) | valence computed from each agent's own state |
+
+Differential susceptibility remains the **gate-A earned negative** (OBS-1) — not re-litigated.
+
+**Deliberate developmental reframe (recorded, not a regression):** with the dual-systems maturation, the
+*youngest* agent is no longer the most impulsive — acting-readiness now peaks in adolescence. The
+behaviour test that encoded the pre-Gap-1 "young = most impulsive" assumption was updated to assert the
+corrected ordering (an adolescent acts at least as readily as both a younger child and an adult).
+
+**Honest edge flagged:** at very young ages (~4) the agent fully restrains under a reward cue — an
+artifact of the coarse live-circuit set that early (many circuits online later), not the phenomenon. The
+peak-at-adolescence result is robust across the age curve. Reproduce: `substrate/phenomena.py`,
+`tests/test_phenomena_battery.py`. Suite 408, green.

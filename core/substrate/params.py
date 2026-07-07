@@ -51,3 +51,19 @@ ADOLESCENT_PEAK_AGE = 16.0       # SCAFFOLD
 ADOLESCENT_WIDTH = 6.0           # SCAFFOLD
 PFC_LATE_PEAK_AGE = 22.0         # SCAFFOLD (protracted; low early, high late)
 MATURE_AGE = 25.0                # SCAFFOLD age by which the high-early curves reach the floor
+
+# --- maturation(age, schedule): functional CONTROL/REWARD CAPACITY (Part 3 S5.4 / 8b.6) -------
+# A [0,1] capacity that RISES with age from a circuit's onset to a schedule-dependent maturity --
+# distinct from eta (a plasticity RATE). Fed into behaviour selection so the executive's control
+# capacity keeps strengthening into the mid-20s (late/PFC schedules) while reward capacity matures
+# by adolescence; the adolescent-risk imbalance then EMERGES from the seed's schedule shapes, never
+# a coded rule. Age enters only as a rate; nothing references a circuit's meaning.
+MATURE_AGE_LATE = 26.0           # SCAFFOLD PFC-protracted control capacity matures mid/late-20s
+MATURE_AGE_EARLY = 8.0           # SCAFFOLD subcortical/early capacities mature in childhood
+# Reward-system CAPACITY: present from early life (the DA system is online at birth), peaking in
+# mid-adolescence and gently declining after -- the Steinberg dual-systems curvilinear shape. A
+# nonzero FLOOR (a child still acts on reward) with an adolescent bump on top; paired with the
+# late-maturing control capacity above, the adolescent-risk imbalance emerges. SCAFFOLD.
+REWARD_CAP_PEAK_AGE = 16.0       # SCAFFOLD reward-sensitivity peak (mid-adolescence)
+REWARD_CAP_WIDTH = 7.0           # SCAFFOLD width of the reward-capacity hump
+REWARD_CAP_FLOOR = 0.7           # SCAFFOLD reward system works from early life; adolescence adds sensitivity

@@ -60,11 +60,18 @@ class TestDevelopmentalRestraint(unittest.TestCase):
         older = _with_reward_cue(12)
         self.assertLess(executive_hold(young), executive_hold(older))
 
-    def test_young_agent_acts_at_least_as_readily_as_older(self):
-        # weaker brake in the young -> approach is reached no slower than in the older agent
-        young = select_behaviour(_with_reward_cue(4))
-        older = select_behaviour(_with_reward_cue(12))
-        self.assertLessEqual(young.steps, older.steps + 1)
+    def test_acting_readiness_peaks_in_adolescence(self):
+        # Part 3 S5.4 / 8b.6 (continuous-maturation mechanism gap): with reward-sensitivity
+        # peaking in mid-adolescence while control capacity keeps maturing into the mid-20s, an
+        # ADOLESCENT reaches approach at least as readily as BOTH a younger child and an adult --
+        # the corrected dual-systems picture, which replaces the earlier (pre-Gap-1) assumption
+        # that the youngest is always the most impulsive. Emergent from the seed's schedule
+        # shapes fed into the executive's control capacity; no coded 'adolescent risk' rule.
+        child = select_behaviour(_with_reward_cue(8))
+        teen = select_behaviour(_with_reward_cue(16))
+        adult = select_behaviour(_with_reward_cue(30))
+        self.assertLessEqual(teen.steps, child.steps)
+        self.assertLessEqual(teen.steps, adult.steps)
 
 
 class TestNoCodedArbiter(unittest.TestCase):
