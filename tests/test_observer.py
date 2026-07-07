@@ -60,6 +60,18 @@ class TestConstructsTrackTheSignals(unittest.TestCase):
         self.assertGreater(d_hi, d_lo)
 
 
+class TestPluginReportIntegration(unittest.TestCase):
+    def test_subject_report_exposes_the_observer_readout(self):
+        # Phase 7: the sophropathy plugin's subject report carries the App. E.5 observer
+        # constructs (measured, never fed back).
+        from sophropathy.report import SubjectReport
+        r = SubjectReport(cid="s1", temperament="fearless", home="warm",
+                          observer=read_out(BehaviourProfile()))
+        d = r.to_dict()
+        self.assertIn("observer", d)
+        self.assertIn("triarchic", d["observer"])
+
+
 class TestLegacyAdapterNeverFedBack(unittest.TestCase):
     def test_observe_does_not_mutate_the_agent(self):
         ag = _agent(shared_root_seed)

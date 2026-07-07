@@ -15,6 +15,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
 from affective_engine.drives import read_mind, profile_axis
+from affective_engine.observer import observe_agent
 from sim_experiment.readout import dominant_distribution, mean_profile, axis_stats
 
 _CAVEAT = ("Descriptive read-out only: 'dominant' is the emergent Panksepp system, NOT a "
@@ -43,10 +44,14 @@ class SubjectReport:
     temperament: Optional[str]
     home: Optional[str]
     trajectory: List[SubjectSnapshot] = field(default_factory=list)
+    # the App. D / E.5 observer read-out (triarchic / CU / empathy / aggression), MEASURED
+    # over the subject's emergent substrate and never fed back. Populated in subject_report().
+    observer: Optional[dict] = None
 
     def to_dict(self) -> dict:
         return {"cid": self.cid, "temperament": self.temperament, "home": self.home,
-                "trajectory": [s.to_dict() for s in self.trajectory], "caveat": _CAVEAT}
+                "trajectory": [s.to_dict() for s in self.trajectory],
+                "observer": self.observer, "caveat": _CAVEAT}
 
     def text(self) -> str:
         head = f"subject {self.cid} (temperament: {self.temperament or 'inherited'}, home: {self.home})"
@@ -93,11 +98,15 @@ def sample_subject(engine, cid: str) -> SubjectSnapshot:
 
 
 def subject_report(engine, cid: str) -> SubjectReport:
-    """A subject's accumulated trajectory (from the engine's subject log)."""
+    """A subject's accumulated trajectory (from the engine's subject log), plus the observer
+    read-out of the study's constructs over the subject's emergent substrate (App. E.5)."""
     log = getattr(engine, "_subject_log", {}).get(cid, [])
     temper = getattr(engine, "tempers", {}).get(cid)
     home = engine.info[cid][1] if cid in getattr(engine, "info", {}) else None
-    return SubjectReport(cid=cid, temperament=temper, home=home, trajectory=list(log))
+    person = getattr(engine, "pop", None) and engine.pop.persons.get(cid)
+    observer = observe_agent(person.mind) if person is not None else None
+    return SubjectReport(cid=cid, temperament=temper, home=home, trajectory=list(log),
+                         observer=observer)
 
 
 def cohort_report(engine, cids=None) -> CohortReport:
