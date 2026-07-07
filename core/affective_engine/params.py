@@ -32,6 +32,28 @@ PREPARED_LEARNING = {            # SCAFFOLD
     "blood": 1.5, "contamination": 1.5,
 }
 
+# --- Behaviour selection (App. F): basal-ganglia accumulation-to-threshold ---
+SEL_THRESHOLD = 1.0              # SCAFFOLD commit threshold (bound)
+SEL_GO_BASE = 0.40              # SCAFFOLD baseline Go gain
+SEL_DOPAMINE_GAIN = 0.80        # SCAFFOLD tonic-dopamine -> Go gain / vigour
+SEL_DOPAMINE_PEAK = 0.60        # SCAFFOLD inverted-U operating point (Cools)
+SEL_LEAK = 0.08                 # SCAFFOLD accumulator leak
+SEL_LATERAL = 0.15              # SCAFFOLD surround inhibition among candidates
+SEL_STN_HOLD_GAIN = 1.20        # SCAFFOLD executive/STN global hold -> raised threshold
+SEL_CONFLICT_HOLD = 0.60        # SCAFFOLD dACC: candidate proximity -> extra hold
+SEL_MAX_STEPS = 300             # SCAFFOLD accumulation step cap (unresolved conflict)
+SEL_DT = 0.1                    # SCAFFOLD integration step
+# maturation of the selection systems (App. F.7 / doc §6; Steinberg dual-systems): the
+# reward/sensation-seeking system is CURVILINEAR, peaking mid-adolescence; the PFC->STN
+# control brake rises monotonically into the mid/late-20s. Their imbalance peaks in
+# adolescence, from which risk-taking emerges (not coded).
+SEL_REWARD_PEAK_AGE = 16.0      # SCAFFOLD sensation-seeking peak
+SEL_REWARD_WIDTH = 9.0          # SCAFFOLD width of the reward hump
+SEL_BRAKE_ONSET_AGE = 12.0      # SCAFFOLD control begins to firm up
+SEL_BRAKE_MATURE_AGE = 28.0     # SCAFFOLD control matures (protracted into late 20s)
+# how much unresolved approach/avoid conflict (BIS) holds the arousal variable elevated.
+SEL_BIS_AROUSAL_GAIN = 0.5      # SCAFFOLD
+
 # --- State-vector variables (App. A): set-point, weight, polarity, allostatic ---
 # polarity "deficit": aversive when level < set_point (energy, warmth, attachment, ...)
 # polarity "excess":  aversive when level > set_point (arousal, pain, CO2, uncertainty)
