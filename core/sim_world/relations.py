@@ -32,6 +32,7 @@ import random
 
 from affective_engine.core import Appraisal, clamp
 from affective_engine.drives import respond_to_appraisal, is_cohesive, is_aggressive
+from affective_engine.learning import ValueLearner
 
 
 # ---------------------------------------------------------------------------
@@ -250,3 +251,122 @@ class Society:
 
     def strained(self) -> List[Tie]:
         return [t for t in self.ties if not t.upheld()]
+
+
+# ---------------------------------------------------------------------------
+# The relationship matrix -- a per-agent ledger of ACQUIRED value over people
+# (docs/PsychSim_MASTER.md App. 3.1 / 4). Distinct from the Society-of-ties above:
+# this is one person's internal working model of the specific others in their life,
+# capacity-limited into Dunbar's layered ego-network, allocated by |salience| so
+# enemies and ambivalent bonds occupy slots too.
+# ---------------------------------------------------------------------------
+
+# Dunbar layered capacities (cumulative): support clique / sympathy / affinity / active
+DUNBAR_LAYERS = (5, 15, 50, 150)     # SCAFFOLD (Dunbar 1992/1998; Zhou 2005; Hill & Dunbar 2003)
+AMBIVALENCE_THRESHOLD = 0.35         # SCAFFOLD attachment AND threat both above -> ambivalent
+SALIENCE_LR = 0.5                    # SCAFFOLD EMA rate toward an interaction's impact
+SALIENCE_DECAY = 0.05                # SCAFFOLD per-tick salience decay without contact
+KIN_DECAY_MULT = 0.3                 # SCAFFOLD kin ties decay slower (hardier)
+VALENCE_DEADBAND = 0.05              # SCAFFOLD |value| below this reads as neutral sign
+
+
+@dataclass
+class RelationshipSlot:
+    """One person's slot in another's relationship matrix. Carries BOTH an occupancy
+    (salience = behavioural relevance, sign-blind) AND a valence sign -- so a strongly
+    NEGATIVE other (a rival, an abuser) can hold an inner slot (App. 4.2), and a co-active
+    attachment+threat toward the same person is the destructive ambivalent bond (App. 4.3)."""
+    entity: str
+    value: float = 0.0                                   # learned anticipatory value (+/-)
+    salience: float = 0.0                                # |behavioural relevance|
+    attachment: float = 0.0                              # attachment pull toward them
+    threat: float = 0.0                                  # threat/vigilance pull toward them
+    profile: Dict[str, float] = field(default_factory=dict)  # predicted drive-reduction profile
+    contact: int = 0
+    last_seen: int = 0
+    kin: bool = False
+
+    @property
+    def valence_sign(self) -> int:
+        if self.value > VALENCE_DEADBAND:
+            return 1
+        if self.value < -VALENCE_DEADBAND:
+            return -1
+        return 0
+
+    @property
+    def ambivalent(self) -> bool:
+        return (self.attachment >= AMBIVALENCE_THRESHOLD
+                and self.threat >= AMBIVALENCE_THRESHOLD)
+
+
+@dataclass
+class RelationshipMatrix:
+    """A person's capacity-limited, layered ledger of specific others, on the one valence
+    engine. Value is RPE-learned per person (App. C.9); slots are allocated by |salience|,
+    not positive valence; uncontacted slots decay and are evicted past the outer capacity."""
+    slots: Dict[str, RelationshipSlot] = field(default_factory=dict)
+    learner: ValueLearner = field(default_factory=ValueLearner)
+    layers: Tuple[int, ...] = DUNBAR_LAYERS
+    _clock: int = 0
+
+    def observe(self, entity: str, r: float, attachment_pull: float = 0.0,
+                threat_pull: float = 0.0, drive_profile: Optional[Dict[str, float]] = None,
+                gate: float = 1.0, kin: bool = False) -> RelationshipSlot:
+        """One interaction with a specific other. `r` is the computed valence of the
+        interaction (interocept); `attachment_pull`/`threat_pull` are how much it engaged the
+        attachment and threat systems. Value updates by RPE; salience is the sign-blind
+        behavioural relevance (how much they moved me)."""
+        slot = self.slots.get(entity)
+        if slot is None:
+            slot = RelationshipSlot(entity, kin=kin)
+            self.slots[entity] = slot
+        self.learner.update(entity, r, drive_profile, gate=gate)
+        slot.value = self.learner.value_of(entity)
+        slot.profile = self.learner.profile_of(entity)
+        slot.attachment = clamp((1 - SALIENCE_LR) * slot.attachment
+                                + SALIENCE_LR * attachment_pull)
+        slot.threat = clamp((1 - SALIENCE_LR) * slot.threat + SALIENCE_LR * threat_pull)
+        impact = clamp(abs(r) + attachment_pull + threat_pull)   # sign-blind relevance
+        slot.salience = clamp((1 - SALIENCE_LR) * slot.salience + SALIENCE_LR * impact)
+        slot.contact += 1
+        slot.last_seen = self._clock
+        self._evict()
+        return slot
+
+    def tick(self, steps: int = 1) -> None:
+        """Advance time; slots not contacted this interval decay in salience (kin slower)."""
+        self._clock += steps
+        for slot in self.slots.values():
+            if slot.last_seen < self._clock:
+                d = SALIENCE_DECAY * steps * (KIN_DECAY_MULT if slot.kin else 1.0)
+                slot.salience = clamp(slot.salience - d)
+        self._evict()
+
+    def _ranked(self) -> List[RelationshipSlot]:
+        return sorted(self.slots.values(), key=lambda s: s.salience, reverse=True)
+
+    def _evict(self) -> None:
+        for slot in self._ranked()[self.layers[-1]:]:
+            self.slots.pop(slot.entity, None)
+
+    def layer_of(self, entity: str) -> Optional[int]:
+        """Which Dunbar layer the entity occupies (0 = inner support clique) or None."""
+        for i, slot in enumerate(self._ranked()):
+            if slot.entity == entity:
+                for layer, cap in enumerate(self.layers):
+                    if i < cap:
+                        return layer
+                return None
+        return None
+
+    def inner_circle(self, layer: int = 0) -> List[RelationshipSlot]:
+        return self._ranked()[:self.layers[layer]]
+
+    def enemies(self, layer: int = 0) -> List[RelationshipSlot]:
+        """Negatively-valenced others salient enough to hold an inner slot (App. 4.2)."""
+        return [s for s in self.inner_circle(layer) if s.valence_sign < 0]
+
+    def ambivalent_bonds(self) -> List[RelationshipSlot]:
+        """Others toward whom attachment AND threat are both high (App. 4.3)."""
+        return [s for s in self.slots.values() if s.ambivalent]

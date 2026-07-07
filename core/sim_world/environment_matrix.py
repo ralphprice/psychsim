@@ -30,6 +30,20 @@ from typing import Dict, List, Optional
 
 from affective_engine.drives import (Brain, System, APPETITIVE, AVERSIVE,
                                       imprint, clamp)
+from affective_engine.interocept import reference_child_state, valence_of_event
+from affective_engine.learning import ValueLearner
+
+# How a thing's KIND grounds an innate drive-relevant channel (App. 3.2): food feeds;
+# nature (plant/place) reduces arousal/stress; an animal affords affiliative contact; a
+# sound soothes. Objects/belongings carry NO innate value -- theirs is learned by
+# association (instrumental / extended-self). SCAFFOLD intensities.
+_KIND_PERTURBATION = {
+    "food":     {"gastric_fill": 1.0},
+    "plant":    {"soothing": 0.6},
+    "place":    {"soothing": 0.6},
+    "creature": {"affiliative_touch": 0.7},
+    "sound":    {"soothing": 0.4},
+}
 
 # where the data-file environmental inventory lives (repo-root/data/things)
 _THINGS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
@@ -66,6 +80,16 @@ class Thing:
     # would be dangerous but vanishingly rare. Frequency weights how often the
     # living world presents the thing, so exposure reflects the real world.
     frequency: float = 1.0
+    # optional explicit innate perturbation (interocept triggers) this thing delivers to
+    # the body; if empty, derived from `kind` (nature/animal/food grounded, objects learned).
+    perturbation: Dict[str, float] = field(default_factory=dict)
+
+    def innate_perturbation(self) -> Dict[str, float]:
+        """The innate, drive-relevant channel this thing engages (App. 3.2). Explicit if
+        given, else grounded by kind; empty for things whose value must be LEARNED."""
+        if self.perturbation:
+            return dict(self.perturbation)
+        return dict(_KIND_PERTURBATION.get(self.kind, {}))
 
 
 @dataclass
@@ -78,6 +102,11 @@ class Bond:
     attraction: float = 0.0        # drawn toward it (sought out)
     aversion: float = 0.0          # repelled by it (avoided)
     system_counts: Dict[str, int] = field(default_factory=dict)  # which systems fired
+    # RPE-learned anticipatory value on the one engine (App. C.9): the predictive value of
+    # the thing (+/-) and which drives it is learned to relieve. Distinct from the
+    # attraction/aversion traces above, which record the raw emergent responses.
+    value: float = 0.0
+    value_profile: Dict[str, float] = field(default_factory=dict)
 
     def disposition(self) -> float:
         """Net pull: +1 strongly sought .. -1 strongly avoided."""
@@ -102,6 +131,7 @@ class EnvironmentMatrix:
     of ties, but centred on ONE person and the world of things they meet. The
     inventory of attractions and aversions is read straight off it."""
     bonds: Dict[str, Bond] = field(default_factory=dict)
+    learner: ValueLearner = field(default_factory=ValueLearner)  # RPE value store (App. C.9)
 
     def bond(self, thing_id: str) -> Bond:
         return self.bonds.setdefault(thing_id, Bond(thing_id))
@@ -154,6 +184,15 @@ def encounter(brain: Brain, thing: Thing, matrix: EnvironmentMatrix,
         bond.attraction = clamp(bond.attraction + ACCRUE * strength)
     elif resp.dominant in AVERSIVE:
         bond.aversion = clamp(bond.aversion + ACCRUE * strength)
+    # RPE value on the one engine (App. C.9): the reward is the drive reduction this thing's
+    # innate channel produces on the state vector (nature soothes, food feeds, ...). Things
+    # with no innate channel accrue value only by learned association (r=0 here).
+    pert = thing.innate_perturbation()
+    if pert:
+        r, _, profile = valence_of_event(reference_child_state(), pert)
+        matrix.learner.update(thing.id, r, profile)
+        bond.value = matrix.learner.value_of(thing.id)
+        bond.value_profile = matrix.learner.profile_of(thing.id)
     return resp
 
 

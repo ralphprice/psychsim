@@ -53,9 +53,23 @@ import random
 
 from affective_engine.drives import (Brain, System, APPETITIVE, AVERSIVE,
                                       imprint, clamp)
+from affective_engine.interocept import reference_child_state, valence_of_event
+from affective_engine.learning import ValueLearner
+from affective_engine import params as _params
 
 _GROUPS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__)))), "data", "groups")
+
+# How a group encounter grounds the one valence engine (App. 3.3): acceptance/synchrony
+# relieve the belonging deficit (synchrony via the endorphin channel; Tarr/Dunbar);
+# exclusion/rejection deepen it and raise arousal (social pain). SCAFFOLD intensities.
+ENCOUNTER_PERTURBATION = {
+    "acceptance":   {"acceptance": 0.8},
+    "contributing": {"acceptance": 0.5},
+    "synchrony":    {"synchrony": 1.0},        # collective effervescence -> endorphin belonging
+    "exclusion":    {"rejection": 0.9, "separation": 0.4},
+    "rejection":    {"rejection": 0.9},
+}
 
 
 # ---------------------------------------------------------------------------
@@ -100,6 +114,14 @@ class Membership:
     prestige_route: float = 0.0    # status earned via competence / prosociality
     encounters: int = 0
     system_counts: Dict[str, int] = field(default_factory=dict)  # which systems fired
+    # RPE-learned value of the group on the one engine (App. C.9), and the SOCIOMETER --
+    # self-esteem as a gauge of social inclusion (Leary), tracking belonging (App. 3.3).
+    value: float = 0.0
+    esteem: float = 0.0
+
+    def sociometer(self) -> float:
+        """Self-esteem read as a gauge of inclusion in this group (Leary sociometer)."""
+        return self.esteem
 
     def social_rank(self) -> float:
         return self.standing
@@ -139,6 +161,7 @@ class GroupMatrix:
     EnvironmentMatrix of bonds, but centred on ONE person. Their social identity is
     read straight off it."""
     memberships: Dict[str, Membership] = field(default_factory=dict)
+    learner: ValueLearner = field(default_factory=ValueLearner)  # RPE value store (App. C.9)
 
     def membership(self, group_id: str, kind: str = "group") -> Membership:
         m = self.memberships.get(group_id)
@@ -184,7 +207,15 @@ ENCOUNTER_STIMULI: Dict[str, Dict[str, float]] = {
     "outgroup_competition": {"thwarting": 0.5, "threat": 0.4, "affiliation": 0.4},
     # contributing to the group -- giving, with a vulnerable other to tend
     "contributing":         {"affiliation": 0.5, "reward_cue": 0.4, "vulnerable_other": 0.4},
+    # collective synchrony / effervescence (dance, song, chant, marching, team sport) --
+    # coordinated exertive activity; bonds via the endorphin channel (Tarr/Dunbar)
+    "synchrony":            {"affiliation": 0.6, "play_signal": 0.5, "safety": 0.4},
 }
+
+# extra endorphin belonging accrued by synchronous collective activity, beyond the
+# ordinary affiliative response (App. 3.3). SCAFFOLD.
+SYNCHRONY_ENDORPHIN = 0.10
+SOCIOMETER_LR = 0.3     # SCAFFOLD rate the sociometer (esteem) tracks felt belonging
 
 ACCRUE = 0.15   # ledger step; crude and tunable, NOT a claim about effect
 
@@ -247,6 +278,27 @@ def group_encounter(brain: Brain, group: Group, membership: Membership,
             membership.conformity = clamp(membership.conformity - step)
         elif dom in APPETITIVE:
             membership.conformity = clamp(membership.conformity + step)
+
+    # synchrony / collective effervescence: an extra endorphin-channel belonging boost,
+    # the mechanism that lets group bonding scale past one-to-one contact (App. 3.3)
+    if encounter_type == "synchrony":
+        membership.belonging = clamp(membership.belonging + SYNCHRONY_ENDORPHIN, -1.0, 1.0)
+
+    # the sociometer: esteem tracks felt inclusion (Leary) -- a read, not a driver
+    membership.esteem = clamp(membership.esteem
+                              + SOCIOMETER_LR * (membership.belonging - membership.esteem),
+                              -1.0, 1.0)
+
+    # RPE value on the one engine (App. C.9): reward = drive reduction the encounter's
+    # social perturbation produces (belonging relief / social pain). Per-membership TD
+    # update (terminal), so each agent's value for the group is its own. No innate channel
+    # -> value learned only by association (r=0 here).
+    pert = ENCOUNTER_PERTURBATION.get(encounter_type)
+    if pert:
+        r, _, _ = valence_of_event(reference_child_state(), pert)
+        delta = r - membership.value
+        alpha = _params.ALPHA * (_params.AVERSIVE_LR_MULT if delta < 0 else 1.0)
+        membership.value = clamp(membership.value + alpha * delta, -1.0, 1.0)
 
     return resp
 
