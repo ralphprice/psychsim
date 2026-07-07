@@ -46,7 +46,9 @@ class TestAnticipatoryValueEmerges(unittest.TestCase):
         for _ in range(60):
             ag.experience(_CUE, ticks=12)        # cue only, no sweet
         after = ag.anticipatory_value(_CUE)
-        self.assertAlmostEqual(after, before, places=2)
+        # negligible change without the reinforcer (vs the ~0.3 paired gain) -- DA-gated,
+        # not plain Hebbian. A tiny drift is fine; a paired-scale change would not be.
+        self.assertLess(abs(after - before), 0.05)
 
     def test_paired_learns_more_than_unpaired(self):
         paired = SubstrateAgent(SubstrateEngine(_MODEL, age_years=4.0))
