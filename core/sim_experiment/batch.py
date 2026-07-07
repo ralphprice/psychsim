@@ -28,11 +28,7 @@ class CellResult:
     seed_name: str
     condition_label: str
     n_runs: int
-    classification_counts: Dict[str, int]         # e.g. {"sophropathic": 27, ...}
-    subtype_counts: Dict[str, int]                # psychopathy subtypes
-    mean_control_gain: float
-    mean_instrumental_control_gain: float
-    mean_strategic_access: float
+    classification_counts: Dict[str, int]         # emergent dominant system counts, e.g. {"SEEKING": 27, ...}
     modal_classification: str
     modal_fraction: float                         # share of seeds in the modal outcome
 
@@ -51,18 +47,12 @@ def run_cell(seed: TraitSeed, spec: LifeCourseSpec, n_runs: int = 30,
         for r in range(n_runs)
     ]
     cls = Counter(r.classification for r in results)
-    sub = Counter(r.psychopathy_subtype for r in results if r.psychopathy_subtype)
     modal, modal_n = cls.most_common(1)[0]
     return CellResult(
         seed_name=seed.name,
         condition_label=spec.label,
         n_runs=n_runs,
         classification_counts=dict(cls),
-        subtype_counts=dict(sub),
-        mean_control_gain=statistics.mean(r.control_gain for r in results),
-        mean_instrumental_control_gain=statistics.mean(
-            r.instrumental_control_gain for r in results),
-        mean_strategic_access=statistics.mean(r.strategic_access for r in results),
         modal_classification=modal,
         modal_fraction=modal_n / n_runs,
     )

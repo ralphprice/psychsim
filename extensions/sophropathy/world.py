@@ -40,25 +40,28 @@ DISRUPTIVE = "disruptive"     # acting against the social expectations of a plac
 
 CATEGORIES = (WARM, COOPERATIVE, CONSIDERATE, SELF_DIRECTED, BOISTEROUS, DISRUPTIVE)
 
-# map the engine's behavioural networks onto the study's categories. This is the
-# study's reading of what a network *means* socially -- it is not in the core.
-NETWORK_CATEGORY = {
-    "affiliative_warmth": WARM,
-    "strategic_prosociality": COOPERATIVE,
-    "cool_instrumental_boldness": SELF_DIRECTED,
-    "fearful_withdrawal": SELF_DIRECTED,
-    "reactive_aggression": DISRUPTIVE,
-    "callous_exploitation": DISRUPTIVE,
+# map the engine's EMERGENT ACTIONS (Panksepp behaviours) onto the study's norm-conduct
+# categories. This is the STUDY's reading of what an act means socially (a study observer
+# construct, App. E.5) -- keyed on the emergent behaviour, never on an outcome-category label,
+# and distinct from the psychopathy outcome categories (which live only in observer.py).
+BEHAVIOUR_CATEGORY = {
+    "nurture": WARM,
+    "court": WARM,
+    "play": BOISTEROUS,
+    "approach": SELF_DIRECTED,
+    "avoid": SELF_DIRECTED,
+    "seek_comfort": SELF_DIRECTED,
+    "aggress": DISRUPTIVE,
 }
 
 
-def study_category(network: str, affordance=None) -> str:
-    """The study's behaviour category for an act: the affordance's own category
-    if it declares one, else the study's reading of the settled network."""
+def study_category(behaviour: str, affordance=None) -> str:
+    """The study's norm-conduct category for an act: the affordance's own category if it
+    declares one, else the study's reading of the emergent behaviour the agent took."""
     cat = getattr(affordance, "category", None)
     if cat:
         return cat
-    return NETWORK_CATEGORY.get(network, SELF_DIRECTED)
+    return BEHAVIOUR_CATEGORY.get(behaviour, SELF_DIRECTED)
 
 
 # ---------------------------------------------------------------------------

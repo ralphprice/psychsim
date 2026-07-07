@@ -23,7 +23,7 @@ from dataclasses import dataclass
 from typing import Dict
 import random
 
-from .core import (Appraisal, GOVERNED, EXPLOITATIVE, clamp)
+from .core import (Appraisal, clamp)
 from .agent import AffectiveAgent
 from .interocept import reference_child_state, valence_of_event
 
@@ -122,8 +122,6 @@ def situation(kind: str, rng: random.Random) -> Appraisal:
 
 CHILDHOOD_CYCLE = ("opportunity", "provocation", "vulnerable_other",
                    "temptation_unobserved", "cooperation", "threat_event")
-PROBE_BATTERY = ("provocation", "vulnerable_other", "temptation_unobserved",
-                 "opportunity", "cooperation", "threat_event")
 
 
 def _plasticity(age: float) -> float:
@@ -223,27 +221,11 @@ def develop(agent: AffectiveAgent, env: Environment, n_episodes: int = 48,
 # Probing and outcome classification
 # ---------------------------------------------------------------------------
 
-def probe(agent: AffectiveAgent, situation_seed: int = 999) -> Dict[str, str]:
-    rng = random.Random(situation_seed)
-    out: Dict[str, str] = {}
-    for kind in PROBE_BATTERY:
-        appr = situation(kind, rng)
-        agent.reset_activation()
-        out[kind] = agent.settle(appr)
-    return out
-
-
-@dataclass
-class Outcome:
-    governance_index: float
-    exploitation_index: float
-    control_gain: float
-    instrumental_control_gain: float
-    strategic_access: float
-    exploitation_access: float
-    classification: str
-    psychopathy_subtype: str
-    probe_map: Dict[str, str]
+# HONESTY MIGRATION #2 ("8b.4"): the legacy `probe()` (which ran the removed category-network
+# SCORER via agent.settle) and the `Outcome` dataclass (whose fields were the outcome-category
+# vocabulary -- governance_index/exploitation_index/strategic_access/... ) have been REMOVED.
+# Emergent behaviour is read out by `classify` (the Panksepp MindReadout) and, for study
+# constructs, by the observer read-out (observer.py) computed over lived behaviour.
 
 
 def classify(agent: AffectiveAgent):

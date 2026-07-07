@@ -34,14 +34,6 @@ from affective_engine.development import Environment, clamp
 # Child dispositions
 # ---------------------------------------------------------------------------
 
-def _access(**overrides) -> Dict[str, float]:
-    base = {"cool_instrumental_boldness": 0.20, "strategic_prosociality": 0.20,
-            "affiliative_warmth": 0.20, "reactive_aggression": 0.20,
-            "callous_exploitation": 0.20, "fearful_withdrawal": 0.20}
-    base.update(overrides)
-    return base
-
-
 def typical_child_seed() -> TraitSeed:
     """The control child: ordinary threat/fear and affiliation, an undeveloped
     control circuit. Because fear is intact, a harsh upbringing tends to make
@@ -52,9 +44,6 @@ def typical_child_seed() -> TraitSeed:
         gains={"THREAT": 0.50, "ANXIETY": 0.50, "SEEKING": 0.60,
                "FRUSTRATION": 0.50, "CARE": 0.55, "SOCIAL_LOSS": 0.50,
                "CONTROL": 0.40, "INSTRUMENTAL_CONTROL": 0.35},
-        access=_access(affiliative_warmth=0.30, fearful_withdrawal=0.30,
-                       cool_instrumental_boldness=0.20, reactive_aggression=0.25,
-                       strategic_prosociality=0.15, callous_exploitation=0.15),
     )
 
 
@@ -88,9 +77,6 @@ def normal_parent_seed() -> TraitSeed:
         gains={"THREAT": 0.40, "ANXIETY": 0.40, "SEEKING": 0.60,
                "FRUSTRATION": 0.45, "CARE": 0.55, "SOCIAL_LOSS": 0.50,
                "CONTROL": 0.62, "INSTRUMENTAL_CONTROL": 0.40},
-        access=_access(strategic_prosociality=0.50, affiliative_warmth=0.55,
-                       cool_instrumental_boldness=0.40, reactive_aggression=0.18,
-                       callous_exploitation=0.15, fearful_withdrawal=0.20),
     )
 
 

@@ -1,130 +1,43 @@
 """
-agent.py -- the affective agent and its per-turn cycle.
+agent.py -- the affective agent: an episodic memory on a Panksepp brain.
 
-The five-step cycle: appraise -> activate circuits -> score networks ->
-arbitrate -> act. Both regulatory circuits (CONTROL, INSTRUMENTAL_CONTROL) are
-computed after the impulsive circuits, because they are responses to the impulse
-pressure those circuits generate. Arbitration is a hysteretic argmax.
+HONESTY MIGRATION #2 (MASTER Phase 6 / "8b.4"): the outcome-category NETWORK SCORER that used
+to live here -- score each category-named Network by circuit activation x the seed's `access`
+reachability, then a hysteretic argmax over the outcome categories -- has been REMOVED. It was
+the encoded-answer path (behaviour selected among outcome-category primitives). Behaviour now
+comes from the emergent Panksepp substrate (`self.brain`, drives.py) via `respond_to_appraisal`;
+the outcome categories are computed only as OBSERVER read-outs (observer.py), never selected as
+primitives and never fed back.
 
-Each agent owns an episodic MemoryStream. On meeting a situation the agent primes
-its appraisal from similar past episodes (a learned expectation); with an empty
-memory this is a no-op, so behaviour is unchanged until the agent has a history.
+The agent holds: the Panksepp brain, the temperament `gains` (read by the observer read-out),
+and the episodic memory. The Panksepp brain is itself interim-legacy -- its retirement onto the
+circuit substrate (core/substrate) is a separate, parity-gated phase, not this cut.
 """
 
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict, Optional
 
-from .core import (Appraisal, Network, TraitSeed, LanguageActuator,
-                   CIRCUITS, IMPULSIVE, DECAY, clamp,
-                   stimulus_drives, default_catalogue)
+from .core import TraitSeed
 from .memory import MemoryStream
-
-# Arbitration constants
-CONTROL_BOOST = 0.9      # conscience-control lifts governed networks
-CONTROL_DAMP = 0.9       # conscience-control suppresses ungoverned networks
-INSTR_GAINAMT = 0.9      # scale of instrumental-control modulation (via net.instr)
-ACCESS_FLOOR = 0.35
-INCUMBENT_STICK = 0.08
-SETTLE_TICKS = 3
 
 
 @dataclass
 class AffectiveAgent:
     seed: TraitSeed
-    actuator: LanguageActuator = field(default_factory=LanguageActuator)
     use_memory: bool = True
     temperament_seed: Optional[int] = None
     gain: Dict[str, float] = field(init=False)
-    access: Dict[str, float] = field(init=False)
-    activation: Dict[str, float] = field(init=False)
-    catalogue: Dict[str, Network] = field(init=False)
     memory: MemoryStream = field(init=False)
+    # display slot only: the last emergent ACTION the agent took (a Panksepp behaviour like
+    # "approach"/"aggress"), set by the world loop for inspection. NOT an outcome category.
     dominant: Optional[str] = field(init=False, default=None)
 
     def __post_init__(self) -> None:
         import random as _r
         from .drives import brain_from_seed
-        _rng = _r.Random(self.temperament_seed) if self.temperament_seed is not None else _r.Random()
+        _rng = (_r.Random(self.temperament_seed)
+                if self.temperament_seed is not None else _r.Random())
         self.brain = brain_from_seed(self.seed, _rng)
         self.gain = dict(self.seed.gains)
-        self.access = dict(self.seed.access)
-        self.catalogue = default_catalogue()
         self.memory = MemoryStream()
-        self.reset_activation()
-
-    def reset_activation(self) -> None:
-        self.activation = {c: 0.0 for c in CIRCUITS}
-        self.dominant = None
-
-    # -- one tick ----------------------------------------------------------
-    def tick(self, a: Appraisal) -> None:
-        drives = stimulus_drives(a)
-        for c, drive in drives.items():
-            target = clamp(self.gain[c] * drive)
-            self.activation[c] = DECAY * self.activation[c] + (1 - DECAY) * target
-
-        impulse_pressure = max(self.activation[c] for c in IMPULSIVE)
-
-        # CONTROL: conscience-linked, recruited by impulse pressure and more when
-        # a goal is at stake (self-command in service of a considered end).
-        control_drive = clamp(impulse_pressure * (0.5 + 0.5 * a.goal_relevance))
-        control_target = clamp(self.gain["CONTROL"] * control_drive)
-        self.activation["CONTROL"] = (
-            DECAY * self.activation["CONTROL"] + (1 - DECAY) * control_target)
-
-        # INSTRUMENTAL_CONTROL: cold, strategic; responds to impulse pressure to
-        # regulate it, without the goal-conscience recruitment.
-        instr_target = clamp(self.gain["INSTRUMENTAL_CONTROL"] * impulse_pressure)
-        self.activation["INSTRUMENTAL_CONTROL"] = (
-            DECAY * self.activation["INSTRUMENTAL_CONTROL"]
-            + (1 - DECAY) * instr_target)
-
-        self.dominant = self._arbitrate()
-
-    def settle(self, a: Appraisal, ticks: int = SETTLE_TICKS) -> str:
-        """Prime the appraisal from memory, then run several ticks so activations
-        settle, and return the dominant network."""
-        if self.use_memory:
-            a = self.memory.prime(a)
-        for _ in range(ticks):
-            self.tick(a)
-        return self.dominant
-
-    # -- scoring and arbitration ------------------------------------------
-    def network_score(self, net: Network) -> float:
-        base = sum(w * self.activation[c] for c, w in net.weights.items())
-        ctrl = self.activation["CONTROL"]
-        if net.governance == "governed":
-            base += CONTROL_BOOST * ctrl
-        elif net.governance == "ungoverned":
-            base -= CONTROL_DAMP * ctrl
-        # instrumental control: net.instr says how this mode responds to cold
-        # calculation (negative for reactive rage, positive for calculated
-        # exploitation and cool competence).
-        base += INSTR_GAINAMT * net.instr * self.activation["INSTRUMENTAL_CONTROL"]
-        # DEPRECATED (MASTER Phase 8): `self.access[net.name]` makes the outcome-category
-        # network reachability load-bearing; this whole scorer retires with the legacy engine,
-        # after which behaviour emerges from selection.py over the circuit substrate.
-        reach = ACCESS_FLOOR + (1 - ACCESS_FLOOR) * self.access[net.name]
-        return max(0.0, base) * reach
-
-    def _arbitrate(self) -> str:
-        scores = {name: self.network_score(net)
-                  for name, net in self.catalogue.items()}
-        if self.dominant is not None:
-            scores[self.dominant] += INCUMBENT_STICK
-        return max(scores, key=scores.get)
-
-    # -- convenience -------------------------------------------------------
-    def respond(self, a: Appraisal) -> str:
-        self.reset_activation()
-        name = self.settle(a)
-        return self.actuator.act(a, self.catalogue[name])
-
-    def coactivation(self, net: Network) -> float:
-        pos = {c: w for c, w in net.weights.items() if w > 0}
-        if not pos:
-            return 0.0
-        num = sum(w * self.activation[c] for c, w in pos.items())
-        return clamp(num / sum(pos.values()))

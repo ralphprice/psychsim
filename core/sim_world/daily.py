@@ -65,7 +65,7 @@ class ActionRecord:
     area: str
     activity: str
     action: str
-    network: str
+    behaviour: str             # the emergent action taken (Panksepp behaviour), not a category
     observed: bool
     valence: float
     category: Optional[str] = None
@@ -81,7 +81,7 @@ class DayLog:
         obs = "seen" if r.observed else "unseen"
         tag = "  <<norm departure>>" if r.departure else ""
         return (f"  {r.hour:02d}:00 {r.agent:10} {r.area:14} {r.activity:11} "
-                f"-> {r.action:26} [{r.network}, {obs}]{tag}")
+                f"-> {r.action:26} [{r.behaviour}, {obs}]{tag}")
 
     def transcript(self) -> str:
         return "\n".join(self.line(r) for r in self.records)
@@ -125,16 +125,18 @@ def _resolve_activity(inhab: Inhabitant, block: Block, venue: Venue,
         aff = None                              # the named action is not available here/now
     appr = aff.to_appraisal() if aff is not None else Appraisal(label=block.activity or "idle")
 
-    from affective_engine.drives import respond_to_appraisal, response_to_network
+    from affective_engine.drives import respond_to_appraisal
     _resp = respond_to_appraisal(agent, appr)
-    net = response_to_network(_resp)
+    behaviour = _resp.behaviour                 # the emergent action, not a category
     val = _valence(appr)
-    agent.memory.add(appr.label, appr, net, val, _importance(appr))
+    agent.memory.add(appr.label, appr, behaviour, val, _importance(appr))
 
-    category = categorise(net, aff)
+    # the norm category comes from the AFFORDANCE (a study-defined attribute of the activity),
+    # not from the agent's behaviour -- category_of ignores the behaviour arg.
+    category = categorise(behaviour, aff)
     level, departure = assess(category, venue.area_norms(block.area))
     return ActionRecord(0, 0, inhab.person.agent_id, venue.name, area.name,
-                        block.activity, _describe(block.activity, net), net,
+                        block.activity, _describe(block.activity, behaviour), behaviour,
                         observed, val, category=category, norm_level=int(level),
                         departure=departure)
 
@@ -191,7 +193,7 @@ def day_summary(logs: List[DayLog], agent_id: str) -> Dict[str, object]:
         return {"episodes": 0}
     modes: Dict[str, int] = {}
     for r in recs:
-        modes[r.network] = modes.get(r.network, 0) + 1
+        modes[r.behaviour] = modes.get(r.behaviour, 0) + 1
     return {"episodes": len(recs),
             "mean_valence": round(sum(r.valence for r in recs) / len(recs), 3),
             "norm_departures": sum(1 for r in recs if r.departure),

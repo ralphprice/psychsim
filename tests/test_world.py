@@ -49,7 +49,9 @@ class TestIntegration(unittest.TestCase):
                                {"provocation": 0.8, "goal_relevance": 0.6,
                                 "social_valence": -0.6}))
         self.assertEqual(len(gm.log), 1)
-        self.assertIn(inter.network, p.mind.catalogue)
+        # the recorded act is an EMERGENT Panksepp behaviour, not an outcome category
+        from affective_engine.drives import BEHAVIOUR
+        self.assertIn(inter.behaviour, set(BEHAVIOUR.values()))
         self.assertEqual(len(p.mind.memory.events), 1)
 
     @unittest.skip("obsolete: asserted the deleted verdict (labels/subtypes/control_gain); pending harness reconception around the emergent drive-profile")
@@ -85,7 +87,8 @@ class TestDialogue(unittest.TestCase):
         self.assertEqual(len(ann.mind.memory.events), 1)
         self.assertEqual(w.clock.interaction_step, step0 + 2)  # two adjudications
         self.assertEqual(len(gm.conversations), 1)
-        self.assertIn(convo.opener.network, cal.mind.catalogue)
+        from affective_engine.drives import BEHAVIOUR
+        self.assertIn(convo.opener.behaviour, set(BEHAVIOUR.values()))
 
     def test_conversation_is_reproducible(self):
         _, gm1, c1, a1 = self._pair(seed=42)

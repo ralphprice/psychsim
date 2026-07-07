@@ -12,7 +12,7 @@ from .society import (Family, Society, Environment, parent_to_environment,
 from .stages import (StageResult, ConditionResult, run_condition,
                      run_stage1, run_stage2, run_stage3, run_stage4,
                      run_stage5, run_stage6, run_stage7, ALL_STAGES)
-from .world import (CATEGORIES, NETWORK_CATEGORY, study_category, NORMS,
+from .world import (CATEGORIES, BEHAVIOUR_CATEGORY, study_category, NORMS,
                     WARM, COOPERATIVE, CONSIDERATE, SELF_DIRECTED, BOISTEROUS,
                     DISRUPTIVE, build_home, build_school, build_workplace,
                     build_community, child_routine, worker_routine)
@@ -31,7 +31,7 @@ __all__ = [
     "StageResult", "ConditionResult", "run_condition",
     "run_stage1", "run_stage2", "run_stage3", "run_stage4",
     "run_stage5", "run_stage6", "run_stage7", "ALL_STAGES",
-    "CATEGORIES", "NETWORK_CATEGORY", "study_category", "NORMS",
+    "CATEGORIES", "BEHAVIOUR_CATEGORY", "study_category", "NORMS",
     "WARM", "COOPERATIVE", "CONSIDERATE", "SELF_DIRECTED", "BOISTEROUS",
     "DISRUPTIVE", "build_home", "build_school", "build_workplace",
     "build_community", "child_routine", "worker_routine", "raise_in_world", "make_stepper", "make_life_stepper",

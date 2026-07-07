@@ -39,8 +39,16 @@ from typing import List, Optional
 import random
 
 from affective_engine.agent import AffectiveAgent
-from affective_engine.core import EXPLOITATIVE, clamp
+from affective_engine.core import clamp
 from affective_engine.development import Environment, develop
+
+# The emergent markers of an antisocial act, as recorded in episodic memory: the aggressive
+# action ("aggress") or its Panksepp source system ("RAGE"). Honesty migration #2: justice keys
+# on these emergent markers, NOT on an outcome-category label. The interim Panksepp engine does
+# not distinguish cold/instrumental exploitation from hot aggression as an emergent feature, so
+# the old callous-vs-reactive severity split is collapsed (an honest reduction, flagged); it can
+# return as a real feature read-out when the engine produces one.
+_AGGRESSIVE = ("aggress", "RAGE")
 
 
 # ---------------------------------------------------------------------------
@@ -81,7 +89,7 @@ UNOBSERVED_KINDS = ("temptation_unobserved",)
 class ContactEvent:
     segment: int
     kind: str            # situation the offence occurred in
-    network: str         # the antisocial network expressed
+    behaviour: str       # the emergent antisocial action recorded (not a category)
     label_after: int     # label level once this contact is counted
 
 
@@ -114,12 +122,11 @@ class JusticeSystem:
         p = self.params
         new = 0
         for ev in agent.memory.events[since_event:]:
-            if ev.dominant not in EXPLOITATIVE:
+            if ev.dominant not in _AGGRESSIVE:      # emergent aggression marker, not a category
                 continue
             if ev.label in UNOBSERVED_KINDS:
                 continue
-            sev = (p.severity_callous if ev.dominant == "callous_exploitation"
-                   else p.severity_reactive)
+            sev = p.severity_reactive               # single severity (see _AGGRESSIVE note)
             if self._rng.random() < p.base_detect * sev:
                 self.contacts += 1
                 new += 1

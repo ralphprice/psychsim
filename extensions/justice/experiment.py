@@ -18,14 +18,14 @@ from typing import Callable, Dict, List, Tuple
 
 from affective_engine.agent import AffectiveAgent
 from affective_engine.core import TraitSeed, shared_root_seed
-from affective_engine.development import Environment, classify, Outcome
+from affective_engine.development import Environment, classify
 from .system import JusticeParams, JusticeSystem, develop_with_justice
 
 
 @dataclass
 class CohortResult:
     condition: str                       # "justice_off" | "justice_on"
-    outcomes: List[Outcome] = field(default_factory=list)
+    outcomes: List = field(default_factory=list)     # drives.MindReadout per child (emergent)
     contacts: List[int] = field(default_factory=list)
 
     def shares(self) -> Dict[str, float]:

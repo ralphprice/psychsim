@@ -19,7 +19,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
-from affective_engine import AffectiveAgent, TraitSeed, classify, Outcome
+from affective_engine import AffectiveAgent, TraitSeed, classify
 from affective_engine.development import Environment, develop
 
 
@@ -57,13 +57,7 @@ class LifeCourseSpec:
 class LifeResult:
     seed_name: str
     condition_label: str
-    outcome: Outcome
-    control_gain: float
-    instrumental_control_gain: float
-    strategic_access: float
-    exploitation_access: float
-    classification: str
-    psychopathy_subtype: str
+    classification: str                                    # the emergent dominant primary system
     stage_trace: List[str] = field(default_factory=list)   # classification after each stage
 
 
@@ -83,10 +77,6 @@ def run_life(seed: TraitSeed, spec: LifeCourseSpec,
     return LifeResult(
         seed_name=seed.name,
         condition_label=spec.label,
-        outcome=o,
-        control_gain=0.0, instrumental_control_gain=0.0,
-        strategic_access=0.0, exploitation_access=0.0,
         classification=o.classification,
-        psychopathy_subtype="",
         stage_trace=stage_trace,
     )

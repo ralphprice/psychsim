@@ -18,10 +18,10 @@ import random
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 
-from affective_engine.core import GOVERNED, EXPLOITATIVE, clamp
-from affective_engine.drives import respond_to_appraisal, response_to_network
+from affective_engine.core import clamp
+from affective_engine.drives import respond_to_appraisal, is_cohesive, is_aggressive
 from affective_engine.development import Environment, develop  # reuse the learning rule
-from speech.acts import act_from_network, SpeechChannel, SpeechAct
+from speech.acts import act_from_behaviour, SpeechChannel, SpeechAct
 from speech.render import TemplateRenderer
 
 from .world import World, Institution
@@ -47,7 +47,7 @@ class Interaction:
     step: int
     actor: str
     place: str
-    network: str               # the behavioural network the actor ran
+    behaviour: str             # the emergent action the actor took (Panksepp behaviour), not a category
     target: Optional[str]
     effect: str                # human-readable outcome
     valence: float             # environment/institution response valence
@@ -60,7 +60,7 @@ class Utterance:
     rendered line (observer channel only -- nothing reads it back)."""
     speaker: str
     target: str
-    network: str
+    behaviour: str             # the emergent action behind the utterance, not a category
     act: SpeechAct
     perceived_as: str          # what the hearer appraised it as
     line: str                  # rendered transcript line
@@ -101,25 +101,29 @@ class GameMaster:
         return self.relationships.setdefault((a, b), Relationship())
 
     # -- the core adjudication --------------------------------------------
-    def adjudicate(self, person: Person, network: str,
+    def adjudicate(self, person: Person, resp,
                    event: Optional[SocialEvent] = None) -> Interaction:
-        """Commit the consequences of `person` acting in mode `network`."""
+        """Commit the consequences of `person`'s emergent action `resp` (a drives.Response).
+        The world keys on FEATURE read-outs of the act (is_cohesive/is_aggressive) and on the
+        emergent action itself (`resp.behaviour`) -- never on an outcome-category label
+        (honesty migration #2)."""
         world = self.world
         place = world.location_of(person.agent_id) or "?"
         inst = world.governing_institution(person.agent_id)
         target = event.source_id if event else None
+        behaviour = resp.behaviour
 
-        # 1. relational and reputational effect of the mode
-        effect, drep = self._effect_of(network)
+        # 1. relational and reputational effect of the act
+        effect, drep = self._effect_of(behaviour)
         self.reputation[person.agent_id] = clamp(
             self.reputation.get(person.agent_id, 0.5) + drep, 0.0, 1.0)
         if target is not None:
             r = self.rel(person.agent_id, target)
             r.familiarity = clamp(r.familiarity + 0.1)
-            if network in GOVERNED:
+            if is_cohesive(resp):              # appetitive/affiliative act -> warms the tie
                 r.affect = clamp(r.affect + 0.15, -1.0, 1.0)
                 r.trust = clamp(r.trust + 0.1)
-            elif network in EXPLOITATIVE:
+            elif is_aggressive(resp):          # RAGE-driven act -> strains the tie
                 r.affect = clamp(r.affect - 0.2, -1.0, 1.0)
                 r.trust = clamp(r.trust - 0.15)
 
@@ -130,22 +134,25 @@ class GameMaster:
             valence = clamp(2.0 * inst.warmth - 1.0, -1.0, 1.0)
 
         interaction = Interaction(world.clock.interaction_step, person.agent_id,
-                                  place, network, target, effect, valence)
+                                  place, behaviour, target, effect, valence)
         self.log.append(interaction)
         world.clock.tick()
         return interaction
 
-    def _effect_of(self, network: str) -> Tuple[str, float]:
-        """Map a behavioural mode to a world effect and a reputation delta."""
+    def _effect_of(self, behaviour: str) -> Tuple[str, float]:
+        """Map an EMERGENT ACTION (a Panksepp behaviour, not a category) to a world effect and
+        a reputation delta. Whether an action reads as prosocial or antisocial is the observer's
+        job (observer.py); this table only describes what each act does in the world."""
         table = {
-            "strategic_prosociality": ("cooperates dependably", +0.05),
-            "affiliative_warmth": ("supports and bonds", +0.05),
-            "cool_instrumental_boldness": ("acts calmly toward a goal", +0.02),
-            "reactive_aggression": ("lashes out", -0.10),
-            "callous_exploitation": ("exploits for advantage", -0.06),
-            "fearful_withdrawal": ("withdraws", -0.01),
+            "nurture": ("supports and bonds", +0.05),
+            "play": ("plays warmly", +0.04),
+            "court": ("courts", +0.03),
+            "approach": ("acts toward a goal", +0.02),
+            "aggress": ("lashes out", -0.10),
+            "avoid": ("withdraws", -0.01),
+            "seek_comfort": ("seeks comfort", -0.01),
         }
-        return table.get(network, ("acts", 0.0))
+        return table.get(behaviour, ("acts", 0.0))
 
     # -- one social episode ------------------------------------------------
     def run_episode(self, person: Person,
@@ -153,14 +160,14 @@ class GameMaster:
         """Perceive -> choose a mode (affective engine) -> adjudicate -> record
         to the person's episodic memory."""
         appraisal = person.perceive(self.world, event)
-        network = response_to_network(respond_to_appraisal(person.mind, appraisal))
-        person.mind.dominant = network       # reflect the substrate's choice for inspection
-        interaction = self.adjudicate(person, network, event)
+        resp = respond_to_appraisal(person.mind, appraisal)
+        person.mind.dominant = resp.behaviour  # reflect the substrate's emergent action for inspection
+        interaction = self.adjudicate(person, resp, event)
 
-        # write the lived event to the person's episodic memory
+        # write the lived event to the person's episodic memory (the emergent action, not a category)
         importance = clamp(max(appraisal.threat, appraisal.provocation,
                                appraisal.reward, appraisal.other_distress))
-        person.mind.memory.add(appraisal.label, appraisal, network,
+        person.mind.memory.add(appraisal.label, appraisal, resp.behaviour,
                                interaction.valence, importance)
         return interaction
 
@@ -191,27 +198,27 @@ class GameMaster:
         """Speaker settles on a network, emits the act that network makes, the
         hearer perceives it (seeded), and we return the utterance plus the
         appraisal the hearer should now be run on."""
-        net = response_to_network(respond_to_appraisal(speaker.mind, appr))
+        resp = respond_to_appraisal(speaker.mind, appr)
         intensity = clamp(0.35 + 0.5 * max(appr.provocation, appr.threat,
                                            appr.reward, appr.other_distress))
-        act = act_from_network(net, speaker.agent_id, hearer.agent_id,
-                               intensity=intensity,
-                               register=self._register_for(speaker),
-                               articulacy=self._articulacy_for(speaker),
-                               topic=topic,
-                               tick=self.world.clock.interaction_step)
+        act = act_from_behaviour(resp.behaviour, speaker.agent_id, hearer.agent_id,
+                                 intensity=intensity,
+                                 register=self._register_for(speaker),
+                                 articulacy=self._articulacy_for(speaker),
+                                 topic=topic,
+                                 tick=self.world.clock.interaction_step)
         heard_appr = chan.exchange(act, self._vigilance_of(hearer, speaker.agent_id),
                                    self._rng)
         perceived = chan.acts[-1][1]
         line = self._renderer.transcript_line(act, perceived, self._rng)
         # the speaker records having acted; the hearer records below, in its turn
-        i = self.adjudicate(speaker, net,
+        i = self.adjudicate(speaker, resp,
                             SocialEvent(kind=act.intent.lower(),
                                         source_id=hearer.agent_id))
-        speaker.mind.memory.add(appr.label, appr, net, i.valence,
+        speaker.mind.memory.add(appr.label, appr, resp.behaviour, i.valence,
                                 clamp(max(appr.threat, appr.provocation,
                                           appr.reward, appr.other_distress)))
-        return Utterance(speaker.agent_id, hearer.agent_id, net, act,
+        return Utterance(speaker.agent_id, hearer.agent_id, resp.behaviour, act,
                          perceived, line), heard_appr
 
     def converse(self, actor: Person, target: Person, topic: str = "it",

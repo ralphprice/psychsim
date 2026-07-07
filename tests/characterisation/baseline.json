@@ -2,14 +2,6 @@
   "develop": {
     "psychopathic|harsh_inconsistent": {
       "classification": "SEEKING",
-      "probe": {
-        "cooperation": "callous_exploitation",
-        "opportunity": "callous_exploitation",
-        "provocation": "reactive_aggression",
-        "temptation_unobserved": "callous_exploitation",
-        "threat_event": "fearful_withdrawal",
-        "vulnerable_other": "affiliative_warmth"
-      },
       "profile": {
         "CARE": 0.1268,
         "FEAR": 0.1313,
@@ -22,14 +14,6 @@
     },
     "psychopathic|warm_firm": {
       "classification": "SEEKING",
-      "probe": {
-        "cooperation": "callous_exploitation",
-        "opportunity": "callous_exploitation",
-        "provocation": "reactive_aggression",
-        "temptation_unobserved": "callous_exploitation",
-        "threat_event": "fearful_withdrawal",
-        "vulnerable_other": "affiliative_warmth"
-      },
       "profile": {
         "CARE": 0.1346,
         "FEAR": 0.1274,
@@ -42,14 +26,6 @@
     },
     "shared_root|harsh_inconsistent": {
       "classification": "SEEKING",
-      "probe": {
-        "cooperation": "cool_instrumental_boldness",
-        "opportunity": "cool_instrumental_boldness",
-        "provocation": "reactive_aggression",
-        "temptation_unobserved": "cool_instrumental_boldness",
-        "threat_event": "fearful_withdrawal",
-        "vulnerable_other": "affiliative_warmth"
-      },
       "profile": {
         "CARE": 0.137,
         "FEAR": 0.1339,
@@ -62,14 +38,6 @@
     },
     "shared_root|warm_firm": {
       "classification": "SEEKING",
-      "probe": {
-        "cooperation": "cool_instrumental_boldness",
-        "opportunity": "cool_instrumental_boldness",
-        "provocation": "reactive_aggression",
-        "temptation_unobserved": "cool_instrumental_boldness",
-        "threat_event": "fearful_withdrawal",
-        "vulnerable_other": "affiliative_warmth"
-      },
       "profile": {
         "CARE": 0.1487,
         "FEAR": 0.1299,
@@ -82,14 +50,6 @@
     },
     "sophropathic|harsh_inconsistent": {
       "classification": "SEEKING",
-      "probe": {
-        "cooperation": "cool_instrumental_boldness",
-        "opportunity": "cool_instrumental_boldness",
-        "provocation": "cool_instrumental_boldness",
-        "temptation_unobserved": "cool_instrumental_boldness",
-        "threat_event": "fearful_withdrawal",
-        "vulnerable_other": "affiliative_warmth"
-      },
       "profile": {
         "CARE": 0.1395,
         "FEAR": 0.1478,
@@ -102,14 +62,6 @@
     },
     "sophropathic|warm_firm": {
       "classification": "SEEKING",
-      "probe": {
-        "cooperation": "cool_instrumental_boldness",
-        "opportunity": "cool_instrumental_boldness",
-        "provocation": "cool_instrumental_boldness",
-        "temptation_unobserved": "cool_instrumental_boldness",
-        "threat_event": "fearful_withdrawal",
-        "vulnerable_other": "affiliative_warmth"
-      },
       "profile": {
         "CARE": 0.1496,
         "FEAR": 0.1337,
@@ -122,14 +74,6 @@
     },
     "typical_child|harsh_inconsistent": {
       "classification": "SEEKING",
-      "probe": {
-        "cooperation": "cool_instrumental_boldness",
-        "opportunity": "cool_instrumental_boldness",
-        "provocation": "reactive_aggression",
-        "temptation_unobserved": "affiliative_warmth",
-        "threat_event": "fearful_withdrawal",
-        "vulnerable_other": "affiliative_warmth"
-      },
       "profile": {
         "CARE": 0.1441,
         "FEAR": 0.1697,
@@ -142,14 +86,6 @@
     },
     "typical_child|warm_firm": {
       "classification": "SEEKING",
-      "probe": {
-        "cooperation": "cool_instrumental_boldness",
-        "opportunity": "cool_instrumental_boldness",
-        "provocation": "reactive_aggression",
-        "temptation_unobserved": "affiliative_warmth",
-        "threat_event": "fearful_withdrawal",
-        "vulnerable_other": "affiliative_warmth"
-      },
       "profile": {
         "CARE": 0.1565,
         "FEAR": 0.163,

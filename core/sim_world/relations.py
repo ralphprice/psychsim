@@ -156,13 +156,6 @@ class Exchange:
 # Running an exchange -- both parties act; the tie holds or is strained
 # ---------------------------------------------------------------------------
 
-def _cohesive(network: str) -> bool:
-    """A behavioural mode that sustains a relationship: warm or governed conduct
-    (cooperation, considered self-command). Not exploitative, not a withdrawal
-    that disengages the tie."""
-    return network in GOVERNED or network == "affiliative_warmth"
-
-
 def _appraisal_for_higher(tie: Tie) -> Appraisal:
     # the senior party's situation: responsibility toward the other, coloured by
     # how the relationship is going; the power differential is theirs to hold well

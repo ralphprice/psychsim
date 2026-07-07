@@ -61,7 +61,7 @@ def run_day(warm: bool = True) -> str:
         inst_kind = inst.kind if inst else "-"
         inter = gm.run_episode(alex, event)
         label = event.kind if event else "(just present)"
-        W(f"  {dest:<11} {inst_kind:<9} {label:<28} -> {inter.network}")
+        W(f"  {dest:<11} {inst_kind:<9} {label:<28} -> {inter.behaviour}")
     W("  " + "-" * 68)
     W("")
     W("  world state after the day:")

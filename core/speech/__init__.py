@@ -6,6 +6,6 @@ Observer channel: Renderer (render.py) -- acts voiced as dialogue for humans;
 nothing causal reads it. faithfulness.py is the gate any renderer must pass.
 """
 from .acts import (SpeechAct, SpeechChannel, ACT_TYPES, REGISTERS,
-                   act_from_network, perceive_act, appraisal_from_act)
+                   act_from_behaviour, perceive_act, appraisal_from_act)
 from .render import TemplateRenderer, LLMRenderer, articulacy_band
 from .faithfulness import evaluate, passes, probe_line

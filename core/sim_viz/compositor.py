@@ -16,16 +16,20 @@ from .iso import TILE_W, TILE_H, HALF_W, HALF_H, cell_to_screen, diamond_points
 from .mapmodel import CityMap
 from .tileset import Tileset, PlaceholderTileset
 
-# one colour per behavioural network, for the sim state overlay
+# one colour per EMERGENT ACTION / dominant drive, for the sim state overlay. Honesty
+# migration #2: keyed on the emergent Panksepp action (approach/nurture/...) and the seven
+# primary systems -- never on an outcome-category label (those live only in observer.py).
 NETWORK_COLOUR = {
-    "cool_instrumental_boldness": "#2E86C1",
-    "strategic_prosociality": "#1E8449",
-    "affiliative_warmth": "#28B463",
-    "reactive_aggression": "#C0392B",
-    "callous_exploitation": "#7D3C98",
-    "fearful_withdrawal": "#7F8C8D",
+    # the emergent Panksepp behaviours the world loop records
+    "approach": "#2E86C1",      # exploratory blue
+    "nurture":  "#28B463",      # warm green
+    "play":     "#F1C40F",      # bright yellow
+    "court":    "#E91E8C",      # magenta
+    "avoid":    "#7F8C8D",      # grey
+    "aggress":  "#C0392B",      # red
+    "seek_comfort": "#5D6D7E",  # slate
     # the seven emergent primary systems (Panksepp), so the visualiser can colour a
-    # person by their EMERGENT dominant drive, not only by a legacy network label
+    # person by their EMERGENT dominant drive
     "SEEKING": "#2E86C1",   # exploratory blue
     "CARE":    "#28B463",   # warm green
     "PLAY":    "#F1C40F",   # bright yellow

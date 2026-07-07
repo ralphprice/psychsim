@@ -15,7 +15,7 @@ from typing import List, Tuple
 from .core import shared_root_seed
 from .agent import AffectiveAgent
 from .development import (Environment, warm_firm_home, harsh_inconsistent_home,
-                         develop, classify, Outcome)
+                         develop, classify)
 
 
 def raise_agent(env: Environment, n_episodes: int = 48):
@@ -48,8 +48,7 @@ def report(n_episodes: int = 48) -> str:
     W(f"    affiliation= CARE ({seed.gains['CARE']:.2f}) "
       f"SOCIAL_LOSS ({seed.gains['SOCIAL_LOSS']:.2f})  (partly attenuated)")
     W(f"    CONTROL   = {seed.gains['CONTROL']:.2f}  (weak / undeveloped at start)")
-    W(f"    strategic-prosociality accessibility at start = "
-      f"{seed.access['strategic_prosociality']:.2f}")
+    W(f"    INSTRUMENTAL_CONTROL = {seed.gains['INSTRUMENTAL_CONTROL']:.2f}")
     W("")
     W("-" * 70)
 
@@ -109,13 +108,11 @@ def three_way_summary(n_episodes: int = 48) -> str:
     for target, agent, env in rows:
         develop(agent, env, n_episodes=n_episodes)
         o = classify(agent)
-        result = o.classification
-        if o.psychopathy_subtype:
-            result += f" / {o.psychopathy_subtype.split()[0]}"
-        L.append(f"  {target:38} {o.control_gain:5.2f} "
-                 f"{o.instrumental_control_gain:6.2f} {o.strategic_access:6.2f}  "
-                 f"{o.probe_map['provocation']:22}")
-        L.append(f"       -> classified: {result}")
+        result = o.classification            # the emergent dominant primary system
+        prof = " ".join(f"{k[:4]}:{v:.2f}" for k, v in sorted(
+            o.profile.items(), key=lambda kv: -kv[1])[:3])
+        L.append(f"  {target:38} {prof}")
+        L.append(f"       -> dominant system: {result}")
     L.append("  " + "-" * 70)
     L.append("  The conscience-linked CONTROL circuit (built by warm, firm,")
     L.append("  recognising care) makes the sophropath; with it weak, the level of")

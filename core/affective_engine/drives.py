@@ -1,6 +1,17 @@
 """
 drives.py -- the neural substrate a mind is built on (crude, grounded, evolving).
 
+INTERIM-LEGACY (deferred-retirement pointer). This Panksepp two-affect-pathway engine
+(System/Brain/Drive) is the CURRENT live behaviour engine for the social layer. Its own
+retirement -- replacing it with the category-free circuit substrate (core/substrate) as the
+source of activation and behaviour -- is a SEPARATE, PARITY-GATED phase, NOT the "8b.4" honesty
+cut. That cut removed the outcome-category NETWORK engine (the coded categories); it deliberately
+did NOT touch this engine, because the substrate has not yet reproduced social behaviour
+(behaviour.py yields only approach/restrain; there is no circuit observer adapter). Retiring this
+engine before that parity exists would violate invariant 6. Until then this stays, flagged, and
+downstream layers key on FEATURE read-outs of its emergent Response (is_cohesive/is_aggressive)
+and on the emergent action (Response.behaviour) -- never on an outcome-category label.
+
 This replaces hand-written verdicts ("a harsh place raises THREAT at rate X") with
 a modelled substrate from which feeling and behaviour EMERGE. It is grounded in
 Jaak Panksepp's affective neuroscience: seven primary emotional/motivational
@@ -278,18 +289,6 @@ class MindReadout:
     def classification(self) -> str:      # back-compat: the emergent dominant system
         return self.dominant.value
 
-    # null back-compat shims: the OLD verdict constructs no longer exist, so these
-    # report empty/zero. Obsolete display code degrades gracefully; the real
-    # content is `profile`. (Harnesses reading these need reconception.)
-    psychopathy_subtype = ""
-    subtype = ""
-    control_gain = 0.0
-    instrumental_control_gain = 0.0
-    strategic_access = 0.0
-    exploitation_access = 0.0
-    governance_index = 0.0
-    exploitation_index = 0.0
-
     @property
     def probe_map(self) -> Dict[str, str]:
         return {}
@@ -343,20 +342,9 @@ def is_aggressive(resp) -> bool:
     return resp.dominant is System.RAGE
 
 
-# a compatibility view: map an emergent behaviour to a legacy network label, so
-# downstream layers still keyed on the old vocabulary (day-loop categorisation,
-# speech-act generation) keep working while the DECISION comes from the substrate.
-# These downstream layers can be reconceived onto the System vocabulary later.
-_BEHAVIOUR_TO_NETWORK = {
-    "approach": "cool_instrumental_boldness",
-    "nurture": "affiliative_warmth",
-    "play": "affiliative_warmth",
-    "court": "affiliative_warmth",
-    "avoid": "fearful_withdrawal",
-    "aggress": "reactive_aggression",
-    "seek_comfort": "fearful_withdrawal",
-}
-
-
-def response_to_network(resp) -> str:
-    return _BEHAVIOUR_TO_NETWORK.get(resp.behaviour, "cool_instrumental_boldness")
+# HONESTY MIGRATION #2 ("8b.4"): the `_BEHAVIOUR_TO_NETWORK` / `response_to_network` layer that
+# translated an emergent behaviour into an outcome-category label has been REMOVED. Downstream
+# layers now key on the emergent action itself (`Response.behaviour`: approach/nurture/play/court/
+# avoid/aggress/seek_comfort -- action tendencies, not categories) and on the feature read-outs
+# is_cohesive/is_aggressive. The outcome categories are computed only as observer read-outs
+# (observer.py); see core.py for the full record of what was removed.

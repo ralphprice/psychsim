@@ -15,7 +15,7 @@ _S.path.insert(0, _O.path.join(_ROOT, "extensions"))
 import random
 import unittest
 
-from speech.acts import (SpeechAct, SpeechChannel, act_from_network,
+from speech.acts import (SpeechAct, SpeechChannel, act_from_behaviour,
                               perceive_act, appraisal_from_act)
 from speech.render import TemplateRenderer, LLMRenderer, articulacy_band
 from speech.faithfulness import evaluate, passes, probe_line
@@ -23,15 +23,22 @@ from speech.faithfulness import evaluate, passes, probe_line
 
 class TestSpeechActs(unittest.TestCase):
 
-    def test_network_maps_to_act(self):
-        a = act_from_network("callous_exploitation", "X", "Y")
-        self.assertTrue(a.deceptive)
-        self.assertEqual(a.intent, "DECEIVE")
-        self.assertEqual(a.surface, "AFFILIATE")
-        self.assertFalse(act_from_network("affiliative_warmth", "X", "Y").deceptive)
+    def test_behaviour_maps_to_act(self):
+        # honesty migration #2: speech acts key on the EMERGENT ACTION (a Panksepp behaviour),
+        # not an outcome category. A warm action affiliates; an aggressive one threatens.
+        self.assertEqual(act_from_behaviour("nurture", "X", "Y").intent, "AFFILIATE")
+        self.assertFalse(act_from_behaviour("nurture", "X", "Y").deceptive)
+        self.assertEqual(act_from_behaviour("aggress", "X", "Y").intent, "THREATEN")
 
-    def test_unknown_network_speaks_neutrally(self):
-        a = act_from_network("some_extension_network", "X", "Y")
+    def test_deceptive_act_can_still_be_constructed_directly(self):
+        # DECEIVE is no longer GENERATED from a behaviour (coded deception was an encoded
+        # answer, removed), but remains a valid act an agent could make -- built explicitly.
+        d = SpeechAct("X", "Y", "DECEIVE", surface="AFFILIATE")
+        self.assertTrue(d.deceptive)
+        self.assertEqual(d.surface, "AFFILIATE")
+
+    def test_unknown_behaviour_speaks_neutrally(self):
+        a = act_from_behaviour("some_extension_behaviour", "X", "Y")
         self.assertEqual(a.intent, "ASSERT")
 
     def test_honest_act_appraised_as_itself(self):

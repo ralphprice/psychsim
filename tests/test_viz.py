@@ -75,9 +75,9 @@ class TestCompositor(unittest.TestCase):
     def test_state_overlay_colours_actor(self):
         m = CityMap("t", 4, 4); m.fill_terrain("terrain_grass")
         m.actors.append(Actor("char_adult_a", 1, 1, agent_id="a"))
-        ov = Overlays(actor_state={"a": "reactive_aggression"})
+        ov = Overlays(actor_state={"a": "aggress"})   # emergent action, not a category
         svg = render_svg(m, overlays=ov)
-        # the reactive_aggression colour appears (state ring + legend)
+        # the aggressive-action colour appears (state ring + legend)
         self.assertIn("#C0392B", svg)
 
 

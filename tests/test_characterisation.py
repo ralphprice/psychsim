@@ -7,14 +7,19 @@ _S.path.insert(0, _ROOT)
 """Phase 0 (PsychSim_MASTER build) -- CHARACTERISATION BASELINE.
 
 A parity safety net for the valence/motivation migration. It snapshots the *current*
-behaviour of the developmental read-outs (develop -> probe -> classify) across the study
-seeds x canonical environments, plus one deterministic call into each of the three
-matrices, and compares against a committed golden file.
+behaviour of the developmental read-outs (develop -> classify) across the study seeds x
+canonical environments, plus one deterministic call into each of the three matrices, and
+compares against a committed golden file.
 
 This does NOT assert that any behaviour is correct -- only that it does not change
 unnoticed while the substrate/valence engine is migrated behind the stable interfaces.
 Later phases that intentionally change these read-outs regenerate the golden WITH A NOTE
 (set PSYCHSIM_REGEN_CHAR=1) and record the change in the commit.
+
+DELIBERATE PHASE-0 BASELINE REFRAME ("8b.4", honesty migration #2): the legacy category-network
+SCORER and its `probe()` were removed. The baseline is now the EMERGENT read-out (develop ->
+classify over the Panksepp substrate), not the legacy category arbitration; the golden was
+regenerated to reflect this intended change.
 """
 
 import json
@@ -24,7 +29,7 @@ import unittest
 from affective_engine.core import (shared_root_seed, sophropathic_seed,
                                     psychopathic_seed)
 from affective_engine.agent import AffectiveAgent
-from affective_engine.development import (develop, probe, classify,
+from affective_engine.development import (develop, classify,
                                           warm_firm_home, harsh_inconsistent_home)
 from affective_engine.drives import Brain, System
 from sophropathy.society import typical_child_seed
@@ -55,7 +60,8 @@ def _round(x, n=4):
 
 
 def _develop_snapshot() -> dict:
-    """develop -> probe -> classify for every seed x environment."""
+    """develop -> classify for every seed x environment (the emergent read-out; the legacy
+    probe/scorer was retired in the 8b.4 honesty migration)."""
     out = {}
     for seed_name, seed_fn in _SEEDS.items():
         for env_name, env_fn in _ENVS.items():
@@ -63,7 +69,6 @@ def _develop_snapshot() -> dict:
             develop(ag, env_fn(), situation_seed=_SIT_SEED)
             readout = classify(ag)
             out[f"{seed_name}|{env_name}"] = {
-                "probe": probe(ag, situation_seed=_PROBE_SEED),
                 "classification": readout.classification,
                 "profile": {k: _round(v) for k, v in sorted(readout.profile.items())},
             }

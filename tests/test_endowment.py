@@ -32,7 +32,7 @@ class TestEndowmentFromGains(unittest.TestCase):
         self.assertGreater(warm.weights["attachment"], cold.weights["attachment"])
 
     def test_explicit_fields_override_gains(self):
-        seed = TraitSeed("x", gains={"THREAT": 0.9}, access={},
+        seed = TraitSeed("x", gains={"THREAT": 0.9},
                          reactivities={"fear": 0.1})
         self.assertEqual(endowment_of(seed).reactivities["fear"], 0.1)
 
