@@ -130,3 +130,29 @@ The old single item "8b.4 retire legacy" split cleanly into two, per the ruling:
 Remaining order: honesty-#2 review → **8b.5** (params ← seed; finalises the developed-state format the
 Part 6 bank waits on) → **8b.6** (emergent-phenomena battery + the two mechanism gaps, both engine-side,
 no seed edit) → **Part 6 instrument batch** → the Panksepp-retirement / substrate-social phase.
+
+## 8b.5 — params ← seed reconciliation (developed-state/params representation now final)
+
+*Recorded 2026-07. Lower-stakes; synced at completion for a lighter review.*
+
+The audit found the substrate side already disciplined: `substrate/model.py` reads **every**
+per-circuit/connection parameter from the seed (tau, homeostatic_setpoint, baseline, bounds, gating
+neuromodulator, eligibility tau, developmental ages, innate wiring), and `substrate/params.py` holds
+only code-side dynamics scaffold. No per-circuit seed value is hardcoded anywhere.
+
+The one open item was a **stale pre-S2.5 reconciliation note** in `affective_engine/params.py` that
+told a future reader to "read set-points from `seed.homeostatic_setpoint`." The seed data disproves it:
+`homeostatic_setpoint` is **uniformly 0.1 across all 77 circuits** — firing-rate homeostasis (R4-HOMEO),
+a *different quantity* from the regulated body-variable set-points (energy 0.80, arousal 0.20, …). Per
+**S2.5** those interoceptive set-points **stay scaffold** (the seed does not carry them); the state-vector
+*structure* is grounded in the substrate via the S2.5 bridge (`interocept.SUBSTRATE_READOUT` /
+`state_from_substrate` — each variable reads activity from designated circuits, all present in v8). The
+functional `PERTURBATION_GAINS` is likewise scaffold at a finer abstraction than the seed's 15-entry
+coarse catalogue (and carries social perturbations the catalogue still lacks, S1.4 — adding them would
+be a seed edit / v9, out of scope).
+
+Resolved: the note now records the correct post-S2.5 status, and a guard test
+(`tests/test_params_seed_reconciliation.py`) enforces the split — substrate reads from the seed, no seed
+data duplicated in params, the two set-points stay separate, the state vector grounds in real circuits —
+so the representation **cannot silently drift**. **The developed-state/params representation is now final**
+(the gate the Part 6 bank waits on). Suite 402, green.

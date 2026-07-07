@@ -54,14 +54,28 @@ SEL_BRAKE_MATURE_AGE = 28.0     # SCAFFOLD control matures (protracted into late
 # how much unresolved approach/avoid conflict (BIS) holds the arousal variable elevated.
 SEL_BIS_AROUSAL_GAIN = 0.5      # SCAFFOLD
 
-# RECONCILIATION NOTE (design-review flag, for the coupled substrate integration): the
-# STATE_VARIABLES set-points below and the PERTURBATION_GAINS further down are SCAFFOLD
-# placeholders that currently have nothing to read from. When the v7 substrate is made live,
-# they must be READ FROM THE SEED -- set-points from `seed.homeostatic_setpoint`, the
-# perturbation SET from `seed.innate_wiring_catalogue` -- so the seed is the single source of
-# that data (the Part-2 S1.3 drift warning). After that, params.py must hold ONLY genuine
-# code-side scaffold (BETA/GAMMA/thresholds/rates), never a parallel copy of seed data, or
-# the two will diverge.
+# RECONCILIATION -- RESOLVED (8b.5, applying the Part 2 S2.5 correction to the earlier
+# params<-seed note, and confirmed against the actual seed data):
+#   * The seed is the single source of truth for SUBSTRATE structure/parameters (circuits,
+#     connections, time constants, per-circuit homeostatic_setpoint, gating neuromodulators,
+#     eligibility taus, developmental ages, innate wiring) -- ALL read via substrate/model.py.
+#     Nothing here duplicates them (guard: tests/test_params_seed_reconciliation.py).
+#   * The STATE_VARIABLES set-points and PERTURBATION_GAINS below are a DIFFERENT quantity and
+#     stay code-side SCAFFOLD -- they are NOT seed data (S2.5). The earlier note's "read
+#     set-points from seed.homeostatic_setpoint" was wrong: the seed's homeostatic_setpoint is
+#     FIRING-RATE homeostasis (uniform 0.1 across all 77 circuits, consumed by R4-HOMEO in the
+#     substrate engine), a different thing from these regulated body-variable targets (energy
+#     0.80, arousal 0.20, ...). The two must stay separate.
+#   * The state-vector STRUCTURE is grounded in the substrate the honest way (S2.5): each
+#     variable reads its ACTIVITY from designated substrate circuits (interocept.SUBSTRATE_READOUT
+#     / state_from_substrate), driven by the seed's innate wiring -- not by copying seed numbers.
+#   * PERTURBATION_GAINS is the functional-layer trigger->variable mapping, at a different (finer)
+#     abstraction than the seed's 15-entry coarse innate_wiring_catalogue, and richer -- it carries
+#     the social perturbations the catalogue still lacks (S1.4). Its magnitudes stay scaffold; the
+#     substrate bridge is the grounded route. (Adding social entries to the seed catalogue would be
+#     a seed edit / v9 -- out of scope.)
+# Net: params.py holds ONLY code-side scaffold (BETA/GAMMA/thresholds/rates + these S2.5 functional
+# set-points/gains), never a parallel copy of seed data.
 #
 # --- State-vector variables (App. A): set-point, weight, polarity, allostatic ---
 # polarity "deficit": aversive when level < set_point (energy, warmth, attachment, ...)

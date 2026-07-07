@@ -21,7 +21,7 @@ magnitudes live in params.py as SCAFFOLD.
 
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 from .core import clamp
 from . import params
