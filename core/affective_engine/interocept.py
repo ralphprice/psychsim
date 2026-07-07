@@ -117,6 +117,46 @@ def valence(d_prev: float, d_now: float) -> float:
     return params.BETA * (d_prev - d_now)
 
 
+# ---------------------------------------------------------------------------
+# Reading the state vector FROM the live substrate (Part 2 S2.5 -- 8b bridge)
+# ---------------------------------------------------------------------------
+
+# Each interoceptive state VARIABLE reads its activity from designated v7 substrate circuits,
+# grounding the vector's structure in the substrate. The set-point MAGNITUDES stay SCAFFOLD
+# (params, above) -- they are NOT read from the seed's firing-rate homeostatic_setpoint, which
+# is a different quantity (S2.5). Mode 'level' = the variable level tracks the circuits' mean
+# activity; 'inverse' = the level is high when those circuits are quiet (pain / a deficit
+# signalled by an active afferent). The exact mapping is a functional-layer choice, flagged
+# for calibration; the grounding (which circuits) is the claim.
+SUBSTRATE_READOUT = {
+    "arousal":          (("RVLM", "SympOut", "PVN"), "level"),    # sympathetic/HPA drive
+    "tissue_integrity": (("PBN", "pIns"), "inverse"),            # pain afferents -> integrity down
+    "respiratory":      (("PBN",), "inverse"),                    # air-hunger afferent (coarse)
+    "attachment":       (("PVN-OT", "SEPT", "MPOA"), "level"),    # bonding / affiliation
+    "belonging":        (("PVN-OT", "SEPT"), "level"),
+    "energy":           (("NTS",), "level"),                      # visceral afferent hub (coarse)
+    "hydration":        (("NTS",), "level"),
+    "thermal":          (("PBN",), "level"),
+    "rest":             (("PPTg",), "inverse"),                   # arousal-promoting -> low rest
+    "uncertainty":      (("aIns",), "level"),                     # salience / prediction error
+}
+
+
+def state_from_substrate(engine, weights: Optional[Dict[str, float]] = None) -> StateVector:
+    """Build a StateVector whose variable LEVELS are read from the live substrate engine
+    (duck-typed: `.activity(cid)` + `.model.circuits`), per S2.5. Set-points/weights stay
+    scaffold. This is the substrate->interoception bridge: drive and valence then compute
+    over substrate activity, so the same event yields different value in different agents
+    because their substrates differ."""
+    sv = StateVector(weights=dict(weights or {}))
+    circuits = getattr(getattr(engine, "model", None), "circuits", {})
+    for var, (cids, mode) in SUBSTRATE_READOUT.items():
+        acts = [engine.activity(c) for c in cids if c in circuits]
+        a = sum(acts) / len(acts) if acts else 0.0
+        sv.levels[var] = clamp(1.0 - a) if mode == "inverse" else clamp(a)
+    return sv
+
+
 def valence_of_event(state: StateVector, triggers: Dict[str, float]
                      ) -> Tuple[float, StateVector, Dict[str, float]]:
     """Compute the valence of an event from a given state: apply its perturbations, and
