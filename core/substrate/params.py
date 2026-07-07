@@ -13,6 +13,14 @@ from __future__ import annotations
 
 DT_MS = 50.0                      # SCAFFOLD integration step (ms) for the Euler update
 
+# --- Experience-decreasing plasticity (Part 5 S10.1) --------------------------
+# Weights are highly plastic early and rigidify with accumulated relevant experience: the nth
+# co-activation event for a connection carries ~1/n of the weight (2nd ~50%, ~1000th ~0.1%),
+# i.e. an incremental RUNNING AVERAGE -- so the developed state naturally settles, with no
+# separate stabiliser. This is a plasticity RATE, not an outcome; it composes with R6.
+EXP_PLASTICITY_FLOOR = 0.001      # SCAFFOLD adult floor (nonzero lifelong plasticity)
+EXP_COACTIVE_THRESHOLD = 0.15     # SCAFFOLD both endpoints above this = one 'relevant experience'
+
 # qualitative newborn connection weights (seed `default_weight`) -> numeric. SCAFFOLD.
 WEIGHT_QUALITATIVE = {
     "low": 0.20, "low-moderate": 0.35, "moderate": 0.50,

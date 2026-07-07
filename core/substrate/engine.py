@@ -39,6 +39,8 @@ class SubstrateEngine:
         # outcome weight. Applied to an otherwise-ordinary substrate; what it produces is measured.
         self.throttle: Dict[str, float] = {}
         self._silent: List[int] = [0] * len(m.connections)
+        self.exp_count: List[int] = [0] * len(m.connections)   # relevant experiences (S10.1)
+        self._coactive_flag: List[bool] = [False] * len(m.connections)
         self.pruned: List[bool] = [False] * len(m.connections)
         self._step_i = 0
         self._refresh_live()
@@ -152,8 +154,16 @@ class SubstrateEngine:
             self.eligibility[j] = P.decay_eligibility(self.eligibility[j], dt,
                                                       k.eligibility_tau_ms) + corr
             mod = self.neuromod_output(k.gating_neuromodulator)   # R5: circuit output
+            # S10.1: experience-decreasing plasticity. The nth relevant EXPERIENCE (episode, not
+            # step -- committed once per settle()) of this connection carries ~1/n weight
+            # (running average), so the developed weight naturally rigidifies -- no separate
+            # stabiliser. This step only FLAGS co-activity; settle() commits the experience.
+            if a_pre > params.EXP_COACTIVE_THRESHOLD and a_post > params.EXP_COACTIVE_THRESHOLD:
+                self._coactive_flag[j] = True
+            n = self.exp_count[j]
+            exp_factor = max(params.EXP_PLASTICITY_FLOOR, 1.0 / n) if n > 0 else 1.0
             dw = P.consolidate(self.eligibility[j], mod,
-                               P.eta(k.schedule_ref, self.age_years))  # R6
+                               P.eta(k.schedule_ref, self.age_years)) * exp_factor   # R6 x 1/n
             w = P.clamp_weight(self.weight[j] + dw, k.bounds[0], k.bounds[1])   # R8 clamp
             thr = max(self.throttle.get(k.source, 0.0), self.throttle.get(k.target, 0.0))
             if thr > 0.0:                                          # plasticity ceiling (S4.1)
@@ -192,8 +202,15 @@ class SubstrateEngine:
         self._step_i += 1
 
     def settle(self, ticks: int = 20, dt_ms: float = None) -> None:
+        """Run several ticks as ONE lived experience/episode: connections co-active during it
+        accrue one 'relevant experience' (S10.1), so plasticity decreases per episode, not per
+        integration step."""
+        self._coactive_flag = [False] * len(self.model.connections)
         for _ in range(ticks):
             self.step(dt_ms)
+        for j, hot in enumerate(self._coactive_flag):
+            if hot:
+                self.exp_count[j] += 1
 
     # -- read-outs (measurement only) -------------------------------------
     def activity(self, circuit_id: str) -> float:

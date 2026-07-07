@@ -57,20 +57,32 @@ class TestCausalChainIsEmergent(unittest.TestCase):
                            engage(ENVIRONMENTS["harsh_inconsistent"]))
 
 
-class TestDivergenceIsKnifeEdge(unittest.TestCase):
-    def test_interaction_sign_is_not_stable_across_development_duration(self):
-        # the honest finding: the interaction flips sign with an arbitrary scaffold parameter
-        # (development duration) -> knife-edge -> NOT a robust divergence (Part IV). We assert
-        # the NON-robustness, not the interaction.
-        vals = interaction_across_durations(_MODEL, durations=(350, 500))
-        signs = {v > 0 for v in vals.values()}
-        self.assertEqual(len(signs), 2, f"expected sign flip (knife-edge); got {vals}")
+class TestRegimeBStability(unittest.TestCase):
+    """S9.3 Regime B correctness property: normal (un-throttled) development must not
+    destabilise a viable person. With the experience-decreasing plasticity (S10.1), the
+    developed state SETTLES on its own -- no bolted-on stabiliser (S9.1)."""
 
-    def test_deterministic_at_a_fixed_duration(self):
-        # the substrate has no RNG: at a FIXED duration the result is reproducible (so the
-        # instability is the dynamics, not randomness)
-        self.assertAlmostEqual(interaction_at(_MODEL, 400), interaction_at(_MODEL, 400),
-                               places=6)
+    def test_un_throttled_development_settles(self):
+        from substrate.divergence import _cell, ENVIRONMENTS
+        W = ENVIRONMENTS["warm_firm"]
+        early = _cell(0.0, W, _MODEL, ticks=400)
+        late = _cell(0.0, W, _MODEL, ticks=800)
+        # the developed state converges (small change over a long extra span), not oscillates
+        self.assertLess(abs(late - early), 0.1)
+
+
+class TestDivergenceWellPosedAndNear_Zero(unittest.TestCase):
+    def test_interaction_is_stable_across_durations(self):
+        # now development settles, the interaction is well-posed: stable sign + magnitude
+        vals = interaction_across_durations(_MODEL, durations=(350, 500, 600))
+        signs = {v > 0 for v in vals.values()}
+        self.assertEqual(len(signs), 1, f"expected a stable sign (well-posed); got {vals}")
+        self.assertLess(max(vals.values()) - min(vals.values()), 0.05)
+
+    def test_divergence_does_not_robustly_emerge(self):
+        # the earned negative (S10.3): with the completed plasticity the outcome is well-defined
+        # and the differential-susceptibility interaction is ~0 -- it does not emerge.
+        self.assertLess(abs(interaction_at(_MODEL, 500)), 0.05)
 
 
 if __name__ == "__main__":
