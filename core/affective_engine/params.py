@@ -16,6 +16,22 @@ from __future__ import annotations
 # --- Valence scale (App. C.2): r = BETA * (D_prev - D_now) ------------------
 BETA = 1.0                       # SCAFFOLD
 
+# --- Learning: TD/RPE and its asymmetries (App. C) --------------------------
+GAMMA = 0.90                     # SCAFFOLD temporal discount
+ALPHA = 0.30                     # SCAFFOLD value learning rate
+LAMBDA = 0.80                    # SCAFFOLD eligibility-trace decay (reserved for TD(lambda))
+AVERSIVE_LR_MULT = 1.6           # SCAFFOLD aversive/threat learning is faster & higher-gain (C.8)
+EXTINCTION_LR_MULT = 0.4         # SCAFFOLD extinction (new learning) is slower than acquisition (C.8)
+THREE_FACTOR_LR = 0.06           # SCAFFOLD substrate three-factor plasticity rate (App. C.4)
+
+# Per-cue LEARNING-RATE multipliers for prepared learning (App. B.3). A prior on how FAST
+# a cue acquires value -- NOT an innate value. The cue is not innately aversive; the fear is
+# merely learned in one/few trials. Unknown cues default to 1.0.
+PREPARED_LEARNING = {            # SCAFFOLD
+    "snake": 3.0, "spider": 3.0, "angry_face": 2.0, "height": 2.0,
+    "blood": 1.5, "contamination": 1.5,
+}
+
 # --- State-vector variables (App. A): set-point, weight, polarity, allostatic ---
 # polarity "deficit": aversive when level < set_point (energy, warmth, attachment, ...)
 # polarity "excess":  aversive when level > set_point (arousal, pain, CO2, uncertainty)

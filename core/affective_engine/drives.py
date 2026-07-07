@@ -182,17 +182,24 @@ USE_LR = 0.06          # how much a used system strengthens per activation
 DISUSE_DECAY = 0.004   # gentle drift of unused systems
 
 
-def imprint(brain: Brain, response: Response, age_years: float) -> None:
-    """Use-dependent plasticity: the system that drove behaviour strengthens (it
-    was relied upon), gated by the developmental window; the rest drift gently.
-    This is a general learning mechanism -- reliance sets patterns -- NOT a rule
-    about which upbringing yields which adult. Outcomes emerge from which systems
-    a life's experiences happen to engage."""
+def imprint(brain: Brain, response: Response, age_years: float,
+            neuromod: float = 1.0) -> None:
+    """Use-dependent plasticity, expressed as the substrate's THREE-FACTOR rule
+    (Fremaux & Gerstner / App. C.4): the system that drove behaviour strengthens as
+    pre (it was engaged) x post (its activation) x a NEUROMODULATOR, gated by the
+    developmental window; the rest drift gently. `neuromod` defaults to 1.0 -- the
+    legacy use-dependent path where reliance alone sets patterns -- and is set to a
+    dopamine reward-prediction-error (delta) by the value-learning system so that
+    reliance consolidates in proportion to how rewarding it was. Local and
+    meaning-blind: this is a general learning mechanism, NOT a rule about which
+    upbringing yields which adult -- outcomes emerge from which systems a life
+    engages."""
     plast = window_plasticity(age_years)
     used = response.dominant
     for s, drive in brain.drives.items():
         if s is used:
-            drive.strength = clamp(drive.strength + USE_LR * plast * response.activations[s])
+            drive.strength = clamp(drive.strength
+                                   + USE_LR * plast * response.activations[s] * neuromod)
         else:
             drive.strength = clamp(drive.strength - DISUSE_DECAY * plast)
 
