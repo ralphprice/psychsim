@@ -110,6 +110,14 @@ class Network:
                                      #   (calculated exploitation / cool competence)
 
 
+# DEPRECATED (MASTER Phase 8 -- honesty-critical #2). These behavioural networks are named
+# after OUTCOME CATEGORIES ("callous_exploitation", "strategic_prosociality",
+# "cool_instrumental_boldness", ...) and are arbitrated over as selectable PRIMITIVES by the
+# legacy engine (agent.network_score) -- the encoded-answer the discipline forbids. They
+# cannot be removed piecemeal (the seeds' `access` weights and agent scoring depend on them);
+# they retire together with the whole legacy network engine at Phase 8, after which these
+# categories exist ONLY as observer read-outs (see observer.py / App. D). Kept, working, and
+# parity-preserved until then, per invariant 6.
 def default_catalogue() -> Dict[str, Network]:
     nets = [
         Network(
@@ -158,6 +166,8 @@ def default_catalogue() -> Dict[str, Network]:
     return {n.name: n for n in nets}
 
 
+# DEPRECATED (MASTER Phase 8): these sets group the legacy category-named networks above;
+# they are the observer's job (App. D), not the mechanism's. Retire with the legacy engine.
 GOVERNED = {"cool_instrumental_boldness", "strategic_prosociality",
             "affiliative_warmth"}
 EXPLOITATIVE = {"callous_exploitation", "reactive_aggression"}
@@ -171,6 +181,12 @@ EXPLOITATIVE = {"callous_exploitation", "reactive_aggression"}
 class TraitSeed:
     name: str
     gains: Dict[str, float]
+    # DEPRECATED (MASTER Phase 8): `access` keys are the OUTCOME-CATEGORY network names and
+    # double as the legacy engine's per-network reachability (agent.network_score:106). It is
+    # thus both an honesty violation (a seed carrying `callous_exploitation=0.78` is close to
+    # encoding the answer) AND load-bearing legacy state -- so it is removed together with the
+    # legacy network engine at Phase 8, not before (invariant 6). The seed's temperament now
+    # lives in the endowment fields below; the categories move to observer.py.
     access: Dict[str, float]
     # --- valence-engine endowment (MASTER Phase 5) -- the ONLY legitimate place a seed
     # differs (doc §5.1). Optional and empty by default: when unset, endowment.endowment_of()

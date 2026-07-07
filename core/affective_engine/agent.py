@@ -103,6 +103,9 @@ class AffectiveAgent:
         # calculation (negative for reactive rage, positive for calculated
         # exploitation and cool competence).
         base += INSTR_GAINAMT * net.instr * self.activation["INSTRUMENTAL_CONTROL"]
+        # DEPRECATED (MASTER Phase 8): `self.access[net.name]` makes the outcome-category
+        # network reachability load-bearing; this whole scorer retires with the legacy engine,
+        # after which behaviour emerges from selection.py over the circuit substrate.
         reach = ACCESS_FLOOR + (1 - ACCESS_FLOOR) * self.access[net.name]
         return max(0.0, base) * reach
 
