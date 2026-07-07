@@ -21,3 +21,9 @@ sims/*
 .DS_Store
 Thumbs.db
 *.swp
+
+# ---- Generated demo outputs (regenerable via the run_*.py scripts) ----
+/town_life.html
+/aged_town.svg
+/demo_town.svg
+/PIPELINE_OUTPUT.txt
