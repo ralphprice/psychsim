@@ -94,7 +94,13 @@ def read_out(bp: BehaviourProfile) -> Dict[str, object]:
 def profile_from_legacy(agent) -> BehaviourProfile:
     """Build a BehaviourProfile from the current (legacy 7-system) engine's read-outs. This
     reads the emergent substrate -- system strengths, conscience-control, moral orientation --
-    NOT the seed, and never writes back. Superseded by a circuit-engine adapter at Phase 8."""
+    NOT the seed, and never writes back. Superseded by a circuit-engine adapter at Phase 8.
+
+    EMERGENCE CAVEAT (design-review flag): the legacy engine still arbitrates over
+    outcome-category network primitives (callous_exploitation, ...). So while the read-out
+    machinery is correctly additive, its VALIDATION -- that the categories emerge WITHOUT
+    being coded -- is only meaningful once behaviour comes from the new (circuit) engine.
+    Do NOT read current observer output as evidence of emergence."""
     from .drives import read_mind, System
     from .executive import moral_orientation_readout
     prof = read_mind(agent).profile          # normalised 7-system strengths

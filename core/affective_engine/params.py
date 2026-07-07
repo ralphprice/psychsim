@@ -54,6 +54,15 @@ SEL_BRAKE_MATURE_AGE = 28.0     # SCAFFOLD control matures (protracted into late
 # how much unresolved approach/avoid conflict (BIS) holds the arousal variable elevated.
 SEL_BIS_AROUSAL_GAIN = 0.5      # SCAFFOLD
 
+# RECONCILIATION NOTE (design-review flag, for the coupled substrate integration): the
+# STATE_VARIABLES set-points below and the PERTURBATION_GAINS further down are SCAFFOLD
+# placeholders that currently have nothing to read from. When the v7 substrate is made live,
+# they must be READ FROM THE SEED -- set-points from `seed.homeostatic_setpoint`, the
+# perturbation SET from `seed.innate_wiring_catalogue` -- so the seed is the single source of
+# that data (the Part-2 S1.3 drift warning). After that, params.py must hold ONLY genuine
+# code-side scaffold (BETA/GAMMA/thresholds/rates), never a parallel copy of seed data, or
+# the two will diverge.
+#
 # --- State-vector variables (App. A): set-point, weight, polarity, allostatic ---
 # polarity "deficit": aversive when level < set_point (energy, warmth, attachment, ...)
 # polarity "excess":  aversive when level > set_point (arousal, pain, CO2, uncertainty)
@@ -79,6 +88,8 @@ STATE_VARIABLES = {
 # The SET (which sensor moves which variable, in which direction) is the grounded claim
 # (interocept.PERTURBATION_LINKS); these MAGNITUDES are scaffold and are where temperament
 # variation lives (App. B.5). Sign convention: + raises the variable's level, - lowers it.
+# At substrate integration this SET must be read from `seed.innate_wiring_catalogue` (see the
+# reconciliation note above); only the gains stay as code-side scaffold.
 PERTURBATION_GAINS = {
     # physiological / survival (unconditioned)
     "nociception":        {"tissue_integrity": -0.60},                                   # SCAFFOLD
