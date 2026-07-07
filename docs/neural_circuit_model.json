@@ -1,0 +1,3679 @@
+{
+  "meta": {
+    "title": "Human neural-circuit model",
+    "version": "consolidated_pass1-4",
+    "supersedes": "all prior per-format files (wide/long/json/params/legend)",
+    "terminology_note": "The state->circuit structure is the 'co-activation table' (edge-list form). 'Matrix' term retired.",
+    "weight_legend": {
+      "2": "drive",
+      "1": "modulate",
+      "0": "none_or_unknown",
+      "-1": "inhibit_mild",
+      "-2": "inhibit_strong"
+    },
+    "confidence_legend": {
+      "E": "established",
+      "Em": "emerging",
+      "H": "hypothesised"
+    },
+    "weights_are": "qualitative expert-consensus scaffold, NOT measured effect sizes or coupling coefficients",
+    "coactivation_columns_note": "co-activation edges use a behaviourally-differentiating subset of circuits as endpoints; the full circuit index below is larger",
+    "key_caveats": [
+      "Affiliation/oxytocin (AFF-01) is animal-dominant; human intranasal-OT effects are weak/inconsistent.",
+      "Action-observation ('mirror', SOC-02) exists but its role in action UNDERSTANDING is contested; it is built by associative learning.",
+      "Classical Broca-Wernicke language model (LANG-03) is superseded by the dual-stream model (LANG-01/02).",
+      "Working-memory maintenance mechanism (persistent vs activity-silent vs oscillatory) is unresolved.",
+      "The cortical 'pain matrix' (S1/S2/insula/ACC) is a body-salience system, not pain-specific.",
+      "Polyvagal theory's core premises are widely regarded as refuted; PAR-01 uses standard autonomic anatomy.",
+      "Gut-brain/microbiome behavioural effects (ENS-01) are largely animal-model-based; human causality uncertain.",
+      "This is a STATIC co-activation table, not a temporal/dynamical model.",
+      "RDoC has no dedicated pain construct; pain is placed across sensory/negative-valence here.",
+      "Executive function fractionates into a Common-EF factor plus updating- and shifting-specific components; 'inhibition' shows no reliable variance beyond Common EF (Miyake/Friedman).",
+      "The rostro-caudal PFC control gradient (concrete caudal -> abstract rostral) is well supported, but whether the rostral pole or mid-lateral PFC is the true apex is disputed.",
+      "Frontal white-matter tracts (TRACT-*) are structural substrate and carry no co-activation weight; they are listed in the circuit index only."
+    ]
+  },
+  "circuits": {
+    "THREAT-01": {
+      "name": "Amygdala acute-threat (fear)",
+      "domain": "defensive_threat",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "THREAT-02": {
+      "name": "BNST sustained-threat (anxiety)",
+      "domain": "defensive_threat",
+      "confidence": "E/Em",
+      "evidence_base": "mostly_animal"
+    },
+    "THREAT-03": {
+      "name": "PAG defensive-output",
+      "domain": "defensive_threat",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "THREAT-04": {
+      "name": "vmPFC/IL extinction & regulation",
+      "domain": "defensive_threat",
+      "confidence": "Em",
+      "evidence_base": "human+animal"
+    },
+    "THREAT-05": {
+      "name": "Defensive-rage (RAGE)",
+      "domain": "defensive_threat",
+      "confidence": "Em",
+      "evidence_base": "mostly_animal"
+    },
+    "REW-01": {
+      "name": "Mesolimbic DA reward/RPE",
+      "domain": "reward_motivation",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "REW-02": {
+      "name": "Mesocortical DA value",
+      "domain": "reward_motivation",
+      "confidence": "E/Em",
+      "evidence_base": "human+animal"
+    },
+    "REW-03": {
+      "name": "NAc incentive-salience (wanting/liking)",
+      "domain": "reward_motivation",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "REW-04": {
+      "name": "OFC/vmPFC value representation",
+      "domain": "reward_motivation",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "REW-05": {
+      "name": "Dorsolateral-striatal habit",
+      "domain": "reward_motivation",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "STR-01": {
+      "name": "HPA neuroendocrine stress axis",
+      "domain": "stress",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "STR-02": {
+      "name": "CRF extended-amygdala stress",
+      "domain": "stress",
+      "confidence": "Em",
+      "evidence_base": "mostly_animal"
+    },
+    "AFF-01": {
+      "name": "Oxytocin/vasopressin bonding",
+      "domain": "affiliation",
+      "confidence": "Em_human/E_animal",
+      "evidence_base": "animal_dominant"
+    },
+    "AFF-02": {
+      "name": "CARE parental-nurturance",
+      "domain": "affiliation",
+      "confidence": "Em",
+      "evidence_base": "mostly_animal"
+    },
+    "AFF-03": {
+      "name": "PANIC-GRIEF separation-distress",
+      "domain": "affiliation",
+      "confidence": "Em",
+      "evidence_base": "mostly_animal"
+    },
+    "AFF-04": {
+      "name": "Social-reward",
+      "domain": "affiliation",
+      "confidence": "E/Em",
+      "evidence_base": "human+animal"
+    },
+    "AFF-05": {
+      "name": "LUST sexual-motivation",
+      "domain": "affiliation",
+      "confidence": "Em",
+      "evidence_base": "mostly_animal"
+    },
+    "AFF-06": {
+      "name": "PLAY rough-and-tumble",
+      "domain": "affiliation",
+      "confidence": "Em/H",
+      "evidence_base": "mostly_animal"
+    },
+    "EXEC-01": {
+      "name": "dlPFC-parietal control / WM maintenance",
+      "domain": "executive_control",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "EXEC-02": {
+      "name": "dACC conflict/error monitoring",
+      "domain": "executive_control",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "EXEC-03": {
+      "name": "Frontostriatal response-inhibition",
+      "domain": "executive_control",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "EXEC-04": {
+      "name": "Frontoparietal flexible-control hub",
+      "domain": "executive_control",
+      "confidence": "E/Em",
+      "evidence_base": "human"
+    },
+    "AROU-01": {
+      "name": "LC-noradrenaline arousal/alerting",
+      "domain": "arousal_regulatory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "AROU-02": {
+      "name": "Raphe-serotonin",
+      "domain": "arousal_regulatory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "AROU-03": {
+      "name": "Basal-forebrain cholinergic",
+      "domain": "arousal_regulatory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "AROU-04": {
+      "name": "Tuberomammillary histaminergic",
+      "domain": "arousal_regulatory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "AROU-05": {
+      "name": "Orexin/hypocretin stabiliser",
+      "domain": "arousal_regulatory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "AROU-06": {
+      "name": "DA wake-promoting",
+      "domain": "arousal_regulatory",
+      "confidence": "E/Em",
+      "evidence_base": "human+animal"
+    },
+    "AROU-07": {
+      "name": "VLPO sleep-switch",
+      "domain": "arousal_regulatory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "AROU-08": {
+      "name": "SCN circadian pacemaker",
+      "domain": "arousal_regulatory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "AROU-09": {
+      "name": "Thalamo-reticular ARAS gating",
+      "domain": "arousal_regulatory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "INT-01": {
+      "name": "Insular interoceptive (post->ant)",
+      "domain": "interoception",
+      "confidence": "E(anatomy)/Em(predictive)",
+      "evidence_base": "human+animal"
+    },
+    "INT-02": {
+      "name": "Salience / shared-affect (AI+dACC)",
+      "domain": "interoception",
+      "confidence": "Em",
+      "evidence_base": "human"
+    },
+    "MEM-01": {
+      "name": "Hippocampal episodic (trisynaptic)",
+      "domain": "episodic_memory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "MEM-02": {
+      "name": "Papez / MTL-diencephalic",
+      "domain": "episodic_memory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "MEM-03": {
+      "name": "Hippocampal-cortical consolidation",
+      "domain": "episodic_memory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "CSTC-MOTOR": {
+      "name": "Motor loop",
+      "domain": "cstc_scaffold",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "CSTC-OCULO": {
+      "name": "Oculomotor loop",
+      "domain": "cstc_scaffold",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "CSTC-ASSOC": {
+      "name": "Dorsolateral-prefrontal (associative) loop",
+      "domain": "cstc_scaffold",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "CSTC-ORBITO": {
+      "name": "Orbitofrontal loop",
+      "domain": "cstc_scaffold",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "CSTC-LIMBIC": {
+      "name": "Anterior-cingulate/limbic loop",
+      "domain": "cstc_scaffold",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "ATT-01": {
+      "name": "Dorsal attention (=DAN-01)",
+      "domain": "attention",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "ATT-02": {
+      "name": "Ventral attention/reorienting (=VAN-01)",
+      "domain": "attention",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "ATT-03": {
+      "name": "Alerting (overlaps AROU-01)",
+      "domain": "attention",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "ATT-04": {
+      "name": "Executive attention (overlaps EXEC-02)",
+      "domain": "attention",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "ATT-05": {
+      "name": "Subcortical orienting (SC/pulvinar)",
+      "domain": "attention",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "DAN-01": {
+      "name": "Dorsal attention (FEF/IPS)",
+      "domain": "attention",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "VAN-01": {
+      "name": "Ventral attention (TPJ/VFC)",
+      "domain": "attention",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "SOC-01": {
+      "name": "Mentalizing/ToM (mPFC/TPJ/precuneus)",
+      "domain": "social_cognition",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "SOC-02": {
+      "name": "Action-observation ('mirror')",
+      "domain": "social_cognition",
+      "confidence": "E(exists)/Em(function-contested)",
+      "evidence_base": "human+animal"
+    },
+    "SOC-03": {
+      "name": "Affective empathy/shared-affect",
+      "domain": "social_cognition",
+      "confidence": "Em",
+      "evidence_base": "human"
+    },
+    "SOC-04": {
+      "name": "Face & social perception (FFA/OFA/STS)",
+      "domain": "social_cognition",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "WM-01": {
+      "name": "Active maintenance (=core EXEC-01)",
+      "domain": "working_memory",
+      "confidence": "E(phenomenon)/Em(mechanism)",
+      "evidence_base": "human+animal"
+    },
+    "WM-02": {
+      "name": "Flexible updating/gating (BG-thalamo-PFC)",
+      "domain": "working_memory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "WM-03": {
+      "name": "Interference control/filtering",
+      "domain": "working_memory",
+      "confidence": "E/Em",
+      "evidence_base": "human"
+    },
+    "WM-04": {
+      "name": "Capacity limit (IPS load)",
+      "domain": "working_memory",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "VIS-01": {
+      "name": "Visual ventral stream ('what')",
+      "domain": "sensory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "VIS-02": {
+      "name": "Visual dorsal stream ('where/how')",
+      "domain": "sensory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "AUD-01": {
+      "name": "Auditory pathway + dual streams",
+      "domain": "sensory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "SOM-01": {
+      "name": "Somatosensory pathway",
+      "domain": "sensory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "OLF-01": {
+      "name": "Olfactory (bypasses thalamus)",
+      "domain": "sensory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "MULTI-01": {
+      "name": "Multisensory integration",
+      "domain": "sensory",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "LANG-01": {
+      "name": "Language dorsal stream (articulation)",
+      "domain": "language",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "LANG-02": {
+      "name": "Language ventral stream (comprehension; ATL hub)",
+      "domain": "language",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "LANG-03": {
+      "name": "Classical Broca/Wernicke/arcuate (SUPERSEDED)",
+      "domain": "language",
+      "confidence": "superseded",
+      "evidence_base": "human"
+    },
+    "MOT-01": {
+      "name": "Corticospinal execution (M1)",
+      "domain": "motor",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "MOT-02": {
+      "name": "Premotor/SMA planning & sequencing",
+      "domain": "motor",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "MOT-03": {
+      "name": "Basal-ganglia motor loop (=CSTC-MOTOR)",
+      "domain": "motor",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "MOT-04": {
+      "name": "Cerebellar motor loop (coordination/adaptation)",
+      "domain": "motor",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "MOT-05": {
+      "name": "Cerebellar cognitive/affective loop (CCAS)",
+      "domain": "motor",
+      "confidence": "E(syndrome)/Em(mechanism)",
+      "evidence_base": "human"
+    },
+    "MOT-06": {
+      "name": "Central pattern generators (innate patterns)",
+      "domain": "motor",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "MOT-07": {
+      "name": "Agency / efference-copy",
+      "domain": "motor",
+      "confidence": "E/Em",
+      "evidence_base": "human"
+    },
+    "AUT-01": {
+      "name": "Central autonomic network (Benarroch)",
+      "domain": "autonomic",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "SYM-01": {
+      "name": "Sympathetic output (RVLM->IML->ganglia)",
+      "domain": "autonomic",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "PAR-01": {
+      "name": "Parasympathetic/vagal (DMV/nucl.ambiguus); polyvagal-theory framing contested",
+      "domain": "autonomic",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "NTS-01": {
+      "name": "Nucleus tractus solitarius (visceral-afferent hub)",
+      "domain": "autonomic",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "ENDO-HPG": {
+      "name": "Hypothalamic-pituitary-gonadal (GnRH->LH/FSH->steroids)",
+      "domain": "neuroendocrine",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "ENDO-HPT": {
+      "name": "Hypothalamic-pituitary-thyroid (TRH->TSH->T3/T4)",
+      "domain": "neuroendocrine",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "ENDO-GH": {
+      "name": "Somatotropic (GHRH/SST->GH->IGF-1)",
+      "domain": "neuroendocrine",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "ENDO-ENERGY": {
+      "name": "Hypothalamic energy homeostasis (arcuate AgRP/POMC; leptin/ghrelin)",
+      "domain": "neuroendocrine",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "PAIN-01": {
+      "name": "Ascending lateral pain (sensory-discriminative)",
+      "domain": "pain",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "PAIN-02": {
+      "name": "Ascending medial pain (affective-motivational)",
+      "domain": "pain",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "PAIN-03": {
+      "name": "Descending modulation (PAG-RVM)",
+      "domain": "pain",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "ENS-01": {
+      "name": "Enteric nervous system / gut-brain axis",
+      "domain": "enteric",
+      "confidence": "E(anatomy)/Em(microbiome-behaviour)",
+      "evidence_base": "animal_dominant_for_behaviour"
+    },
+    "PFC-DL": {
+      "name": "Dorsolateral PFC (BA9/46): WM manipulation, planning, top-down control [=EXEC-01]",
+      "domain": "executive_frontal",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "PFC-VL": {
+      "name": "Ventrolateral PFC (BA44/45/47): controlled retrieval/selection, R-inhibition [~EXEC-03]",
+      "domain": "executive_frontal",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "PFC-DM": {
+      "name": "Dorsomedial PFC/dACC (BA8m/9m/24/32): monitoring, effort, EVC [=EXEC-02]",
+      "domain": "executive_frontal",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "PFC-VM": {
+      "name": "Ventromedial PFC (BA10m/11m/14/25): value integration, emotion regulation, self [~REW-04/THREAT-04]",
+      "domain": "executive_frontal",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "PFC-OFC": {
+      "name": "Orbitofrontal (BA11/13/47): outcome value, reversal, flexibility [~REW-04]",
+      "domain": "executive_frontal",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "PFC-FP": {
+      "name": "Frontopolar/rostral PFC (BA10): prospective memory, branching/multitasking, relational integration, metacognition, internal/external attention gateway",
+      "domain": "executive_frontal",
+      "confidence": "E/Em",
+      "evidence_base": "human"
+    },
+    "FEF-01": {
+      "name": "Frontal eye fields (BA8): oculomotor attention control [=DAN-01]",
+      "domain": "executive_frontal",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "PFC-preSMA": {
+      "name": "Pre-SMA/SMA (BA6m): action selection/sequencing/inhibition [~MOT-02/EXEC-03]",
+      "domain": "executive_frontal",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "TRACT-SLF": {
+      "name": "Superior longitudinal fasciculus (I/II/III)+arcuate: frontoparietal/frontotemporal control, attention, language",
+      "domain": "frontal_tract",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "TRACT-CING": {
+      "name": "Cingulum: ACC/mPFC<->PCC/parietal/hippocampus (control, DMN, memory)",
+      "domain": "frontal_tract",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "TRACT-UNC": {
+      "name": "Uncinate fasciculus: OFC/vmPFC<->ant.temporal/amygdala (emotion-cognition, value, social)",
+      "domain": "frontal_tract",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    "TRACT-FAT": {
+      "name": "Frontal aslant tract: post.IFG<->pre-SMA/SMA/ACC (L: speech initiation; R: inhibitory control)",
+      "domain": "frontal_tract",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    "TRACT-FS": {
+      "name": "Frontostriatal fibres (ant. limb internal capsule): PFC<->striatum (CSTC loops)",
+      "domain": "frontal_tract",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    }
+  },
+  "states": [
+    "acute_threat",
+    "potential_sustained_threat",
+    "reward_anticipation",
+    "reward_receipt",
+    "reward_omission_frustrative_nonreward",
+    "social_bonding_affiliation",
+    "social_rejection_separation",
+    "acute_psychosocial_stress",
+    "focused_external_attention",
+    "rest_mind_wandering",
+    "decision_under_uncertainty",
+    "error_conflict_detection",
+    "response_inhibition_stopping",
+    "working_memory_maintenance",
+    "empathic_vicarious_response",
+    "goal_directed_action",
+    "habitual_action",
+    "episodic_encoding",
+    "episodic_retrieval",
+    "fear_extinction_safety_learning",
+    "interoceptive_attention_bodily_arousal",
+    "sleep_onset_drowsiness",
+    "exogenous_attention_capture",
+    "sustained_vigilance_alerting",
+    "theory_of_mind_mentalizing",
+    "action_observation_imitation",
+    "working_memory_updating",
+    "working_memory_interference_filtering",
+    "visual_object_recognition",
+    "visuospatial_reaching_grasping",
+    "speech_comprehension",
+    "speech_production",
+    "skilled_voluntary_movement",
+    "motor_sequence_learning",
+    "motor_adaptation_error_correction",
+    "reading",
+    "acute_pain",
+    "chronic_nociplastic_pain",
+    "autonomic_fight_flight",
+    "rest_digest_recovery",
+    "hunger_energy_deficit",
+    "satiety_fed_state",
+    "multistep_planning",
+    "set_shifting_task_switching",
+    "prospective_memory_branching",
+    "metacognitive_monitoring"
+  ],
+  "coactivation": [
+    {
+      "state": "acute_threat",
+      "circuit_id": "AROU-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "SYM-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "THREAT-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "THREAT-03",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "AUT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "INT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "MEM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "MOT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "PAIN-03",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "STR-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "STR-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "VAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "VIS-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "EXEC-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "PAR-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "THREAT-04",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "acute_threat",
+      "circuit_id": "DMN-01",
+      "role": "inhibit_strong",
+      "weight": -2,
+      "confidence": "Em"
+    },
+    {
+      "state": "potential_sustained_threat",
+      "circuit_id": "STR-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "potential_sustained_threat",
+      "circuit_id": "THREAT-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "potential_sustained_threat",
+      "circuit_id": "AROU-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "potential_sustained_threat",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "potential_sustained_threat",
+      "circuit_id": "EXEC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "potential_sustained_threat",
+      "circuit_id": "INT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "potential_sustained_threat",
+      "circuit_id": "INT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "potential_sustained_threat",
+      "circuit_id": "STR-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "potential_sustained_threat",
+      "circuit_id": "THREAT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "potential_sustained_threat",
+      "circuit_id": "THREAT-04",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "potential_sustained_threat",
+      "circuit_id": "VAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "potential_sustained_threat",
+      "circuit_id": "DMN-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "reward_anticipation",
+      "circuit_id": "REW-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "reward_anticipation",
+      "circuit_id": "REW-03",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "reward_anticipation",
+      "circuit_id": "AROU-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "reward_anticipation",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "reward_anticipation",
+      "circuit_id": "INT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "reward_anticipation",
+      "circuit_id": "MOT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "reward_anticipation",
+      "circuit_id": "REW-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "reward_anticipation",
+      "circuit_id": "REW-04",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "reward_anticipation",
+      "circuit_id": "VAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "reward_anticipation",
+      "circuit_id": "DMN-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "reward_receipt",
+      "circuit_id": "REW-03",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "reward_receipt",
+      "circuit_id": "REW-04",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "reward_receipt",
+      "circuit_id": "INT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "reward_receipt",
+      "circuit_id": "REW-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "reward_omission_frustrative_nonreward",
+      "circuit_id": "AROU-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "reward_omission_frustrative_nonreward",
+      "circuit_id": "EXEC-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "reward_omission_frustrative_nonreward",
+      "circuit_id": "REW-04",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "reward_omission_frustrative_nonreward",
+      "circuit_id": "STR-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "reward_omission_frustrative_nonreward",
+      "circuit_id": "THREAT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "reward_omission_frustrative_nonreward",
+      "circuit_id": "REW-01",
+      "role": "inhibit_strong",
+      "weight": -2,
+      "confidence": "E"
+    },
+    {
+      "state": "social_bonding_affiliation",
+      "circuit_id": "AFF-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_bonding_affiliation",
+      "circuit_id": "AFF-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_bonding_affiliation",
+      "circuit_id": "INT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_bonding_affiliation",
+      "circuit_id": "PAR-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_bonding_affiliation",
+      "circuit_id": "REW-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "social_bonding_affiliation",
+      "circuit_id": "REW-03",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_bonding_affiliation",
+      "circuit_id": "SOC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_bonding_affiliation",
+      "circuit_id": "STR-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_bonding_affiliation",
+      "circuit_id": "THREAT-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_rejection_separation",
+      "circuit_id": "AFF-03",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_rejection_separation",
+      "circuit_id": "INT-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_rejection_separation",
+      "circuit_id": "SOC-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_rejection_separation",
+      "circuit_id": "DMN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_rejection_separation",
+      "circuit_id": "STR-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "social_rejection_separation",
+      "circuit_id": "STR-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_rejection_separation",
+      "circuit_id": "THREAT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_rejection_separation",
+      "circuit_id": "THREAT-04",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "social_rejection_separation",
+      "circuit_id": "REW-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "acute_psychosocial_stress",
+      "circuit_id": "AROU-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_psychosocial_stress",
+      "circuit_id": "STR-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_psychosocial_stress",
+      "circuit_id": "STR-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_psychosocial_stress",
+      "circuit_id": "SYM-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_psychosocial_stress",
+      "circuit_id": "AUT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_psychosocial_stress",
+      "circuit_id": "INT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "acute_psychosocial_stress",
+      "circuit_id": "INT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_psychosocial_stress",
+      "circuit_id": "SOC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "acute_psychosocial_stress",
+      "circuit_id": "THREAT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_psychosocial_stress",
+      "circuit_id": "DMN-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "acute_psychosocial_stress",
+      "circuit_id": "EXEC-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "acute_psychosocial_stress",
+      "circuit_id": "PAR-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_psychosocial_stress",
+      "circuit_id": "THREAT-04",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "focused_external_attention",
+      "circuit_id": "DAN-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "focused_external_attention",
+      "circuit_id": "EXEC-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "focused_external_attention",
+      "circuit_id": "AROU-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "focused_external_attention",
+      "circuit_id": "EXEC-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "focused_external_attention",
+      "circuit_id": "INT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "focused_external_attention",
+      "circuit_id": "VAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "focused_external_attention",
+      "circuit_id": "VIS-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "focused_external_attention",
+      "circuit_id": "DMN-01",
+      "role": "inhibit_strong",
+      "weight": -2,
+      "confidence": "E"
+    },
+    {
+      "state": "rest_mind_wandering",
+      "circuit_id": "DMN-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "rest_mind_wandering",
+      "circuit_id": "MEM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "rest_mind_wandering",
+      "circuit_id": "PFC-FP",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "rest_mind_wandering",
+      "circuit_id": "SOC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "rest_mind_wandering",
+      "circuit_id": "DAN-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "E"
+    },
+    {
+      "state": "rest_mind_wandering",
+      "circuit_id": "EXEC-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "E"
+    },
+    {
+      "state": "rest_mind_wandering",
+      "circuit_id": "INT-02",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "decision_under_uncertainty",
+      "circuit_id": "EXEC-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "decision_under_uncertainty",
+      "circuit_id": "EXEC-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "decision_under_uncertainty",
+      "circuit_id": "REW-04",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "decision_under_uncertainty",
+      "circuit_id": "AROU-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "decision_under_uncertainty",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "decision_under_uncertainty",
+      "circuit_id": "INT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "decision_under_uncertainty",
+      "circuit_id": "PFC-FP",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "decision_under_uncertainty",
+      "circuit_id": "REW-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "decision_under_uncertainty",
+      "circuit_id": "VAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "error_conflict_detection",
+      "circuit_id": "EXEC-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "error_conflict_detection",
+      "circuit_id": "AROU-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "error_conflict_detection",
+      "circuit_id": "EXEC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "error_conflict_detection",
+      "circuit_id": "EXEC-03",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "error_conflict_detection",
+      "circuit_id": "INT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "error_conflict_detection",
+      "circuit_id": "REW-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "response_inhibition_stopping",
+      "circuit_id": "EXEC-03",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "response_inhibition_stopping",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "response_inhibition_stopping",
+      "circuit_id": "EXEC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "response_inhibition_stopping",
+      "circuit_id": "EXEC-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "response_inhibition_stopping",
+      "circuit_id": "INT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "response_inhibition_stopping",
+      "circuit_id": "MOT-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "working_memory_maintenance",
+      "circuit_id": "EXEC-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "working_memory_maintenance",
+      "circuit_id": "AROU-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "working_memory_maintenance",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "working_memory_maintenance",
+      "circuit_id": "REW-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "working_memory_maintenance",
+      "circuit_id": "VIS-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "working_memory_maintenance",
+      "circuit_id": "WM-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "working_memory_maintenance",
+      "circuit_id": "DMN-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "E"
+    },
+    {
+      "state": "empathic_vicarious_response",
+      "circuit_id": "INT-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "Em"
+    },
+    {
+      "state": "empathic_vicarious_response",
+      "circuit_id": "SOC-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "Em"
+    },
+    {
+      "state": "empathic_vicarious_response",
+      "circuit_id": "AFF-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "empathic_vicarious_response",
+      "circuit_id": "DMN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "empathic_vicarious_response",
+      "circuit_id": "INT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "empathic_vicarious_response",
+      "circuit_id": "REW-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "empathic_vicarious_response",
+      "circuit_id": "SOC-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "empathic_vicarious_response",
+      "circuit_id": "THREAT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "goal_directed_action",
+      "circuit_id": "EXEC-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "goal_directed_action",
+      "circuit_id": "MOT-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "goal_directed_action",
+      "circuit_id": "REW-04",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "goal_directed_action",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "goal_directed_action",
+      "circuit_id": "EXEC-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "goal_directed_action",
+      "circuit_id": "MOT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "goal_directed_action",
+      "circuit_id": "MOT-04",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "goal_directed_action",
+      "circuit_id": "REW-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "goal_directed_action",
+      "circuit_id": "REW-03",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "goal_directed_action",
+      "circuit_id": "REW-05",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "habitual_action",
+      "circuit_id": "REW-05",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "habitual_action",
+      "circuit_id": "MOT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "habitual_action",
+      "circuit_id": "REW-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "habitual_action",
+      "circuit_id": "EXEC-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "E"
+    },
+    {
+      "state": "habitual_action",
+      "circuit_id": "REW-04",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "episodic_encoding",
+      "circuit_id": "MEM-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "episodic_encoding",
+      "circuit_id": "AROU-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "episodic_encoding",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "episodic_encoding",
+      "circuit_id": "EXEC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "episodic_encoding",
+      "circuit_id": "REW-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "episodic_encoding",
+      "circuit_id": "THREAT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "episodic_encoding",
+      "circuit_id": "VIS-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "episodic_retrieval",
+      "circuit_id": "DMN-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "episodic_retrieval",
+      "circuit_id": "MEM-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "episodic_retrieval",
+      "circuit_id": "EXEC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "episodic_retrieval",
+      "circuit_id": "REW-04",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "episodic_retrieval",
+      "circuit_id": "SOC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "episodic_retrieval",
+      "circuit_id": "VIS-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "fear_extinction_safety_learning",
+      "circuit_id": "MEM-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "fear_extinction_safety_learning",
+      "circuit_id": "THREAT-04",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "fear_extinction_safety_learning",
+      "circuit_id": "INT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "fear_extinction_safety_learning",
+      "circuit_id": "REW-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "fear_extinction_safety_learning",
+      "circuit_id": "THREAT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "interoceptive_attention_bodily_arousal",
+      "circuit_id": "INT-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "interoceptive_attention_bodily_arousal",
+      "circuit_id": "INT-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "interoceptive_attention_bodily_arousal",
+      "circuit_id": "AROU-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "interoceptive_attention_bodily_arousal",
+      "circuit_id": "AUT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "interoceptive_attention_bodily_arousal",
+      "circuit_id": "SOM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "interoceptive_attention_bodily_arousal",
+      "circuit_id": "STR-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "interoceptive_attention_bodily_arousal",
+      "circuit_id": "SYM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "interoceptive_attention_bodily_arousal",
+      "circuit_id": "THREAT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "interoceptive_attention_bodily_arousal",
+      "circuit_id": "DMN-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "sleep_onset_drowsiness",
+      "circuit_id": "PAR-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "sleep_onset_drowsiness",
+      "circuit_id": "DAN-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "E"
+    },
+    {
+      "state": "sleep_onset_drowsiness",
+      "circuit_id": "EXEC-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "E"
+    },
+    {
+      "state": "sleep_onset_drowsiness",
+      "circuit_id": "INT-02",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "sleep_onset_drowsiness",
+      "circuit_id": "MOT-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "sleep_onset_drowsiness",
+      "circuit_id": "SYM-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "E"
+    },
+    {
+      "state": "sleep_onset_drowsiness",
+      "circuit_id": "AROU-01",
+      "role": "inhibit_strong",
+      "weight": -2,
+      "confidence": "E"
+    },
+    {
+      "state": "exogenous_attention_capture",
+      "circuit_id": "VAN-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "exogenous_attention_capture",
+      "circuit_id": "AROU-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "exogenous_attention_capture",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "exogenous_attention_capture",
+      "circuit_id": "INT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "exogenous_attention_capture",
+      "circuit_id": "VIS-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "exogenous_attention_capture",
+      "circuit_id": "DMN-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "sustained_vigilance_alerting",
+      "circuit_id": "AROU-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "sustained_vigilance_alerting",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "sustained_vigilance_alerting",
+      "circuit_id": "EXEC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "sustained_vigilance_alerting",
+      "circuit_id": "INT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "sustained_vigilance_alerting",
+      "circuit_id": "DMN-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "theory_of_mind_mentalizing",
+      "circuit_id": "DMN-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "theory_of_mind_mentalizing",
+      "circuit_id": "SOC-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "theory_of_mind_mentalizing",
+      "circuit_id": "EXEC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "theory_of_mind_mentalizing",
+      "circuit_id": "MEM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "theory_of_mind_mentalizing",
+      "circuit_id": "MOT-05",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "theory_of_mind_mentalizing",
+      "circuit_id": "PFC-FP",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "theory_of_mind_mentalizing",
+      "circuit_id": "REW-04",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "theory_of_mind_mentalizing",
+      "circuit_id": "DAN-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "action_observation_imitation",
+      "circuit_id": "SOC-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "action_observation_imitation",
+      "circuit_id": "MOT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "action_observation_imitation",
+      "circuit_id": "MOT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "action_observation_imitation",
+      "circuit_id": "SOC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "action_observation_imitation",
+      "circuit_id": "VIS-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "action_observation_imitation",
+      "circuit_id": "VIS-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "working_memory_updating",
+      "circuit_id": "EXEC-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "working_memory_updating",
+      "circuit_id": "WM-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "working_memory_updating",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "working_memory_updating",
+      "circuit_id": "EXEC-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "working_memory_updating",
+      "circuit_id": "PFC-FP",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "working_memory_updating",
+      "circuit_id": "REW-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "working_memory_interference_filtering",
+      "circuit_id": "WM-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "working_memory_interference_filtering",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "working_memory_interference_filtering",
+      "circuit_id": "EXEC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "working_memory_interference_filtering",
+      "circuit_id": "EXEC-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "visual_object_recognition",
+      "circuit_id": "VIS-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "visual_object_recognition",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "visual_object_recognition",
+      "circuit_id": "LANG-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "visual_object_recognition",
+      "circuit_id": "MEM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "visuospatial_reaching_grasping",
+      "circuit_id": "MOT-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "visuospatial_reaching_grasping",
+      "circuit_id": "MOT-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "visuospatial_reaching_grasping",
+      "circuit_id": "VIS-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "visuospatial_reaching_grasping",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "visuospatial_reaching_grasping",
+      "circuit_id": "MOT-04",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "visuospatial_reaching_grasping",
+      "circuit_id": "SOM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "speech_comprehension",
+      "circuit_id": "AUD-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "speech_comprehension",
+      "circuit_id": "LANG-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "speech_comprehension",
+      "circuit_id": "DMN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "speech_comprehension",
+      "circuit_id": "LANG-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "speech_comprehension",
+      "circuit_id": "MEM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "speech_comprehension",
+      "circuit_id": "MOT-05",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "speech_production",
+      "circuit_id": "LANG-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "speech_production",
+      "circuit_id": "MOT-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "speech_production",
+      "circuit_id": "MOT-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "speech_production",
+      "circuit_id": "AUD-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "speech_production",
+      "circuit_id": "EXEC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "speech_production",
+      "circuit_id": "MOT-04",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "skilled_voluntary_movement",
+      "circuit_id": "MOT-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "skilled_voluntary_movement",
+      "circuit_id": "MOT-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "skilled_voluntary_movement",
+      "circuit_id": "MOT-04",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "skilled_voluntary_movement",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "skilled_voluntary_movement",
+      "circuit_id": "REW-05",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "skilled_voluntary_movement",
+      "circuit_id": "SOM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "motor_sequence_learning",
+      "circuit_id": "MOT-04",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "motor_sequence_learning",
+      "circuit_id": "REW-05",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "motor_sequence_learning",
+      "circuit_id": "EXEC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "motor_sequence_learning",
+      "circuit_id": "MOT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "motor_sequence_learning",
+      "circuit_id": "MOT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "motor_sequence_learning",
+      "circuit_id": "REW-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "motor_adaptation_error_correction",
+      "circuit_id": "MOT-04",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "motor_adaptation_error_correction",
+      "circuit_id": "MOT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "motor_adaptation_error_correction",
+      "circuit_id": "MOT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "motor_adaptation_error_correction",
+      "circuit_id": "SOM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "reading",
+      "circuit_id": "LANG-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "reading",
+      "circuit_id": "VIS-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "reading",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "reading",
+      "circuit_id": "LANG-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "reading",
+      "circuit_id": "MEM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "acute_pain",
+      "circuit_id": "INT-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_pain",
+      "circuit_id": "PAIN-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_pain",
+      "circuit_id": "PAIN-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_pain",
+      "circuit_id": "AROU-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_pain",
+      "circuit_id": "AUT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_pain",
+      "circuit_id": "INT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_pain",
+      "circuit_id": "PAIN-03",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_pain",
+      "circuit_id": "SOM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_pain",
+      "circuit_id": "SYM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_pain",
+      "circuit_id": "THREAT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "acute_pain",
+      "circuit_id": "DMN-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "chronic_nociplastic_pain",
+      "circuit_id": "INT-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "Em"
+    },
+    {
+      "state": "chronic_nociplastic_pain",
+      "circuit_id": "PAIN-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "Em"
+    },
+    {
+      "state": "chronic_nociplastic_pain",
+      "circuit_id": "DMN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "chronic_nociplastic_pain",
+      "circuit_id": "INT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "chronic_nociplastic_pain",
+      "circuit_id": "PAIN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "chronic_nociplastic_pain",
+      "circuit_id": "STR-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "chronic_nociplastic_pain",
+      "circuit_id": "THREAT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "chronic_nociplastic_pain",
+      "circuit_id": "PAIN-03",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "E"
+    },
+    {
+      "state": "autonomic_fight_flight",
+      "circuit_id": "AROU-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "autonomic_fight_flight",
+      "circuit_id": "AUT-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "autonomic_fight_flight",
+      "circuit_id": "SYM-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "autonomic_fight_flight",
+      "circuit_id": "INT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "autonomic_fight_flight",
+      "circuit_id": "STR-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "autonomic_fight_flight",
+      "circuit_id": "THREAT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "autonomic_fight_flight",
+      "circuit_id": "PAR-01",
+      "role": "inhibit_strong",
+      "weight": -2,
+      "confidence": "E"
+    },
+    {
+      "state": "rest_digest_recovery",
+      "circuit_id": "PAR-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "rest_digest_recovery",
+      "circuit_id": "AUT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "rest_digest_recovery",
+      "circuit_id": "ENS-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "rest_digest_recovery",
+      "circuit_id": "INT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "rest_digest_recovery",
+      "circuit_id": "AROU-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "E"
+    },
+    {
+      "state": "rest_digest_recovery",
+      "circuit_id": "SYM-01",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "E"
+    },
+    {
+      "state": "hunger_energy_deficit",
+      "circuit_id": "ENDO-ENERGY",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "hunger_energy_deficit",
+      "circuit_id": "ENS-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "hunger_energy_deficit",
+      "circuit_id": "INT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "hunger_energy_deficit",
+      "circuit_id": "REW-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "hunger_energy_deficit",
+      "circuit_id": "REW-03",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "satiety_fed_state",
+      "circuit_id": "ENDO-ENERGY",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "satiety_fed_state",
+      "circuit_id": "ENS-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "satiety_fed_state",
+      "circuit_id": "INT-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "satiety_fed_state",
+      "circuit_id": "PAR-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "satiety_fed_state",
+      "circuit_id": "REW-03",
+      "role": "inhibit_mild",
+      "weight": -1,
+      "confidence": "Em"
+    },
+    {
+      "state": "multistep_planning",
+      "circuit_id": "EXEC-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "multistep_planning",
+      "circuit_id": "PFC-FP",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "multistep_planning",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "multistep_planning",
+      "circuit_id": "EXEC-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "multistep_planning",
+      "circuit_id": "MEM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "multistep_planning",
+      "circuit_id": "REW-04",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "set_shifting_task_switching",
+      "circuit_id": "EXEC-01",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "set_shifting_task_switching",
+      "circuit_id": "WM-02",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "set_shifting_task_switching",
+      "circuit_id": "DAN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "set_shifting_task_switching",
+      "circuit_id": "EXEC-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "set_shifting_task_switching",
+      "circuit_id": "PFC-FP",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "prospective_memory_branching",
+      "circuit_id": "PFC-FP",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "E"
+    },
+    {
+      "state": "prospective_memory_branching",
+      "circuit_id": "DMN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "prospective_memory_branching",
+      "circuit_id": "EXEC-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "prospective_memory_branching",
+      "circuit_id": "MEM-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "metacognitive_monitoring",
+      "circuit_id": "PFC-FP",
+      "role": "drive",
+      "weight": 2,
+      "confidence": "Em"
+    },
+    {
+      "state": "metacognitive_monitoring",
+      "circuit_id": "DMN-01",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    },
+    {
+      "state": "metacognitive_monitoring",
+      "circuit_id": "EXEC-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "E"
+    },
+    {
+      "state": "metacognitive_monitoring",
+      "circuit_id": "INT-02",
+      "role": "modulate",
+      "weight": 1,
+      "confidence": "Em"
+    }
+  ],
+  "developmental_parameters": [
+    {
+      "circuit_id": "THREAT-01",
+      "onset_approx": "prenatal/early infancy",
+      "peak_or_milestone": "functional in infancy",
+      "functional_maturation": "early childhood; refines w/ vmPFC to adolescence",
+      "pruning_window": "modest, protracted",
+      "myelination_timing": "early-mid childhood",
+      "sensitive_period_gates": "early caregiving tunes threat reactivity",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E/Em",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "THREAT-02",
+      "onset_approx": "infancy/childhood",
+      "peak_or_milestone": "matures later than CeA",
+      "functional_maturation": "adolescence-early adulthood",
+      "pruning_window": "protracted",
+      "myelination_timing": "childhood-adolescence",
+      "sensitive_period_gates": "chronic/unpredictable stress biases sustained-threat",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "Em",
+      "evidence_base": "mostly_animal"
+    },
+    {
+      "circuit_id": "THREAT-03",
+      "onset_approx": "prenatal",
+      "peak_or_milestone": "functional near birth",
+      "functional_maturation": "early",
+      "pruning_window": "minimal",
+      "myelination_timing": "early (brainstem)",
+      "sensitive_period_gates": "largely innate",
+      "plasticity_type": "EE",
+      "plasticity_coeff_qualitative": "L",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "THREAT-04",
+      "onset_approx": "childhood",
+      "peak_or_milestone": "weak in childhood",
+      "functional_maturation": "mid-20s (PFC-paced)",
+      "pruning_window": "adolescence-3rd decade",
+      "myelination_timing": "late (frontal)",
+      "sensitive_period_gates": "adolescent shift in extinction/regulation efficacy",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M->L",
+      "confidence": "Em",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "REW-01",
+      "onset_approx": "prenatal/infancy",
+      "peak_or_milestone": "striatal DA peaks ~adolescence",
+      "functional_maturation": "reorganises across adolescence",
+      "pruning_window": "adolescent receptor pruning",
+      "myelination_timing": "childhood-adolescence",
+      "sensitive_period_gates": "adolescence: heightened reward/DA sensitivity",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "H(adolescence) then M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "REW-02",
+      "onset_approx": "childhood",
+      "peak_or_milestone": "matures w/ PFC",
+      "functional_maturation": "mid-20s",
+      "pruning_window": "adolescence-3rd decade",
+      "myelination_timing": "late (frontal)",
+      "sensitive_period_gates": "adolescent DA re-innervation of PFC",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "Em",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "REW-03",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "hedonics present in infancy",
+      "functional_maturation": "childhood",
+      "pruning_window": "modest",
+      "myelination_timing": "childhood",
+      "sensitive_period_gates": "early",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "REW-04",
+      "onset_approx": "childhood",
+      "peak_or_milestone": "protracted",
+      "functional_maturation": "late adolescence-mid-20s",
+      "pruning_window": "adolescence+",
+      "myelination_timing": "late (OFC)",
+      "sensitive_period_gates": "value-learning shaped throughout",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E/Em",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "REW-05",
+      "onset_approx": "childhood",
+      "peak_or_milestone": "strengthens with repetition",
+      "functional_maturation": "dorsolateral control by adolescence+",
+      "pruning_window": "-",
+      "myelination_timing": "childhood-adolescence",
+      "sensitive_period_gates": "habit formation lifelong ED",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M(lifelong)",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "STR-01",
+      "onset_approx": "prenatal; SHRP in infancy",
+      "peak_or_milestone": "stress-hyporesponsive period then engages",
+      "functional_maturation": "childhood",
+      "pruning_window": "-",
+      "myelination_timing": "n/a",
+      "sensitive_period_gates": "early-life sensitive period for HPA set-point",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "H early then L",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "STR-02",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "-",
+      "functional_maturation": "adolescence",
+      "pruning_window": "-",
+      "myelination_timing": "childhood",
+      "sensitive_period_gates": "early adversity upregulates central CRF",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "Em",
+      "evidence_base": "mostly_animal"
+    },
+    {
+      "circuit_id": "AFF-01",
+      "onset_approx": "prenatal/infancy",
+      "peak_or_milestone": "receptor patterning early",
+      "functional_maturation": "-",
+      "pruning_window": "-",
+      "myelination_timing": "-",
+      "sensitive_period_gates": "caregiving may organise OT/VP receptors (voles)",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M(animal)/uncertain(human)",
+      "confidence": "Em(human)/E(animal)",
+      "evidence_base": "animal_dominant"
+    },
+    {
+      "circuit_id": "AFF-02",
+      "onset_approx": "parenthood-triggered",
+      "peak_or_milestone": "hormonally gated",
+      "functional_maturation": "adulthood",
+      "pruning_window": "-",
+      "myelination_timing": "-",
+      "sensitive_period_gates": "parturition/parenting primes circuit",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "Em",
+      "evidence_base": "mostly_animal"
+    },
+    {
+      "circuit_id": "AFF-03",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "separation cry early",
+      "functional_maturation": "childhood",
+      "pruning_window": "-",
+      "myelination_timing": "early",
+      "sensitive_period_gates": "early attachment disruption sensitises",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "Em",
+      "evidence_base": "mostly_animal"
+    },
+    {
+      "circuit_id": "EXEC-01",
+      "onset_approx": "childhood (weak)",
+      "peak_or_milestone": "dlPFC among last to mature",
+      "functional_maturation": "protracted ~mid-20s (soft)",
+      "pruning_window": "adolescence-3rd decade (spines to ~30)",
+      "myelination_timing": "posterior->anterior; frontal last",
+      "sensitive_period_gates": "no single CP; skill-dependent",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M(long)",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "EXEC-02",
+      "onset_approx": "childhood",
+      "peak_or_milestone": "matures late",
+      "functional_maturation": "late adolescence-20s",
+      "pruning_window": "adolescence+",
+      "myelination_timing": "late (cingulate)",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "EXEC-03",
+      "onset_approx": "childhood",
+      "peak_or_milestone": "stopping improves to late adolescence",
+      "functional_maturation": "late adolescence-early 20s",
+      "pruning_window": "adolescence",
+      "myelination_timing": "late",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "AROU-01",
+      "onset_approx": "prenatal",
+      "peak_or_milestone": "functional early",
+      "functional_maturation": "early",
+      "pruning_window": "minimal",
+      "myelination_timing": "early (brainstem)",
+      "sensitive_period_gates": "tonic/phasic NA tunable by stress",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "L-M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "INT-01",
+      "onset_approx": "prenatal(post)/late(ant)",
+      "peak_or_milestone": "posterior maps early; ant insula late",
+      "functional_maturation": "anterior integration to adolescence",
+      "pruning_window": "protracted(anterior)",
+      "myelination_timing": "posterior early, anterior late",
+      "sensitive_period_gates": "early bodily experience calibrates priors",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "Em",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "INT-02",
+      "onset_approx": "childhood",
+      "peak_or_milestone": "AI/dACC mature late",
+      "functional_maturation": "adolescence-adulthood",
+      "pruning_window": "adolescence+",
+      "myelination_timing": "late",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "Em",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "MEM-01",
+      "onset_approx": "late gestation-infancy",
+      "peak_or_milestone": "DG neurogenesis postnatal; ~2-4y",
+      "functional_maturation": "childhood (infantile-amnesia offset ~3-4y)",
+      "pruning_window": "protracted",
+      "myelination_timing": "early-mid childhood",
+      "sensitive_period_gates": "hippocampal maturation gates amnesia offset",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "DMN-01",
+      "onset_approx": "infancy(immature)",
+      "peak_or_milestone": "adult-like by childhood-adolescence",
+      "functional_maturation": "adolescence",
+      "pruning_window": "adolescence",
+      "myelination_timing": "posterior->anterior",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E/Em",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "DAN-01",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "orienting early; endogenous later",
+      "functional_maturation": "childhood-adolescence",
+      "pruning_window": "childhood",
+      "myelination_timing": "earlier than frontal-exec",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "AROU-05",
+      "onset_approx": "prenatal/infancy",
+      "peak_or_milestone": "consolidated sleep emerges infancy",
+      "functional_maturation": "infancy-childhood",
+      "pruning_window": "-",
+      "myelination_timing": "early",
+      "sensitive_period_gates": "infant sleep-wake consolidation window",
+      "plasticity_type": "EE",
+      "plasticity_coeff_qualitative": "L",
+      "confidence": "E/Em",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "AROU-08",
+      "onset_approx": "prenatal",
+      "peak_or_milestone": "SCN entrains postnatally",
+      "functional_maturation": "infancy",
+      "pruning_window": "-",
+      "myelination_timing": "early",
+      "sensitive_period_gates": "light-entrainment sets circadian phase early",
+      "plasticity_type": "EE",
+      "plasticity_coeff_qualitative": "L",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "CSTC-MOTOR",
+      "onset_approx": "prenatal/infancy",
+      "peak_or_milestone": "motor loop functional early",
+      "functional_maturation": "childhood",
+      "pruning_window": "-",
+      "myelination_timing": "early-ish",
+      "sensitive_period_gates": "motor sensitive periods early childhood",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M(lifelong)",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "MEM-02",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "Papez nodes mature w/ hippocampus",
+      "functional_maturation": "childhood",
+      "pruning_window": "-",
+      "myelination_timing": "-",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "L-M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "VAN-01",
+      "onset_approx": "infancy (subcortical orienting)",
+      "peak_or_milestone": "cortical reorienting matures childhood",
+      "functional_maturation": "childhood",
+      "pruning_window": "childhood",
+      "myelination_timing": "earlier than exec-frontal",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E/Em",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "SOC-01",
+      "onset_approx": "toddlerhood",
+      "peak_or_milestone": "explicit false-belief ToM ~4y",
+      "functional_maturation": "refines through childhood/adolescence",
+      "pruning_window": "adolescence",
+      "myelination_timing": "protracted (DMN-linked)",
+      "sensitive_period_gates": "early social experience shapes mentalizing",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "SOC-02",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "associative learning configures it",
+      "functional_maturation": "childhood",
+      "pruning_window": "-",
+      "myelination_timing": "childhood",
+      "sensitive_period_gates": "NOT innate: built by paired observe/execute experience",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "Em",
+      "evidence_base": "human+animal(contested)"
+    },
+    {
+      "circuit_id": "SOC-04-FACE",
+      "onset_approx": "birth (subcortical face bias)",
+      "peak_or_milestone": "FFA specialises through childhood",
+      "functional_maturation": "adolescence",
+      "pruning_window": "childhood",
+      "myelination_timing": "early",
+      "sensitive_period_gates": "strong experience-expectant: face exposure needed",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "H(early) then M",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "WM-02",
+      "onset_approx": "childhood",
+      "peak_or_milestone": "BG-PFC gating matures w/ adolescence",
+      "functional_maturation": "late adolescence-20s",
+      "pruning_window": "adolescence",
+      "myelination_timing": "late",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "VIS-01",
+      "onset_approx": "prenatal/infancy",
+      "peak_or_milestone": "synaptic density peaks ~4-12mo",
+      "functional_maturation": "object areas specialise into childhood",
+      "pruning_window": "childhood",
+      "myelination_timing": "early (posterior first)",
+      "sensitive_period_gates": "VISION CP: acuity/amblyopia sensitive to ~7-8y",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "H(early) then L-M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "VIS-02",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "matures later than ventral",
+      "functional_maturation": "childhood-adolescence",
+      "pruning_window": "childhood",
+      "myelination_timing": "early-mid",
+      "sensitive_period_gates": "dorsal-stream vulnerability",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E/Em",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "AUD-01",
+      "onset_approx": "prenatal (hearing in utero)",
+      "peak_or_milestone": "native-phoneme tuning by ~12mo",
+      "functional_maturation": "childhood",
+      "pruning_window": "early",
+      "myelination_timing": "early",
+      "sensitive_period_gates": "PHONOLOGY CP: native-speech discrimination narrows in 1st year",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "H(1st yr) then M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "SOM-01",
+      "onset_approx": "prenatal",
+      "peak_or_milestone": "somatotopy early",
+      "functional_maturation": "childhood",
+      "pruning_window": "early",
+      "myelination_timing": "early",
+      "sensitive_period_gates": "somatosensory maps set early",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "LANG-01",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "arcuate/dorsal myelinates late",
+      "functional_maturation": "childhood-adolescence",
+      "pruning_window": "adolescence",
+      "myelination_timing": "late (dorsal tract)",
+      "sensitive_period_gates": "production develops through childhood",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E/Em",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "LANG-02",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "comprehension early",
+      "functional_maturation": "childhood",
+      "pruning_window": "childhood",
+      "myelination_timing": "childhood",
+      "sensitive_period_gates": "L1 GRAMMAR sensitive period to ~puberty (graded, not a cliff; L2 age-effect monotonic)",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "H(childhood) then M",
+      "confidence": "E(L1 period)/Em(sharpness)",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "MOT-01",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "corticospinal myelinates over first ~2y",
+      "functional_maturation": "refines to adolescence",
+      "pruning_window": "childhood-adolescence",
+      "myelination_timing": "early-mid (motor before PFC)",
+      "sensitive_period_gates": "early motor sensitive periods",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M(lifelong)",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "MOT-02",
+      "onset_approx": "infancy/childhood",
+      "peak_or_milestone": "matures childhood-adolescence",
+      "functional_maturation": "adolescence",
+      "pruning_window": "adolescence",
+      "myelination_timing": "mid",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "MOT-04",
+      "onset_approx": "prenatal/infancy",
+      "peak_or_milestone": "cerebellum protracted postnatal granule-cell dev (~1-2y+)",
+      "functional_maturation": "childhood; learning lifelong",
+      "pruning_window": "protracted",
+      "myelination_timing": "early-protracted",
+      "sensitive_period_gates": "cerebellar circuits vulnerable perinatally",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M-H(learning)",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "MOT-05",
+      "onset_approx": "childhood",
+      "peak_or_milestone": "posterior/cognitive cerebellum matures later",
+      "functional_maturation": "childhood-adolescence",
+      "pruning_window": "protracted",
+      "myelination_timing": "later than sensorimotor cerebellum",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "Em",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "MOT-06-CPG",
+      "onset_approx": "prenatal",
+      "peak_or_milestone": "functional at birth (stepping/suckle)",
+      "functional_maturation": "early",
+      "pruning_window": "minimal",
+      "myelination_timing": "early (brainstem/spinal)",
+      "sensitive_period_gates": "innate motor patterns",
+      "plasticity_type": "EE",
+      "plasticity_coeff_qualitative": "L",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "ATT-05-SUBCX",
+      "onset_approx": "prenatal",
+      "peak_or_milestone": "neonatal orienting (SC/pulvinar)",
+      "functional_maturation": "early",
+      "pruning_window": "minimal",
+      "myelination_timing": "early",
+      "sensitive_period_gates": "subcortical orienting scaffolds cortical attention",
+      "plasticity_type": "EE",
+      "plasticity_coeff_qualitative": "L",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "AUT-01",
+      "onset_approx": "prenatal",
+      "peak_or_milestone": "autonomic reflexes functional at birth; cortical modulation matures later",
+      "functional_maturation": "childhood-adolescence (cortical control)",
+      "pruning_window": "-",
+      "myelination_timing": "early(brainstem)/late(cortical)",
+      "sensitive_period_gates": "early-life stress shapes autonomic set-points",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E/Em",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "SYM-01",
+      "onset_approx": "prenatal",
+      "peak_or_milestone": "functional at birth",
+      "functional_maturation": "infancy-childhood",
+      "pruning_window": "-",
+      "myelination_timing": "early",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "L-M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "PAR-01",
+      "onset_approx": "prenatal",
+      "peak_or_milestone": "vagal tone increases across infancy/childhood",
+      "functional_maturation": "childhood (RSA matures)",
+      "pruning_window": "-",
+      "myelination_timing": "early (vagal myelination postnatal)",
+      "sensitive_period_gates": "vagal-tone maturation window in infancy",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "L-M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "ENDO-HPG",
+      "onset_approx": "prenatal (organisational) + puberty (activational)",
+      "peak_or_milestone": "mini-puberty in infancy; puberty reactivation",
+      "functional_maturation": "puberty-early adulthood",
+      "pruning_window": "-",
+      "myelination_timing": "n/a",
+      "sensitive_period_gates": "PERINATAL steroids organise sex-typed circuits; puberty activates",
+      "plasticity_type": "EE(organisational)+ED",
+      "plasticity_coeff_qualitative": "H(perinatal & puberty)",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "ENDO-HPT",
+      "onset_approx": "prenatal",
+      "peak_or_milestone": "thyroid critical for early brain development",
+      "functional_maturation": "infancy",
+      "pruning_window": "-",
+      "myelination_timing": "n/a",
+      "sensitive_period_gates": "EARLY thyroid deficiency -> irreversible CNS effects (sensitive)",
+      "plasticity_type": "EE",
+      "plasticity_coeff_qualitative": "H early then L",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "ENDO-ENERGY",
+      "onset_approx": "prenatal/infancy",
+      "peak_or_milestone": "hypothalamic feeding circuits wire postnatally",
+      "functional_maturation": "infancy-childhood",
+      "pruning_window": "-",
+      "myelination_timing": "early",
+      "sensitive_period_gates": "perinatal nutrition/leptin surge programs feeding circuits",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "PAIN-01",
+      "onset_approx": "prenatal (nociception present preterm)",
+      "peak_or_milestone": "ascending pathways functional early",
+      "functional_maturation": "childhood",
+      "pruning_window": "-",
+      "myelination_timing": "spinothalamic myelinates perinatally",
+      "sensitive_period_gates": "early pain experience may sensitise",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "PAIN-03",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "descending inhibition IMMATURE at birth, matures over childhood",
+      "functional_maturation": "childhood-adolescence",
+      "pruning_window": "-",
+      "myelination_timing": "late",
+      "sensitive_period_gates": "immature descending inhibition -> heightened infant pain sensitivity",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "ENS-01",
+      "onset_approx": "prenatal (neural-crest derived)",
+      "peak_or_milestone": "ENS forms prenatally; microbiome colonisation postnatal",
+      "functional_maturation": "infancy",
+      "pruning_window": "-",
+      "myelination_timing": "-",
+      "sensitive_period_gates": "early microbial colonisation window may influence gut-brain signalling (animal-dominant)",
+      "plasticity_type": "EE+ED",
+      "plasticity_coeff_qualitative": "M(animal)/uncertain(human)",
+      "confidence": "Em",
+      "evidence_base": "animal_dominant"
+    },
+    {
+      "circuit_id": "PFC-FP",
+      "onset_approx": "childhood",
+      "peak_or_milestone": "frontopolar among the LATEST-maturing cortex",
+      "functional_maturation": "protracted into 20s+",
+      "pruning_window": "adolescence-3rd decade",
+      "myelination_timing": "latest frontal myelination",
+      "sensitive_period_gates": "no discrete CP; supports highest-order/temporally-extended control, matures last",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M(long)",
+      "confidence": "E/Em",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "PFC-VM",
+      "onset_approx": "childhood",
+      "peak_or_milestone": "vmPFC value/regulation matures late",
+      "functional_maturation": "late adolescence-mid20s",
+      "pruning_window": "adolescence+",
+      "myelination_timing": "late",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "PFC-OFC",
+      "onset_approx": "childhood",
+      "peak_or_milestone": "OFC reversal/flexibility matures late",
+      "functional_maturation": "late adolescence-mid20s",
+      "pruning_window": "adolescence+",
+      "myelination_timing": "late (signal-dropout region)",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E/Em",
+      "evidence_base": "human+animal"
+    },
+    {
+      "circuit_id": "TRACT-SLF",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "frontoparietal tract myelinates through adolescence",
+      "functional_maturation": "adolescence-early adulthood",
+      "pruning_window": "-",
+      "myelination_timing": "protracted (adolescence)",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "TRACT-UNC",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "uncinate among the LATEST-maturing tracts (into ~30s)",
+      "functional_maturation": "3rd-4th decade",
+      "pruning_window": "-",
+      "myelination_timing": "very late (latest association tract)",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E",
+      "evidence_base": "human"
+    },
+    {
+      "circuit_id": "TRACT-FAT",
+      "onset_approx": "infancy",
+      "peak_or_milestone": "FAT myelinates late childhood-adolescence",
+      "functional_maturation": "childhood-adolescence",
+      "pruning_window": "-",
+      "myelination_timing": "late",
+      "sensitive_period_gates": "-",
+      "plasticity_type": "ED",
+      "plasticity_coeff_qualitative": "M",
+      "confidence": "E/Em",
+      "evidence_base": "human"
+    }
+  ]
+}

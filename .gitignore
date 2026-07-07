@@ -1,0 +1,23 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+
+# ---- Node / UI build artifacts (regenerable via `npm install` / `npm run build`) ----
+ui/node_modules/
+ui/dist/
+ui/*.tsbuildinfo
+
+# ---- Runtime saves written by the app (keep the folder, not its contents) ----
+sims/*
+!sims/.gitkeep
+
+# ---- OS / editor cruft ----
+.DS_Store
+Thumbs.db
+*.swp

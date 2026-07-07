@@ -1,0 +1,241 @@
+{
+  "description": "Ordinary childhood environmental exposures, weighted by real salience (impact x frequency). The core evidence-based set plus common additions; a researcher adds a type by adding an entry. Feelings are NOT encoded here -- a thing PRESENTS neutral triggers; the response emerges from the substrate.",
+  "things": [
+    {
+      "id": "food",
+      "name": "a favourite food",
+      "kind": "food",
+      "stimulus": {
+        "reward_cue": 0.7,
+        "comfort": 0.5
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.15,
+      "frequency": 3.0
+    },
+    {
+      "id": "screen",
+      "name": "a screen/device",
+      "kind": "object",
+      "stimulus": {
+        "reward_cue": 0.8,
+        "novelty": 0.6
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 3.0
+    },
+    {
+      "id": "other_children",
+      "name": "other children",
+      "kind": "creature",
+      "stimulus": {
+        "affiliation": 0.7,
+        "play_signal": 0.6,
+        "novelty": 0.3
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 2.5
+    },
+    {
+      "id": "toys",
+      "name": "toys / play things",
+      "kind": "object",
+      "stimulus": {
+        "play_signal": 0.8,
+        "reward_cue": 0.4
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 2.5
+    },
+    {
+      "id": "pet_dog",
+      "name": "the family dog",
+      "kind": "creature",
+      "stimulus": {
+        "vulnerable_other": 0.6,
+        "play_signal": 0.6,
+        "affiliation": 0.6
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.08,
+      "frequency": 2.0
+    },
+    {
+      "id": "music",
+      "name": "music",
+      "kind": "sound",
+      "stimulus": {
+        "reward_cue": 0.6,
+        "novelty": 0.5
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 2.0
+    },
+    {
+      "id": "greenspace",
+      "name": "a park / green space",
+      "kind": "place",
+      "stimulus": {
+        "safety": 0.6,
+        "novelty": 0.4,
+        "affiliation": 0.2
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 1.5
+    },
+    {
+      "id": "water_play",
+      "name": "a pool / water to play in",
+      "kind": "place",
+      "stimulus": {
+        "play_signal": 0.6,
+        "novelty": 0.5,
+        "threat": 0.3
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 1.0
+    },
+    {
+      "id": "road_traffic",
+      "name": "roads and traffic",
+      "kind": "object",
+      "stimulus": {
+        "threat": 0.8,
+        "novelty": 0.4
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 2.0
+    },
+    {
+      "id": "fire_stove",
+      "name": "fire / a hot stove",
+      "kind": "object",
+      "stimulus": {
+        "threat": 0.6,
+        "pain": 0.5
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 0.8
+    },
+    {
+      "id": "medicine",
+      "name": "medicines / chemicals",
+      "kind": "object",
+      "stimulus": {
+        "threat": 0.6,
+        "reward_cue": 0.3
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 0.5
+    },
+    {
+      "id": "electrical",
+      "name": "an electrical outlet",
+      "kind": "object",
+      "stimulus": {
+        "threat": 0.5,
+        "novelty": 0.4
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 0.6
+    },
+    {
+      "id": "height",
+      "name": "a height / stairs",
+      "kind": "place",
+      "stimulus": {
+        "threat": 0.6,
+        "novelty": 0.3
+      },
+      "inherited_aversion": 0.2,
+      "inherited_attraction": 0.0,
+      "frequency": 1.5
+    },
+    {
+      "id": "snake_spider",
+      "name": "a snake or spider",
+      "kind": "creature",
+      "stimulus": {
+        "threat": 0.7,
+        "novelty": 0.4
+      },
+      "inherited_aversion": 0.25,
+      "inherited_attraction": 0.0,
+      "frequency": 0.3
+    },
+    {
+      "id": "books",
+      "name": "books / reading",
+      "kind": "object",
+      "stimulus": {
+        "reward_cue": 0.4,
+        "novelty": 0.5,
+        "comfort": 0.3
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 1.5
+    },
+    {
+      "id": "bicycle",
+      "name": "a bicycle",
+      "kind": "object",
+      "stimulus": {
+        "play_signal": 0.6,
+        "novelty": 0.5,
+        "reward_cue": 0.4
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 1.0
+    },
+    {
+      "id": "grandparents",
+      "name": "grandparents / extended family",
+      "kind": "creature",
+      "stimulus": {
+        "affiliation": 0.7,
+        "comfort": 0.5,
+        "safety": 0.4
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 1.0
+    },
+    {
+      "id": "sport",
+      "name": "sport / active play",
+      "kind": "object",
+      "stimulus": {
+        "play_signal": 0.6,
+        "reward_cue": 0.4,
+        "novelty": 0.3
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 1.2
+    },
+    {
+      "id": "household_conflict",
+      "name": "household conflict / raised voices",
+      "kind": "sound",
+      "stimulus": {
+        "threat": 0.4,
+        "novelty": 0.3
+      },
+      "inherited_aversion": 0.0,
+      "inherited_attraction": 0.0,
+      "frequency": 0.8
+    }
+  ]
+}

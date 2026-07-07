@@ -1,0 +1,320 @@
+{
+  "name": "example_affective_library",
+  "features": {
+    "threat": {
+      "id": "threat",
+      "kind": "appraisal",
+      "description": "",
+      "derivation": null
+    },
+    "reward": {
+      "id": "reward",
+      "kind": "appraisal",
+      "description": "",
+      "derivation": null
+    },
+    "social_valence": {
+      "id": "social_valence",
+      "kind": "appraisal",
+      "description": "",
+      "derivation": null
+    },
+    "goal_relevance": {
+      "id": "goal_relevance",
+      "kind": "appraisal",
+      "description": "",
+      "derivation": null
+    },
+    "novelty": {
+      "id": "novelty",
+      "kind": "appraisal",
+      "description": "",
+      "derivation": null
+    },
+    "controllability": {
+      "id": "controllability",
+      "kind": "appraisal",
+      "description": "",
+      "derivation": null
+    },
+    "other_distress": {
+      "id": "other_distress",
+      "kind": "appraisal",
+      "description": "",
+      "derivation": null
+    },
+    "provocation": {
+      "id": "provocation",
+      "kind": "appraisal",
+      "description": "",
+      "derivation": null
+    },
+    "exclusion": {
+      "id": "exclusion",
+      "kind": "appraisal",
+      "description": "",
+      "derivation": null
+    },
+    "uncontrollability": {
+      "id": "uncontrollability",
+      "kind": "derived",
+      "description": "",
+      "derivation": "uncontrollability"
+    },
+    "warmth": {
+      "id": "warmth",
+      "kind": "derived",
+      "description": "",
+      "derivation": "warmth"
+    },
+    "blocked_goal": {
+      "id": "blocked_goal",
+      "kind": "derived",
+      "description": "",
+      "derivation": "blocked_goal"
+    },
+    "goal_weighted_pressure": {
+      "id": "goal_weighted_pressure",
+      "kind": "derived",
+      "description": "",
+      "derivation": "goal_weighted_pressure"
+    }
+  },
+  "circuits": {
+    "THREAT": {
+      "id": "THREAT",
+      "name": "Threat",
+      "gain": 0.6,
+      "decay": 0.5,
+      "category": "affective",
+      "impulsive": true,
+      "description": ""
+    },
+    "ANXIETY": {
+      "id": "ANXIETY",
+      "name": "Anxiety",
+      "gain": 0.6,
+      "decay": 0.5,
+      "category": "affective",
+      "impulsive": false,
+      "description": ""
+    },
+    "VIGILANCE": {
+      "id": "VIGILANCE",
+      "name": "Vigilance",
+      "gain": 0.7,
+      "decay": 0.5,
+      "category": "affective",
+      "impulsive": false,
+      "description": "driven only by the cascade from THREAT"
+    },
+    "SEEKING": {
+      "id": "SEEKING",
+      "name": "Seeking",
+      "gain": 0.75,
+      "decay": 0.5,
+      "category": "motivational",
+      "impulsive": true,
+      "description": ""
+    },
+    "FRUSTRATION": {
+      "id": "FRUSTRATION",
+      "name": "Frustration",
+      "gain": 0.62,
+      "decay": 0.5,
+      "category": "affective",
+      "impulsive": true,
+      "description": ""
+    },
+    "CARE": {
+      "id": "CARE",
+      "name": "Care",
+      "gain": 0.5,
+      "decay": 0.5,
+      "category": "affective",
+      "impulsive": false,
+      "description": ""
+    },
+    "CONTROL": {
+      "id": "CONTROL",
+      "name": "Conscience control",
+      "gain": 0.4,
+      "decay": 0.5,
+      "category": "regulatory",
+      "impulsive": false,
+      "description": ""
+    }
+  },
+  "triggers": {
+    "t_threat": {
+      "id": "t_threat",
+      "feature": "threat",
+      "circuit": "THREAT",
+      "weight": 0.9
+    },
+    "t_threat_unctrl": {
+      "id": "t_threat_unctrl",
+      "feature": "uncontrollability",
+      "circuit": "THREAT",
+      "weight": 0.1
+    },
+    "t_anx_unctrl": {
+      "id": "t_anx_unctrl",
+      "feature": "uncontrollability",
+      "circuit": "ANXIETY",
+      "weight": 0.4
+    },
+    "t_anx_novel": {
+      "id": "t_anx_novel",
+      "feature": "novelty",
+      "circuit": "ANXIETY",
+      "weight": 0.3
+    },
+    "t_seek_reward": {
+      "id": "t_seek_reward",
+      "feature": "reward",
+      "circuit": "SEEKING",
+      "weight": 0.7
+    },
+    "t_seek_goal": {
+      "id": "t_seek_goal",
+      "feature": "goal_relevance",
+      "circuit": "SEEKING",
+      "weight": 0.3
+    },
+    "t_frust_prov": {
+      "id": "t_frust_prov",
+      "feature": "provocation",
+      "circuit": "FRUSTRATION",
+      "weight": 0.6
+    },
+    "t_frust_block": {
+      "id": "t_frust_block",
+      "feature": "blocked_goal",
+      "circuit": "FRUSTRATION",
+      "weight": 0.6
+    },
+    "t_care_distress": {
+      "id": "t_care_distress",
+      "feature": "other_distress",
+      "circuit": "CARE",
+      "weight": 0.7
+    },
+    "t_care_warmth": {
+      "id": "t_care_warmth",
+      "feature": "warmth",
+      "circuit": "CARE",
+      "weight": 0.3
+    },
+    "t_control_pressure": {
+      "id": "t_control_pressure",
+      "feature": "goal_weighted_pressure",
+      "circuit": "CONTROL",
+      "weight": 1.0
+    }
+  },
+  "pathways": {
+    "p_threat_vigilance": {
+      "id": "p_threat_vigilance",
+      "source": "THREAT",
+      "target": "VIGILANCE",
+      "weight": 0.7,
+      "kind": "cascade",
+      "description": "threat recruits vigilance"
+    },
+    "p_threat_anx": {
+      "id": "p_threat_anx",
+      "source": "THREAT",
+      "target": "ANXIETY",
+      "weight": 0.5,
+      "kind": "cascade",
+      "description": "threat feeds anxiety"
+    },
+    "p_frust_threat": {
+      "id": "p_frust_threat",
+      "source": "FRUSTRATION",
+      "target": "THREAT",
+      "weight": 0.4,
+      "kind": "loop",
+      "description": "feeling thwarted feels threatening"
+    },
+    "p_threat_frust": {
+      "id": "p_threat_frust",
+      "source": "THREAT",
+      "target": "FRUSTRATION",
+      "weight": 0.4,
+      "kind": "loop",
+      "description": "feeling threatened feels thwarting -> escalation"
+    },
+    "p_control_frust": {
+      "id": "p_control_frust",
+      "source": "CONTROL",
+      "target": "FRUSTRATION",
+      "weight": -0.7,
+      "kind": "direct",
+      "description": "conscience control inhibits frustration"
+    }
+  },
+  "networks": {
+    "cool_instrumental_boldness": {
+      "id": "cool_instrumental_boldness",
+      "name": "Cool instrumental boldness",
+      "weights": {
+        "SEEKING": 0.7,
+        "THREAT": -0.5,
+        "ANXIETY": -0.4
+      },
+      "modulators": {
+        "CONTROL": 0.9
+      },
+      "affordances": [
+        "structure"
+      ],
+      "policy": "calm, goal-directed action under pressure",
+      "category": "governed"
+    },
+    "reactive_aggression": {
+      "id": "reactive_aggression",
+      "name": "Reactive aggression",
+      "weights": {
+        "FRUSTRATION": 0.9,
+        "THREAT": 0.5
+      },
+      "modulators": {
+        "CONTROL": -0.9
+      },
+      "affordances": [
+        "harshness"
+      ],
+      "policy": "explosive, retaliatory hostility",
+      "category": "ungoverned"
+    },
+    "affiliative_warmth": {
+      "id": "affiliative_warmth",
+      "name": "Affiliative warmth",
+      "weights": {
+        "CARE": 0.9
+      },
+      "modulators": {},
+      "affordances": [
+        "warmth"
+      ],
+      "policy": "nurturant, cooperative conduct",
+      "category": "governed"
+    },
+    "fearful_withdrawal": {
+      "id": "fearful_withdrawal",
+      "name": "Fearful withdrawal",
+      "weights": {
+        "THREAT": 0.5,
+        "ANXIETY": 0.7,
+        "VIGILANCE": 0.4,
+        "SEEKING": -0.5
+      },
+      "modulators": {},
+      "affordances": [],
+      "policy": "avoidance, retreat",
+      "category": "neutral"
+    }
+  }
+}

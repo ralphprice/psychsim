@@ -1,0 +1,15 @@
+{
+  "name": "preschooler",
+  "child": true,
+  "description": "A young child, not yet at school: home-based days with outdoor play.",
+  "weekday": [
+    [0, "home", "shared_bedroom"], [8, "home", "kitchen"], [10, "leisure", "park"],
+    [12, "home", "lounge"], [15, "leisure", "park"], [17, "home", "kitchen"],
+    [19, "home", "shared_bedroom"]
+  ],
+  "weekend": [
+    [0, "home", "shared_bedroom"], [9, "home", "kitchen"], [11, "leisure", "park"],
+    [14, "home", "lounge"], [16, "leisure", "park"], [18, "home", "kitchen"],
+    [20, "home", "shared_bedroom"]
+  ]
+}

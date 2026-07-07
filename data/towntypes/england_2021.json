@@ -1,0 +1,32 @@
+{
+  "name": "england_2021",
+  "description": "Suburban England baseline, anchored to ONS Census 2021 / DfT / DfE / EHS figures.",
+  "demography": {
+    "mean_household": 2.41,
+    "child_frac": 0.186,
+    "working_age_frac": 0.629,
+    "elderly_frac": 0.184,
+    "employment_rate": 0.75,
+    "cars_per_home": 1.2,
+    "avg_primary_pupils": 280,
+    "primary_share_of_children": 0.5,
+    "workers_per_office": 18,
+    "people_per_shop": 700.0,
+    "people_per_pub": 1200.0,
+    "local_work_share": 0.45,
+    "settlement_type": "suburban",
+    "garden_prob_by_tenure": {"owner": 0.92, "private_rent": 0.75, "social_rent": 0.60},
+    "garden_area_multiplier": 1.0,
+    "garden_size_scale": 1.0
+  },
+  "household": {
+    "child_household_frac": 0.30,
+    "lone_parent_frac": 0.22,
+    "one_person_frac": 0.42,
+    "child_count_weights": {"1": 0.44, "2": 0.41, "3": 0.11, "4": 0.04},
+    "tenure_weights": {"owner": 0.64, "private_rent": 0.19, "social_rent": 0.16},
+    "share_prob_by_tenure": {"owner": 0.10, "private_rent": 0.28, "social_rent": 0.55},
+    "spare_prob_by_tenure": {"owner": 0.45, "private_rent": 0.18, "social_rent": 0.05},
+    "comfort_by_tenure": {"owner": 0.75, "private_rent": 0.55, "social_rent": 0.45}
+  }
+}

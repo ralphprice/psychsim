@@ -1,0 +1,14 @@
+{
+  "name": "teacher",
+  "child": false,
+  "description": "An adult who works at the school through the teaching day.",
+  "weekday": [
+    [0, "home", "parents_bedroom"], [7, "home", "kitchen"], [8, "work", "classroom"],
+    [16, "home", "lounge"], [19, "home", "kitchen"], [21, "home", "parents_bedroom"]
+  ],
+  "weekend": [
+    [0, "home", "parents_bedroom"], [9, "home", "kitchen"], [11, "leisure", "shop"],
+    [14, "home", "lounge"], [17, "leisure", "pub"], [19, "home", "kitchen"],
+    [22, "home", "parents_bedroom"]
+  ]
+}

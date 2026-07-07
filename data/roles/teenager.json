@@ -1,0 +1,15 @@
+{
+  "name": "teenager",
+  "child": true,
+  "description": "An older child at secondary school, with more evening leisure and a later bedtime.",
+  "weekday": [
+    [0, "home", "shared_bedroom"], [7, "home", "kitchen"], [9, "school", "classroom"],
+    [12, "school", "playground"], [13, "school", "classroom"], [16, "leisure", "park"],
+    [18, "home", "kitchen"], [20, "leisure", "shop"], [22, "home", "shared_bedroom"]
+  ],
+  "weekend": [
+    [0, "home", "shared_bedroom"], [10, "home", "kitchen"], [12, "leisure", "shop"],
+    [15, "leisure", "park"], [18, "home", "kitchen"], [21, "leisure", "park"],
+    [23, "home", "shared_bedroom"]
+  ]
+}

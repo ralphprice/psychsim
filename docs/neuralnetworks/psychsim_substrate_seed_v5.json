@@ -1,0 +1,3556 @@
+{
+  "meta": {
+    "title": "PsychSim neural-substrate SEED dataset",
+    "version": "seed-5",
+    "purpose": "Fix the schema for the redone comprehensive assembly and populate the honesty-critical core (innate wiring, inputs, endowment, plasticity rules, gaps).",
+    "companion_document": "PSYCHSIM_MASTER_DOCUMENT.md",
+    "principles": [
+      "ASSEMBLE comprehensively from every reputable source; do not cherry-pick; catalogue gaps.",
+      "Structure exists in full; ACTIVATION is a gated, progressive subset (two switches: developmental_online = biology, calibration_active = tuning).",
+      "Default weights are the NEWBORN's initial conditions, modified by experience; adult patterns are EMERGENT validation targets, not inputs.",
+      "Plasticity rules are LOCAL and MEANING-BLIND: they see pre/post activity, current weight, an activity-derived modulator, and an age coefficient \u2014 never that a circuit is 'fear' or a state is 'threat'.",
+      "Innate structure is admitted ONLY as the primary-reinforcer wiring, as cited birth-present anatomy, never as an encoded verdict.",
+      "Panksepp's systems and any documented co-activation pattern are READ-OUTS / validation targets, never primitives the substrate is built from."
+    ],
+    "honesty_wall": "A rule may update a weight using local activity-derived quantities only. 'Co-active connections strengthen' is allowed (mechanism). 'Threat strengthens avoidance' is forbidden (outcome). The primary-reinforcer links are the single unavoidable seed of innate value and are logged as anatomy with citations.",
+    "scaffold_note": "Every invented dynamic (time constants, eligibility/plasticity/homeostatic timescales, structural-plasticity thresholds) is marked status:scaffold or noted SCAFFOLD, to be replaced by measured values.",
+    "supersedes": "seed-4/3/2/1; all left unmodified",
+    "assembly_status": {
+      "systems_populated": [
+        "defensive_threat",
+        "reward_approach",
+        "sensory_input",
+        "executive"
+      ],
+      "grain": "nucleus level (amygdala subnuclei kept separate: LA/BA/CeA/ITC)",
+      "how_value_enters": "ONLY via the 3 cited innate links: IN-SOMATO:nociception->LA/CeA (PR-NOCICEPTION), SC-Pv->CeA/PAG (PB-LOOMING), StN->CeA (PB-STARTLE). Every other weight is either hardwired-backbone anatomy or a near-zero associative site grown by experience.",
+      "newborn_weights": "qualitative (low / low-moderate / moderate / moderate-strong) because the literature gives ADULT patterns, not birth strengths; only the innate links are confidently non-zero at birth.",
+      "emergent_signature_expected": "at birth the system can DETECT+EXPRESS threat (innate cues + CeA->PAG/HYPdm backbone) but cannot REGULATE it (vmPFC extinction, HPCv context online only from ~3y / ~14y). With early associative sites most plastic and NA-gated, early aversive experience should write strongly and resist extinction until regulation matures -- 'sticky early fear, late control' as a consequence of timing, not an authored rule.",
+      "schema_change": "added optional 'function' field to circuit records (+ schemas.circuit); ALL prior fields and keys preserved.",
+      "next_system": "candidates: affiliation/social (CARE/PANIC-GRIEF/PLAY substrates), interoception/autonomic (the felt-body loops), memory (hippocampal episodic), or motor output -- to be chosen",
+      "reward_approach_notes": {
+        "how_value_enters": "ONLY via 6 cited appetitive links: IN-GUST:sweet->NAc-shell/VTA (PR-SWEET), IN-GUST:umami->NAc-shell (PR-UMAMI), IN-SOMATO:affective_touch->NAc-shell (PR-CONTACT), IN-INTERO:thermal_warmth->NAc-shell (PR-THERMAL), IN-INTERO:nutritive_state->LH (PR-HOMEOSTATIC).",
+        "gate_mirrors_threat": "VTA-dopamine gates approach plasticity exactly as LC-noradrenaline gates threat plasticity (same three-factor rule R5); no new machinery.",
+        "negative_arm_is_structural": "LHb->RMTg->VTA suppresses dopamine on worse-than-expected outcomes, so disappointment/reward-omission is produced by the wiring, not by a 'disappointment rule'.",
+        "shared_substrate": "reuses threat-system circuits: BA and HPCv supply appetitive cue-value and contextual-reward inputs to accumbens; mesocortical DA reaches the same vmPFC node used for extinction. Amygdala/hippocampus/vmPFC are bivalent, not duplicated.",
+        "emergent_signature_expected": "dopamine schedule peaks in adolescence while OFC/vmPFC valuation matures late -> strong reward learning with weak top-down valuation in adolescence (heightened reward/sensation-seeking): the reward-side counterpart of threat's 'sticky early fear, late control'. With approach and avoid now coexisting, approach/avoid conflict becomes an emergent balance."
+      },
+      "sensory_input_notes": {
+        "mostly_value_neutral": "Sensory circuits are processing hierarchies carrying NO innate value; the schema handles pure relays cleanly. Value enters ONLY at cited links.",
+        "innate_links_placed_here": "PB-FACE and PB-BIOMOTION (subcortical orienting biases; FFA specialisation is experience-built, NOT innate), PB-VOICE (partly prenatal-learned), the sensory limb of PB-STARTLE (COCH->StN), and the aversive taste reinforcers PR-BITTER/PR-SOUR->CeA (completing the taste set; sweet/umami->reward were placed with reward).",
+        "discriminative_vs_affective_pain": "nociception->VPL->S1 is DISCRIMINATIVE (where/how much) and carries NO value; the AFFECTIVE value link nociception->amygdala lives in the threat system. Keeping these separate is the honesty discipline in a sensory case.",
+        "resolves_placeholders": "the generic sensory_thalamus/sensory_cortex sources used in threat/reward are now resolved into concrete modality-specific pathways (e.g. V-ventral->LA, A1-belt->LA, V-ventral->OFC); the earlier generic connections are left in place, not rewritten.",
+        "developmental_note": "experience-expectant critical periods (vision/ocular-dominance to ~7-8y; native-phoneme tuning in the first year) mean the hierarchies are shaped by early input -- deprivation yields lasting deficits. The innate subcortical detectors (looming/face/biomotion/voice) bias what the developing cortex learns from, so cortical specialisation (e.g. FFA) EMERGES from the innate orienting bias plus experience -- not authored."
+      },
+      "executive_notes": {
+        "zero_innate_value": "The executive suite adds NO innate-reinforcer links -- correct and honest: it is the least innate, most experience-dependent, LATEST-maturing system (frontopolar cortex online ~12y, maturing into the 20s-30s).",
+        "its_job_is_regulation": "Its connections are (a) WM maintenance/gating (dlPFC<->MDthal, dlPFC->Caud-assoc, fronto-parietal dlPFC<->S2-PPC), (b) inhibition/stopping (vlPFC/preSMA->STN), (c) TOP-DOWN REGULATION of the affective systems already built: dlPFC->vmPFC and vlPFC->LA down-regulate threat; dlPFC->NAc-core and OFC->dlPFC control approach/impulse; (d) top-down attention (FEF->SC-Pv/V-dorsal).",
+        "neuromodulatory_tuning": "the ascending modulators now reach cortex: VTA-DA (D1 inverted-U), LC-NA (alpha2A; stress impairs), BF-ACh (attentional gain) tune dlPFC -- and BF-ACh also tunes sensory cortex, so the same modulators gate learning across systems.",
+        "capstone_signature_expected": "with affective/sensory systems online and plastic EARLY but executive control online-but-weak early and maturing LAST, top-down regulation of threat (reappraisal/extinction) and reward (impulse control/stopping) is STRUCTURALLY weak in childhood/adolescence and strengthens into adulthood. This makes the earlier signatures coherent -- 'sticky early fear' and 'adolescent reward-seeking' are consequences of this maturational asymmetry, now fully represented. Whether self-regulation actually emerges (and how chaotically early on) is for the running model; it is NOT authored.",
+        "cross_system_integration": "the executive suite binds the systems -- it uses the sensory parietal node (S2-PPC) for WM, takes value from OFC and context from HPCv, regulates amygdala and accumbens, and is tuned by the same VTA/LC/BF modulators that gate affective and sensory learning. The four systems now compose rather than sit side by side."
+      }
+    }
+  },
+  "schemas": {
+    "circuit": {
+      "id": "stable handle, domain-prefixed",
+      "name": "label",
+      "domain": "functional domain",
+      "nodes": "key nuclei/regions",
+      "transmitters": "principal neuromodulators/transmitters",
+      "baseline_activation": "resting activation (0..1)",
+      "activation_bounds": "[min,max] hard bounds for the leaky integrator",
+      "time_constant_tau_ms": "SCAFFOLD: integrator time constant (invented dynamic)",
+      "homeostatic_setpoint": "target mean activity the circuit scales toward",
+      "developmental_online_age": "age (years) the circuit comes online (BIOLOGY gate)",
+      "plasticity_coeff_schedule_ref": "id into developmental curves (eta(age))",
+      "calibration_active_default": "bool: is it in the live set by default (TUNING mask)",
+      "confidence": "E|Em|H",
+      "evidence_base": "human|human+animal|animal_dominant",
+      "sources": "key refs",
+      "function": "one-line functional role of the circuit"
+    },
+    "connection": {
+      "source_circuit": "id",
+      "target_circuit": "id",
+      "default_weight": "NEWBORN initial synaptic strength (from lit where it exists; else flagged assumption)",
+      "default_weight_basis": "literature | assumption | innate_reinforcer",
+      "weight_bounds": "[min,max]",
+      "gating_neuromodulator": "DA|ACh|NA|5HT|none  (which modulator gates plasticity here; itself a circuit output)",
+      "eligibility_trace_tau_ms": "SCAFFOLD: three-factor eligibility decay",
+      "plasticity_coeff_schedule_ref": "eta(age) curve id",
+      "is_innate_reinforcer_link": "bool (from innate-wiring catalogue)",
+      "developmental_online_age": "age the connection is live (BIOLOGY)",
+      "calibration_active_default": "bool (TUNING mask)",
+      "confidence": "E|Em|H",
+      "source": "ref or 'assumption'"
+    },
+    "innate_wiring_entry": {
+      "id": "handle",
+      "category": "primary_reinforcer | prepared_perceptual_bias | prepared_learning_bias",
+      "stimulus": "the sensory input / detector",
+      "target": "circuit(s) it wires to / biases",
+      "innate_effect": "appetitive | aversive | arousal_orienting | learning_rate_modifier",
+      "mechanism_type": "innate_connection (birth-present fixed wiring) | learning_bias (modifies plasticity params, NOT a weight)",
+      "default_birth_strength": "strong|moderate|weak|n/a",
+      "present_at_birth": "yes | partly_prenatal_learning | develops_postnatally",
+      "unlearned_evidence": "why it is considered unlearned",
+      "confidence": "E|Em|H",
+      "caveat": "the honest nuance / what it is NOT",
+      "sources": "refs"
+    },
+    "input_channel": {
+      "id": "handle",
+      "modality": "class",
+      "receptors": "peripheral apparatus",
+      "central_entry": "first central relay",
+      "feeds": "which circuits",
+      "notes": "role"
+    },
+    "physical_endowment": {
+      "id": "handle",
+      "attribute": "trait",
+      "distribution": "sampling model",
+      "biases": "what downstream effect it has (esp. how the world responds to the agent)",
+      "notes": "honesty note"
+    },
+    "plasticity_rule": {
+      "id": "handle",
+      "name": "rule",
+      "form": "informal update form",
+      "does": "what it contributes",
+      "constraint": "the discipline / danger point",
+      "status": "mechanism | scaffold",
+      "sources": "refs"
+    }
+  },
+  "plasticity_rules": [
+    {
+      "id": "R1-HEBB",
+      "name": "Hebbian coincidence",
+      "form": "dw proportional to a_pre * a_post",
+      "does": "co-active connections strengthen",
+      "constraint": "unstable alone (runaway); never stands alone",
+      "status": "mechanism",
+      "sources": [
+        "Hebb 1949",
+        "Abbott & Nelson 2000"
+      ]
+    },
+    {
+      "id": "R2-RATE",
+      "name": "Rate-level (not spike-timing)",
+      "form": "activation levels, not spike trains",
+      "does": "we use the rate-level BCM equivalent of STDP",
+      "constraint": "MODELLING CHOICE: STDP's pre-before-post rule cannot be applied literally at this level; flagged, not hidden",
+      "status": "scaffold",
+      "sources": [
+        "Bi & Poo 1998",
+        "Markram et al. 1997",
+        "Song Miller & Abbott 2000"
+      ]
+    },
+    {
+      "id": "R3-BCM",
+      "name": "BCM sliding threshold (workhorse)",
+      "form": "dw prop a_pre*a_post*(a_post - theta); theta tracks recent avg a_post",
+      "does": "gives potentiation above theta, depression below, competition, and self-stabilisation in one rule",
+      "constraint": "theta is computed from the circuit's OWN activity \u2014 nothing external/meaningful",
+      "status": "mechanism",
+      "sources": [
+        "Bienenstock Cooper & Munro 1982",
+        "Cooper & Bear 2012"
+      ]
+    },
+    {
+      "id": "R4-HOMEO",
+      "name": "Homeostatic synaptic scaling",
+      "form": "slow multiplicative scaling of incoming weights toward a set-point",
+      "does": "prevents saturation/silence; preserves relative weights",
+      "constraint": "must act fast enough not to be outrun by Hebbian growth (the 'temporal paradox') \u2014 a TIMESCALE constraint, not an outcome one",
+      "status": "mechanism",
+      "sources": [
+        "Turrigiano et al. 1998",
+        "Turrigiano 2008",
+        "Zenke Gerstner & Ganguli 2017"
+      ]
+    },
+    {
+      "id": "R5-NMOD",
+      "name": "Three-factor neuromodulatory gating (DANGER POINT)",
+      "form": "consolidation = eligibility_trace * modulator_scalar",
+      "does": "lets reward/novelty/arousal sculpt which coincidences survive",
+      "constraint": "THE modulator must be the OUTPUT of a circuit set by its wiring \u2014 NEVER a value we set because we judge an outcome good/bad. This is where outcomes are most easily smuggled back in.",
+      "status": "mechanism",
+      "sources": [
+        "Reynolds & Wickens 2002",
+        "Pawlak et al. 2010",
+        "Fremaux & Gerstner 2016"
+      ]
+    },
+    {
+      "id": "R6-DEVGATE",
+      "name": "Developmental gating",
+      "form": "all updates scaled by eta(age, circuit)",
+      "does": "high plasticity early, dips, adolescent resurgence, low in adulthood",
+      "constraint": "age enters ONLY here, as a RATE, never as a target; abstracts PV-interneuron/perineuronal-net critical-period machinery",
+      "status": "mechanism",
+      "sources": [
+        "Knudsen 2004",
+        "Hensch 2005"
+      ]
+    },
+    {
+      "id": "R7-STRUCT",
+      "name": "Structural plasticity",
+      "form": "prune weights held ~0 too long; add connections between co-active adjacent circuits within connectome limits",
+      "does": "activity-dependent wiring change; overproduction-then-pruning; the 'growth from stimulation'",
+      "constraint": "additions bounded by anatomical adjacency/connectome; not arbitrary",
+      "status": "mechanism",
+      "sources": [
+        "Holtmaat & Svoboda 2009",
+        "Petanjek et al. 2011"
+      ]
+    },
+    {
+      "id": "R8-BOUNDS",
+      "name": "Bounds & competitive normalisation",
+      "form": "weights within finite bounds; incoming weights normalised",
+      "does": "makes learning competitive \u2014 strengthening some costs others",
+      "constraint": "finite synaptic resources; competition is a consequence, not a tuned outcome",
+      "status": "mechanism",
+      "sources": [
+        "Oja 1982",
+        "Miller & MacKay 1994"
+      ]
+    }
+  ],
+  "innate_wiring_catalogue": [
+    {
+      "id": "PR-SWEET",
+      "category": "primary_reinforcer",
+      "stimulus": "sweet taste",
+      "target": "reward/appetitive + calming (analgesic)",
+      "innate_effect": "appetitive",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "strong",
+      "present_at_birth": "yes",
+      "unlearned_evidence": "gustofacial acceptance response present in anencephalic newborns; cross-species and cross-cultural; elicitable with minimal feeding experience; sucrose is analgesic via oral afferents in newborns",
+      "confidence": "E",
+      "caveat": "A hedonic/consummatory response, not a 'food is good' rule; salt is NOT in this class at birth (see PR-SALT)",
+      "sources": [
+        "Steiner 1973",
+        "Desor Maller & Turner 1973",
+        "Rosenstein & Oster 1988",
+        "Steiner Glaser Hawilo & Berridge 2001",
+        "Stevens et al. Cochrane (sucrose analgesia)"
+      ]
+    },
+    {
+      "id": "PR-BITTER",
+      "category": "primary_reinforcer",
+      "stimulus": "bitter taste",
+      "target": "aversion/rejection",
+      "innate_effect": "aversive",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "strong",
+      "present_at_birth": "yes",
+      "unlearned_evidence": "grimace/gape/tongue-protrusion rejection in anencephalic newborns; cross-species",
+      "confidence": "E",
+      "caveat": "Rejection reflex, not a learned 'poison' concept",
+      "sources": [
+        "Steiner 1973",
+        "Rosenstein & Oster 1988"
+      ]
+    },
+    {
+      "id": "PR-SOUR",
+      "category": "primary_reinforcer",
+      "stimulus": "sour taste",
+      "target": "aversion/rejection",
+      "innate_effect": "aversive",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "strong",
+      "present_at_birth": "yes",
+      "unlearned_evidence": "aversive facial response in newborns (Rosenstein & Oster)",
+      "confidence": "E",
+      "caveat": "",
+      "sources": [
+        "Rosenstein & Oster 1988"
+      ]
+    },
+    {
+      "id": "PR-UMAMI",
+      "category": "primary_reinforcer",
+      "stimulus": "umami/savoury taste",
+      "target": "reward/appetitive",
+      "innate_effect": "appetitive",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "moderate",
+      "present_at_birth": "yes",
+      "unlearned_evidence": "acceptance-type facial response reported in newborns",
+      "confidence": "Em",
+      "caveat": "Less studied than sweet/bitter",
+      "sources": [
+        "Steiner 1987"
+      ]
+    },
+    {
+      "id": "PR-SALT",
+      "category": "primary_reinforcer",
+      "stimulus": "salt taste",
+      "target": "mild appetitive",
+      "innate_effect": "appetitive",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "weak",
+      "present_at_birth": "develops_postnatally",
+      "unlearned_evidence": "hedonic response to salt is equivocal at birth; reports of emergence around ~4-6 months",
+      "confidence": "Em",
+      "caveat": "NOT reliably present at birth \u2014 an important exception to the 'tastes are innate' generalisation; encode as delayed/uncertain",
+      "sources": [
+        "Beauchamp et al.",
+        "Zinner et al. 2002"
+      ]
+    },
+    {
+      "id": "PR-NOCICEPTION",
+      "category": "primary_reinforcer",
+      "stimulus": "tissue-damage/nociceptive signal",
+      "target": "aversion + arousal + withdrawal reflex",
+      "innate_effect": "aversive",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "strong",
+      "present_at_birth": "yes",
+      "unlearned_evidence": "nociceptive withdrawal and central responses present in preterm/newborn; spinothalamic pathway functional early",
+      "confidence": "E",
+      "caveat": "The birth-present link is nociceptor->aversion/arousal circuitry; it is anatomy, NOT the rule 'pain is bad'. This is the exemplar of the honesty wall.",
+      "sources": [
+        "Fitzgerald 2005",
+        "Verriotis et al. 2016"
+      ]
+    },
+    {
+      "id": "PR-THERMAL",
+      "category": "primary_reinforcer",
+      "stimulus": "thermal state (warmth vs cold)",
+      "target": "comfort (warmth) / aversion+arousal (cold)",
+      "innate_effect": "appetitive/aversive",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "strong",
+      "present_at_birth": "yes",
+      "unlearned_evidence": "thermoregulatory drive is innate physiology; neonatal thermal comfort/discomfort responses",
+      "confidence": "E",
+      "caveat": "",
+      "sources": [
+        "thermoregulation physiology (canonical)"
+      ]
+    },
+    {
+      "id": "PR-CONTACT",
+      "category": "primary_reinforcer",
+      "stimulus": "gentle/affective skin contact (C-tactile)",
+      "target": "calming/appetitive (attachment substrate)",
+      "innate_effect": "appetitive",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "moderate",
+      "present_at_birth": "yes",
+      "unlearned_evidence": "C-tactile afferents tuned to gentle stroking; skin-to-skin contact calms newborns and reduces pain responses",
+      "confidence": "Em",
+      "caveat": "The affective-touch->calming link is birth-present; the SOCIAL MEANING of contact (who is safe) develops",
+      "sources": [
+        "Loken et al. 2009",
+        "Olausson et al.",
+        "skin-to-skin Cochrane reviews"
+      ]
+    },
+    {
+      "id": "PR-HOMEOSTATIC",
+      "category": "primary_reinforcer",
+      "stimulus": "interoceptive homeostatic error (hunger, satiety, thirst, air-hunger/CO2)",
+      "target": "drive / aversion via arcuate + NTS + insula",
+      "innate_effect": "aversive/appetitive",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "strong",
+      "present_at_birth": "yes",
+      "unlearned_evidence": "homeostatic regulation (feeding, breathing, fluid balance) is innate and functional at birth",
+      "confidence": "E",
+      "caveat": "Drives, not learned goals; the arcuate hunger/satiety machinery is birth-wired",
+      "sources": [
+        "Saper et al.",
+        "arcuate energy-homeostasis literature (canonical)"
+      ]
+    },
+    {
+      "id": "PB-LOOMING",
+      "category": "prepared_perceptual_bias",
+      "stimulus": "looming / rapid radial expansion (impending collision)",
+      "target": "subcortical defensive circuit: superior colliculus -> pulvinar -> amygdala (blink/flinch)",
+      "innate_effect": "arousal_orienting",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "strong",
+      "present_at_birth": "yes",
+      "unlearned_evidence": "unconditioned defensive response across virtually all species incl. human infants; dedicated subcortical pathway",
+      "confidence": "E",
+      "caveat": "Whether the very youngest infants' postural response is defensive vs tracking is debated; timing/accuracy refines with age and mobility",
+      "sources": [
+        "Schiff 1965",
+        "Ball & Tronick 1971",
+        "Yilmaz & Meister 2013",
+        "King et al. (SC-pulvinar-amygdala)"
+      ]
+    },
+    {
+      "id": "PB-STARTLE",
+      "category": "prepared_perceptual_bias",
+      "stimulus": "sudden intense sound (or tactile) onset",
+      "target": "acoustic startle reflex: cochlear root -> caudal pontine reticular nucleus -> motor",
+      "innate_effect": "arousal_orienting",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "strong",
+      "present_at_birth": "yes",
+      "unlearned_evidence": "obligatory brainstem reflex present at birth; short latency; three-synapse arc",
+      "confidence": "E",
+      "caveat": "The raw startle is innate; fear-potentiation of startle (amygdala) is acquired later",
+      "sources": [
+        "Koch 1999",
+        "Davis et al. (fear-potentiated startle)"
+      ]
+    },
+    {
+      "id": "PB-FACE",
+      "category": "prepared_perceptual_bias",
+      "stimulus": "face-like / top-heavy high-contrast configuration",
+      "target": "subcortical orienting bias (superior colliculus/pulvinar; 'CONSPEC')",
+      "innate_effect": "arousal_orienting",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "moderate",
+      "present_at_birth": "yes",
+      "unlearned_evidence": "newborns preferentially orient to face-like/top-heavy patterns from birth",
+      "confidence": "Em",
+      "caveat": "CONTESTED: the innate component may be a NON-specific bias for top-heavy, high-contrast, low-spatial-frequency, temporal-field input rather than a face-specific template; cortical face specialisation (CONLERN) is experience-driven and emerges by ~3 months",
+      "sources": [
+        "Morton & Johnson 1991 (CONSPEC/CONLERN)",
+        "Johnson et al. 1991",
+        "Macchi Cassia et al. 2004 (top-heavy alt.)",
+        "Simion et al. 1998"
+      ]
+    },
+    {
+      "id": "PB-BIOMOTION",
+      "category": "prepared_perceptual_bias",
+      "stimulus": "biological / self-propelled motion",
+      "target": "orienting/social bias (superior colliculus, STS)",
+      "innate_effect": "arousal_orienting",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "moderate",
+      "present_at_birth": "yes",
+      "unlearned_evidence": "newborns preferentially orient to biological-motion point-light displays",
+      "confidence": "Em",
+      "caveat": "Specificity and strength less established than looming/startle",
+      "sources": [
+        "Simion Regolin & Bulf 2008"
+      ]
+    },
+    {
+      "id": "PB-VOICE",
+      "category": "prepared_perceptual_bias",
+      "stimulus": "human voice / infant-directed speech / mother's voice",
+      "target": "auditory orienting + preference",
+      "innate_effect": "arousal_orienting",
+      "mechanism_type": "innate_connection",
+      "default_birth_strength": "moderate",
+      "present_at_birth": "partly_prenatal_learning",
+      "unlearned_evidence": "newborns prefer human voice and their mother's voice",
+      "confidence": "Em",
+      "caveat": "IMPORTANT: mother's-voice and native-prosody preferences reflect PRENATAL auditory exposure (learned in utero), so this is partly experience, not purely innate wiring",
+      "sources": [
+        "DeCasper & Fifer 1980",
+        "Moon et al."
+      ]
+    },
+    {
+      "id": "LB-ANCESTRAL-THREAT",
+      "category": "prepared_learning_bias",
+      "stimulus": "ancestral-threat categories (snakes, spiders, angry/threatening faces, heights)",
+      "target": "amygdala threat-learning: FASTER acquisition + SLOWER extinction of aversive associations for these categories",
+      "innate_effect": "learning_rate_modifier",
+      "mechanism_type": "learning_bias",
+      "default_birth_strength": "n/a",
+      "present_at_birth": "yes (as a bias, not a fear)",
+      "unlearned_evidence": "aversive conditioning to snakes/spiders is acquired faster and extinguishes slower than to neutral stimuli; monkeys acquire snake (not flower) fear observationally",
+      "confidence": "Em",
+      "caveat": "CRUCIAL: this is a bias in LEARNABILITY, not an innate fear. Human INFANTS are NOT afraid of snakes/spiders \u2014 they show rapid DETECTION/attention, not fear. Encode as a modifier on the plasticity learning-rate/extinction for these stimulus classes, NEVER as a birth-present fear weight. Evolutionary account is itself contested.",
+      "sources": [
+        "Seligman 1971",
+        "Ohman & Mineka 2001",
+        "Cook & Mineka 1990",
+        "LoBue & Rakison (detection not fear in infants)"
+      ]
+    }
+  ],
+  "input_channels": [
+    {
+      "id": "IN-VIS",
+      "modality": "exteroceptive",
+      "receptors": "retina",
+      "central_entry": "LGN/superior colliculus -> V1",
+      "feeds": "VIS-01/VIS-02, SC orienting",
+      "notes": "vision; carries looming, face, biomotion"
+    },
+    {
+      "id": "IN-AUD",
+      "modality": "exteroceptive",
+      "receptors": "cochlea",
+      "central_entry": "cochlear nuclei -> MGN -> A1",
+      "feeds": "AUD-01, startle arc",
+      "notes": "audition; carries voice, sudden-onset startle"
+    },
+    {
+      "id": "IN-OLF",
+      "modality": "exteroceptive",
+      "receptors": "olfactory epithelium",
+      "central_entry": "olfactory bulb -> piriform (bypasses thalamus)",
+      "feeds": "OLF-01, amygdala",
+      "notes": "smell; direct limbic access; early mother-odour learning"
+    },
+    {
+      "id": "IN-GUST",
+      "modality": "exteroceptive",
+      "receptors": "taste buds",
+      "central_entry": "NTS -> thalamus -> insula",
+      "feeds": "gustatory cortex, reward/aversion",
+      "notes": "taste; carries the sweet/bitter/sour primary reinforcers"
+    },
+    {
+      "id": "IN-SOMATO",
+      "modality": "exteroceptive",
+      "receptors": "mechano/thermo/nociceptors, C-tactile",
+      "central_entry": "dorsal horn -> VPL -> S1/S2 (touch); spinothalamic (pain/temp)",
+      "feeds": "SOM-01, PAIN-01/02, affective-touch",
+      "notes": "touch, temperature, nociception, affective touch"
+    },
+    {
+      "id": "IN-PROPRIO",
+      "modality": "proprioceptive",
+      "receptors": "muscle spindles, Golgi tendon organs, joint receptors",
+      "central_entry": "dorsal column nuclei -> VPL -> S1/parietal; cerebellum",
+      "feeds": "MOT-*, cerebellum, agency",
+      "notes": "body position/movement; efference-copy comparison"
+    },
+    {
+      "id": "IN-VESTIB",
+      "modality": "vestibular",
+      "receptors": "semicircular canals, otoliths",
+      "central_entry": "vestibular nuclei -> thalamus/cerebellum",
+      "feeds": "balance, MOT, spatial",
+      "notes": "head motion/balance/gravity"
+    },
+    {
+      "id": "IN-INTERO",
+      "modality": "interoceptive",
+      "receptors": "cardiac, pulmonary, gastric, chemo/baro, humoral (glucose, hormones)",
+      "central_entry": "NTS -> parabrachial -> insula/hypothalamus",
+      "feeds": "INT-01/02, AUT-01, ENDO-*",
+      "notes": "bodily state; the substrate of FELT emotion via body<->brain loops"
+    }
+  ],
+  "physical_endowment": [
+    {
+      "id": "PH-ATTRACT",
+      "attribute": "facial/bodily attractiveness",
+      "distribution": "normal(0,1) per-agent",
+      "biases": "how OTHERS respond to the agent (feeds the future relationship matrix)",
+      "notes": "a social-response bias, not a worth judgement; drives asymmetric reactions from other sims"
+    },
+    {
+      "id": "PH-SIZE",
+      "attribute": "body size/height",
+      "distribution": "normal(mean_by_age_sex, sd)",
+      "biases": "physical affordances; social dominance signals; some threat/defence outcomes",
+      "notes": "genetic + developmental; interacts with musculature"
+    },
+    {
+      "id": "PH-MUSCLE",
+      "attribute": "musculature/strength",
+      "distribution": "normal(0,1)",
+      "biases": "action affordances; agility ceiling",
+      "notes": "trainable within genetic bounds (use-dependent)"
+    },
+    {
+      "id": "PH-AGILITY",
+      "attribute": "motor agility/coordination",
+      "distribution": "normal(0,1)",
+      "biases": "motor-learning rate ceiling; success of physical action",
+      "notes": "interacts with cerebellar/motor circuits"
+    },
+    {
+      "id": "PH-HEALTH",
+      "attribute": "congenital health/robustness",
+      "distribution": "normal(0,1), lower tail = vulnerability",
+      "biases": "illness burden; energy; stress load; developmental perturbation",
+      "notes": "can gate/perturb developmental trajectories"
+    },
+    {
+      "id": "PH-SENSORY",
+      "attribute": "sensory acuity (visual/auditory/etc.)",
+      "distribution": "normal(0,1) per modality",
+      "biases": "quality of input entering each channel",
+      "notes": "low acuity changes what stimuli are even available to learn from"
+    },
+    {
+      "id": "PH-TEMPERAMENT",
+      "attribute": "per-circuit reactivity priors",
+      "distribution": "drawn from temperament vocabulary (existing seeding)",
+      "biases": "initial reactivity/threshold of each circuit",
+      "notes": "the genetic 'gain' layer; NOT emotion dials \u2014 reactivity of wiring, shaped thereafter by plasticity"
+    }
+  ],
+  "gaps_register": [
+    "Default (newborn) weights: literature gives ADULT co-activation patterns, not birth values \u2014 most default weights will be flagged assumptions until better-sourced.",
+    "Exhaustive projection list: a true connectome-level 'which circuit wires to which' is incomplete; assembly must catalogue coverage and holes.",
+    "fMRI/brain-activity correlates of emotional/behavioural states are not yet mapped to circuit dynamics \u2014 a target for deeper search (task-fMRI, intracranial, developmental cohorts).",
+    "Innate-connection strengths are qualitative (strong/moderate/weak); quantitative birth strengths mostly unavailable.",
+    "Interoceptive/bodily feedback coupling gains are unquantified (and must stay mechanism-derived, not outcome-tuned).",
+    "Receptor-subtype distributions, neuromodulator spatial gradients, and glial/astrocytic contributions are not represented.",
+    "Genotype -> parameter mappings (variant -> reactivity/plasticity gain) are not yet specified.",
+    "Developmental-onset ages for many subcortical/affective circuits are approximate and often animal-informed.",
+    "Prepared-learning bias magnitudes (e.g. how much faster ancestral-threat conditioning is) are not quantified and are evolutionarily contested.",
+    "Plasticity eta(age) schedule refs (e.g. 'amygdala_high_early', 'pfc_low_early_high_late') are qualitative labels, not yet quantified curves."
+  ],
+  "circuits": [
+    {
+      "id": "LA",
+      "name": "Lateral amygdala",
+      "domain": "defensive_threat",
+      "function": "Convergence zone; principal associative fear-learning site",
+      "nodes": "lateral amygdala (dorsal/ventral)",
+      "transmitters": "glutamatergic input; local GABAergic interneurons",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.3,
+      "plasticity_coeff_schedule_ref": "amygdala_high_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "LeDoux 2000; Pitkanen et al. 1997"
+    },
+    {
+      "id": "BA",
+      "name": "Basal amygdala",
+      "domain": "defensive_threat",
+      "function": "LA->CeA relay; context/regulation interface",
+      "nodes": "basal (basolateral) amygdala",
+      "transmitters": "glutamatergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.3,
+      "plasticity_coeff_schedule_ref": "amygdala_high_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Pitkanen et al. 1997; Herry & Johansen 2014"
+    },
+    {
+      "id": "CeA",
+      "name": "Central amygdala",
+      "domain": "defensive_threat",
+      "function": "Output hub driving defensive responses",
+      "nodes": "central nucleus (CeL/CeM)",
+      "transmitters": "GABAergic output neurons",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Ciocchi et al. 2010; Fadok et al. 2017"
+    },
+    {
+      "id": "ITC",
+      "name": "Intercalated cell masses",
+      "domain": "defensive_threat",
+      "function": "Inhibitory gate on CeA; substrate of extinction",
+      "nodes": "paracapsular intercalated clusters",
+      "transmitters": "GABAergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.5,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Pare et al. 2004; Likhtik et al. 2008"
+    },
+    {
+      "id": "BNST",
+      "name": "Bed nucleus of the stria terminalis",
+      "domain": "defensive_threat",
+      "function": "Sustained/uncertain threat (anxiety)",
+      "nodes": "BNST (extended amygdala)",
+      "transmitters": "CRF; GABA/glutamate",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 6.0,
+      "plasticity_coeff_schedule_ref": "bnst_moderate_later",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Davis et al. 2010; Walker & Davis 2008"
+    },
+    {
+      "id": "PAG",
+      "name": "Periaqueductal grey",
+      "domain": "defensive_threat",
+      "function": "Defensive output: freeze (vlPAG) / flight (dPAG)",
+      "nodes": "dorsal PAG / ventrolateral PAG",
+      "transmitters": "glutamate/GABA; opioids",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Fanselow 1994; Tovote et al. 2016"
+    },
+    {
+      "id": "HYPdm",
+      "name": "Dorsomedial/medial hypothalamus",
+      "domain": "defensive_threat",
+      "function": "Autonomic/endocrine defensive drive",
+      "nodes": "dorsomedial & medial hypothalamic defence area",
+      "transmitters": "glutamate/GABA; neuropeptides",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "canonical hypothalamic-defence literature"
+    },
+    {
+      "id": "LC",
+      "name": "Locus coeruleus",
+      "domain": "defensive_threat",
+      "function": "Noradrenaline arousal broadcast; the plasticity gate (rule R5)",
+      "nodes": "locus coeruleus (pontine)",
+      "transmitters": "noradrenaline",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.1,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Aston-Jones & Cohen 2005; McCall et al. 2015"
+    },
+    {
+      "id": "HPCv",
+      "name": "Ventral hippocampus",
+      "domain": "defensive_threat",
+      "function": "Context: where/when safe vs dangerous",
+      "nodes": "ventral hippocampus / anterior hippocampus (human)",
+      "transmitters": "glutamate (ACh-modulated)",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 3.0,
+      "plasticity_coeff_schedule_ref": "hippocampus_high_from_early_childhood",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Maren & Holmes 2016; Kjelstrup et al. 2002"
+    },
+    {
+      "id": "vmPFC",
+      "name": "Ventromedial PFC (infralimbic-type)",
+      "domain": "defensive_threat",
+      "function": "Extinction, safety signalling, top-down damping",
+      "nodes": "ventromedial PFC / infralimbic-analogue",
+      "transmitters": "glutamatergic (drives GABAergic ITCs)",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 14.0,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Milad & Quirk 2002; Giustino & Maren 2015"
+    },
+    {
+      "id": "dmPFC",
+      "name": "Dorsomedial PFC (prelimbic-type)/dACC",
+      "domain": "defensive_threat",
+      "function": "Sustained-threat attention; fear expression",
+      "nodes": "dorsomedial PFC / prelimbic-analogue / dACC",
+      "transmitters": "glutamatergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 8.0,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Sotres-Bayon & Quirk 2010; Vidal-Gonzalez et al. 2006"
+    },
+    {
+      "id": "SC-Pv",
+      "name": "Superior colliculus -> pulvinar",
+      "domain": "defensive_threat",
+      "function": "Fast subcortical visual threat channel (looming)",
+      "nodes": "superior colliculus; lateral posterior/pulvinar",
+      "transmitters": "glutamatergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Wei et al. 2015; Shang et al. 2015"
+    },
+    {
+      "id": "StN",
+      "name": "Caudal pontine reticular nucleus",
+      "domain": "defensive_threat",
+      "function": "Acoustic startle arc",
+      "nodes": "caudal pontine reticular nucleus (PnC)",
+      "transmitters": "glutamatergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Koch 1999; Davis (fear-potentiated startle)"
+    },
+    {
+      "id": "VTA",
+      "name": "Ventral tegmental area",
+      "domain": "reward_approach",
+      "function": "Reward-prediction-error teaching signal; the approach plasticity gate (rule R5)",
+      "nodes": "VTA (A10 DA neurons; GABA/Glu subpopulations)",
+      "transmitters": "dopamine (+ GABA/glutamate co-release)",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "da_system_high_adolescent_peak",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Schultz 1997; Lammel et al. 2014"
+    },
+    {
+      "id": "SNc",
+      "name": "Substantia nigra pars compacta",
+      "domain": "reward_approach",
+      "function": "Nigrostriatal dopamine to dorsal striatum (vigour, habit)",
+      "nodes": "SNc (A9 dopamine neurons)",
+      "transmitters": "dopamine",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "da_system_high_adolescent_peak",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Wise 2004"
+    },
+    {
+      "id": "NAc-core",
+      "name": "Nucleus accumbens core",
+      "domain": "reward_approach",
+      "function": "Instrumental approach; motivational vigour",
+      "nodes": "NAc core (D1/D2 medium spiny neurons)",
+      "transmitters": "GABAergic MSNs; DA-modulated",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.3,
+      "plasticity_coeff_schedule_ref": "striatal_msn_high_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Floresco 2015"
+    },
+    {
+      "id": "NAc-shell",
+      "name": "Nucleus accumbens shell",
+      "domain": "reward_approach",
+      "function": "Incentive salience ('wanting') + hedonic impact ('liking') hotspots",
+      "nodes": "NAc shell; opioid/endocannabinoid hedonic hotspots",
+      "transmitters": "GABAergic MSNs; hotspot opioids/eCB",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.3,
+      "plasticity_coeff_schedule_ref": "striatal_msn_high_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Berridge & Kringelbach 2015; Castro & Berridge 2014"
+    },
+    {
+      "id": "VP",
+      "name": "Ventral pallidum",
+      "domain": "reward_approach",
+      "function": "Limbic reward output; final common hedonic path",
+      "nodes": "ventral pallidum (contains a hedonic hotspot)",
+      "transmitters": "GABAergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.3,
+      "plasticity_coeff_schedule_ref": "pallidal_moderate",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Smith et al. 2009"
+    },
+    {
+      "id": "LH",
+      "name": "Lateral hypothalamus",
+      "domain": "reward_approach",
+      "function": "Appetitive drive hub; links homeostatic/energy state to VTA (SEEKING)",
+      "nodes": "lateral hypothalamic area",
+      "transmitters": "glutamate/GABA; orexin, MCH",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "hypothalamic_low_flat",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Stuber & Wise 2016"
+    },
+    {
+      "id": "OFC",
+      "name": "Orbitofrontal cortex",
+      "domain": "reward_approach",
+      "function": "Outcome/stimulus value; reversal learning; flexible valuation",
+      "nodes": "orbitofrontal cortex (medial/lateral)",
+      "transmitters": "glutamatergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 3.0,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Rushworth et al. 2011; Rudebeck & Murray 2014"
+    },
+    {
+      "id": "DStr",
+      "name": "Dorsal striatum",
+      "domain": "reward_approach",
+      "function": "Stimulus-response habit; automatisation of approach",
+      "nodes": "caudate / putamen (D1/D2 MSNs)",
+      "transmitters": "GABAergic MSNs; DA-modulated",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 3.0,
+      "plasticity_coeff_schedule_ref": "dstr_habit_lifelong",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Yin & Knowlton 2006; Graybiel 2008"
+    },
+    {
+      "id": "LHb",
+      "name": "Lateral habenula",
+      "domain": "reward_approach",
+      "function": "Negative reward-prediction (disappointment); suppresses dopamine",
+      "nodes": "lateral habenula",
+      "transmitters": "glutamatergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.3,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Matsumoto & Hikosaka 2007"
+    },
+    {
+      "id": "RMTg",
+      "name": "Rostromedial tegmental nucleus",
+      "domain": "reward_approach",
+      "function": "Relays lateral-habenula inhibition onto VTA dopamine (negative RPE)",
+      "nodes": "RMTg ('tail of VTA')",
+      "transmitters": "GABAergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Jhou et al. 2009"
+    },
+    {
+      "id": "PPTg",
+      "name": "Pedunculopontine tegmental nucleus",
+      "domain": "reward_approach",
+      "function": "Excitatory/cue drive to VTA dopamine bursts",
+      "nodes": "pedunculopontine tegmentum",
+      "transmitters": "glutamate/acetylcholine",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Pan & Hyland 2005"
+    },
+    {
+      "id": "PVT",
+      "name": "Paraventricular thalamus",
+      "domain": "reward_approach",
+      "function": "Arousal/salience gating of reward-seeking",
+      "nodes": "paraventricular nucleus of thalamus",
+      "transmitters": "glutamatergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.5,
+      "plasticity_coeff_schedule_ref": "thalamic_moderate",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Do-Monte et al. 2017; Kirouac 2015"
+    },
+    {
+      "id": "RET",
+      "name": "Retina",
+      "domain": "sensory",
+      "function": "Visual transduction and early spatial/contrast coding",
+      "nodes": "photoreceptors -> bipolar -> retinal ganglion cells",
+      "transmitters": "glutamate (ON/OFF); GABA/glycine",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "visual_cp_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Wassle 2004"
+    },
+    {
+      "id": "LGN",
+      "name": "Lateral geniculate nucleus",
+      "domain": "sensory",
+      "function": "Thalamic relay to V1; contrast/segregation",
+      "nodes": "dLGN (magno/parvo/konio layers)",
+      "transmitters": "glutamate (thalamic relay); ACh-modulated",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "visual_cp_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Sherman & Guillery 2002"
+    },
+    {
+      "id": "V1",
+      "name": "Primary visual cortex",
+      "domain": "sensory",
+      "function": "Early cortical vision; orientation/edges; ocular-dominance critical period",
+      "nodes": "V1 / striate cortex",
+      "transmitters": "glutamate/GABA",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.1,
+      "plasticity_coeff_schedule_ref": "visual_cp_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Hubel & Wiesel; Hensch 2005"
+    },
+    {
+      "id": "V-ventral",
+      "name": "Ventral visual stream",
+      "domain": "sensory",
+      "function": "Object/face/word recognition ('what'); category areas specialise with experience",
+      "nodes": "V2 -> V4 -> inferotemporal (incl. fusiform/FFA, VWFA)",
+      "transmitters": "glutamate; ACh gain",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.5,
+      "plasticity_coeff_schedule_ref": "visual_ventral_childhood",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Grill-Spector & Weiner 2014"
+    },
+    {
+      "id": "V-dorsal",
+      "name": "Dorsal visual stream",
+      "domain": "sensory",
+      "function": "Motion/space/action ('where'/'how'); 'dorsal-stream vulnerability'",
+      "nodes": "V3 -> MT/V5 -> posterior parietal",
+      "transmitters": "glutamate",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.5,
+      "plasticity_coeff_schedule_ref": "visual_dorsal_childhood",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Goodale & Milner 1992"
+    },
+    {
+      "id": "COCH",
+      "name": "Cochlea",
+      "domain": "sensory",
+      "function": "Auditory transduction; tonotopic decomposition",
+      "nodes": "inner/outer hair cells",
+      "transmitters": "glutamate",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "auditory_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "canonical"
+    },
+    {
+      "id": "AUD-brainstem",
+      "name": "Auditory brainstem",
+      "domain": "sensory",
+      "function": "Ascending auditory relay; interaural sound localisation",
+      "nodes": "cochlear nuclei -> superior olive -> inferior colliculus",
+      "transmitters": "glutamate/GABA/glycine",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "auditory_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "canonical"
+    },
+    {
+      "id": "MGN",
+      "name": "Medial geniculate nucleus",
+      "domain": "sensory",
+      "function": "Thalamic auditory relay to A1",
+      "nodes": "MGN (thalamus)",
+      "transmitters": "glutamate; ACh-modulated",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "auditory_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "canonical"
+    },
+    {
+      "id": "A1-belt",
+      "name": "Auditory cortex",
+      "domain": "sensory",
+      "function": "Auditory cortical processing; native-phoneme/voice tuning narrows in first year",
+      "nodes": "A1 -> belt/parabelt (superior temporal gyrus)",
+      "transmitters": "glutamate/GABA",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.1,
+      "plasticity_coeff_schedule_ref": "auditory_phoneme_first_year",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Kuhl 2004"
+    },
+    {
+      "id": "SOM-relay",
+      "name": "Somatosensory ascending relay",
+      "domain": "sensory",
+      "function": "Ascending somatosensory relay",
+      "nodes": "dorsal-column nuclei (touch/proprioception) + spinothalamic (pain/temp)",
+      "transmitters": "glutamate; substance P (pain)",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "somato_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "canonical"
+    },
+    {
+      "id": "VPL",
+      "name": "Ventral posterolateral nucleus",
+      "domain": "sensory",
+      "function": "Somatosensory thalamic relay to S1",
+      "nodes": "VPL (thalamus)",
+      "transmitters": "glutamate; ACh-modulated",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "somato_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "canonical"
+    },
+    {
+      "id": "S1",
+      "name": "Primary somatosensory cortex",
+      "domain": "sensory",
+      "function": "Somatotopic touch/proprioception",
+      "nodes": "S1 (postcentral gyrus)",
+      "transmitters": "glutamate/GABA",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.1,
+      "plasticity_coeff_schedule_ref": "somato_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Penfield; canonical"
+    },
+    {
+      "id": "S2-PPC",
+      "name": "Secondary somatosensory / posterior parietal",
+      "domain": "sensory",
+      "function": "Somatosensory integration; body schema",
+      "nodes": "S2 + posterior parietal",
+      "transmitters": "glutamate",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.5,
+      "plasticity_coeff_schedule_ref": "somato_childhood",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "canonical"
+    },
+    {
+      "id": "OB",
+      "name": "Olfactory bulb",
+      "domain": "sensory",
+      "function": "Olfactory relay (BYPASSES thalamus)",
+      "nodes": "olfactory bulb (glomeruli, mitral/tufted cells)",
+      "transmitters": "glutamate; GABA (granule cells)",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "olfactory_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Mori & Sakano 2011"
+    },
+    {
+      "id": "PIR",
+      "name": "Piriform (olfactory) cortex",
+      "domain": "sensory",
+      "function": "Olfactory identity; direct amygdala/entorhinal access; early odour learning",
+      "nodes": "piriform cortex",
+      "transmitters": "glutamate",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "olfactory_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "canonical"
+    },
+    {
+      "id": "NTS-gust",
+      "name": "Nucleus tractus solitarius (gustatory)",
+      "domain": "sensory",
+      "function": "First central gustatory relay",
+      "nodes": "rostral NTS (gustatory division)",
+      "transmitters": "glutamate",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "gustatory_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "canonical"
+    },
+    {
+      "id": "GUST-cortex",
+      "name": "Gustatory cortex",
+      "domain": "sensory",
+      "function": "Taste identity/quality",
+      "nodes": "anterior insula / frontal operculum (via VPMpc thalamus)",
+      "transmitters": "glutamate",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.1,
+      "plasticity_coeff_schedule_ref": "gustatory_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "canonical"
+    },
+    {
+      "id": "VN",
+      "name": "Vestibular nuclei",
+      "domain": "sensory",
+      "function": "Balance/head-motion; to thalamus, cerebellum, spinal cord",
+      "nodes": "vestibular nuclear complex",
+      "transmitters": "glutamate/GABA",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "vestibular_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "canonical"
+    },
+    {
+      "id": "dlPFC",
+      "name": "Dorsolateral prefrontal cortex",
+      "domain": "executive",
+      "function": "Working-memory maintenance/manipulation; top-down goal control; planning",
+      "nodes": "dlPFC (BA9/46)",
+      "transmitters": "glutamatergic; DA/NA/ACh-modulated",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 6.0,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Goldman-Rakic 1995; Miller & Cohen 2001"
+    },
+    {
+      "id": "vlPFC",
+      "name": "Ventrolateral prefrontal cortex",
+      "domain": "executive",
+      "function": "Response inhibition (stopping); controlled retrieval/selection",
+      "nodes": "vlPFC / right inferior frontal gyrus (BA44/45/47)",
+      "transmitters": "glutamatergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 5.0,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Aron et al. 2014"
+    },
+    {
+      "id": "dACC",
+      "name": "Dorsal anterior cingulate cortex",
+      "domain": "executive",
+      "function": "Conflict/error monitoring; effort; expected value of control",
+      "nodes": "dorsal ACC / mid-cingulate",
+      "transmitters": "glutamatergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 5.0,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Botvinick et al. 2001; Shenhav et al. 2013"
+    },
+    {
+      "id": "FPC",
+      "name": "Frontopolar cortex",
+      "domain": "executive",
+      "function": "Prospective memory; branching/multitasking; relational integration; metacognition; the LATEST-maturing cortex",
+      "nodes": "frontopolar / rostral PFC (BA10)",
+      "transmitters": "glutamatergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 12.0,
+      "plasticity_coeff_schedule_ref": "pfc_latest_maturing",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Burgess et al. 2007; Mansouri et al. 2017"
+    },
+    {
+      "id": "preSMA",
+      "name": "Pre-supplementary motor area",
+      "domain": "executive",
+      "function": "Action selection/sequencing; motor inhibition interface (to STN)",
+      "nodes": "pre-SMA / SMA (BA6 medial)",
+      "transmitters": "glutamatergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 4.0,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Nachev et al. 2008"
+    },
+    {
+      "id": "FEF",
+      "name": "Frontal eye fields",
+      "domain": "executive",
+      "function": "Oculomotor/spatial attention control (top-down)",
+      "nodes": "frontal eye fields (BA8)",
+      "transmitters": "glutamatergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 2.0,
+      "plasticity_coeff_schedule_ref": "frontal_attention_childhood",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Corbetta & Shulman 2002"
+    },
+    {
+      "id": "MDthal",
+      "name": "Mediodorsal thalamus",
+      "domain": "executive",
+      "function": "PFC thalamic partner; sustains working memory via thalamo-cortical loops",
+      "nodes": "mediodorsal nucleus of thalamus",
+      "transmitters": "glutamate; ACh-modulated",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.5,
+      "plasticity_coeff_schedule_ref": "thalamic_moderate",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Schmitt et al. 2017"
+    },
+    {
+      "id": "STN",
+      "name": "Subthalamic nucleus",
+      "domain": "executive",
+      "function": "Hyperdirect 'stop' node; global brake on basal-ganglia output",
+      "nodes": "subthalamic nucleus",
+      "transmitters": "glutamatergic",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 1.0,
+      "plasticity_coeff_schedule_ref": "bg_moderate",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Aron & Poldrack 2006"
+    },
+    {
+      "id": "Caud-assoc",
+      "name": "Associative (dorsomedial) caudate",
+      "domain": "executive",
+      "function": "Frontostriatal executive loop; working-memory input gating",
+      "nodes": "dorsomedial caudate (associative striatum)",
+      "transmitters": "GABAergic MSNs; DA-modulated",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 2.0,
+      "plasticity_coeff_schedule_ref": "bg_moderate",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Frank et al. 2001; Hazy et al. 2006"
+    },
+    {
+      "id": "BF-ACh",
+      "name": "Basal forebrain cholinergic system",
+      "domain": "executive",
+      "function": "Cortical activation; attentional gain; gates cortical plasticity",
+      "nodes": "nucleus basalis of Meynert / medial septum",
+      "transmitters": "acetylcholine",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.3,
+      "plasticity_coeff_schedule_ref": "cholinergic_early",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Sarter et al. 2005"
+    }
+  ],
+  "connections": [
+    {
+      "source_circuit": "sensory_thalamus",
+      "target_circuit": "LA",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "amygdala_high_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "assumption (newborn weight); thalamo-amygdala 'low road' pathway well-established (LeDoux)"
+    },
+    {
+      "source_circuit": "sensory_cortex",
+      "target_circuit": "LA",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "amygdala_high_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 1.5,
+      "confidence": "E",
+      "source": "assumption; cortico-amygdala 'high road' pathway"
+    },
+    {
+      "source_circuit": "LA",
+      "target_circuit": "BA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "amygdala_high_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "Pitkanen et al. 1997; newborn strength assumed"
+    },
+    {
+      "source_circuit": "BA",
+      "target_circuit": "CeA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "amygdala_high_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "anatomy; newborn strength assumed"
+    },
+    {
+      "source_circuit": "LA",
+      "target_circuit": "CeA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "direct route; anatomy; strength assumed"
+    },
+    {
+      "source_circuit": "CeA",
+      "target_circuit": "PAG",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "innate defensive backbone; Tovote et al. 2016"
+    },
+    {
+      "source_circuit": "CeA",
+      "target_circuit": "HYPdm",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "innate defensive backbone; anatomy"
+    },
+    {
+      "source_circuit": "LA",
+      "target_circuit": "BNST",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "CRF",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "bnst_moderate_later",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "sustained-threat route; Davis et al. 2010; strength assumed"
+    },
+    {
+      "source_circuit": "CeA",
+      "target_circuit": "BNST",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "CRF",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "bnst_moderate_later",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "extended-amygdala; strength assumed"
+    },
+    {
+      "source_circuit": "BNST",
+      "target_circuit": "PAG",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "anatomy"
+    },
+    {
+      "source_circuit": "BNST",
+      "target_circuit": "HYPdm",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "anatomy"
+    },
+    {
+      "source_circuit": "ITC",
+      "target_circuit": "CeA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "inhibitory gate; Pare et al. 2004"
+    },
+    {
+      "source_circuit": "vmPFC",
+      "target_circuit": "ITC",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 14.0,
+      "confidence": "E",
+      "source": "extinction driver, weak in childhood; Milad & Quirk 2002; strength assumed"
+    },
+    {
+      "source_circuit": "HPCv",
+      "target_circuit": "LA",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "hippocampus_high_from_early_childhood",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 3.0,
+      "confidence": "E",
+      "source": "context gating; Maren & Holmes 2016; strength assumed"
+    },
+    {
+      "source_circuit": "HPCv",
+      "target_circuit": "BA",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "hippocampus_high_from_early_childhood",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 3.0,
+      "confidence": "E",
+      "source": "context gating; strength assumed"
+    },
+    {
+      "source_circuit": "HPCv",
+      "target_circuit": "vmPFC",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 14.0,
+      "confidence": "E",
+      "source": "context for safe/unsafe; late; strength assumed"
+    },
+    {
+      "source_circuit": "dmPFC",
+      "target_circuit": "LA",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 8.0,
+      "confidence": "E",
+      "source": "enhances fear expression; Vidal-Gonzalez et al. 2006; strength assumed"
+    },
+    {
+      "source_circuit": "dmPFC",
+      "target_circuit": "BA",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 8.0,
+      "confidence": "E",
+      "source": "strength assumed"
+    },
+    {
+      "source_circuit": "LC",
+      "target_circuit": "LA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.1,
+      "confidence": "E",
+      "source": "NA arousal broadcast; LC is itself the gate (R5); Aston-Jones & Cohen 2005"
+    },
+    {
+      "source_circuit": "LC",
+      "target_circuit": "BA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.1,
+      "confidence": "E",
+      "source": "NA broadcast"
+    },
+    {
+      "source_circuit": "LC",
+      "target_circuit": "CeA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.1,
+      "confidence": "E",
+      "source": "NA broadcast"
+    },
+    {
+      "source_circuit": "IN-SOMATO:nociception",
+      "target_circuit": "LA",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "amygdala_high_early",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PR-NOCICEPTION (catalogue, cited); unconditioned aversive input"
+    },
+    {
+      "source_circuit": "IN-SOMATO:nociception",
+      "target_circuit": "CeA",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PR-NOCICEPTION (catalogue, cited)"
+    },
+    {
+      "source_circuit": "SC-Pv",
+      "target_circuit": "CeA",
+      "default_weight": "moderate",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PB-LOOMING (catalogue, cited); innate threat cue; Wei et al. 2015"
+    },
+    {
+      "source_circuit": "SC-Pv",
+      "target_circuit": "PAG",
+      "default_weight": "moderate",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PB-LOOMING (catalogue, cited)"
+    },
+    {
+      "source_circuit": "StN",
+      "target_circuit": "CeA",
+      "default_weight": "low",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PB-STARTLE (catalogue, cited); startle ARC is innate, the CeA fear-potentiation link starts low and grows with experience"
+    },
+    {
+      "source_circuit": "IN-GUST:sweet",
+      "target_circuit": "NAc-shell",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "striatal_msn_high_early",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PR-SWEET (catalogue, cited); hedonic 'liking'"
+    },
+    {
+      "source_circuit": "IN-GUST:sweet",
+      "target_circuit": "VTA",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "da_system_high_adolescent_peak",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PR-SWEET (catalogue, cited); appetitive DA drive"
+    },
+    {
+      "source_circuit": "IN-GUST:umami",
+      "target_circuit": "NAc-shell",
+      "default_weight": "moderate",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "striatal_msn_high_early",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PR-UMAMI (catalogue, cited)"
+    },
+    {
+      "source_circuit": "IN-SOMATO:affective_touch",
+      "target_circuit": "NAc-shell",
+      "default_weight": "moderate",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "striatal_msn_high_early",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PR-CONTACT (catalogue, cited); C-tactile -> calming/appetitive"
+    },
+    {
+      "source_circuit": "IN-INTERO:thermal_warmth",
+      "target_circuit": "NAc-shell",
+      "default_weight": "moderate",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "striatal_msn_high_early",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PR-THERMAL (catalogue, cited); warmth comfort"
+    },
+    {
+      "source_circuit": "IN-INTERO:nutritive_state",
+      "target_circuit": "LH",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "hypothalamic_low_flat",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PR-HOMEOSTATIC (catalogue, cited); energy state drives appetitive seeking"
+    },
+    {
+      "source_circuit": "VTA",
+      "target_circuit": "NAc-core",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "da_system_high_adolescent_peak",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "mesolimbic DA; VTA-DA is itself the approach plasticity gate (R5); Schultz RPE"
+    },
+    {
+      "source_circuit": "VTA",
+      "target_circuit": "NAc-shell",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "striatal_msn_high_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "mesolimbic DA"
+    },
+    {
+      "source_circuit": "VTA",
+      "target_circuit": "OFC",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 3.0,
+      "confidence": "E",
+      "source": "mesocortical DA; value; late; strength assumed"
+    },
+    {
+      "source_circuit": "VTA",
+      "target_circuit": "vmPFC",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 3.0,
+      "confidence": "E",
+      "source": "mesocortical DA reaches vmPFC (SHARED node: value/regulation); strength assumed"
+    },
+    {
+      "source_circuit": "SNc",
+      "target_circuit": "DStr",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "dstr_habit_lifelong",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 3.0,
+      "confidence": "E",
+      "source": "nigrostriatal DA; habit/vigour; anatomy"
+    },
+    {
+      "source_circuit": "NAc-core",
+      "target_circuit": "VP",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pallidal_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "limbic output; anatomy"
+    },
+    {
+      "source_circuit": "NAc-shell",
+      "target_circuit": "VP",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pallidal_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "hedonic output; VP hotspot; anatomy"
+    },
+    {
+      "source_circuit": "VP",
+      "target_circuit": "VTA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pallidal_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "feedback/disinhibition; anatomy"
+    },
+    {
+      "source_circuit": "LH",
+      "target_circuit": "VTA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "hypothalamic_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "appetitive drive (orexin/Glu) to DA; anatomy"
+    },
+    {
+      "source_circuit": "PPTg",
+      "target_circuit": "VTA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "cue/salience burst drive to DA; anatomy"
+    },
+    {
+      "source_circuit": "LHb",
+      "target_circuit": "RMTg",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "negative reward-prediction arm; anatomy"
+    },
+    {
+      "source_circuit": "RMTg",
+      "target_circuit": "VTA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "GABAergic inhibition of DA on worse-than-expected outcomes (negative RPE); anatomy"
+    },
+    {
+      "source_circuit": "OFC",
+      "target_circuit": "NAc-core",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 3.0,
+      "confidence": "E",
+      "source": "value guides approach; late; strength assumed"
+    },
+    {
+      "source_circuit": "OFC",
+      "target_circuit": "VTA",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 3.0,
+      "confidence": "E",
+      "source": "value modulates DA; strength assumed"
+    },
+    {
+      "source_circuit": "sensory_cortex",
+      "target_circuit": "OFC",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 3.0,
+      "confidence": "E",
+      "source": "cue->value association site; strength assumed"
+    },
+    {
+      "source_circuit": "BA",
+      "target_circuit": "NAc-core",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "striatal_msn_high_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "SHARED amygdala substrate: appetitive cue-value learning site; starts weak; strength assumed"
+    },
+    {
+      "source_circuit": "HPCv",
+      "target_circuit": "NAc-shell",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "striatal_msn_high_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 3.0,
+      "confidence": "E",
+      "source": "SHARED hippocampal context: contextual reward; strength assumed"
+    },
+    {
+      "source_circuit": "PVT",
+      "target_circuit": "NAc-core",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "thalamic_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "arousal/salience gating of seeking; anatomy"
+    },
+    {
+      "source_circuit": "RET",
+      "target_circuit": "LGN",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "visual_cp_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "retinogeniculate; anatomy"
+    },
+    {
+      "source_circuit": "RET",
+      "target_circuit": "SC-Pv",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "retinotectal (subcortical orienting); anatomy"
+    },
+    {
+      "source_circuit": "LGN",
+      "target_circuit": "V1",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "visual_cp_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.1,
+      "confidence": "E",
+      "source": "geniculostriate; ocular-dominance critical period; anatomy"
+    },
+    {
+      "source_circuit": "V1",
+      "target_circuit": "V-ventral",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "visual_ventral_childhood",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "ventral stream; anatomy"
+    },
+    {
+      "source_circuit": "V1",
+      "target_circuit": "V-dorsal",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "visual_dorsal_childhood",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "dorsal stream; anatomy"
+    },
+    {
+      "source_circuit": "IN-VIS:face_like",
+      "target_circuit": "SC-Pv",
+      "default_weight": "moderate",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PB-FACE (catalogue, cited); innate orienting bias -- MAY be a NON-specific top-heavy/high-contrast bias, not face-specific; cortical FFA specialisation (V-ventral) is EXPERIENCE-built, not innate"
+    },
+    {
+      "source_circuit": "IN-VIS:biological_motion",
+      "target_circuit": "SC-Pv",
+      "default_weight": "moderate",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PB-BIOMOTION (catalogue, cited); innate orienting bias to self-propelled/biological motion"
+    },
+    {
+      "source_circuit": "COCH",
+      "target_circuit": "AUD-brainstem",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "auditory_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "anatomy"
+    },
+    {
+      "source_circuit": "COCH",
+      "target_circuit": "StN",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PB-STARTLE (catalogue, cited); sensory limb of the acoustic startle arc (StN->CeA is the downstream link)"
+    },
+    {
+      "source_circuit": "AUD-brainstem",
+      "target_circuit": "MGN",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "auditory_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "anatomy"
+    },
+    {
+      "source_circuit": "AUD-brainstem",
+      "target_circuit": "SC-Pv",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "audiovisual orienting; anatomy"
+    },
+    {
+      "source_circuit": "MGN",
+      "target_circuit": "A1-belt",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "auditory_phoneme_first_year",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.1,
+      "confidence": "E",
+      "source": "thalamocortical auditory; anatomy"
+    },
+    {
+      "source_circuit": "IN-AUD:voice",
+      "target_circuit": "A1-belt",
+      "default_weight": "moderate",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "auditory_phoneme_first_year",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PB-VOICE (catalogue, cited); voice/IDS preference -- PARTLY prenatal learning (mother's voice learned in utero), so not purely innate"
+    },
+    {
+      "source_circuit": "IN-SOMATO:touch",
+      "target_circuit": "SOM-relay",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "somato_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "anatomy"
+    },
+    {
+      "source_circuit": "SOM-relay",
+      "target_circuit": "VPL",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "somato_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "anatomy"
+    },
+    {
+      "source_circuit": "VPL",
+      "target_circuit": "S1",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "somato_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.1,
+      "confidence": "E",
+      "source": "thalamocortical somatosensory; somatotopy; anatomy"
+    },
+    {
+      "source_circuit": "S1",
+      "target_circuit": "S2-PPC",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "somato_childhood",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "anatomy"
+    },
+    {
+      "source_circuit": "IN-SOMATO:nociception",
+      "target_circuit": "VPL",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "somato_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "DISCRIMINATIVE pain (location/intensity) via spinothalamic -- SENSORY, NOT value; the aversive VALUE link is nociception->amygdala in the threat system"
+    },
+    {
+      "source_circuit": "IN-OLF",
+      "target_circuit": "OB",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "olfactory_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "anatomy"
+    },
+    {
+      "source_circuit": "OB",
+      "target_circuit": "PIR",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "olfactory_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "anatomy"
+    },
+    {
+      "source_circuit": "PIR",
+      "target_circuit": "BA",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "olfactory_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "direct limbic access; odour value largely LEARNED (associative), so not an innate-value link"
+    },
+    {
+      "source_circuit": "IN-GUST:taste",
+      "target_circuit": "NTS-gust",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "gustatory_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "anatomy"
+    },
+    {
+      "source_circuit": "NTS-gust",
+      "target_circuit": "GUST-cortex",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "gustatory_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.1,
+      "confidence": "E",
+      "source": "via VPMpc thalamus; anatomy"
+    },
+    {
+      "source_circuit": "IN-GUST:bitter",
+      "target_circuit": "CeA",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PR-BITTER (catalogue, cited); innate aversion/rejection (brainstem gape reflex is a separate innate motor pattern, to be placed with motor)"
+    },
+    {
+      "source_circuit": "IN-GUST:sour",
+      "target_circuit": "CeA",
+      "default_weight": "moderate",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PR-SOUR (catalogue, cited); innate aversion"
+    },
+    {
+      "source_circuit": "IN-VESTIB",
+      "target_circuit": "VN",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "vestibular_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "anatomy"
+    },
+    {
+      "source_circuit": "VN",
+      "target_circuit": "S1",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "vestibular_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "vestibular-somatosensory integration (also cerebellum/thalamus); anatomy"
+    },
+    {
+      "source_circuit": "V-ventral",
+      "target_circuit": "LA",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "visual_ventral_childhood",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "detailed visual cue -> amygdala (resolves placeholder sensory_cortex->LA); associative, starts weak; strength assumed"
+    },
+    {
+      "source_circuit": "V-ventral",
+      "target_circuit": "OFC",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 3.0,
+      "confidence": "E",
+      "source": "visual cue -> value (resolves placeholder sensory_cortex->OFC); strength assumed"
+    },
+    {
+      "source_circuit": "A1-belt",
+      "target_circuit": "LA",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "auditory_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "auditory cue -> amygdala; associative; strength assumed"
+    },
+    {
+      "source_circuit": "GUST-cortex",
+      "target_circuit": "NAc-shell",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "striatal_msn_high_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "taste identity -> reward integration; associative; strength assumed"
+    },
+    {
+      "source_circuit": "V-dorsal",
+      "target_circuit": "S2-PPC",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "visual_dorsal_childhood",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "dorsal-stream spatial -> parietal (feeds motor system when built); anatomy"
+    },
+    {
+      "source_circuit": "dlPFC",
+      "target_circuit": "MDthal",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "WM maintenance loop; anatomy"
+    },
+    {
+      "source_circuit": "MDthal",
+      "target_circuit": "dlPFC",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "thalamic_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "thalamo-cortical WM loop; anatomy"
+    },
+    {
+      "source_circuit": "dlPFC",
+      "target_circuit": "S2-PPC",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "fronto-parietal WM/control (uses the sensory parietal node); anatomy"
+    },
+    {
+      "source_circuit": "S2-PPC",
+      "target_circuit": "dlPFC",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "somato_childhood",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 3.0,
+      "confidence": "E",
+      "source": "parietal -> PFC (WM content); anatomy"
+    },
+    {
+      "source_circuit": "dlPFC",
+      "target_circuit": "Caud-assoc",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "bg_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "WM input gating; DA decides update-vs-maintain; anatomy"
+    },
+    {
+      "source_circuit": "Caud-assoc",
+      "target_circuit": "MDthal",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "bg_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 2.0,
+      "confidence": "E",
+      "source": "gating output (via pallidum, simplified); anatomy"
+    },
+    {
+      "source_circuit": "dACC",
+      "target_circuit": "dlPFC",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 5.0,
+      "confidence": "E",
+      "source": "conflict/error -> recruit control; anatomy"
+    },
+    {
+      "source_circuit": "vlPFC",
+      "target_circuit": "preSMA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 5.0,
+      "confidence": "E",
+      "source": "anatomy"
+    },
+    {
+      "source_circuit": "vlPFC",
+      "target_circuit": "STN",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "bg_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 5.0,
+      "confidence": "E",
+      "source": "hyperdirect stop; anatomy"
+    },
+    {
+      "source_circuit": "preSMA",
+      "target_circuit": "STN",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "bg_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 5.0,
+      "confidence": "E",
+      "source": "hyperdirect stop; anatomy"
+    },
+    {
+      "source_circuit": "STN",
+      "target_circuit": "VP",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "bg_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 2.0,
+      "confidence": "E",
+      "source": "hyperdirect stop brakes basal-ganglia/limbic output (GPi/SNr not yet built; ventral pallidum as available limbic-pallidal proxy)"
+    },
+    {
+      "source_circuit": "dlPFC",
+      "target_circuit": "vmPFC",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "control drives reappraisal via vmPFC -> threat regulation; anatomy"
+    },
+    {
+      "source_circuit": "vlPFC",
+      "target_circuit": "LA",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 5.0,
+      "confidence": "E",
+      "source": "lateral-PFC down-regulation of threat (reappraisal); weak in childhood; strength assumed"
+    },
+    {
+      "source_circuit": "dlPFC",
+      "target_circuit": "NAc-core",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "cognitive control of approach/impulse; weak early; strength assumed"
+    },
+    {
+      "source_circuit": "dlPFC",
+      "target_circuit": "dmPFC",
+      "default_weight": "low",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "control <-> affective cingulate; anatomy"
+    },
+    {
+      "source_circuit": "FPC",
+      "target_circuit": "dlPFC",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_latest_maturing",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 12.0,
+      "confidence": "E",
+      "source": "highest-order/temporally-extended control over WM/control; anatomy"
+    },
+    {
+      "source_circuit": "OFC",
+      "target_circuit": "dlPFC",
+      "default_weight": "low",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "value -> decision/control; anatomy"
+    },
+    {
+      "source_circuit": "HPCv",
+      "target_circuit": "dlPFC",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "hippocampus_high_from_early_childhood",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "context/memory -> WM; strength assumed"
+    },
+    {
+      "source_circuit": "FEF",
+      "target_circuit": "SC-Pv",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "frontal_attention_childhood",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 2.0,
+      "confidence": "E",
+      "source": "oculomotor/saccade control; anatomy"
+    },
+    {
+      "source_circuit": "FEF",
+      "target_circuit": "V-dorsal",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "frontal_attention_childhood",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 2.0,
+      "confidence": "E",
+      "source": "top-down attentional gain on dorsal stream; anatomy"
+    },
+    {
+      "source_circuit": "VTA",
+      "target_circuit": "dlPFC",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "DA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "mesocortical DA; D1 inverted-U WM modulation; anatomy"
+    },
+    {
+      "source_circuit": "LC",
+      "target_circuit": "dlPFC",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "NA (alpha2A) WM/signal-to-noise; stress-level NA impairs PFC; anatomy"
+    },
+    {
+      "source_circuit": "BF-ACh",
+      "target_circuit": "dlPFC",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cholinergic_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "cholinergic attentional gain to PFC; anatomy"
+    },
+    {
+      "source_circuit": "BF-ACh",
+      "target_circuit": "V1",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cholinergic_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "cholinergic gain/plasticity in sensory cortex (ACh tunes sensory too); anatomy"
+    },
+    {
+      "source_circuit": "BF-ACh",
+      "target_circuit": "S1",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cholinergic_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "cholinergic gain in somatosensory cortex; anatomy"
+    }
+  ]
+}

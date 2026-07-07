@@ -1,0 +1,15 @@
+{
+  "name": "retired",
+  "child": false,
+  "description": "An older adult, no longer working: home, the shops, the park and the pub.",
+  "weekday": [
+    [0, "home", "parents_bedroom"], [8, "home", "kitchen"], [10, "leisure", "shop"],
+    [12, "home", "lounge"], [14, "leisure", "park"], [17, "leisure", "pub"],
+    [19, "home", "kitchen"], [21, "home", "parents_bedroom"]
+  ],
+  "weekend": [
+    [0, "home", "parents_bedroom"], [9, "home", "kitchen"], [11, "leisure", "park"],
+    [14, "home", "lounge"], [17, "leisure", "pub"], [19, "home", "kitchen"],
+    [22, "home", "parents_bedroom"]
+  ]
+}

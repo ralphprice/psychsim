@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>PsychSim — live</title>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.6/babel.min.js"></script>
+<style>
+  html,body{margin:0;height:100%;font-family:Arial,Helvetica,sans-serif;background:#EAF0F2;overflow:hidden}
+  #root{height:100vh;display:flex}
+  .stage{flex:1;position:relative;overflow:hidden;cursor:grab}
+  .stage:active{cursor:grabbing}
+  .stage svg{position:absolute;top:0;left:0;transform-origin:0 0}
+  .person{transition:transform .2s linear}
+  .panel{width:320px;background:#fffef8;border-left:1px solid #ccc;box-shadow:-2px 0 8px #0001;
+         display:flex;flex-direction:column;overflow:hidden}
+  .controls{padding:12px 14px;border-bottom:1px solid #eee}
+  .controls h1{font-size:16px;margin:0 0 10px}
+  .row{display:flex;gap:8px;align-items:center;margin:7px 0;font-size:13px;flex-wrap:wrap}
+  button{cursor:pointer;border:1px solid #999;background:#fff;border-radius:5px;padding:5px 12px;font-size:13px}
+  button.primary{background:#2E86C1;color:#fff;border-color:#2E86C1}
+  input[type=number]{width:64px;padding:4px;border:1px solid #bbb;border-radius:4px}
+  .clock{font-weight:bold;font-variant-numeric:tabular-nums;font-size:15px}
+  .spd{color:#666;min-width:44px;text-align:center}
+  .inspect{flex:1;overflow-y:auto;padding:12px 14px}
+  .inspect .hint{color:#aaa}
+  .inspect h2{font-size:15px;margin:0 0 2px}.inspect .role{color:#666;margin-bottom:8px;font-size:12px}
+  h3{font-size:12px;margin:12px 0 5px;border-bottom:1px solid #eee;padding-bottom:3px;color:#444}
+  .net{display:flex;align-items:center;gap:6px;margin:2px 0;font-size:11px}
+  .net .n{width:58px}.net .bar{flex:1;height:8px;background:#eee;border-radius:4px;overflow:hidden}
+  .net .f{height:100%}.net .v{width:70px;text-align:right;color:#999}
+  .mem{font-size:11px;padding:2px 0;border-bottom:1px dotted #eee}.mem .v{float:right}
+  .grp{font-size:11px;padding:1px 0}
+  .legend{position:absolute;top:8px;left:8px;background:#fff9;padding:6px 9px;border-radius:6px;font-size:11px;line-height:1.5}
+  .sw{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+const SERVER = "http://127.0.0.1:8765";      // the psychsim_server.py address
+const CELL = 26;
+const DRIVE = {SEEKING:"#2E86C1",CARE:"#28B463",PLAY:"#F1C40F",LUST:"#E91E8C",
+               FEAR:"#7F8C8D",RAGE:"#C0392B",PANIC:"#5D6D7E"};
+const TERR = {terrain_grass:"#b7d6a0",terrain_pavement:"#9a9a9a",terrain_park:"#8fbf7f"};
+const BLD = {building_home:"#c98a5a",building_school:"#5b6fa0",building_workplace:"#8a8a9a",
+             building_shop:"#b0a060",building_pub:"#a06a6a"};
+
+async function api(path){ const r=await fetch(SERVER+path); return r.json(); }
+async function cmd(body){ const r=await fetch(SERVER+"/cmd",{method:"POST",
+  headers:{"Content-Type":"application/json"},body:JSON.stringify(body)}); return r.json(); }
+
+function Town({town, people}){
+  if(!town) return null;
+  const W = town.cols*CELL, H = town.rows*CELL;
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      {/* terrain */}
+      {town.terrain && town.terrain.map((row,y)=>row.map((t,x)=>
+        <rect key={`t${x}-${y}`} x={x*CELL} y={y*CELL} width={CELL} height={CELL}
+              fill={TERR[t]||"#cfd8c8"} />))}
+      {/* buildings */}
+      {town.buildings.map(b=>
+        <g key={b.place}>
+          <rect x={b.x*CELL} y={b.y*CELL} width={b.w*CELL} height={b.h*CELL}
+                fill={BLD[b.kind]||"#bbb"} stroke="#5a4030" strokeWidth="1.2" rx="2"/>
+        </g>)}
+      {/* props */}
+      {town.props && town.props.map((p,i)=>
+        <circle key={`pr${i}`} cx={p.x*CELL+CELL/2} cy={p.y*CELL+CELL/2} r={CELL*0.18} fill="#4f7a3f"/>)}
+      {/* people */}
+      <g>
+      {Object.entries(people).map(([cid,p])=>
+        <g className="person" key={cid} data-cid={cid}
+           transform={`translate(${p.x*CELL+CELL/2},${p.y*CELL+CELL/2})`}>
+          <circle r={CELL*0.28} fill={DRIVE[p.drive]||"#888"} stroke="#222" strokeWidth="1"/>
+        </g>)}
+      </g>
+    </svg>
+  );
+}
+
+function App(){
+  const [town,setTown]=useState(null);
+  const [state,setState]=useState({clock:"—",people:{},playing:false});
+  const [sel,setSel]=useState(null);
+  const [pop,setPop]=useState(80);
+  const [err,setErr]=useState(null);
+  const stageRef=useRef(null);
+  const view=useRef({s:1,x:0,y:0,drag:false,lx:0,ly:0,moved:0});
+
+  // load town once
+  useEffect(()=>{ api("/town").then(setTown).catch(e=>setErr("Cannot reach server. Is psychsim_server.py running?")); },[]);
+  // poll live state
+  useEffect(()=>{ const id=setInterval(()=>{ api("/state").then(s=>{setState(s);setErr(null);})
+    .catch(e=>setErr("Cannot reach server. Is psychsim_server.py running?")); },200); return ()=>clearInterval(id); },[]);
+  // refresh selected person's detail while playing
+  useEffect(()=>{ if(!sel)return; const id=setInterval(()=>
+    api("/person?cid="+sel.cid).then(setSel).catch(()=>{}),700); return ()=>clearInterval(id); },[sel&&sel.cid]);
+
+  const applyView=useCallback(()=>{ const svg=stageRef.current&&stageRef.current.querySelector("svg");
+    if(svg){const v=view.current;svg.style.transform=`translate(${v.x}px,${v.y}px) scale(${v.s})`;} },[]);
+  useEffect(applyView,[town]);
+
+  const onWheel=e=>{e.preventDefault();const v=view.current;const f=e.deltaY<0?1.1:0.9;
+    const r=stageRef.current.getBoundingClientRect();const mx=e.clientX-r.left,my=e.clientY-r.top;
+    v.x=mx-(mx-v.x)*f;v.y=my-(my-v.y)*f;v.s*=f;applyView();};
+  const onDown=e=>{const v=view.current;v.drag=true;v.lx=e.clientX;v.ly=e.clientY;v.moved=0;};
+  const onMove=e=>{const v=view.current;if(!v.drag)return;v.x+=e.clientX-v.lx;v.y+=e.clientY-v.ly;
+    v.moved+=Math.abs(e.clientX-v.lx)+Math.abs(e.clientY-v.ly);v.lx=e.clientX;v.ly=e.clientY;applyView();};
+  const onUp=()=>{view.current.drag=false;};
+  const onClick=e=>{ if(view.current.moved>4)return; const g=e.target.closest(".person");
+    if(g)api("/person?cid="+g.dataset.cid).then(setSel); };
+
+  const speed=mult=>cmd({cmd:"speed",interval:0.25/mult});
+
+  return (
+    <React.Fragment>
+      <div className="stage" ref={stageRef} onWheel={onWheel} onMouseDown={onDown}
+           onMouseMove={onMove} onMouseUp={onUp} onClick={onClick}>
+        <Town town={town} people={state.people}/>
+        <div className="legend"><b>drive</b>{Object.keys(DRIVE).map(k=>
+          <div key={k}><span className="sw" style={{background:DRIVE[k]}}></span>{k}</div>)}</div>
+      </div>
+      <div className="panel">
+        <div className="controls">
+          <h1>PsychSim <span className="clock">{state.clock}</span></h1>
+          {err && <div style={{color:"#b23",fontSize:12,marginBottom:6}}>{err}</div>}
+          <div className="row">
+            <button className="primary" onClick={()=>cmd({cmd:state.playing?"pause":"play"})}>
+              {state.playing?"❚❚ Pause":"▶ Start"}</button>
+            <button onClick={()=>speed(0.5)}>« slower</button>
+            <button onClick={()=>speed(2)}>faster »</button>
+            <span className="spd">{state.interval?(0.25/state.interval).toFixed(2)+"×":""}</span>
+          </div>
+          <div className="row">
+            <span>residents: <b>{Object.keys(state.people).length}</b></span>
+            <button onClick={()=>cmd({cmd:"add_person",role:"child"})}>+ child</button>
+            <button onClick={()=>cmd({cmd:"add_person",role:"adult"})}>+ adult</button>
+          </div>
+          <div className="row">
+            <span>spawn town, pop</span>
+            <input type="number" value={pop} min="20" max="300"
+                   onChange={e=>setPop(+e.target.value)}/>
+            <button onClick={()=>{cmd({cmd:"respawn",population:pop}).then(()=>{
+              api("/town").then(setTown);setSel(null);});}}>Spawn</button>
+          </div>
+        </div>
+        <div className="inspect">
+          {!sel && <div className="hint">Click a person to inspect their mind, memories, role and standing.</div>}
+          {sel && sel.cid && <Inspector p={sel}/>}
+        </div>
+      </div>
+    </React.Fragment>
+  );
+}
+
+function Inspector({p}){
+  return (
+    <div>
+      <h2>{p.name}</h2>
+      <div className="role">{p.role} · home: {p.home||"—"}{p.work?` · works: ${p.work}`:""}</div>
+      <h3>neural networks (strength / reactivity)</h3>
+      {Object.entries(p.systems||{}).map(([s,v])=>
+        <div className="net" key={s}>
+          <span className="n">{s}</span>
+          <span className="bar"><span className="f" style={{width:Math.min(100,v[0]*100)+"%",background:DRIVE[s]||"#888"}}></span></span>
+          <span className="v">{v[0].toFixed(2)} / {v[1].toFixed(2)}</span>
+        </div>)}
+      <h3>groups &amp; standing</h3>
+      {(p.groups&&p.groups.length)?p.groups.map((g,i)=>
+        <div className="grp" key={i}>{g.group}: standing {g.standing}, belonging {g.belonging} <i style={{color:"#999"}}>({g.route})</i></div>)
+        :<div className="grp" style={{color:"#bbb"}}>none yet</div>}
+      <h3>recent memories ({(p.memories||[]).length})</h3>
+      {(p.memories&&p.memories.length)?p.memories.slice().reverse().map((m,i)=>{
+        const c=m.valence>0?"#2e8b3f":(m.valence<0?"#b23b3b":"#888");
+        return <div className="mem" key={i}>{m.label}<span className="v" style={{color:c}}>{m.valence>0?"+":""}{m.valence}</span></div>;})
+        :<div className="mem" style={{color:"#bbb"}}>no memories yet</div>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "psychsim"
+version = "0.3.0"
+description = "A universal life-course simulation platform (world, affect engine, neural designer, experiment framework, visualiser, edge explorer) with research-specific extensions."
+requires-python = ">=3.9"
+dependencies = []
+
+[tool.setuptools]
+packages = ["affective_engine", "sim_world", "sim_experiment", "sim_viz",
+            "neuraldesigner", "bifurcation", "speech",
+            "sophropathy", "justice"]
+
+[tool.setuptools.package-dir]
+affective_engine = "core/affective_engine"
+sim_world = "core/sim_world"
+sim_experiment = "core/sim_experiment"
+sim_viz = "core/sim_viz"
+neuraldesigner = "core/neuraldesigner"
+bifurcation = "core/bifurcation"
+speech = "core/speech"
+sophropathy = "extensions/sophropathy"
+justice = "extensions/justice"

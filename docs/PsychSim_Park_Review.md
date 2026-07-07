@@ -1,0 +1,160 @@
+# Review of the Park Generative-Agents Sim, and What It Teaches PsychSim
+
+*A working reference for how a watchable, day-to-day town simulation is actually
+built — read from the source of the `generative_agents_sociopathy` fork — and how its
+architecture maps onto PsychSim.*
+
+---
+
+## 1. What Park's sim actually is
+
+Park et al.'s "Smallville" is a **spatial, day-to-day life simulation** with a clean
+separation between a Python **backend** (the simulation) and a Django + Phaser
+**frontend** (the watchable town). The two talk through a simple file handshake, one
+step at a time.
+
+**The step loop (`reverie.py`).** A `curr_time` datetime advances by `sec_per_step`
+each step. On every step: the frontend writes `environment/{step}.json` (where each
+persona currently *is*, as tile `x,y`); the backend reads it, moves its personas to
+match, runs each persona's cognitive cycle, and writes `movement/{step}.json` (where
+each persona should move to *next*, plus a short description, an emoji "pronunciatio",
+and any speech); the frontend animates the sprites toward those targets and writes the
+next environment file. That handshake — *is → decide → move → repeat* — is the whole
+engine.
+
+**The spatial model (`maze.py`, `path_finder.py`).** The town is a tile grid with a
+four-level **address hierarchy**: *world → sector → arena → game object* (e.g.
+"the Ville : Isabella's apartment : kitchen : stove"). Every tile knows its address
+and what events are on it. Movement is **A\* pathfinding** between tiles. Agents don't
+teleport; they walk, tile by tile.
+
+**The agent's state and schedule (`memory_structures/scratch.py`).** Each persona
+carries a `curr_tile`, a `living_area`, and — crucially — a **daily schedule**:
+`f_daily_schedule` is an hourly plan decomposed into fine-grained timed actions
+(`['wakes up and starts morning routine', 10]`, …), and `act_address` is the
+*location* the current action happens at. **This schedule is what makes an agent
+"exist" day-to-day**: at 7am it puts them in the bedroom waking, at 8am in the kitchen
+eating, at 9am walking to work. The schedule chooses an address; the pathfinder walks
+them there; they act.
+
+**Memory and cognition (`associative_memory.py`, `cognitive_modules/`).** The
+long-term **memory stream** stores events, thoughts and chats, each with recency,
+importance and a vector for relevance. The cycle is
+**perceive → retrieve → plan → reflect → execute**: perceive nearby events, retrieve
+relevant memories (recency × importance × relevance), plan (build/revise the daily
+schedule and react to what's happening), reflect (synthesise higher-level thoughts
+periodically), and execute (turn the chosen action-address into a path). When two
+agents are near, `decide_to_talk` / `decide_to_react` can trigger a conversation.
+
+**The frontend (`templates/home/main_script.html`).** A Phaser game loads a Tiled
+tile-map, builds the tile layers, creates agent **sprites with walk animations**, and
+runs a camera that **pans, zooms and can follow** a persona. Its loop reads the
+movement files and tweens each sprite along its path while the clock ticks. This is
+the "press play and watch" surface.
+
+---
+
+## 2. What Park does that PsychSim should adopt
+
+One thing stands out above all: **the spatial daily-life engine is exactly the layer
+PsychSim is missing.** Everything that makes Park *watchable as life* — people being
+somewhere for a reason, moving between places over a day, meeting because they're
+co-located — comes from four pieces we do not yet have:
+
+1. **Tile positions for people.** In PsychSim, people belong to homes/schools as data,
+   but have no `(x,y)` on the town map and never move. Park gives every agent a
+   `curr_tile` and moves it.
+
+2. **An address hierarchy on the town.** Our spawned town has buildings with `place`
+   names, but no *world → sector → arena → object* structure that an action can target
+   ("go to the school : classroom : desk"). Park's addresses are what a schedule points
+   at.
+
+3. **A daily schedule that drives movement.** This is the heart of it. Park's
+   `f_daily_schedule` puts each agent somewhere each hour. PsychSim has no day cycle at
+   all — it runs *developmental* episodes over years, not hours of a day.
+
+4. **Pathfinding + an animated frontend.** A\* to walk agents between locations, and a
+   camera-driven view that tweens sprites and ticks a clock. We have a static plan-view
+   render and a first pan/zoom player, but nothing that *moves* people over a day.
+
+The step-loop and time model themselves we already have in the right shape:
+`TimeController` advancing a clock by a chosen scale is the direct analogue of
+`curr_time += sec_per_step`. That part transfers cleanly.
+
+---
+
+## 3. The one thing PsychSim must NOT adopt — and how we adapt instead
+
+Park's cognition is **LLM-driven**: the daily schedule, the choice of where to act,
+whether to talk, and the content of conversations are all generated by GPT prompts
+(`run_gpt_prompt_*`), and the *effects* of actions are whatever the prompt says. That
+is precisely the "hand-authored / externally-dictated effect" pattern PsychSim
+deliberately rejects — our whole discipline is that feeling and behaviour must *emerge*
+from the neural substrate, not be written down or prompted.
+
+So we take Park's **skeleton** and replace its **cognition**:
+
+| Park (LLM-driven) | PsychSim (substrate-driven) |
+|---|---|
+| GPT builds the daily schedule | schedule from **role + age** (child: home→school→play→home; adult: home→work→home; with weekend/holiday variants), grounded in real daily-activity patterns |
+| GPT decides where to act | role and the schedule choose the address; no generation needed |
+| GPT decides to talk / react, writes the dialogue | when co-located, the interaction runs through our **relationship and group matrices** on the substrate — outcome emergent |
+| GPT reflection synthesises thoughts | our substrate's **use-dependent imprinting** already turns experience into disposition; the executive layer monitors it |
+| Effects of an action are prompt-authored | effects **emerge**: the activity/encounter presents a stimulus bundle, the systems fire, the dominant drives behaviour |
+
+The result would be Park's *watchable spatial life* running on PsychSim's *emergent
+mind* — which is exactly the project: not agents doing what an LLM narrates, but agents
+whose day-to-day conduct falls out of their wiring meeting their world.
+
+---
+
+## 4. The concrete map: what we have, what we build
+
+**Already in PsychSim (reusable):** the spawned town (`generate_settlement`, a real
+tile CityMap with buildings, roads, greenery, place names); the clock (`TimeController`
+/ `TimeScale`); the plan-view renderer and a first pan/zoom + play/pause player; the
+substrate and the three matrices that decide interactions; a memory stream and
+retrieval (mirroring Park's associative memory) already used by the executive's
+learning route.
+
+**To build, modelled on Park (in order):**
+
+1. **Positions + addresses.** Give each person a `curr_tile`; add a light
+   sector/arena/object address layer over the spawned CityMap (home→rooms we already
+   have from the floor-plan venues; school→classroom/playground; workplaces).
+
+2. **A daily schedule by role.** A small, grounded generator: wake/sleep, meals at
+   home, school hours for children, work hours for adults, evenings and weekends at
+   home or in shared/leisure places. No LLM — a table of role-typical days with
+   individual jitter.
+
+3. **A day-cycle stepper.** A `world_step` that, per tick (minutes/hours), advances
+   each person along their schedule: look up the current action's address, pathfind a
+   step toward it, and when arrived, run the local activity/encounter through the
+   substrate (this is where the existing activity + matrix machinery plugs in).
+
+4. **Pathfinding.** Port a small A\* over the CityMap's walkable tiles (roads/pavement).
+
+5. **Animate it.** Extend the HTML player from a fixed-position playback into a mover:
+   people tween between tiles along their paths each frame, the clock shows time-of-day,
+   camera pans/zooms/follows — the Park "watch" surface, in our vectors.
+
+Interactions and development keep running on the substrate throughout; the day cycle
+just gives people a *reason to be somewhere* and *someone to meet*, which is what turns
+"dots developing over years" into "people living in a town".
+
+---
+
+## 5. Honest framing
+
+This is a real piece of work, not a tweak — it adds a spatial daily-life layer PsychSim
+does not currently have. But every piece has a clear model in Park, and the parts that
+touch the *mind* (interactions, effects, development) stay on our substrate, so it does
+not compromise the discipline. It is also cleanly separable from the paper: the sim is
+the instrument, the paper is the argument.
+
+Park's real lesson for going forward is architectural: **separate the watchable spatial
+life from the cognition that drives it, keep the loop dead simple (is → decide → move),
+and let the mind be swappable** — which is exactly the seam at which PsychSim's emergent
+substrate drops in where Park's LLM sat.

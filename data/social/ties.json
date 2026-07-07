@@ -1,0 +1,47 @@
+{
+  "description": "Social role-pair definitions (parent-child, teacher-pupil, ...): a role over another with a power differential. Power 0=equals, 1=strong asymmetry.",
+  "ties": [
+    {
+      "kind": "parent-child",
+      "higher": "parent",
+      "lower": "child",
+      "power": 0.8
+    },
+    {
+      "kind": "teacher-pupil",
+      "higher": "teacher",
+      "lower": "pupil",
+      "power": 0.7
+    },
+    {
+      "kind": "boss-employee",
+      "higher": "boss",
+      "lower": "employee",
+      "power": 0.75
+    },
+    {
+      "kind": "colleagues",
+      "higher": "colleague",
+      "lower": "colleague",
+      "power": 0.05
+    },
+    {
+      "kind": "teammates",
+      "higher": "teammate",
+      "lower": "teammate",
+      "power": 0.1
+    },
+    {
+      "kind": "captain-player",
+      "higher": "captain",
+      "lower": "player",
+      "power": 0.35
+    },
+    {
+      "kind": "community-group",
+      "higher": "organiser",
+      "lower": "member",
+      "power": 0.2
+    }
+  ]
+}

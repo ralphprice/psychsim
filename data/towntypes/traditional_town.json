@@ -1,0 +1,36 @@
+{
+  "name": "traditional_town",
+  "description": "ILLUSTRATIVE (not real country data): a different cultural pattern — larger families, more households with children, many local places of worship and a market, fewer cars, more local work. Replace with imported per-country statistics for a real study.",
+  "demography": {
+    "mean_household": 3.2,
+    "child_frac": 0.28,
+    "working_age_frac": 0.60,
+    "elderly_frac": 0.12,
+    "employment_rate": 0.62,
+    "cars_per_home": 0.6,
+    "avg_primary_pupils": 220,
+    "primary_share_of_children": 0.5,
+    "workers_per_office": 12,
+    "people_per_shop": 400.0,
+    "people_per_pub": 4000.0,
+    "local_work_share": 0.60,
+    "settlement_type": "suburban",
+    "garden_prob_by_tenure": {"owner": 0.85, "private_rent": 0.60, "social_rent": 0.50},
+    "garden_area_multiplier": 1.1,
+    "garden_size_scale": 1.2,
+    "people_per_hospital": 60000.0,
+    "people_per_clinic": 6000.0,
+    "people_per_worship": 400.0,
+    "people_per_market": 1500.0
+  },
+  "household": {
+    "child_household_frac": 0.50,
+    "lone_parent_frac": 0.12,
+    "one_person_frac": 0.20,
+    "child_count_weights": {"1": 0.25, "2": 0.35, "3": 0.25, "4": 0.15},
+    "tenure_weights": {"owner": 0.55, "private_rent": 0.20, "social_rent": 0.25},
+    "share_prob_by_tenure": {"owner": 0.25, "private_rent": 0.40, "social_rent": 0.60},
+    "spare_prob_by_tenure": {"owner": 0.30, "private_rent": 0.12, "social_rent": 0.04},
+    "comfort_by_tenure": {"owner": 0.70, "private_rent": 0.50, "social_rent": 0.45}
+  }
+}

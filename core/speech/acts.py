@@ -1,0 +1,190 @@
+"""
+acts.py -- structured speech-acts: the CAUSAL channel of the language layer.
+
+Design (thesis section 1.7 and Study 4 Part E). Agents never exchange free
+text. They exchange SpeechActs -- typed, parameterised social moves -- and
+each receiving agent appraises the ACT, not any wording of it. Everything
+that matters causally therefore stays inside the seeded, mechanistic engine.
+A separate rendering channel (render.py) turns acts into surface dialogue for
+OBSERVERS only; nothing in the simulation reads that text back. This inverts
+the Park et al. (2023) generative-agents arrangement, in which the language
+model is the cognition: here the model -- when one is fitted at all -- is only
+the voice.
+
+Two consequences follow and are embodied below:
+
+1.  Deception is a property of the ACT, not the wording. A SpeechAct carries
+    an `intent` (what the speaker is really doing) and a `surface` (what the
+    act presents itself as). Receivers appraise the surface unless they detect
+    the intent; detection is an engine matter (a seeded roll against the
+    receiver's vigilance), not a linguistic one.
+
+2.  Articulacy is a RENDERING knob, capability an ENGINE parameter. How well
+    an agent can pursue goals lives in the engine (gains, access weights);
+    how fluently its acts are voiced lives here, and changes nothing causal.
+"""
+
+from __future__ import annotations
+from dataclasses import dataclass, field
+from typing import Dict, Optional
+import random
+
+from affective_engine.core import Appraisal, clamp
+
+# ---------------------------------------------------------------------------
+# Vocabulary
+# ---------------------------------------------------------------------------
+
+# The act vocabulary is deliberately small and grounded in the behavioural
+# networks the engine already expresses. Each act is a social move a network
+# characteristically makes when the situation calls for speech.
+ACT_TYPES = (
+    "AFFILIATE",     # warm approach, inclusion, friendliness
+    "COMFORT",       # respond to another's distress with care
+    "REQUEST",       # ask for something (help, a resource, a turn)
+    "PROPOSE",       # offer a cooperative plan or exchange
+    "ASSERT",        # calm, confident claim or instruction under pressure
+    "REFUSE",        # decline a request or demand
+    "THREATEN",      # coerce with the prospect of harm
+    "TAUNT",         # provoke, mock, diminish
+    "DECEIVE",       # misrepresent, with a chosen surface act
+    "WITHDRAW",      # disengage, avoid, fall silent
+)
+
+# Age register bands for rendering (LifeStage maps onto these).
+REGISTERS = ("child", "adolescent", "adult")
+
+# Which act each behavioural network characteristically produces when the
+# engine has settled on it and the situation is social. `surface` marks acts
+# whose presented face differs from their intent.
+NETWORK_ACT: Dict[str, Dict[str, str]] = {
+    "affiliative_warmth":         {"intent": "AFFILIATE"},
+    "strategic_prosociality":     {"intent": "PROPOSE"},
+    "cool_instrumental_boldness": {"intent": "ASSERT"},
+    "reactive_aggression":        {"intent": "THREATEN"},
+    "callous_exploitation":       {"intent": "DECEIVE", "surface": "AFFILIATE"},
+    "fearful_withdrawal":         {"intent": "WITHDRAW"},
+}
+
+
+@dataclass
+class SpeechAct:
+    """One social move, in full. `intent` is what the act really is; `surface`
+    is what it presents itself as (identical unless the act is deceptive).
+    `topic` is a free label for the referent ('the toy', 'homework', 'money');
+    it renders into the line but carries no engine semantics."""
+    speaker_id: str
+    target_id: str
+    intent: str
+    surface: Optional[str] = None
+    intensity: float = 0.5              # 0 mild .. 1 extreme
+    register: str = "adult"             # child | adolescent | adult
+    articulacy: float = 0.6             # rendering knob only, 0..1
+    topic: str = "it"
+    tick: int = 0
+
+    def __post_init__(self) -> None:
+        if self.intent not in ACT_TYPES:
+            raise ValueError(f"unknown act intent: {self.intent}")
+        if self.surface is None:
+            self.surface = self.intent
+        if self.surface not in ACT_TYPES:
+            raise ValueError(f"unknown act surface: {self.surface}")
+        if self.register not in REGISTERS:
+            raise ValueError(f"unknown register: {self.register}")
+        self.intensity = clamp(self.intensity)
+        self.articulacy = clamp(self.articulacy)
+
+    @property
+    def deceptive(self) -> bool:
+        return self.intent != self.surface
+
+
+def act_from_network(network_name: str, speaker_id: str, target_id: str,
+                     intensity: float = 0.5, register: str = "adult",
+                     articulacy: float = 0.6, topic: str = "it",
+                     tick: int = 0) -> SpeechAct:
+    """The engine has settled on a behavioural network; produce the speech-act
+    that network characteristically makes. Unknown networks fall back to a
+    neutral ASSERT so extensions with extra networks still speak."""
+    spec = NETWORK_ACT.get(network_name, {"intent": "ASSERT"})
+    return SpeechAct(speaker_id, target_id, spec["intent"],
+                     surface=spec.get("surface"), intensity=intensity,
+                     register=register, articulacy=articulacy,
+                     topic=topic, tick=tick)
+
+
+# ---------------------------------------------------------------------------
+# Appraisal of a received act -- acts drive the engine, words never do
+# ---------------------------------------------------------------------------
+
+# For each act (as perceived), the appraisal dimensions it imposes on the
+# receiver, scaled by intensity. These are receiver-side readings of the move,
+# consistent with stimulus_drives() semantics in the engine.
+_ACT_APPRAISAL: Dict[str, Dict[str, float]] = {
+    "AFFILIATE": {"social_valence": +0.8, "reward": 0.3},
+    "COMFORT":   {"social_valence": +0.9, "controllability": +0.2},
+    "REQUEST":   {"goal_relevance": 0.6, "social_valence": +0.2},
+    "PROPOSE":   {"reward": 0.5, "goal_relevance": 0.6, "social_valence": +0.4},
+    "ASSERT":    {"goal_relevance": 0.5, "controllability": -0.1},
+    "REFUSE":    {"goal_relevance": 0.5, "controllability": -0.3,
+                  "social_valence": -0.2},
+    "THREATEN":  {"threat": 0.8, "provocation": 0.7, "social_valence": -0.8},
+    "TAUNT":     {"provocation": 0.8, "exclusion": 0.5, "social_valence": -0.7},
+    "DECEIVE":   {},   # never appraised as itself; see perceive_act()
+    "WITHDRAW":  {"exclusion": 0.5, "social_valence": -0.3},
+}
+
+
+def perceive_act(act: SpeechAct, receiver_vigilance: float,
+                 rng: random.Random) -> str:
+    """What the receiver takes the act to be. Honest acts are perceived as
+    themselves. Deceptive acts are perceived as their surface unless the
+    receiver detects them; detection probability rises with vigilance and with
+    the act's intensity (bigger lies show more). Seeded RNG only -- the roll
+    is part of the causal engine, so it must be reproducible."""
+    if not act.deceptive:
+        return act.intent
+    p_detect = clamp(0.15 + 0.55 * receiver_vigilance + 0.15 * act.intensity)
+    return act.intent if rng.random() < p_detect else act.surface
+
+
+def appraisal_from_act(act: SpeechAct, perceived_as: Optional[str] = None,
+                       label: Optional[str] = None) -> Appraisal:
+    """Build the Appraisal a received act imposes. If a deception has been
+    detected, the receiver appraises a detected THREAT-adjacent betrayal:
+    hostile valence and provocation, scaled up, because discovered manipulation
+    reads as an attack on the relationship."""
+    perceived = perceived_as or act.surface
+    if act.deceptive and perceived == act.intent:
+        # detected deception: betrayal reading
+        base = {"provocation": 0.7, "social_valence": -0.9, "threat": 0.3}
+    else:
+        base = _ACT_APPRAISAL.get(perceived, {})
+    a = Appraisal(label=label or f"speech:{perceived.lower()}")
+    for dim, w in base.items():
+        current = getattr(a, dim)
+        setattr(a, dim, clamp(current + w * (0.5 + 0.5 * act.intensity),
+                              -1.0 if dim == "social_valence" else 0.0, 1.0))
+    return a
+
+
+# ---------------------------------------------------------------------------
+# Conversation channel -- the log the renderer (and nothing else) consumes
+# ---------------------------------------------------------------------------
+
+@dataclass
+class SpeechChannel:
+    """An append-only log of speech-acts. Agents write acts; the renderer
+    reads them; NOTHING in the engine reads rendered text. The channel also
+    records, per act, what the receiver perceived it as, so a transcript can
+    honestly show a lie landing or being seen through."""
+    acts: list = field(default_factory=list)          # [(SpeechAct, perceived)]
+
+    def exchange(self, act: SpeechAct, receiver_vigilance: float,
+                 rng: random.Random) -> Appraisal:
+        """Deliver an act: log it, resolve perception, return the appraisal
+        the receiver should now be run on."""
+        perceived = perceive_act(act, receiver_vigilance, rng)
+        self.acts.append((act, perceived))
+        return appraisal_from_act(act, perceived)
