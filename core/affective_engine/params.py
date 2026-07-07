@@ -108,6 +108,11 @@ PERTURBATION_GAINS = {
     "surprise":           {"uncertainty": +0.30},                                        # SCAFFOLD
 }
 
+# --- Epigenetics (doc §5.2 / App. A.1(3)): early-window shift of allostatic parameters ---
+EPI_RATE = 0.4                 # SCAFFOLD how strongly early experience moves allostatic params
+EPI_WINDOW_END_AGE = 5.0       # SCAFFOLD the early sensitive window (years) for the shift
+SUSCEPTIBILITY_BASE = 1.2      # SCAFFOLD differential susceptibility = BASE - fear reactivity
+
 # A mild-deficit reference state a developing agent sits in (so relief/deepening of an
 # ongoing need has room to register as valence). SCAFFOLD baseline levels.
 REFERENCE_CHILD_LEVELS = {

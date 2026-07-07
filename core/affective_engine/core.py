@@ -172,6 +172,14 @@ class TraitSeed:
     name: str
     gains: Dict[str, float]
     access: Dict[str, float]
+    # --- valence-engine endowment (MASTER Phase 5) -- the ONLY legitimate place a seed
+    # differs (doc §5.1). Optional and empty by default: when unset, endowment.endowment_of()
+    # derives them from the legacy `gains` so every existing seed still constructs and behaves.
+    set_points: Dict[str, float] = field(default_factory=dict)          # state-vector set-points
+    weights: Dict[str, float] = field(default_factory=dict)             # drive weights w_k
+    reactivities: Dict[str, float] = field(default_factory=dict)        # neuromodulator gains
+    perturbation_gains: Dict[str, float] = field(default_factory=dict)  # innate-perturbation gains
+    physical: Dict[str, float] = field(default_factory=dict)            # attractiveness/health/...
 
 
 def _access(**overrides) -> Dict[str, float]:
