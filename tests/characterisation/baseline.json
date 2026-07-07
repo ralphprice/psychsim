@@ -1,0 +1,179 @@
+{
+  "develop": {
+    "psychopathic|harsh_inconsistent": {
+      "classification": "SEEKING",
+      "probe": {
+        "cooperation": "callous_exploitation",
+        "opportunity": "callous_exploitation",
+        "provocation": "reactive_aggression",
+        "temptation_unobserved": "callous_exploitation",
+        "threat_event": "fearful_withdrawal",
+        "vulnerable_other": "affiliative_warmth"
+      },
+      "profile": {
+        "CARE": 0.1268,
+        "FEAR": 0.1313,
+        "LUST": 0.1045,
+        "PANIC": 0.1114,
+        "PLAY": 0.1152,
+        "RAGE": 0.1457,
+        "SEEKING": 0.2651
+      }
+    },
+    "psychopathic|warm_firm": {
+      "classification": "SEEKING",
+      "probe": {
+        "cooperation": "callous_exploitation",
+        "opportunity": "callous_exploitation",
+        "provocation": "reactive_aggression",
+        "temptation_unobserved": "callous_exploitation",
+        "threat_event": "fearful_withdrawal",
+        "vulnerable_other": "affiliative_warmth"
+      },
+      "profile": {
+        "CARE": 0.1346,
+        "FEAR": 0.1274,
+        "LUST": 0.1056,
+        "PANIC": 0.1125,
+        "PLAY": 0.1164,
+        "RAGE": 0.1357,
+        "SEEKING": 0.2678
+      }
+    },
+    "shared_root|harsh_inconsistent": {
+      "classification": "SEEKING",
+      "probe": {
+        "cooperation": "cool_instrumental_boldness",
+        "opportunity": "cool_instrumental_boldness",
+        "provocation": "reactive_aggression",
+        "temptation_unobserved": "cool_instrumental_boldness",
+        "threat_event": "fearful_withdrawal",
+        "vulnerable_other": "affiliative_warmth"
+      },
+      "profile": {
+        "CARE": 0.137,
+        "FEAR": 0.1339,
+        "LUST": 0.1036,
+        "PANIC": 0.1104,
+        "PLAY": 0.1142,
+        "RAGE": 0.1384,
+        "SEEKING": 0.2626
+      }
+    },
+    "shared_root|warm_firm": {
+      "classification": "SEEKING",
+      "probe": {
+        "cooperation": "cool_instrumental_boldness",
+        "opportunity": "cool_instrumental_boldness",
+        "provocation": "reactive_aggression",
+        "temptation_unobserved": "cool_instrumental_boldness",
+        "threat_event": "fearful_withdrawal",
+        "vulnerable_other": "affiliative_warmth"
+      },
+      "profile": {
+        "CARE": 0.1487,
+        "FEAR": 0.1299,
+        "LUST": 0.1039,
+        "PANIC": 0.1107,
+        "PLAY": 0.1145,
+        "RAGE": 0.129,
+        "SEEKING": 0.2634
+      }
+    },
+    "sophropathic|harsh_inconsistent": {
+      "classification": "SEEKING",
+      "probe": {
+        "cooperation": "cool_instrumental_boldness",
+        "opportunity": "cool_instrumental_boldness",
+        "provocation": "cool_instrumental_boldness",
+        "temptation_unobserved": "cool_instrumental_boldness",
+        "threat_event": "fearful_withdrawal",
+        "vulnerable_other": "affiliative_warmth"
+      },
+      "profile": {
+        "CARE": 0.1395,
+        "FEAR": 0.1478,
+        "LUST": 0.1055,
+        "PANIC": 0.1124,
+        "PLAY": 0.1163,
+        "RAGE": 0.1284,
+        "SEEKING": 0.2502
+      }
+    },
+    "sophropathic|warm_firm": {
+      "classification": "SEEKING",
+      "probe": {
+        "cooperation": "cool_instrumental_boldness",
+        "opportunity": "cool_instrumental_boldness",
+        "provocation": "cool_instrumental_boldness",
+        "temptation_unobserved": "cool_instrumental_boldness",
+        "threat_event": "fearful_withdrawal",
+        "vulnerable_other": "affiliative_warmth"
+      },
+      "profile": {
+        "CARE": 0.1496,
+        "FEAR": 0.1337,
+        "LUST": 0.1045,
+        "PANIC": 0.1114,
+        "PLAY": 0.1152,
+        "RAGE": 0.1205,
+        "SEEKING": 0.2651
+      }
+    },
+    "typical_child|harsh_inconsistent": {
+      "classification": "SEEKING",
+      "probe": {
+        "cooperation": "cool_instrumental_boldness",
+        "opportunity": "cool_instrumental_boldness",
+        "provocation": "reactive_aggression",
+        "temptation_unobserved": "affiliative_warmth",
+        "threat_event": "fearful_withdrawal",
+        "vulnerable_other": "affiliative_warmth"
+      },
+      "profile": {
+        "CARE": 0.1441,
+        "FEAR": 0.1697,
+        "LUST": 0.1054,
+        "PANIC": 0.1123,
+        "PLAY": 0.1162,
+        "RAGE": 0.132,
+        "SEEKING": 0.2204
+      }
+    },
+    "typical_child|warm_firm": {
+      "classification": "SEEKING",
+      "probe": {
+        "cooperation": "cool_instrumental_boldness",
+        "opportunity": "cool_instrumental_boldness",
+        "provocation": "reactive_aggression",
+        "temptation_unobserved": "affiliative_warmth",
+        "threat_event": "fearful_withdrawal",
+        "vulnerable_other": "affiliative_warmth"
+      },
+      "profile": {
+        "CARE": 0.1565,
+        "FEAR": 0.163,
+        "LUST": 0.1046,
+        "PANIC": 0.1114,
+        "PLAY": 0.1153,
+        "RAGE": 0.1232,
+        "SEEKING": 0.226
+      }
+    }
+  },
+  "environment": {
+    "attraction": 0.5273,
+    "aversion": 0.0,
+    "state": "sought"
+  },
+  "group": {
+    "belonging": 0.1167,
+    "encounters": 8,
+    "standing": 0.2
+  },
+  "relations": {
+    "standing": 0.0,
+    "state": "ruptured",
+    "strain": 1.0
+  }
+}
