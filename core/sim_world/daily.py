@@ -125,8 +125,7 @@ def _resolve_activity(inhab: Inhabitant, block: Block, venue: Venue,
         aff = None                              # the named action is not available here/now
     appr = aff.to_appraisal() if aff is not None else Appraisal(label=block.activity or "idle")
 
-    from affective_engine.drives import respond_to_appraisal
-    _resp = respond_to_appraisal(agent, appr)
+    _resp = agent.social_act(appr)              # the substrate's emergent act
     behaviour = _resp.behaviour                 # the emergent action, not a category
     val = _valence(appr)
     agent.memory.add(appr.label, appr, behaviour, val, _importance(appr))

@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 
 from affective_engine.core import clamp
-from affective_engine.drives import respond_to_appraisal, is_cohesive, is_aggressive
+from affective_engine.drives import is_cohesive, is_aggressive
 from affective_engine.development import Environment, develop  # reuse the learning rule
 from speech.acts import act_from_behaviour, SpeechChannel, SpeechAct
 from speech.render import TemplateRenderer
@@ -160,8 +160,8 @@ class GameMaster:
         """Perceive -> choose a mode (affective engine) -> adjudicate -> record
         to the person's episodic memory."""
         appraisal = person.perceive(self.world, event)
-        resp = respond_to_appraisal(person.mind, appraisal)
-        person.mind.dominant = resp.behaviour  # reflect the substrate's emergent action for inspection
+        resp = person.social_act(appraisal, person.age_years(self.world))   # the substrate's emergent act
+        person.mind.dominant = resp.behaviour  # reflect the emergent action for inspection
         interaction = self.adjudicate(person, resp, event)
 
         # write the lived event to the person's episodic memory (the emergent action, not a category)
@@ -198,7 +198,7 @@ class GameMaster:
         """Speaker settles on a network, emits the act that network makes, the
         hearer perceives it (seeded), and we return the utterance plus the
         appraisal the hearer should now be run on."""
-        resp = respond_to_appraisal(speaker.mind, appr)
+        resp = speaker.social_act(appr, speaker.age_years(self.world))   # the substrate's emergent act
         intensity = clamp(0.35 + 0.5 * max(appr.provocation, appr.threat,
                                            appr.reward, appr.other_distress))
         act = act_from_behaviour(resp.behaviour, speaker.agent_id, hearer.agent_id,

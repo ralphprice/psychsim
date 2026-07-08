@@ -195,3 +195,44 @@ corrected ordering (an adolescent acts at least as readily as both a younger chi
 artifact of the coarse live-circuit set that early (many circuits online later), not the phenomenon. The
 peak-at-adolescence result is robust across the age curve. Reproduce: `substrate/phenomena.py`,
 `tests/test_phenomena_battery.py`. Suite 408, green.
+
+## OBS-3 — the v8 substrate is fear/avoidance-dominant (aggression a live-but-weak candidate)
+
+*Recorded 2026-07 as a bounded core property with a mechanistic account (same posture as OBS-2), found
+while building substrate social behaviour (Part 6 substrate-social phase).*
+
+The substrate's multi-affordance social selection (`substrate/social.py`) produces
+approach / nurture / avoid / seek_comfort / restrain emergently and situation-appropriately. Aggression
+(`aggress`) is a **live candidate** in the same basal-ganglia race -- grounded in real attack effectors
+(CeA->PAG/HYPdm), it competes and carries a nonzero phasic drive under threat -- **but it does not win**,
+even under strong threat: the threat response resolves to avoidance. The specific mechanistic fact is
+that the **attack effectors PAG and HYPdm are net-inhibited in the v8 connectome** (they stay ~0 even
+under direct drive), so the winning threat act is fear/avoidance, not attack.
+
+**This is left as-is, not tuned.** Forcing aggression to win (dis-inhibiting PAG/HYPdm by hand) would be
+tuning the connectome to produce a desired behaviour -- the exact honesty violation the build has
+avoided (cf. the coded DECEIVE act dropped at 8b.4). The behaviour returns if and when the substrate
+*earns* it via a grounded connectome change, not by propping it up.
+
+**Whether this is a property or a defect is genuinely uncertain, and left unresolved by design.**
+- *Property:* avoidance/freezing are the default threat responses ethologically; reactive aggression is
+  the exception that needs specific provocation (thwarting, cornering, pain-with-no-escape), not the
+  baseline. A fear-dominant developing organism may be correct.
+- *Defect:* reactive aggression clinically exists; if the sensory channels provide no thwarting /
+  frustrative-non-reward pathway to the hypothalamic attack area, that is a real connectome gap.
+
+The consumers key on `is_cohesive`/`is_aggressive` over the emergent behaviour, both of which work for
+the substrate, so this does not block the Panksepp retirement (invariant 6 is met: the substrate
+reproduces the social behaviour the town sim consumes). It is logged as a v9 candidate below.
+
+## Known v9 seed candidates (parked -- a deliberate, cited batch pass, if ever)
+
+No v9 is needed now; these are the accumulated candidates for one future, reviewed seed pass. (Neither
+DA/satiety nor continuous maturation needed a seed edit -- both were engine-side.)
+- **Social innate-wiring entries (S1.4):** the seed's `innate_wiring_catalogue` lacks explicit social
+  perturbations (separation / loss-of-contact -> distress; caregiver proximity -> security) that the
+  functional layer carries. (Parked at 8b.5.)
+- **Thwarting / frustrative-non-reward -> hypothalamic-attack pathway (OBS-3):** does the v8 connectome
+  lack a documented provocation->attack route (Panksepp RAGE; the medial/dorsomedial hypothalamic attack
+  area; frustrative-non-reward literature) that would let reactive aggression win under provocation? A
+  real, citeable neuroscience question -- for a deliberate v9 pass, not now.

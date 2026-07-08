@@ -31,7 +31,7 @@ import os as _os
 import random
 
 from affective_engine.core import Appraisal, clamp
-from affective_engine.drives import respond_to_appraisal, is_cohesive, is_aggressive
+from affective_engine.drives import is_cohesive, is_aggressive
 from affective_engine.learning import ValueLearner
 
 
@@ -186,8 +186,8 @@ def interact(tie: Tie, higher_mind, lower_mind,
     to reflect whether it held or was strained. Reciprocity and restraint keep it
     functioning; pressing an advantage or disengaging strains it, and the society
     repairs low strain over time."""
-    hi_resp = respond_to_appraisal(higher_mind, _appraisal_for_higher(tie))
-    lo_resp = respond_to_appraisal(lower_mind, _appraisal_for_lower(tie))
+    hi_resp = higher_mind.social_act(_appraisal_for_higher(tie))   # emergent act, from the substrate
+    lo_resp = lower_mind.social_act(_appraisal_for_lower(tie))
     hi, lo = hi_resp.behaviour, lo_resp.behaviour   # the acts, from the substrate
 
     higher_restrained = is_cohesive(hi_resp)   # holds authority well (affiliative)
