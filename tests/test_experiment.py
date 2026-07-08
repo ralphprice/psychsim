@@ -14,14 +14,14 @@ from affective_engine import shared_root_seed, shared_root_calculating_seed
 
 class TestLifeCourse(unittest.TestCase):
     def test_warm_throughout_yields_emergent_readout(self):
-        from affective_engine.drives import System
+        from substrate.readout import _READOUT_DOMAINS as _DOMAINS
         r = run_life(shared_root_seed(), conditions()["warm_firm_throughout"])
-        self.assertIn(r.classification, {s.value for s in System})
+        self.assertIn(r.classification, set(_DOMAINS))
 
     def test_harsh_throughout_yields_emergent_readout(self):
-        from affective_engine.drives import System
+        from substrate.readout import _READOUT_DOMAINS as _DOMAINS
         r = run_life(shared_root_seed(), conditions()["harsh_inconsistent_throughout"])
-        self.assertIn(r.classification, {s.value for s in System})
+        self.assertIn(r.classification, set(_DOMAINS))
 
     def test_stage_trace_has_one_entry_per_stage(self):
         spec = conditions()["warm_firm_throughout"]

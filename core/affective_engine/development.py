@@ -228,12 +228,11 @@ def develop(agent: AffectiveAgent, env: Environment, n_episodes: int = 48,
 # constructs, by the observer read-out (observer.py) computed over lived behaviour.
 
 
-def classify(agent: AffectiveAgent):
-    """Read out the emergent substrate -- which primary system dominates, and the
-    full profile. This is DESCRIPTIVE measurement, not a driver, and it attaches
-    NO psychopathy label: whether any such label applies is a separate interpretive
-    question, deliberately kept out of the mechanism."""
-    from .drives import read_mind
+def classify(agent):
+    """Read out the emergent substrate -- which domain dominates, and the full profile. This is
+    DESCRIPTIVE measurement, not a driver, and it attaches NO verdict: whether any label applies
+    is a separate interpretive question, deliberately kept out of the mechanism."""
+    from substrate.readout import read_mind
     return read_mind(agent)
 
 

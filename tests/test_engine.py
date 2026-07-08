@@ -38,7 +38,7 @@ class TestSimEngine(unittest.TestCase):
             e.step()
         cid = next(iter(e.snapshot()["people"]))
         d = e.person_detail(cid)
-        self.assertEqual(len(d["systems"]), 7)
+        self.assertEqual(len(d["systems"]), 5)
         self.assertIn("memories", d)
         self.assertIn("groups", d)
 

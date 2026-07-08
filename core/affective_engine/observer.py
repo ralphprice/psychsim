@@ -87,57 +87,11 @@ def read_out(bp: BehaviourProfile) -> Dict[str, object]:
     }
 
 
-# ---------------------------------------------------------------------------
-# Legacy-engine adapter (retired with the legacy engine at Phase 8)
-# ---------------------------------------------------------------------------
-
-def profile_from_legacy(agent) -> BehaviourProfile:
-    """Build a BehaviourProfile from the current (legacy 7-system) engine's read-outs. This
-    reads the emergent substrate -- system strengths, conscience-control, moral orientation --
-    NOT the seed, and never writes back. Superseded by a circuit-engine adapter at Phase 8.
-
-    EMERGENCE CAVEAT (design-review flag): the legacy engine still arbitrates over
-    outcome-category network primitives (callous_exploitation, ...). So while the read-out
-    machinery is correctly additive, its VALIDATION -- that the categories emerge WITHOUT
-    being coded -- is only meaningful once behaviour comes from the new (circuit) engine.
-    Do NOT read current observer output as evidence of emergence."""
-    from .drives import read_mind, System
-    from .executive import moral_orientation_readout
-    prof = read_mind(agent).profile          # normalised 7-system strengths
-    brain = agent.brain
-
-    def sysval(name):
-        return prof.get(name, 0.0)
-
-    # blend TEMPERAMENT (the substrate reactivity gains) with the DEVELOPED strengths, so the
-    # read-out reflects disposition on a fresh agent and experience on a grown one. Strengths
-    # are normalised to their own max so a "high FEAR" reads high regardless of absolute scale.
-    mx = max(prof.values()) or 1.0
-
-    def g(name):
-        return agent.gain.get(name, 0.5)
-
-    fear = clamp(0.5 * g("THREAT") + 0.5 * sysval("FEAR") / mx)
-    seeking = clamp(0.5 * g("SEEKING") + 0.5 * sysval("SEEKING") / mx)
-    care = clamp(0.5 * g("CARE") + 0.5 * sysval("CARE") / mx)
-    rage = clamp(0.5 * g("FRUSTRATION") + 0.5 * sysval("RAGE") / mx)
-    restraint = clamp(agent.gain.get("CONTROL", 0.5))
-    instrumental = clamp(agent.gain.get("INSTRUMENTAL_CONTROL", 0.5) * (1.0 - care))
-    try:
-        moral = clamp(moral_orientation_readout(brain))
-    except Exception:
-        moral = clamp(0.5 * care + 0.2)
-    return BehaviourProfile(
-        fear=fear, seeking=seeking, care=care, restraint=restraint,
-        moral_orientation=moral, reactive_aggression=rage,
-        instrumental_aggression=instrumental, vicarious_response=care,
-        punishment_sensitivity=clamp(0.3 + 0.7 * fear),   # low-fear -> reward-dominant
-    )
-
-
 def observe_agent(agent) -> Dict[str, object]:
-    """Convenience: the full observer read-out over a (legacy-engine) agent."""
-    return read_out(profile_from_legacy(agent))
+    """Convenience: the full observer read-out over an agent (its developed substrate). Duck-
+    typed: an agent carrying `.engine`, or an engine. The circuit-engine adapter
+    (profile_from_substrate) has superseded the retired legacy-brain adapter."""
+    return observe_substrate(getattr(agent, "engine", agent))
 
 
 # ---------------------------------------------------------------------------

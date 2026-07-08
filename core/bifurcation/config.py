@@ -92,6 +92,6 @@ def run_config(cfg: Config) -> RunResult:
         develop(agent, env, n_episodes=cfg.episodes, situation_seed=cfg.situation_seed, graded=cfg.graded)
 
     o = classify(agent)                      # emergent readout
-    from affective_engine.drives import profile_axis
+    from substrate.readout import profile_axis
     return RunResult(classification=o.classification, profile=dict(o.profile),
                      score=profile_axis(o.profile))

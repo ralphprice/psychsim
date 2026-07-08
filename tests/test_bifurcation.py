@@ -11,9 +11,9 @@ from bifurcation.viz import render_phase_svg, render_sweep_svg
 
 class TestRun(unittest.TestCase):
     def test_run_returns_emergent_measures(self):
-        from affective_engine.drives import System
+        from substrate.readout import _READOUT_DOMAINS as _DOMAINS
         r = run_config(Config(warmth=0.9, structure=0.9))
-        self.assertIn(r.classification, {s.value for s in System})   # a dominant system
+        self.assertIn(r.classification, set(_DOMAINS))   # a dominant system
         self.assertAlmostEqual(sum(r.profile.values()), 1.0, places=5)
         self.assertTrue(-1.0 <= r.score <= 1.0)
 

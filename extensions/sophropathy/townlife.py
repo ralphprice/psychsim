@@ -281,7 +281,7 @@ def simulate_townlife(universe, days: int = 1, tick_minutes: int = 30, seed: int
     """
     import random
     from .world import venues_for
-    from affective_engine.drives import read_mind
+    from substrate.readout import read_mind
     from affective_engine.core import Appraisal
     from sim_world.group_matrix import (GroupMatrix, default_groups,
                                         group_encounter, sample_encounter_type)
@@ -394,14 +394,13 @@ def simulate_townlife(universe, days: int = 1, tick_minutes: int = 30, seed: int
     # per-person inspectable state (as of the end of the run): role, the strength +
     # reactivity of each neural system, recent memories, and group standing
     people_info = {}
-    from affective_engine.drives import dominant_profile
+    from substrate.readout import read_mind
     for cid, (is_child, home, work) in info.items():
         person = pop.persons.get(cid)
         if person is None:
             continue
-        brain = person.mind.brain
-        systems = {s.value: [round(d.strength, 2), round(d.reactivity, 2)]
-                   for s, d in brain.drives.items()}
+        systems = {k: round(v, 2)
+                   for k, v in read_mind(person.mind).profile.items()}
         mems = [{"label": m.label, "valence": round(m.valence, 2)}
                 for m in person.mind.memory.events[-10:]]
         groups_state = [{"group": m.group_id, "standing": round(m.standing, 2),

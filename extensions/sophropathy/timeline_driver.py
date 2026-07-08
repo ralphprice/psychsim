@@ -96,7 +96,7 @@ def make_life_stepper(universe, venues=None, seed: int = 0,
     from affective_engine.executive import (Executive, monitor_executive,
                                             install_monitors_from_memory)
     from affective_engine.core import Appraisal
-    from affective_engine.drives import read_mind
+    from substrate.readout import read_mind
     from sim_world.timeline import MIN_PER_DAY, DAYS_PER_YEAR
     from sim_world.environment_matrix import (default_things, birth_matrix, encounter)
     from sim_world.group_matrix import (default_groups, GroupMatrix,

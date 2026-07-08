@@ -24,6 +24,7 @@ from .memory import MemoryStream
 from substrate.engine import SubstrateEngine
 from substrate.model import load_substrate
 from substrate.social import respond_to_substrate, resting_baseline
+from substrate.seeding import seed_substrate
 
 # the substrate STRUCTURE is immutable during a run, so all agents share one read-only model;
 # each agent's developing STATE lives on its own engine (proven no-bleed, S8.5).
@@ -46,7 +47,9 @@ class AffectiveAgent:
 
     def __post_init__(self) -> None:
         self.engine = SubstrateEngine(_SUBSTRATE_MODEL, age_years=0.5)
-        self._rest_baseline = resting_baseline(_SUBSTRATE_MODEL, self.engine.age_years)
+        seed_substrate(self.engine, self.seed.gains)     # temperament -> substrate biases
+        self._rest_baseline = resting_baseline(_SUBSTRATE_MODEL, self.engine.age_years,
+                                               self.engine.throttle)
         self.gain = dict(self.seed.gains)
         self.memory = MemoryStream()
         # interim-legacy: the Panksepp brain is still present while consumers are migrated onto

@@ -11,7 +11,7 @@ import unittest
 
 from sophropathy.engine import SimEngine
 
-_SYSTEMS = {"SEEKING", "CARE", "PLAY", "LUST", "FEAR", "RAGE", "PANIC"}
+from substrate.readout import _READOUT_DOMAINS as _SYSTEMS  # substrate domains
 
 
 class TestReport(unittest.TestCase):

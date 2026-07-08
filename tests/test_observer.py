@@ -11,7 +11,7 @@ import copy
 import unittest
 
 from affective_engine.observer import (BehaviourProfile, triarchic, callous_unemotional,
-                                        empathy, read_out, profile_from_legacy, observe_agent)
+                                        empathy, read_out, observe_agent)
 from affective_engine.core import shared_root_seed, sophropathic_seed, psychopathic_seed
 from affective_engine.agent import AffectiveAgent
 from sophropathy.society import typical_child_seed

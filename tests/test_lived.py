@@ -12,7 +12,7 @@ import unittest
 
 from sophropathy import (build_home, build_school, raise_in_world,
                          fearless_child_seed, typical_child_seed)
-from affective_engine.drives import System
+from substrate.readout import _READOUT_DOMAINS as _DOMAINS
 
 
 class TestLivedChildhood(unittest.TestCase):
@@ -25,21 +25,21 @@ class TestLivedChildhood(unittest.TestCase):
     def test_childhood_produces_an_emergent_readout(self):
         r = raise_in_world(fearless_child_seed(), self.warm, self.school)
         # the outcome is a dominant primary system, emergent from the wiring
-        self.assertIsInstance(r.dominant, System)
+        self.assertIn(r.dominant.value, set(_DOMAINS))
         self.assertEqual(r.classification, r.dominant.value)
 
     def test_readout_carries_a_full_drive_profile(self):
         r = raise_in_world(typical_child_seed(), self.harsh, self.school)
-        self.assertEqual(set(r.profile), {s.value for s in System})
+        self.assertEqual(set(r.profile), set(_DOMAINS))
         total = sum(r.profile.values())
         self.assertAlmostEqual(total, 1.0, places=5)      # a normalised profile
 
     def test_outcome_is_produced_by_the_life_not_preset(self):
         # different lived experience (situation streams) can yield different minds
         outs = {raise_in_world(fearless_child_seed(), self.harsh, self.school,
-                               situation_seed=s).dominant for s in range(12)}
+                               situation_seed=s).dominant.value for s in range(12)}
         # a produced outcome: at least it is a valid emergent system (not a fixed label)
-        self.assertTrue(outs.issubset(set(System)))
+        self.assertTrue(outs.issubset(set(_DOMAINS)))
         self.assertGreaterEqual(len(outs), 1)
 
     def test_no_decreed_psychopathy_label(self):

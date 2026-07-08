@@ -34,7 +34,8 @@ from dataclasses import dataclass, field
 from typing import Callable, Dict, List, Optional
 
 from affective_engine.core import Appraisal, TraitSeed
-from affective_engine.drives import Brain, read_mind
+from affective_engine.drives import Brain
+from substrate.readout import read_mind
 from affective_engine.agent import AffectiveAgent
 from affective_engine.development import (Environment, live_moment, live_stimulus,
                                           situation, _colour_by_env, CHILDHOOD_CYCLE,

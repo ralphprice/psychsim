@@ -12,7 +12,7 @@ from collections import Counter
 from statistics import mean, pstdev
 from typing import Dict, List
 
-from affective_engine.drives import profile_axis
+from substrate.readout import profile_axis
 
 
 def dominant_distribution(readouts: List) -> Dict[str, int]:

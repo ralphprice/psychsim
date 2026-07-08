@@ -58,7 +58,7 @@ class ConditionResult:
 
 def run_condition(label: str, child_seed_fn, env: Environment,
                   n: int = N_DEFAULT, base_seed: int = 1000) -> ConditionResult:
-    from affective_engine.drives import System, profile_axis
+    from substrate.readout import profile_axis
     outs = []
     for i in range(n):
         agent = AffectiveAgent(seed=child_seed_fn(), temperament_seed=base_seed + i)
@@ -66,7 +66,7 @@ def run_condition(label: str, child_seed_fn, env: Environment,
         outs.append(classify(agent))
     dist = Counter(o.classification for o in outs)
     modal = dist.most_common(1)[0][0]
-    keys = [s.value for s in System]
+    keys = list(outs[0].profile) if outs else []
     mean_profile = {k: sum(o.profile.get(k, 0.0) for o in outs) / n for k in keys}
     mean_axis = sum(profile_axis(o.profile) for o in outs) / n
     return ConditionResult(label=label, n=n, distribution=dict(dist), modal=modal,

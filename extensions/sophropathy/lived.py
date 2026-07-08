@@ -25,7 +25,7 @@ import random
 from typing import List, Optional
 
 from affective_engine.core import Appraisal, clamp
-from affective_engine.drives import read_mind
+from substrate.readout import read_mind
 from affective_engine.development import (live_moment, Environment,
                                           situation, CHILDHOOD_CYCLE)
 from sim_world import Person, Society, PARENT_CHILD, Venue

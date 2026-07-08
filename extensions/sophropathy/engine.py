@@ -22,7 +22,8 @@ import time
 from typing import Dict, List, Optional, Tuple
 
 from project import ProjectSpec, spawn_universe
-from affective_engine.drives import read_mind, brain_from_seed
+from affective_engine.drives import brain_from_seed
+from substrate.readout import read_mind
 from affective_engine.core import Appraisal
 from sim_world.group_matrix import (GroupMatrix, default_groups, group_encounter,
                                      sample_encounter_type)
@@ -336,7 +337,6 @@ class SimEngine:
         if person is None or cid not in self.info:
             return {}
         is_child, home, work = self.info[cid]
-        brain = person.mind.brain
         return {
             "cid": cid, "name": getattr(person, "name", cid),
             "role": "child" if is_child else "adult", "home": home, "work": work,
@@ -344,8 +344,7 @@ class SimEngine:
             "subject": cid not in self.frozen,
             "mind_state": "background (fixed)" if cid in self.frozen else "study subject (live)",
             "temperament": self.tempers.get(cid),        # set for authored subjects
-            "systems": {s.value: [round(d.strength, 3), round(d.reactivity, 3)]
-                        for s, d in brain.drives.items()},
+            "systems": {k: round(v, 3) for k, v in read_mind(person.mind).profile.items()},
             "memories": [{"label": m.label, "valence": round(m.valence, 2)}
                          for m in person.mind.memory.events[-15:]],
             "groups": [{"group": m.group_id, "standing": round(m.standing, 2),

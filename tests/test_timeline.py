@@ -117,8 +117,7 @@ class TestClockDrivesDevelopment(unittest.TestCase):
         tc.run(TimeScale.YEAR, steps=25)                 # a full childhood span
         outcomes = [d["outcome"] for d in step.dev.values() if d["done"]]
         self.assertTrue(outcomes)                        # some grew up
-        from affective_engine.drives import System
-        valid = {s.value for s in System}
+        from substrate.readout import _READOUT_DOMAINS as valid
         self.assertTrue(all(o in valid for o in outcomes))   # emergent system readouts
 
     def test_outcome_tracks_home_climate(self):

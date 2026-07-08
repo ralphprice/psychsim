@@ -14,7 +14,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
-from affective_engine.drives import read_mind, profile_axis
+from substrate.readout import read_mind, profile_axis
 from affective_engine.observer import observe_agent
 from sim_experiment.readout import dominant_distribution, mean_profile, axis_stats
 
@@ -90,8 +90,7 @@ def sample_subject(engine, cid: str) -> SubjectSnapshot:
     """One trajectory sample from the live engine's own read-outs."""
     person = engine.pop.persons[cid]
     r = read_mind(person.mind)
-    systems = {s.value: [round(d.strength, 4), round(d.reactivity, 4)]
-               for s, d in person.mind.brain.drives.items()}
+    systems = {k: round(v, 4) for k, v in r.profile.items()}   # emergent domain profile
     return SubjectSnapshot(step=engine.step_count, minutes=engine.minutes,
                            clock=engine.clock_label(), dominant=r.dominant.value,
                            axis=round(profile_axis(r.profile), 4), systems=systems)

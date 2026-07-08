@@ -79,7 +79,7 @@ def render_watchable_town(spec, seed: int = 1, years: int = 18,
     import json
     from project import spawn_universe
     from sim_world import TimeController, TimeScale
-    from affective_engine.drives import read_mind
+    from substrate.readout import read_mind
     from sim_viz.floorplan import render_settlement_plan
     from sim_viz.compositor import NETWORK_COLOUR
     from .world import venues_for

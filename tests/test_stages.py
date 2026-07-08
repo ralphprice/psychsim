@@ -45,8 +45,8 @@ class TestStagesRun(unittest.TestCase):
     def test_stages3_and_4_report_emergent_profiles(self):
         # at this crude stage we do NOT assert a decreed environment->outcome order;
         # we check each condition reports a well-formed emergent readout
-        from affective_engine.drives import System
-        valid = {s.value for s in System}
+        from substrate.readout import _READOUT_DOMAINS as _DOMAINS
+        valid = set(_DOMAINS)
         for stage in (run_stage3(n=8), run_stage4(n=8)):
             for c in stage.conditions:
                 self.assertIn(c.modal, valid)                     # dominant system
@@ -58,8 +58,8 @@ class TestStagesRun(unittest.TestCase):
         self.assertTrue(any("PLACEHOLDER" in n for n in s5.notes))
 
     def test_stages6_and_7_run_and_report_profiles(self):
-        from affective_engine.drives import System
-        valid = {s.value for s in System}
+        from substrate.readout import _READOUT_DOMAINS as _DOMAINS
+        valid = set(_DOMAINS)
         for stage in (run_stage6(n=8), run_stage7(n=8)):
             self.assertTrue(stage.conditions)
             for c in stage.conditions:
