@@ -17,7 +17,6 @@ import { Legend } from "./components/Legend";
 import { Development } from "./components/Development";
 import { MatrixEditor } from "./components/MatrixEditor";
 import { NeuralEditor } from "./components/NeuralEditor";
-import { ExecutiveEditor } from "./components/ExecutiveEditor";
 
 const DETAIL_POLL_MS = 700;
 
@@ -149,7 +148,6 @@ export default function App() {
           <Development selectedCid={selectedCid} />
           <MatrixEditor />
           <NeuralEditor />
-          <ExecutiveEditor />
         </div>
       </div>
     </div>

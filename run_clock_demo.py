@@ -40,15 +40,11 @@ def main():
         if i >= 6:
             break
         ranks = [(m.group_id, round(m.standing, 2)) for m in d["group_matrix"].ranks(top=2)]
-        ex = d["executive"]
         print(f"  child {i + 1}: dominant drive = {d['outcome']:8} | "
               f"top group standing = {ranks}")
-        print(f"           executive: {ex.note() or 'developing'} "
-              f"(consulted {ex.checks} times, fired {ex.fired})")
     print("=" * 68)
-    print("  note: the executive is CONSULTED on every brain event (always-on) but")
-    print("  FIRES only on what it has learned to monitor; in this crude world little")
-    print("  is net-costly, so it rarely acts yet -- see the design document.")
+    print("  note: control is the substrate's own STN brake, which matures with age and")
+    print("  biases the selection race -- there is no separate executive layer.")
 
 
 if __name__ == "__main__":

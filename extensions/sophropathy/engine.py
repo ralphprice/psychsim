@@ -22,7 +22,6 @@ import time
 from typing import Dict, List, Optional, Tuple
 
 from project import ProjectSpec, spawn_universe
-from affective_engine.drives import brain_from_seed
 from substrate.readout import read_mind
 from affective_engine.core import Appraisal
 from sim_world.group_matrix import (GroupMatrix, default_groups, group_encounter,
@@ -170,9 +169,10 @@ class SimEngine:
             is_child, home, work = self.info[cid]
             person = self.pop.persons.get(cid)
             if person is not None and not is_child:
-                # a grown library brain, assigned deterministically so the background
-                # is identical across conditions/runs of the same town
-                person.mind.brain = entries[i % len(entries)].make_brain()
+                # a grown library adult's developed substrate, restored from the bank and
+                # dropped in deterministically so the background is identical across
+                # conditions/runs of the same town (restored-never-edited).
+                person.mind.adopt_engine(entries[i % len(entries)].make_agent().engine)
                 i += 1
             self.frozen.add(cid)
 
@@ -380,20 +380,18 @@ class SimEngine:
                    temperament: str = "typical") -> str:
         """Author a fresh STUDY SUBJECT from a chosen temperament seed and place it in a
         home. This is disciplined authoring: only the temperament (inherited reactivity)
-        is given -- the mind is built fresh from that seed (`brain_from_seed`), NOT
-        cloned from a grown resident. An authored person evolves live (never frozen).
-        Returns the id."""
+        is given -- the substrate is seeded fresh from that temperament's gains (deterministic,
+        `seed_substrate`), NOT cloned from a grown resident. An authored person evolves live
+        (never frozen). Returns the id."""
         homes = [p for p in self.space.cells if p.startswith("home")]
         if not homes:
             return ""
         home = home if home in homes else self.rng.choice(homes)
         cid = f"new_{len(self.info)}_{self.rng.randint(1000,9999)}"
         seed_fn = TEMPERAMENT_SEEDS.get(temperament, typical_child_seed)
-        person = Person(agent_id=cid, name=cid, seed=seed_fn())      # fresh mind from the seed
-        # reseed its reactivities deterministically from the engine rng, so authoring is
-        # reproducible (given the same engine state) rather than drawing an unseeded brain
-        person.mind.brain = brain_from_seed(person.mind.seed,
-                                            random.Random(self.rng.randint(0, 2**31 - 1)))
+        # the substrate is seeded deterministically from the temperament's gains in the agent's
+        # __post_init__, so an authored person is reproducible from its seed alone.
+        person = Person(agent_id=cid, name=cid, seed=seed_fn())
         self.pop.persons[cid] = person
         # role may be a fine role from the library (teenager/retired/...) or child/adult
         is_child = role_is_child(role) if role in ROLE_SCHEDULES else (role == "child")
@@ -422,9 +420,9 @@ class SimEngine:
         }
 
     def save(self, name: str, directory: str = SAVE_DIR) -> dict:
-        """Persist the ENTIRE running world -- town, every mind (drive strengths,
-        memories, executive, group standing), positions and clock -- to disk, plus a
-        small JSON sidecar of metadata for listing. Returns that metadata."""
+        """Persist the ENTIRE running world -- town, every mind (its developed substrate,
+        memories, group standing), positions and clock -- to disk, plus a small JSON sidecar
+        of metadata for listing. Returns that metadata."""
         os.makedirs(directory, exist_ok=True)
         slug = _slug(name)
         with open(os.path.join(directory, slug + ".psychsim"), "wb") as f:

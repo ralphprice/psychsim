@@ -60,6 +60,13 @@ class AffectiveAgent:
                 if self.temperament_seed is not None else _r.Random())
         self.brain = brain_from_seed(self.seed, _rng)
 
+    def adopt_engine(self, engine: SubstrateEngine) -> None:
+        """Place an already-developed substrate (e.g. a library adult restored from the bank) into
+        this agent, replacing its own engine and refreshing the cached resting baseline for the new
+        connectome and age. The developed weights are dropped in as-is (restored-never-edited)."""
+        self.engine = engine
+        self._rest_baseline = resting_baseline(_SUBSTRATE_MODEL, engine.age_years, engine.throttle)
+
     def social_act(self, appraisal, age_years: Optional[float] = None):
         """The agent's emergent SOCIAL ACT on the substrate: the situation's perturbation pattern
         fires its circuits and the basal-ganglia race resolves the act. The engine develops

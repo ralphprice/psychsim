@@ -236,3 +236,47 @@ DA/satiety nor continuous maturation needed a seed edit -- both were engine-side
   lack a documented provocation->attack route (Panksepp RAGE; the medial/dorsomedial hypothalamic attack
   area; frustrative-non-reward literature) that would let reactive aggression win under provocation? A
   real, citeable neuroscience question -- for a deliberate v9 pass, not now.
+
+## Part 6 step 3e — the substrate-social phase (Panksepp retirement), stage 4: the two reductions
+
+The substrate reproduced the social behaviour parity-first (stages 1--3, invariant 6); stage 4 removed
+two legacy structures now that the substrate carries the live path. Both are reductions, not new
+behaviour: the observable town sim is unchanged.
+
+**Reduction A — the Panksepp learned-monitor Executive was retired.** The old `affective_engine/executive.py`
+(the `Executive` class, `consult`/`checks`, `monitor_executive`, `install_monitors_from_memory`,
+`moral_orientation_readout`, `_system_from_label`) plus its `exec_store` + HTTP/UI editing surface are
+**deleted**. It was a *separate* control layer bolted beside the Panksepp brain: a learned inhibitory
+monitor whose thresholds were installed from episodic memory, and a vmPFC-style moral read-out over the
+7 Systems. The substrate's own **STN brake** (`substrate/behaviour.py`, the go/no-go selection race that
+matures with age) is now the **sole** executive, and the moral read-out lives substrate-side
+(`observer.profile_from_substrate`). `moral_orientation_readout`'s only remaining caller was the dormant
+Executive, so it went out with it -- no separate handling. No live importer of the dropped machinery
+remains (substrate `executive_hold` / `developed_executive_control` are the STN brake, unrelated).
+
+> **Deferred capability (v9/study candidate): experience-conditioned inhibitory monitoring.** The STN
+> brake is a **maturational** control (it strengthens with age in the selection race), not a monitor
+> **conditioned on specific learned associations**. The retired Executive could `install_monitors_from_memory`
+> -- restraint keyed to particular remembered cues. The substrate has no equivalent "learn to inhibit
+> *this* cue from *this* episode" hook yet. If a future study needs experience-specific restraint beyond
+> the age-graded brake, that is a real capability to add on the substrate (a plasticity-grounded
+> inhibitory route), not to resurrect as a bolt-on arbiter. Parked alongside OBS-3 (aggression) and the
+> social innate-wiring entries as an accumulated, cited candidate -- not needed now.
+
+**Reduction B — `CharacterLibrary` is now a thin layer over the `AgentBank` (single serialization path).**
+The library's `LibraryEntry` used to store a Panksepp `Brain.to_dict()` and rebuild it with
+`Brain.from_dict()`; the engine placed grown adults by swapping `person.mind.brain`. Now `grow()` banks the
+grown agent's developed substrate through the bank's own serializer (`snapshot(DevelopedAgent(engine=...))`,
+stored as `LibraryEntry.state`), `make_agent()` restores it (`restore`, restored-never-edited), and the
+engine places it with `AffectiveAgent.adopt_engine(...)` (swap the developed engine + refresh the resting
+baseline). **Invariant held: every write of developed state goes through the bank's `snapshot`/`restore` --
+no parallel substrate serializer survives.** The shipped `library/adults.json` was regrown in the new
+`state` format. The `add_person` reseed (`brain = brain_from_seed(...)`) is gone: the substrate is seeded
+deterministically from the temperament's gains in `AffectiveAgent.__post_init__` (`seed_substrate`), so an
+authored subject is reproducible from its seed alone -- the reseed only ever pinned the now-inert Panksepp
+brain's RNG.
+
+**Still interim-legacy (removed in stage 5, the deletion hold):** `AffectiveAgent.__post_init__` still
+constructs a `self.brain = brain_from_seed(...)` (the inert Panksepp brain), and two `test_observer` cases
+still read `brain.to_dict()` as a not-mutated measurement. These are the last `.brain` references; they go
+with `Brain`/`System`/`Drive` in stage 5 (pending the Part 8 v9 ruling on the aggression circuit).

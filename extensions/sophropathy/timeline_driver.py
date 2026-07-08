@@ -93,8 +93,6 @@ def make_life_stepper(universe, venues=None, seed: int = 0,
     from affective_engine.development import (live_moment, live_stimulus,
                                               Environment, situation, CHILDHOOD_CYCLE)
     from affective_engine.activities import sample_activity
-    from affective_engine.executive import (Executive, monitor_executive,
-                                            install_monitors_from_memory)
     from affective_engine.core import Appraisal
     from substrate.readout import read_mind
     from sim_world.timeline import MIN_PER_DAY, DAYS_PER_YEAR
@@ -156,14 +154,8 @@ def make_life_stepper(universe, venues=None, seed: int = 0,
         d["mind"].memory.add(label=grp.kind, appraisal=Appraisal(label=grp.kind),
                              dominant=gresp.behaviour,
                              valence=max(-1.0, min(1.0, post - pre)), importance=0.5)
-        # monitor the executive-function layer (self-awareness) -- READ, not applied:
-        # it matures with age, reads moral orientation off the substrate, and accrues
-        # purpose on deliberative steps. It does NOT change behaviour.
-        monitor_executive(d["executive"], d["mind"].brain, age_years,
-                          deliberative=d.get("deliberative", False))
-        if d.get("deliberative", False):
-            install_monitors_from_memory(d["executive"], d["mind"].memory)
-        d["deliberative"] = False
+        # control is the substrate's own STN brake (matures with age in the selection race);
+        # the separate Panksepp executive layer was retired.
         d["age"] = min(1.0, d["age"] + 1.0 / total_ep)
 
     dev = {}
@@ -181,14 +173,9 @@ def make_life_stepper(universe, venues=None, seed: int = 0,
                  if area in school.areas for a in school.area(area).affordances()]
         d = {"mind": pop.persons[cid].mind, "env": env,
              "age": 0.0, "sits": sits, "env_matrix": birth_matrix(world_things),
-             "group_matrix": GroupMatrix(), "executive": Executive(),
-             "deliberative": False,
+             "group_matrix": GroupMatrix(),
              "done": False, "outcome": None, "stage": "early_childhood",
              "carry": 0.0, "warmth": warmth}
-        # make the executive ALWAYS-ON for this child: attach it to the brain so it is
-        # consulted on every respond (every brain event), not just when we sample its
-        # state. With nothing learned to monitor yet, the loop runs but does not act.
-        d["mind"].brain.executive = d["executive"]
         # a child already part-grown at t=0 has LIVED those years: run the
         # episodes up to their current age so early development counts
         start_age = rng.uniform(0.0, 0.92)

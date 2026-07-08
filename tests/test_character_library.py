@@ -3,60 +3,65 @@ _ROOT = _O.path.dirname(_O.path.dirname(_O.path.abspath(__file__)))
 _S.path.insert(0, _O.path.join(_ROOT, "core"))
 _S.path.insert(0, _O.path.join(_ROOT, "extensions"))
 
-"""The controlled-experiment character library: Brain serialisation, growing an adult
-to adulthood on the substrate from a temperament seed + rearing, and caching a library.
+"""The controlled-experiment character library: developed-substrate serialisation (through
+the AgentBank -- the single serialization path), growing an adult to adulthood on the
+substrate from a temperament seed + rearing, and caching a library.
 
 The discipline: only temperament (given reactivity) and rearing are set; the strength
 profile is GROWN. These tests check the machinery is faithful and reproducible -- NOT
-that any particular outcome arises (at this crude stage the substrate funnels to SEEKING,
-which is correct, not a target)."""
+that any particular outcome arises (at this crude stage the substrate funnels to a
+narrow read-out, which is correct, not a target)."""
 import json
 import tempfile
 import unittest
 
-from affective_engine.drives import Brain, System, read_mind
+from substrate.readout import read_mind, _READOUT_DOMAINS
 from affective_engine.development import warm_firm_home, harsh_inconsistent_home
+from agent_bank import DevelopedAgent, snapshot, restore
 from sophropathy.society import fearless_child_seed, typical_child_seed
 from sophropathy.library import (grow_adult, CharacterLibrary, LibraryEntry,
                                  build_default_library, TEMPERAMENTS, REARINGS)
 
 
-class TestBrainSerialisation(unittest.TestCase):
-    def test_round_trips_reactivity_and_strength(self):
-        a = grow_adult(fearless_child_seed(), warm_firm_home(), seed=1)
-        d = a.brain.to_dict()
-        self.assertEqual(set(d), {s.value for s in System})
-        for pair in d.values():
-            self.assertEqual(len(pair), 2)            # [reactivity, strength]
-        b = Brain.from_dict(d)
-        self.assertEqual(b.to_dict(), d)              # exact round-trip
-        self.assertIsInstance(json.dumps(d), str)     # plain JSON
+def _domain_throttle(engine, domain: str) -> float:
+    """The maximum temperament throttle applied to any circuit of `domain` (0 if none)."""
+    return max([engine.throttle.get(cid, 0.0) for cid, c in engine.model.circuits.items()
+                if c.domain == domain] + [0.0])
 
-    def test_from_dict_defaults_missing_systems(self):
-        b = Brain.from_dict({"SEEKING": [0.9, 0.8]})  # only one system given
-        self.assertAlmostEqual(b.drives[System.SEEKING].reactivity, 0.9)
-        self.assertAlmostEqual(b.drives[System.FEAR].reactivity, 0.5)   # neutral fallback
+
+class TestDevelopedSubstrateSerialisation(unittest.TestCase):
+    def test_round_trips_developed_substrate(self):
+        # a grown adult's developed substrate serialises and restores through the bank exactly
+        a = grow_adult(fearless_child_seed(), warm_firm_home(), seed=1)
+        s = snapshot(DevelopedAgent(engine=a.engine))
+        self.assertIn("engine", s)
+        self.assertIsInstance(json.dumps(s), str)          # plain JSON
+        back = restore(s)
+        self.assertEqual(back.engine.weight, a.engine.weight)      # exact weight round-trip
+        self.assertEqual(back.engine.age_years, a.engine.age_years)
 
 
 class TestGrowAdult(unittest.TestCase):
     def test_reproducible_from_seed(self):
         a1 = grow_adult(fearless_child_seed(), warm_firm_home(), seed=42)
         a2 = grow_adult(fearless_child_seed(), warm_firm_home(), seed=42)
-        self.assertEqual(a1.brain.to_dict(), a2.brain.to_dict())
+        self.assertEqual(a1.engine.weight, a2.engine.weight)       # identical developed substrate
 
     def test_grows_strength_and_has_readout(self):
         a = grow_adult(typical_child_seed(), harsh_inconsistent_home(), seed=7)
         r = read_mind(a)
-        self.assertIn(r.dominant, list(System))
+        self.assertIn(r.dominant.value, _READOUT_DOMAINS)
         self.assertAlmostEqual(sum(r.profile.values()), 1.0, places=5)   # a distribution
         self.assertTrue(a.memory.events)                                 # a lived history
 
     def test_temperament_is_given_and_preserved(self):
-        # inherited reactivity differs by seed even where grown strengths converge
+        # the given reactivity bias is present in the substrate: a fearless temperament (low
+        # THREAT/ANXIETY) throttles the defensive-threat circuits; a typical one (at reference)
+        # does not. The bias is GIVEN via the seed, not written into the grown outcome.
         fearless = grow_adult(fearless_child_seed(), warm_firm_home(), seed=5)
         typical = grow_adult(typical_child_seed(), warm_firm_home(), seed=5)
-        self.assertLess(fearless.brain.drives[System.FEAR].reactivity,
-                        typical.brain.drives[System.FEAR].reactivity)
+        self.assertGreater(_domain_throttle(fearless.engine, "defensive_threat"),
+                           _domain_throttle(typical.engine, "defensive_threat"))
 
 
 class TestCharacterLibrary(unittest.TestCase):
@@ -70,10 +75,12 @@ class TestCharacterLibrary(unittest.TestCase):
             back = CharacterLibrary.load(path)
         self.assertEqual(len(back.entries), 2)
         self.assertEqual([e.name for e in back.entries], ["Test A", "Test B"])
-        # a loaded entry rebuilds a usable grown brain
-        b = back.entries[0].make_brain()
-        self.assertEqual(len(b.drives), 7)
-        self.assertEqual(b.to_dict(), lib.entries[0].brain)
+        # the serialised developed state round-trips exactly through the bank snapshot
+        self.assertEqual(back.entries[0].state, lib.entries[0].state)
+        # a loaded entry restores a usable developed substrate (restored-never-edited)
+        dev = back.entries[0].make_agent()
+        self.assertIsInstance(dev, DevelopedAgent)
+        self.assertEqual(dev.engine.weight, lib.entries[0].state["engine"]["weight"])
 
     def test_default_library_is_deterministic_and_varied(self):
         a = build_default_library(seed=123)

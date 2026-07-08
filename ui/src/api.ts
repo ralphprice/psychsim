@@ -6,7 +6,7 @@
 import type {
   TownGeometry, PlanView, SimState, PersonDetail, SaveMeta, LibraryInfo,
   ModuleInfo, CohortReport, SubjectReport, MatrixKindInfo, MatrixItem, NeuralView,
-  ExecutiveView, Command,
+  Command,
 } from "./types";
 
 async function getJSON<T>(path: string): Promise<T> {
@@ -32,7 +32,6 @@ export const getMatrixItems = (kind: string) =>
     `/matrix/items?kind=${encodeURIComponent(kind)}`,
   ).then((r) => r.items);
 export const getNeural = () => getJSON<NeuralView>("/neural");
-export const getExecutive = () => getJSON<ExecutiveView>("/executive");
 export const getCohortReport = () => getJSON<CohortReport>("/report/cohort");
 export const getSubjectReport = (cid: string) =>
   getJSON<SubjectReport>(`/report/subject?cid=${encodeURIComponent(cid)}`);

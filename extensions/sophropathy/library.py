@@ -34,15 +34,12 @@ from dataclasses import dataclass, field
 from typing import Callable, Dict, List, Optional
 
 from affective_engine.core import Appraisal, TraitSeed
-from affective_engine.drives import Brain
 from substrate.readout import read_mind
 from affective_engine.agent import AffectiveAgent
 from affective_engine.development import (Environment, live_moment, live_stimulus,
                                           situation, _colour_by_env, CHILDHOOD_CYCLE,
                                           warm_firm_home, harsh_inconsistent_home)
 from affective_engine.activities import sample_activity
-from affective_engine.executive import (Executive, monitor_executive,
-                                        install_monitors_from_memory)
 from sim_world.environment_matrix import default_things, birth_matrix, encounter
 from sim_world.group_matrix import (default_groups, GroupMatrix, group_encounter,
                                     sample_encounter_type)
@@ -77,15 +74,15 @@ REARINGS: Dict[str, Callable[[], Environment]] = {
 }
 
 
-def new_dev_context(executive) -> dict:
-    """A fresh developmental context: the world's things, the child's evolving
-    environment-matrix and group-matrix, and the always-on executive. One per
-    developing mind (a grown-adult run, or a live study subject in the engine)."""
+def new_dev_context() -> dict:
+    """A fresh developmental context: the world's things and the child's evolving
+    environment-matrix and group-matrix. One per developing mind. There is no separate
+    executive layer -- control is the substrate's own STN brake (behaviour.py), which matures
+    with age in the selection race; the Panksepp learned-monitor executive was retired."""
     return {"env_matrix": birth_matrix(default_things()),
             "group_matrix": GroupMatrix(),
             "things": default_things(),
-            "groups": default_groups(),
-            "executive": executive}
+            "groups": default_groups()}
 
 
 def develop_episode(agent: AffectiveAgent, rearing: Environment, age_years: float,
@@ -119,10 +116,6 @@ def develop_episode(agent: AffectiveAgent, rearing: Environment, age_years: floa
     agent.memory.add(label=grp.kind, appraisal=Appraisal(label=grp.kind),
                      dominant=gresp.behaviour,
                      valence=max(-1.0, min(1.0, post - pre)), importance=0.5)
-    ex = ctx["executive"]
-    monitor_executive(ex, agent.brain, age_years, deliberative=deliberative)
-    if deliberative:
-        install_monitors_from_memory(ex, agent.memory)
     return gresp
 
 
@@ -132,14 +125,10 @@ def grow_adult(temperament: TraitSeed, rearing: Environment, *, seed: int,
     rearing environment. GIVEN: temperament (reactivity bias) + rearing. GROWN: the
     whole strength profile, from what a childhood of activities, things and groups
     happens to engage. Nothing about the outcome is written in. Returns the grown
-    AffectiveAgent (its `.brain` is the substrate; `read_mind(agent)` reads it out)."""
+    AffectiveAgent (its `.engine` is the developed substrate; `read_mind(agent)` reads it out)."""
     rng = random.Random(seed)
     agent = AffectiveAgent(seed=temperament, temperament_seed=seed)
-    executive = Executive()
-    from affective_engine.exec_store import install_data_monitors
-    install_data_monitors(executive)                      # researched monitors, if any (empty by default)
-    agent.brain.executive = executive                     # always-on, as in the life-stepper
-    ctx = new_dev_context(executive)
+    ctx = new_dev_context()
     total_ep = max(6, int(round(childhood_years * episodes_per_year)))
     for i in range(total_ep):
         age_years = childhood_years * (i / total_ep)
@@ -160,24 +149,26 @@ class LibraryEntry:
     rearing: str
     role: str
     seed: int
-    brain: Dict[str, list]
+    state: dict                    # the AgentBank snapshot of the grown DevelopedAgent (substrate)
     dominant: str
     profile: Dict[str, float]
 
-    def make_brain(self) -> Brain:
-        """Rebuild the grown substrate for placement into a running sim."""
-        return Brain.from_dict(self.brain)
+    def make_agent(self):
+        """Restore the grown DevelopedAgent (substrate) for placement into a running sim.
+        Restored-never-edited, via the bank's own restore -- the single serialization path."""
+        from agent_bank import restore
+        return restore(self.state)
 
     def to_dict(self) -> dict:
         return {"name": self.name, "temperament": self.temperament,
                 "rearing": self.rearing, "role": self.role, "seed": self.seed,
-                "brain": self.brain, "dominant": self.dominant, "profile": self.profile}
+                "state": self.state, "dominant": self.dominant, "profile": self.profile}
 
     @staticmethod
     def from_dict(d: dict) -> "LibraryEntry":
         return LibraryEntry(name=d["name"], temperament=d["temperament"],
                             rearing=d["rearing"], role=d.get("role", "adult"),
-                            seed=int(d["seed"]), brain=d["brain"],
+                            seed=int(d["seed"]), state=d["state"],
                             dominant=d["dominant"], profile=d["profile"])
 
 
@@ -193,8 +184,14 @@ class CharacterLibrary:
         rearing = REARINGS[rearing_key]()
         agent = grow_adult(temperament, rearing, seed=seed, **grow_kw)
         r = read_mind(agent)
+        # persist the GROWN developed substrate through the bank's serialization -- the single
+        # substrate-serialization path (grown-and-banked, restored-never-edited). No parallel serializer.
+        from agent_bank import DevelopedAgent, snapshot
+        dev = DevelopedAgent(engine=agent.engine,
+                             provenance={"temperament": temperament_key, "rearing": rearing_key,
+                                         "seed": seed})
         entry = LibraryEntry(name=name, temperament=temperament_key, rearing=rearing_key,
-                             role=role, seed=seed, brain=agent.brain.to_dict(),
+                             role=role, seed=seed, state=snapshot(dev),
                              dominant=r.dominant.value, profile=r.profile)
         self.entries.append(entry)
         return entry

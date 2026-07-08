@@ -128,21 +128,23 @@ class TestSimEngine(unittest.TestCase):
         self.assertEqual(loaded.snapshot()["people"], e.snapshot()["people"])
 
     def test_author_subject_by_temperament(self):
-        from affective_engine.drives import System
-
-        def mean_fear_reactivity(temperament, seed):
+        def mean_threat_throttle(temperament, seed):
             e = SimEngine(population=30, seed=seed)
             cids = [e.add_person("child", temperament=temperament) for _ in range(8)]
-            return sum(e.pop.persons[c].mind.brain.drives[System.FEAR].reactivity
-                       for c in cids) / len(cids)
 
-        # GIVEN temperament is a reactivity BIAS (individual draws vary): a fearless
-        # cohort has lower mean FEAR reactivity than a typical one.
-        self.assertLess(mean_fear_reactivity("fearless", 7),
-                        mean_fear_reactivity("typical", 7))
-        # authoring is reproducible now that the fresh mind is seeded from the engine rng
-        self.assertEqual(mean_fear_reactivity("fearless", 7),
-                         mean_fear_reactivity("fearless", 7))
+            def dt(eng):
+                return max([eng.throttle.get(cid, 0.0) for cid, c in eng.model.circuits.items()
+                            if c.domain == "defensive_threat"] + [0.0])
+            return sum(dt(e.pop.persons[c].mind.engine) for c in cids) / len(cids)
+
+        # GIVEN temperament is a reactivity BIAS carried on the substrate: a fearless cohort
+        # (low THREAT/ANXIETY) throttles its defensive-threat circuits MORE than a typical one
+        # (which sits at the reference and is not throttled).
+        self.assertGreater(mean_threat_throttle("fearless", 7),
+                           mean_threat_throttle("typical", 7))
+        # authoring is reproducible: the substrate is seeded deterministically from temperament
+        self.assertEqual(mean_threat_throttle("fearless", 7),
+                         mean_threat_throttle("fearless", 7))
 
     def test_authored_subject_is_tracked_and_live(self):
         e = SimEngine(population=30, seed=7)

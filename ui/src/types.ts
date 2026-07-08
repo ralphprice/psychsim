@@ -162,14 +162,6 @@ export interface NeuralView {
   collections: Record<string, string[]>;
 }
 
-/** GET /executive — the editable frontal-cortex monitor registry. */
-export interface ExecutiveView {
-  monitors: MatrixItem[];
-  systems: string[];
-  kinds: string[];
-  note: string;
-}
-
 /** POST /cmd payloads. */
 export type Command =
   | { cmd: "play" }
@@ -183,6 +175,4 @@ export type Command =
   | { cmd: "matrix_upsert"; kind: string; item: MatrixItem }
   | { cmd: "matrix_delete"; kind: string; id: string }
   | { cmd: "neural_upsert"; kind: string; item: MatrixItem }
-  | { cmd: "neural_delete"; kind: string; id: string }
-  | { cmd: "executive_upsert"; item: MatrixItem }
-  | { cmd: "executive_delete"; id: string };
+  | { cmd: "neural_delete"; kind: string; id: string };

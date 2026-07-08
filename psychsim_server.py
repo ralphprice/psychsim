@@ -48,7 +48,6 @@ from project import available_modules, available_profiles
 from config.matrixstore import kinds as matrix_kinds, list_items, upsert_item, delete_item
 from neuraldesigner.store import (library_view as neural_view, upsert as neural_upsert_item,
                                   remove as neural_remove_item)
-from affective_engine.exec_store import (executive_view, upsert_monitor, delete_monitor)
 
 # ---- the running simulation + its loop -----------------------------------
 ENGINE: SimEngine = None
@@ -155,8 +154,6 @@ class Handler(BaseHTTPRequestHandler):
                 self._send({"error": f"unknown matrix kind {kind}"}, 404)
         elif u.path == "/neural":
             self._send(neural_view())
-        elif u.path == "/executive":
-            self._send(executive_view())
         elif u.path == "/report/cohort":
             with LOCK:
                 self._send(ENGINE.cohort_report().to_dict())
@@ -239,13 +236,6 @@ class Handler(BaseHTTPRequestHandler):
                 result["deleted"] = neural_remove_item(data.get("kind"), data.get("id"))
             except KeyError as ex:
                 result = {"error": str(ex)}
-        elif cmd == "executive_upsert":
-            try:
-                result["item"] = upsert_monitor(data.get("item") or {})
-            except (KeyError, ValueError) as ex:
-                result = {"error": str(ex)}
-        elif cmd == "executive_delete":
-            result["deleted"] = delete_monitor(data.get("id"))
         else:
             result = {"error": f"unknown cmd {cmd}"}
         self._send(result)
