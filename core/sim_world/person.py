@@ -15,7 +15,16 @@ from typing import Dict, List, Optional
 from affective_engine import AffectiveAgent, TraitSeed
 from affective_engine.core import Appraisal
 
+from substrate.engine import SubstrateEngine
+from substrate.model import load_substrate
+from substrate.social import respond_to_substrate, resting_baseline
+
 from .world import World, LifeStage, stage_for_age
+
+# The substrate STRUCTURE (circuits/connections) is immutable during a run, so all persons share
+# one read-only model; each person's developing STATE lives on its own engine (proven no-bleed,
+# S8.5). Loaded once.
+_SUBSTRATE_MODEL = load_substrate()
 
 
 @dataclass
@@ -35,10 +44,23 @@ class Person:
     seed: TraitSeed
     birth_day: int = 0
     body: Body = field(default_factory=Body)
-    mind: AffectiveAgent = field(init=False)
+    mind: AffectiveAgent = field(init=False)       # interim-legacy Panksepp engine (still present)
+    engine: SubstrateEngine = field(init=False)    # the person's own developing substrate
 
     def __post_init__(self) -> None:
         self.mind = AffectiveAgent(seed=self.seed)
+        self.engine = SubstrateEngine(_SUBSTRATE_MODEL, age_years=0.5)
+        self._rest_baseline = resting_baseline(_SUBSTRATE_MODEL, self.engine.age_years)
+
+    # -- substrate social behaviour (Part 6 substrate-social phase) --------
+    def social_act(self, appraisal: Appraisal, age_years: Optional[float] = None):
+        """The person's emergent SOCIAL ACT on the substrate: the situation's perturbation
+        pattern fires this person's own circuits and the basal-ganglia race resolves the act.
+        The engine develops through the moment. Returns a SocialBehaviour (`.behaviour`) the
+        world consumers adjudicate -- the substrate path that supersedes the Panksepp response."""
+        if age_years is not None and age_years >= 0.5:
+            self.engine.set_age(age_years)
+        return respond_to_substrate(self.engine, appraisal, baseline=self._rest_baseline)
 
     # -- age and stage -----------------------------------------------------
     def age_years(self, world: World) -> float:

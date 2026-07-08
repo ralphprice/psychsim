@@ -138,3 +138,79 @@ def profile_from_legacy(agent) -> BehaviourProfile:
 def observe_agent(agent) -> Dict[str, object]:
     """Convenience: the full observer read-out over a (legacy-engine) agent."""
     return read_out(profile_from_legacy(agent))
+
+
+# ---------------------------------------------------------------------------
+# Circuit-engine adapter (Part 6 substrate-social phase) -- READ-ONLY
+# ---------------------------------------------------------------------------
+
+# The circuit populations each measured construct is read from (anatomy). These are MEASUREMENT
+# probes over emergent activity -- the same read-out idiom as study.py -- never fed back.
+_OBS_THREAT = ("CeA", "PAG", "BA", "LA")            # fear / defensive
+_OBS_REWARD = ("VTA", "NAc-core", "NAc-shell", "OFC")   # appetitive approach
+_OBS_CARE = ("PVN-OT", "MPOA", "SEPT")              # affiliation / care
+_OBS_EXEC = ("dlPFC", "dACC", "vlPFC", "preSMA")    # executive control
+_OBS_AGGRESS = ("CeA", "PAG", "HYPdm")              # threat -> attack
+_OBS_EMPATHY = ("LA", "BA", "CeA", "aIns")          # affective empathy (felt distress)
+_OBS_VMPFC = ("vmPFC",)                             # ventromedial PFC (Blair conscience)
+_THREAT_CUE = {"IN-SOMATO:nociception": 0.8}
+_REWARD_CUE = {"IN-GUST:sweet": 0.8}
+_DISTRESS_CUE = {"IN-VIS:biological_motion": 0.8, "IN-AUD:voice": 0.7, "IN-VIS:face_like": 0.7}
+_WARMTH_CUE = {"IN-SOMATO:affective_touch": 0.8, "IN-INTERO:thermal_warmth": 0.6}
+
+
+def profile_from_substrate(engine) -> BehaviourProfile:
+    """Build a BehaviourProfile from the developed SUBSTRATE engine's EMERGENT activity (Part 6
+    substrate-social phase). This is the circuit-engine adapter that supersedes profile_from_legacy.
+
+    READ-ONLY: it probes the agent's developed reactivity and MEASURES the circuit populations'
+    responses, then RESTORES the engine's developed state -- so measuring never develops the agent
+    and nothing it computes is fed back into behaviour. The constructs (triarchic, CU, ...) are
+    then computed from this profile by the observer, exactly as before; the observer remains a
+    measurement layer with no causal path back into the substrate."""
+    from substrate import plasticity as _PL
+    import copy as _copy
+
+    # -- freeze the FULL developed + transient state so probing is read-only ----
+    _FROZEN = ("weight", "theta", "mean_activity", "exp_count", "activation", "pruned",
+               "eligibility", "_silent", "_step_i", "external", "channel_drive")
+    saved = {a: _copy.copy(getattr(engine, a)) for a in _FROZEN}
+
+    def _mean(cids):
+        live = [engine.activity(c) * engine._gain(c)
+                for c in cids if engine.live_circuit.get(c, False)]
+        return sum(live) / len(live) if live else 0.0
+
+    def _probe(cue, cids, ticks=25):
+        engine.clear_inputs()
+        for k, v in cue.items():
+            engine.inject_channel(k, v)
+        engine.settle(ticks)
+        return clamp(_mean(cids))
+
+    try:
+        fear = _probe(_THREAT_CUE, _OBS_THREAT)
+        seeking = _probe(_REWARD_CUE, _OBS_REWARD)
+        care = _probe(_WARMTH_CUE, _OBS_CARE)
+        vicarious = _probe(_DISTRESS_CUE, _OBS_EMPATHY)
+        reactive = _probe(_THREAT_CUE, _OBS_AGGRESS)
+        engine.clear_inputs(); engine.settle(15)
+        restraint = clamp(_mean(_OBS_EXEC)
+                          * _PL.maturation("pfc_low_early_high_late", engine.age_years, 6.0))
+        moral = clamp(0.5 * care + 0.5 * _mean(_OBS_VMPFC))
+    finally:
+        for a, v in saved.items():        # restore -> the agent is untouched by measurement
+            setattr(engine, a, v)
+
+    return BehaviourProfile(
+        fear=fear, seeking=seeking, care=care, restraint=restraint,
+        moral_orientation=moral, reactive_aggression=reactive,
+        instrumental_aggression=0.0,           # cold/calculated exploitation: not grounded in v8
+        vicarious_response=vicarious,
+        punishment_sensitivity=clamp(0.3 + 0.7 * fear),   # low-fear -> reward-dominant
+    )
+
+
+def observe_substrate(engine) -> Dict[str, object]:
+    """The full observer read-out over a developed substrate engine (read-only)."""
+    return read_out(profile_from_substrate(engine))

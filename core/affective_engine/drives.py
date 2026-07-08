@@ -330,16 +330,23 @@ def respond_to_appraisal(agent, appr):
     return agent.brain.respond(appraisal_to_stimulus(appr))
 
 
+# the appetitive/affiliative acts that sustain a relationship, as emergent BEHAVIOUR strings.
+# Engine-agnostic on purpose (Part 6 substrate-social phase): both the Panksepp Response and the
+# substrate SocialBehaviour expose `.behaviour`, so these feature read-outs feed the same
+# consumers whichever engine produced the act -- the seam that lets the town sim run on either.
+_COHESIVE_BEHAVIOURS = frozenset({"approach", "nurture", "play", "court"})
+
+
 def is_cohesive(resp) -> bool:
-    """A response that SUSTAINS a relationship: an appetitive/affiliative
-    engagement (approach, nurture, play, court) rather than aggression, fearful
-    withdrawal or distress."""
-    return resp.dominant in APPETITIVE
+    """A response that SUSTAINS a relationship: an appetitive/affiliative engagement (approach,
+    nurture, play, court) rather than aggression, withdrawal or distress. Keyed on the emergent
+    behaviour, so it reads a substrate SocialBehaviour or a Panksepp Response identically."""
+    return getattr(resp, "behaviour", None) in _COHESIVE_BEHAVIOURS
 
 
 def is_aggressive(resp) -> bool:
-    """A response that ESCALATES strain: RAGE-driven aggression."""
-    return resp.dominant is System.RAGE
+    """A response that ESCALATES strain: an aggressive act."""
+    return getattr(resp, "behaviour", None) == "aggress"
 
 
 # HONESTY MIGRATION #2 ("8b.4"): the `_BEHAVIOUR_TO_NETWORK` / `response_to_network` layer that
