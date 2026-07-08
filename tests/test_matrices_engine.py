@@ -14,7 +14,12 @@ import unittest
 from sim_world.relations import (RelationshipMatrix, RelationshipSlot, DUNBAR_LAYERS)
 from sim_world.environment_matrix import Thing, EnvironmentMatrix, encounter
 from sim_world.group_matrix import Group, GroupMatrix, group_encounter
-from affective_engine.drives import Brain, System
+from affective_engine.core import TraitSeed
+from affective_engine.agent import AffectiveAgent
+_G = {"THREAT": 0.5, "ANXIETY": 0.5, "SEEKING": 0.5, "FRUSTRATION": 0.5,
+      "CARE": 0.5, "SOCIAL_LOSS": 0.5, "CONTROL": 0.5, "INSTRUMENTAL_CONTROL": 0.5}
+def _mk_agent(seed=2):
+    return AffectiveAgent(seed=TraitSeed("t", gains=dict(_G)), temperament_seed=seed)
 
 
 class TestDunbarSlots(unittest.TestCase):
@@ -92,34 +97,38 @@ class TestRelationshipValueByRPE(unittest.TestCase):
 
 class TestEnvironmentValue(unittest.TestCase):
     def _brain(self):
-        return Brain.from_temperament(random.Random(2))
+        return _mk_agent(2)
 
     def test_food_acquires_positive_value(self):
         m = EnvironmentMatrix()
         food = Thing("apple", "an apple", "food")
+        a = self._brain()
         for _ in range(8):
-            encounter(self._brain(), food, m)
+            encounter(a, food, m)
         self.assertGreater(m.bond("apple").value, 0.0)
 
     def test_nature_acquires_positive_value(self):
         m = EnvironmentMatrix()
         wood = Thing("wood", "the wood", "plant")
+        a = self._brain()
         for _ in range(8):
-            encounter(self._brain(), wood, m)
+            encounter(a, wood, m)
         self.assertGreater(m.bond("wood").value, 0.0)   # nature reduces arousal (App. 3.2)
 
     def test_painful_thing_acquires_negative_value(self):
         m = EnvironmentMatrix()
         stove = Thing("stove", "a hot stove", "object", perturbation={"nociception": 0.7})
+        a = self._brain()
         for _ in range(8):
-            encounter(self._brain(), stove, m)
+            encounter(a, stove, m)
         self.assertLess(m.bond("stove").value, 0.0)
 
     def test_plain_object_has_no_innate_value(self):
         m = EnvironmentMatrix()
         rock = Thing("rock", "a rock", "object")
+        a = self._brain()
         for _ in range(5):
-            encounter(self._brain(), rock, m)
+            encounter(a, rock, m)
         self.assertEqual(m.bond("rock").value, 0.0)     # learned only, not innate
 
 
@@ -128,14 +137,14 @@ class TestGroupValueAndSynchrony(unittest.TestCase):
         return Group("team", "a team", "team", cohesion=0.6, norm_strength=0.6)
 
     def test_acceptance_builds_positive_group_value(self):
-        brain = Brain.from_temperament(random.Random(1))
+        brain = _mk_agent(1)
         gm = GroupMatrix(); mem = gm.membership("team", "team")
         for _ in range(8):
             group_encounter(brain, self._team(), mem, "acceptance", age_years=12)
         self.assertGreater(mem.value, 0.0)
 
     def test_synchrony_adds_belonging_endorphin(self):
-        brain = Brain.from_temperament(random.Random(1))
+        brain = _mk_agent(1)
         gm = GroupMatrix()
         m_sync = gm.membership("choir", "team")
         m_plain = gm.membership("club", "team")
@@ -146,7 +155,7 @@ class TestGroupValueAndSynchrony(unittest.TestCase):
         self.assertGreater(m_sync.belonging, m_plain.belonging)
 
     def test_sociometer_tracks_belonging(self):
-        brain = Brain.from_temperament(random.Random(1))
+        brain = _mk_agent(1)
         gm = GroupMatrix(); mem = gm.membership("team", "team")
         for _ in range(8):
             group_encounter(brain, self._team(), mem, "acceptance", age_years=12)

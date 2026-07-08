@@ -142,19 +142,19 @@ def make_life_stepper(universe, venues=None, seed: int = 0,
         # bond emerges and any inherited lean evolves with exposure
         thing = rng.choices(world_things,
                             weights=[t.frequency for t in world_things], k=1)[0]
-        encounter(d["mind"].brain, thing, d["env_matrix"], age_years=age_years)
+        encounter(d["mind"], thing, d["env_matrix"], age_years=age_years)
         # a moment in one of the child's groups -- standing and belonging accrue,
         # by dominance or prestige, from the emergent response
         grp = rng.choice(world_groups)
         mem = d["group_matrix"].membership(grp.id, grp.kind)
         pre = mem.standing + mem.belonging
-        gresp = group_encounter(d["mind"].brain, grp, mem, sample_encounter_type(rng),
+        gresp = group_encounter(d["mind"], grp, mem, sample_encounter_type(rng),
                                 age_years=age_years)
         post = mem.standing + mem.belonging
         # remember the outcome: the drive that was run, and whether it bettered or
         # worsened the person's social position (emergent valence, not a per-drive rule)
         d["mind"].memory.add(label=grp.kind, appraisal=Appraisal(label=grp.kind),
-                             dominant=gresp.dominant.value,
+                             dominant=gresp.behaviour,
                              valence=max(-1.0, min(1.0, post - pre)), importance=0.5)
         # monitor the executive-function layer (self-awareness) -- READ, not applied:
         # it matures with age, reads moral orientation off the substrate, and accrues

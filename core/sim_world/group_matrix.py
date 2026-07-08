@@ -51,8 +51,7 @@ import json
 import os
 import random
 
-from affective_engine.drives import (Brain, System, APPETITIVE, AVERSIVE,
-                                      imprint, clamp)
+from affective_engine.core import clamp
 from affective_engine.interocept import reference_child_state, valence_of_event
 from affective_engine.learning import ValueLearner
 from affective_engine import params as _params
@@ -220,18 +219,16 @@ SOCIOMETER_LR = 0.3     # SCAFFOLD rate the sociometer (esteem) tracks felt belo
 ACCRUE = 0.15   # ledger step; crude and tunable, NOT a claim about effect
 
 
-def group_encounter(brain: Brain, group: Group, membership: Membership,
-                    encounter_type: str, age_years: float = 30.0,
-                    imprint_use: bool = True):
-    """One group encounter of a given kind. The encounter's stimulus (scaled by the
-    group's cohesion / norm-strength / status) is run through the person's substrate;
-    whichever primary system dominates IS the felt response. Belonging, standing,
-    contribution and conformity then accrue from that emergent response -- and, on
-    status encounters, the ROUTE (dominance vs prestige) emerges from whether the
-    response was aggressive or competent-prosocial. The system used is strengthened
-    by the same use-dependent, window-gated plasticity as everywhere else, so the
-    group shapes the person. Nothing about what the group 'should' evoke is written
-    in. Returns the drives.Response."""
+def group_encounter(agent, group: Group, membership: Membership,
+                    encounter_type: str, age_years: float = 30.0, develop: bool = True):
+    """One group encounter of a given kind. The encounter's stimulus (scaled by the group's
+    cohesion / norm-strength / status) is run through the person's SUBSTRATE; the emergent act IS
+    the felt response, and the substrate DEVELOPS through the moment (its own plasticity is the
+    use-dependent strengthening). Belonging, standing, contribution and conformity accrue from
+    that emergent response -- and, on status encounters, the ROUTE (dominance vs prestige) emerges
+    from whether the act was aggressive or appetitive. Nothing about what the group 'should' evoke
+    is written in, and no rule arbitrates the result. Returns the FeltResponse."""
+    from substrate.social import felt_response
     base = ENCOUNTER_STIMULI.get(encounter_type, {"affiliation": 0.4})
     # the group's own character colours how strongly the moment lands
     intensity = 0.6 + 0.4 * group.cohesion
@@ -239,44 +236,41 @@ def group_encounter(brain: Brain, group: Group, membership: Membership,
         intensity = 0.5 + 0.5 * group.norm_strength
     stim = {k: clamp(v * intensity) for k, v in base.items()}
 
-    resp = brain.respond(stim)
-    if imprint_use:
-        imprint(brain, resp, age_years)
+    fr = felt_response(agent.engine, stim, age_years,
+                       getattr(agent, "_rest_baseline", None), develop=develop)
 
     membership.encounters += 1
-    membership.system_counts[resp.dominant.value] = \
-        membership.system_counts.get(resp.dominant.value, 0) + 1
-    dom = resp.dominant
-    strength = resp.activations[dom]
+    membership.system_counts[fr.behaviour] = membership.system_counts.get(fr.behaviour, 0) + 1
+    strength = fr.strength
     step = ACCRUE * strength
 
-    # belonging: an appetitive/affiliative response builds it; an aversive
-    # (exclusion pain -> PANIC/FEAR, or a withdrawal) erodes it
-    if dom in (System.CARE, System.PLAY, System.SEEKING, System.LUST):
+    # belonging: an appetitive/affiliative act builds it; an aversive (withdrawal / distress)
+    # erodes it
+    if fr.appetitive:
         membership.belonging = clamp(membership.belonging + step, -1.0, 1.0)
         membership.contribution = clamp(membership.contribution + 0.5 * step)
         membership.benefit = clamp(membership.benefit + 0.5 * step)
-    elif dom in (System.PANIC, System.FEAR):
+    elif fr.aversive:
         membership.belonging = clamp(membership.belonging - step, -1.0, 1.0)
 
-    # standing and its ROUTE: on status-relevant encounters, an aggressive response
-    # takes rank by DOMINANCE; a competent-prosocial one earns it by PRESTIGE
+    # standing and its ROUTE: on status-relevant encounters, an aggressive act takes rank by
+    # DOMINANCE; an appetitive/competent one earns it by PRESTIGE
     if encounter_type in ("status_gain", "status_challenge", "outgroup_competition"):
-        if dom is System.RAGE:
+        if fr.aggressive:
             membership.standing = clamp(membership.standing + step)
             membership.dominance_route = clamp(membership.dominance_route + step)
-        elif dom in (System.SEEKING, System.CARE, System.PLAY):
+        elif fr.appetitive:
             membership.standing = clamp(membership.standing + step)
             membership.prestige_route = clamp(membership.prestige_route + step)
-        elif dom in (System.FEAR, System.PANIC):
+        elif fr.aversive:
             membership.standing = clamp(membership.standing - 0.5 * step)
 
-    # conformity: pressure met with compliance (an appetitive/affiliative response)
-    # raises conformity; met with RAGE (resistance) lowers it
+    # conformity: pressure met with compliance (an appetitive act) raises conformity; met with
+    # aggression (resistance) lowers it
     if encounter_type == "conformity_pressure":
-        if dom is System.RAGE:
+        if fr.aggressive:
             membership.conformity = clamp(membership.conformity - step)
-        elif dom in APPETITIVE:
+        elif fr.appetitive:
             membership.conformity = clamp(membership.conformity + step)
 
     # synchrony / collective effervescence: an extra endorphin-channel belonging boost,
@@ -300,7 +294,7 @@ def group_encounter(brain: Brain, group: Group, membership: Membership,
         alpha = _params.ALPHA * (_params.AVERSIVE_LR_MULT if delta < 0 else 1.0)
         membership.value = clamp(membership.value + alpha * delta, -1.0, 1.0)
 
-    return resp
+    return fr
 
 
 # ---------------------------------------------------------------------------

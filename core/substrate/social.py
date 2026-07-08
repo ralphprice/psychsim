@@ -75,17 +75,30 @@ def _pop_activation(engine: SubstrateEngine, circuits: tuple) -> float:
     return sum(live) / len(live) if live else 0.0
 
 
+_REST_CACHE: Dict[tuple, Dict[str, float]] = {}
+
+
 def resting_baseline(model, age_years: float = 25.0,
                      throttle: Optional[Dict[str, float]] = None) -> Dict[str, float]:
     """The per-affordance TONIC drive of an agent at rest (a throwaway engine settled with no
     input) -- the level each affordance's phasic drive is measured above. Read-only: it uses a
-    fresh engine, so the real agent is never developed by this measurement."""
+    fresh engine, so the real agent is never developed by this measurement.
+
+    Memoised by (model, age, throttle-signature): the rest baseline is a deterministic function
+    of those, so agents of the same temperament (same throttle) share one computed baseline
+    rather than each settling 30 ticks. Pure caching -- identical values, no behaviour change."""
+    key = (id(model), round(age_years, 3), frozenset((throttle or {}).items()))
+    cached = _REST_CACHE.get(key)
+    if cached is not None:
+        return dict(cached)
     e = SubstrateEngine(model, age_years=age_years)
     for cid, f in (throttle or {}).items():
         e.set_throttle(cid, f)
     e.clear_inputs()
     e.settle(30)
-    return {act: _pop_activation(e, cs) for act, cs in SOCIAL_AFFORDANCES.items()}
+    out = {act: _pop_activation(e, cs) for act, cs in SOCIAL_AFFORDANCES.items()}
+    _REST_CACHE[key] = dict(out)
+    return out
 
 
 def _phasic_drive(engine: SubstrateEngine, act: str, circuits: tuple,
@@ -98,6 +111,77 @@ def _phasic_drive(engine: SubstrateEngine, act: str, circuits: tuple,
 
 def _clamp(x: float) -> float:
     return 0.0 if x < 0.0 else 1.0 if x > 1.0 else x
+
+
+# how a coarse STIMULUS bundle (the interim trigger vocabulary the matrices/development loop pass)
+# presents to the substrate's input channels. Description of what a stimulus presents to the
+# senses, NOT a verdict about what it should evoke. Unmapped triggers are ignored.
+_TRIGGER_CHANNELS = {
+    "reward_cue": ("IN-GUST:sweet", 1.0), "comfort": ("IN-GUST:sweet", 0.6),
+    "affiliation": ("IN-SOMATO:affective_touch", 1.0), "safety": ("IN-INTERO:thermal_warmth", 0.8),
+    "vulnerable_other": ("IN-VIS:biological_motion", 1.0), "play_signal": ("IN-VIS:biological_motion", 0.6),
+    "threat": ("IN-SOMATO:nociception", 1.0), "pain": ("IN-SOMATO:nociception", 0.9),
+    "thwarting": ("IN-SOMATO:nociception", 0.6), "restraint": ("IN-SOMATO:nociception", 0.5),
+    "separation": ("IN-INTERO:contact_loss", 1.0), "loss": ("IN-INTERO:contact_loss", 0.8),
+    "novelty": ("IN-VIS", 0.6),
+}
+
+
+@dataclass
+class FeltResponse:
+    """The emergent felt response to a stimulus: the act the substrate produced, its strength,
+    and read-out flags. Whether a stimulus reads appetitive/aversive/aggressive EMERGES from the
+    act the substrate chose -- no rule decides the social result."""
+    behaviour: str
+    strength: float
+
+    @property
+    def appetitive(self) -> bool:
+        return is_cohesive_act(self.behaviour)
+
+    @property
+    def aversive(self) -> bool:
+        return self.behaviour in ("avoid", "seek_comfort")
+
+    @property
+    def aggressive(self) -> bool:
+        return is_aggressive_act(self.behaviour)
+
+
+_FELT_FROZEN = ("weight", "theta", "mean_activity", "exp_count", "activation", "pruned",
+                "eligibility", "_silent", "_step_i", "external", "channel_drive")
+
+
+def felt_response(engine: SubstrateEngine, triggers: Dict[str, float],
+                  age_years: Optional[float] = None,
+                  baseline: Optional[Dict[str, float]] = None,
+                  develop: bool = True) -> FeltResponse:
+    """Live one stimulus on the substrate: its perturbation pattern fires the agent's circuits,
+    the substrate DEVELOPS through the moment (the BCM plasticity in settle() IS the use-dependent
+    strengthening -- the imprint equivalent), and the basal-ganglia race resolves the emergent
+    act. Returns a FeltResponse whose valence is a read-out of that act. Used by the matrices and
+    the development loop; nothing here arbitrates a social outcome by rule.
+
+    `develop=False` (a fixed/background agent whose personality must not change) makes the moment
+    read-only: the developed state is frozen and restored around the settle, so the act still
+    emerges but nothing is learned."""
+    import copy as _copy
+    saved = {a: _copy.copy(getattr(engine, a)) for a in _FELT_FROZEN} if not develop else None
+    if age_years is not None and age_years >= 0.5:
+        engine.set_age(age_years)
+    engine.clear_inputs()
+    for trig, intensity in triggers.items():
+        m = _TRIGGER_CHANNELS.get(trig)
+        if m and intensity > 0:
+            ch, scale = m
+            engine.inject_channel(ch, _clamp(intensity * scale))
+    engine.settle(12)
+    b = select_social_behaviour(engine, baseline)
+    strength = max(b.drives.values()) if b.drives else 0.0
+    if saved is not None:
+        for a, v in saved.items():
+            setattr(engine, a, v)
+    return FeltResponse(b.behaviour, strength)
 
 
 # how a situation (an Appraisal) presents itself to the SENSES -- the perturbation pattern it

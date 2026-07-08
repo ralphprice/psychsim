@@ -109,15 +109,15 @@ def develop_episode(agent: AffectiveAgent, rearing: Environment, age_years: floa
         live_stimulus(agent, act.stimulus, age_years=age_years)
         deliberative = act.id in _DELIBERATIVE
     thing = rng.choices(things, weights=[t.frequency for t in things], k=1)[0]
-    encounter(agent.brain, thing, ctx["env_matrix"], age_years=age_years)
+    encounter(agent, thing, ctx["env_matrix"], age_years=age_years)
     grp = rng.choice(groups)
     mem = ctx["group_matrix"].membership(grp.id, grp.kind)
     pre = mem.standing + mem.belonging
-    gresp = group_encounter(agent.brain, grp, mem, sample_encounter_type(rng),
+    gresp = group_encounter(agent, grp, mem, sample_encounter_type(rng),
                             age_years=age_years)
     post = mem.standing + mem.belonging
     agent.memory.add(label=grp.kind, appraisal=Appraisal(label=grp.kind),
-                     dominant=gresp.dominant.value,
+                     dominant=gresp.behaviour,
                      valence=max(-1.0, min(1.0, post - pre)), importance=0.5)
     ex = ctx["executive"]
     monitor_executive(ex, agent.brain, age_years, deliberative=deliberative)

@@ -369,7 +369,7 @@ def simulate_townlife(universe, days: int = 1, tick_minutes: int = 30, seed: int
                         grp = groups[hash(cell) % len(groups)]
                         mem = gmats[cid].membership(grp.id, grp.kind)
                         before = mem.standing + mem.belonging
-                        r = group_encounter(person.mind.brain, grp, mem,
+                        r = group_encounter(person.mind, grp, mem,
                                             sample_encounter_type(rng), age_years=20)
                         after = mem.standing + mem.belonging
                         # remember the encounter: who they were with, where, and how
@@ -377,7 +377,7 @@ def simulate_townlife(universe, days: int = 1, tick_minutes: int = 30, seed: int
                         person.mind.memory.add(
                             label=f"with {len(here)-1} others at {grp.name}",
                             appraisal=Appraisal(label=grp.name),
-                            dominant=r.dominant.value,
+                            dominant=r.behaviour,
                             valence=max(-1.0, min(1.0, after - before)),
                             importance=0.4)
             # snapshot this tick

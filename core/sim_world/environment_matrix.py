@@ -28,8 +28,7 @@ import os
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
-from affective_engine.drives import (Brain, System, APPETITIVE, AVERSIVE,
-                                      imprint, clamp)
+from affective_engine.core import clamp
 from affective_engine.interocept import reference_child_state, valence_of_event
 from affective_engine.learning import ValueLearner
 
@@ -159,31 +158,27 @@ class EnvironmentMatrix:
 ACCRUE = 0.15
 
 
-def encounter(brain: Brain, thing: Thing, matrix: EnvironmentMatrix,
-              age_years: float = 30.0, imprint_use: bool = True) -> "object":
+def encounter(agent, thing: Thing, matrix: EnvironmentMatrix,
+              age_years: float = 30.0) -> "object":
     """One encounter with a thing.
 
-    The thing's presented sensations are run through the person's substrate;
-    whichever primary system dominates IS the felt response. An appetitive
-    response (SEEKING/CARE/PLAY/LUST -> approach, nurture, play, court) accrues
-    ATTRACTION; an aversive one (FEAR/RAGE/PANIC -> avoid, aggress, seek-comfort)
-    accrues AVERSION -- in proportion to how strongly the system fired. The system
-    used is strengthened by the same use-dependent, window-gated plasticity as
-    everywhere else (so what a person keeps being drawn to shapes them). Nothing
-    about what the thing 'should' evoke is written in; it emerges from the wiring.
-    Returns the drives.Response."""
-    resp = brain.respond(thing.stimulus)
-    if imprint_use:
-        imprint(brain, resp, age_years)
+    The thing's presented sensations are run through the person's SUBSTRATE; the emergent act IS
+    the felt response, and the substrate DEVELOPS through the moment (its own BCM plasticity is
+    the use-dependent strengthening -- so what a person keeps being drawn to shapes them). An
+    appetitive act (approach/nurture) accrues ATTRACTION; an aversive/aggressive one (avoid/
+    seek_comfort/aggress) accrues AVERSION -- in proportion to the emergent drive strength.
+    Nothing about what the thing 'should' evoke is written in; it emerges from the wiring, and no
+    rule arbitrates the result. Returns the FeltResponse."""
+    from substrate.social import felt_response
+    fr = felt_response(agent.engine, thing.stimulus, age_years,
+                       getattr(agent, "_rest_baseline", None))
     bond = matrix.bond(thing.id)
     bond.encounters += 1
-    bond.system_counts[resp.dominant.value] = \
-        bond.system_counts.get(resp.dominant.value, 0) + 1
-    strength = resp.activations[resp.dominant]
-    if resp.dominant in APPETITIVE:
-        bond.attraction = clamp(bond.attraction + ACCRUE * strength)
-    elif resp.dominant in AVERSIVE:
-        bond.aversion = clamp(bond.aversion + ACCRUE * strength)
+    bond.system_counts[fr.behaviour] = bond.system_counts.get(fr.behaviour, 0) + 1
+    if fr.appetitive:
+        bond.attraction = clamp(bond.attraction + ACCRUE * fr.strength)
+    elif fr.aversive or fr.aggressive:
+        bond.aversion = clamp(bond.aversion + ACCRUE * fr.strength)
     # RPE value on the one engine (App. C.9): the reward is the drive reduction this thing's
     # innate channel produces on the state vector (nature soothes, food feeds, ...). Things
     # with no innate channel accrue value only by learned association (r=0 here).
@@ -193,7 +188,7 @@ def encounter(brain: Brain, thing: Thing, matrix: EnvironmentMatrix,
         matrix.learner.update(thing.id, r, profile)
         bond.value = matrix.learner.value_of(thing.id)
         bond.value_profile = matrix.learner.profile_of(thing.id)
-    return resp
+    return fr
 
 
 # ---------------------------------------------------------------------------

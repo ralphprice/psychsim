@@ -31,7 +31,6 @@ from affective_engine.core import (shared_root_seed, sophropathic_seed,
 from affective_engine.agent import AffectiveAgent
 from affective_engine.development import (develop, classify,
                                           warm_firm_home, harsh_inconsistent_home)
-from affective_engine.drives import Brain, System
 from sophropathy.society import typical_child_seed
 
 from sim_world import Society, interact, PARENT_CHILD, Person
@@ -87,7 +86,7 @@ def _relations_snapshot() -> dict:
 
 
 def _group_snapshot() -> dict:
-    brain = Brain.from_temperament(random.Random(1))
+    brain = AffectiveAgent(seed=shared_root_seed(), temperament_seed=1)
     gm = GroupMatrix()
     mem = gm.membership("team", "team")
     team = Group("team", "a team", "team", cohesion=0.6, norm_strength=0.6)
@@ -99,9 +98,7 @@ def _group_snapshot() -> dict:
 
 
 def _environment_snapshot() -> dict:
-    brain = Brain.from_temperament(random.Random(1),
-                                   reactivity_bias={System.SEEKING: 0.9,
-                                                    System.FEAR: 0.2})
+    brain = AffectiveAgent(seed=shared_root_seed(), temperament_seed=1)
     m = EnvironmentMatrix()
     treat = Thing("treat", "a treat", "food", {"reward_cue": 0.9})
     for _ in range(5):

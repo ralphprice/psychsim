@@ -245,14 +245,14 @@ class SimEngine:
                     before = mem.standing + mem.belonging
                     # background (frozen) minds still ACT, but their personality does
                     # not change: gate use-dependent strengthening off for them.
-                    r = group_encounter(person.mind.brain, grp, mem,
+                    r = group_encounter(person.mind, grp, mem,
                                         sample_encounter_type(self.rng), age_years=20,
-                                        imprint_use=(cid not in self.frozen))
+                                        develop=(cid not in self.frozen))
                     after = mem.standing + mem.belonging
                     person.mind.memory.add(
                         label=f"with {len(here)-1} others at {grp.name}",
                         appraisal=Appraisal(label=grp.name),
-                        dominant=r.dominant.value,
+                        dominant=r.behaviour,
                         valence=max(-1.0, min(1.0, after - before)), importance=0.4)
         prev_day = self.minutes // (24 * 60)
         self.minutes += self.tick_minutes

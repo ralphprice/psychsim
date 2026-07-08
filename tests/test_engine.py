@@ -99,13 +99,13 @@ class TestSimEngine(unittest.TestCase):
         self.assertGreater(snap["background"], 0)
         bg = [c for c, p in snap["people"].items() if not p["subject"]]
         subj = [c for c, p in snap["people"].items() if p["subject"]]
-        bg0 = {c: e.pop.persons[c].mind.brain.to_dict() for c in bg}
-        subj0 = {c: e.pop.persons[c].mind.brain.to_dict() for c in subj}
+        bg0 = {c: list(e.pop.persons[c].mind.engine.weight) for c in bg}
+        subj0 = {c: list(e.pop.persons[c].mind.engine.weight) for c in subj}
         for _ in range(400):
             e.step()
         # every background personality is fixed; at least one subject evolved
-        self.assertTrue(all(bg0[c] == e.pop.persons[c].mind.brain.to_dict() for c in bg))
-        self.assertTrue(any(subj0[c] != e.pop.persons[c].mind.brain.to_dict() for c in subj))
+        self.assertTrue(all(bg0[c] == list(e.pop.persons[c].mind.engine.weight) for c in bg))
+        self.assertTrue(any(subj0[c] != list(e.pop.persons[c].mind.engine.weight) for c in subj))
 
     def test_experiment_subjects_default_children_and_explicit_override(self):
         e = SimEngine(population=40, seed=7, experiment=True)
@@ -156,10 +156,10 @@ class TestSimEngine(unittest.TestCase):
         cid = e.add_person("child", temperament="fearless")
         self.assertIn(cid, e.subjects)
         self.assertNotIn(cid, e.frozen)                    # authored -> live, not background
-        before = e.pop.persons[cid].mind.brain.to_dict()
+        before = list(e.pop.persons[cid].mind.engine.weight)
         for _ in range(400):
             e.step()
-        self.assertNotEqual(before, e.pop.persons[cid].mind.brain.to_dict())
+        self.assertNotEqual(before, list(e.pop.persons[cid].mind.engine.weight))
 
 
 if __name__ == "__main__":

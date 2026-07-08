@@ -237,19 +237,19 @@ def classify(agent):
 
 
 def live_moment(agent, appr, age_years: float):
-    """One lived moment on the substrate from an Appraisal (a situation)."""
-    from .drives import appraisal_to_stimulus
-    return live_stimulus(agent, appraisal_to_stimulus(appr), age_years)
+    """One lived moment on the substrate from an Appraisal: the situation develops the agent's
+    substrate (the BCM plasticity IS the use-dependent strengthening) and yields its emergent
+    act. Returns a SocialBehaviour."""
+    return agent.social_act(appr, age_years)
 
 
 def live_stimulus(agent, stimulus: dict, age_years: float):
-    """One lived moment on the substrate from a raw stimulus bundle -- the form a
-    significant ACTIVITY (play, sport, learning, being driven to school, ...)
-    presents. The bundle's triggers fire the agent's primary systems, the dominant
-    one drives behaviour, and the system used is strengthened (use-dependent,
-    window-gated). Feeling and behaviour emerge; nothing is typed in. Returns the
-    drives.Response."""
-    from .drives import imprint
-    resp = agent.brain.respond(stimulus)
-    imprint(agent.brain, resp, age_years)
+    """One lived moment from a raw stimulus bundle -- the form a significant ACTIVITY (play,
+    sport, learning, being driven to school, ...) presents. The bundle's perturbation pattern
+    fires the agent's circuits, the substrate develops through the moment (use-dependent, window-
+    gated -- the substrate's own plasticity), and the basal-ganglia race resolves the emergent
+    act. Feeling and behaviour emerge; nothing is typed in. Returns a FeltResponse."""
+    from substrate.social import felt_response
+    return felt_response(agent.engine, stimulus, age_years,
+                         getattr(agent, "_rest_baseline", None))
     return resp

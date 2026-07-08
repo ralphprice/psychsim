@@ -8,12 +8,17 @@ and that disposition EMERGES from each person's substrate -- NOT that any given
 thing attracts everyone (that would be forcing)."""
 import random
 import unittest
-from affective_engine.drives import Brain, System
+from affective_engine.core import TraitSeed
+from affective_engine.agent import AffectiveAgent
 from sim_world.environment_matrix import (Thing, Bond, EnvironmentMatrix, encounter)
 
+_G = {"THREAT": 0.5, "ANXIETY": 0.5, "SEEKING": 0.5, "FRUSTRATION": 0.5,
+      "CARE": 0.5, "SOCIAL_LOSS": 0.5, "CONTROL": 0.5, "INSTRUMENTAL_CONTROL": 0.5}
 
-def _brain(bias, seed=0):
-    return Brain.from_temperament(random.Random(seed), reactivity_bias=bias)
+
+def _brain(gains, seed=0):
+    # a substrate-backed agent with the given temperament gains (env encounter takes an agent)
+    return AffectiveAgent(seed=TraitSeed("t", gains={**_G, **gains}), temperament_seed=seed)
 
 
 class TestBondBookkeeping(unittest.TestCase):
@@ -29,7 +34,7 @@ class TestBondBookkeeping(unittest.TestCase):
 class TestEncounterMachinery(unittest.TestCase):
     def test_appetitive_response_accrues_attraction(self):
         # a strongly reward-seeking brain meeting a reward cue -> drawn to it
-        brain = _brain({System.SEEKING: 0.9, System.FEAR: 0.2}, seed=1)
+        brain = _brain({"SEEKING": 0.9, "THREAT": 0.2, "ANXIETY": 0.2}, seed=1)
         m = EnvironmentMatrix()
         thing = Thing("treat", "a treat", "food", {"reward_cue": 0.9})
         for _ in range(5):
@@ -39,7 +44,7 @@ class TestEncounterMachinery(unittest.TestCase):
 
     def test_aversive_response_accrues_aversion(self):
         # a fearful brain meeting a pure threat -> repelled by it
-        brain = _brain({System.FEAR: 0.9, System.SEEKING: 0.3}, seed=2)
+        brain = _brain({"THREAT": 0.9, "ANXIETY": 0.9, "SEEKING": 0.3}, seed=2)
         m = EnvironmentMatrix()
         thing = Thing("danger", "a danger", "creature", {"threat": 0.9})
         for _ in range(5):
@@ -47,7 +52,7 @@ class TestEncounterMachinery(unittest.TestCase):
         self.assertGreater(m.bond("danger").aversion, 0.0)
 
     def test_encounter_records_which_system_fired(self):
-        brain = _brain({System.SEEKING: 0.9}, seed=3)
+        brain = _brain({"SEEKING": 0.9}, seed=3)
         m = EnvironmentMatrix()
         encounter(brain, Thing("t", "t", stimulus={"reward_cue": 0.8}), m)
         self.assertTrue(sum(m.bond("t").system_counts.values()) == 1)
@@ -60,8 +65,8 @@ class TestEmergentAndPersonSpecific(unittest.TestCase):
     def test_same_thing_different_people(self):
         snake = Thing("snake", "a snake", "creature", {"threat": 0.9, "novelty": 0.4})
         m_bold = EnvironmentMatrix(); m_fear = EnvironmentMatrix()
-        bold = _brain({System.FEAR: 0.15, System.SEEKING: 0.85}, seed=4)
-        fearful = _brain({System.FEAR: 0.9, System.SEEKING: 0.3}, seed=5)
+        bold = _brain({"THREAT": 0.15, "ANXIETY": 0.15, "SEEKING": 0.85}, seed=4)
+        fearful = _brain({"THREAT": 0.9, "ANXIETY": 0.9, "SEEKING": 0.3}, seed=5)
         for _ in range(6):
             encounter(bold, snake, m_bold)
             encounter(fearful, snake, m_fear)
@@ -76,7 +81,7 @@ class TestEmergentAndPersonSpecific(unittest.TestCase):
 
 class TestInventory(unittest.TestCase):
     def test_attractions_and_aversions_sorted(self):
-        brain = _brain({System.SEEKING: 0.8, System.FEAR: 0.7}, seed=6)
+        brain = _brain({"SEEKING": 0.8, "THREAT": 0.7, "ANXIETY": 0.7}, seed=6)
         m = EnvironmentMatrix()
         for _ in range(5):
             encounter(brain, Thing("good", "g", stimulus={"reward_cue": 0.9}), m)
