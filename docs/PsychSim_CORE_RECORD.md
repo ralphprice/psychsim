@@ -327,11 +327,22 @@ suppression; the wiring guaranteed the opposite of aggression. A genuine connect
   fell out of the v9 pathway meeting existing maturation — nothing was tuned to produce it. So OBS-3's
   "aggression does not win even under strong threat" is genuinely **falsified** (it wins under strong
   provocation before executive control matures), not merely nudged.
-- **Calibration note (not fixed, reported):** the group-matrix **dominance route stays sub-threshold** at
-  age 12 — the `status_challenge` stimulus presents only moderate provocation (`thwarting 0.6 →
-  provocation 0.36`) mixed with a reward_cue that drives the prestige route, and the developed brake holds
-  it below overt aggression. Whether the status-challenge stimulus should be stronger is a calibration
-  question for a future cited pass, not a weight to raise now.
+- **Calibration note — the group dominance route sits just below threshold (resolved by measurement,
+  Part 8 #2, Option A):** the group-matrix **dominance route stays sub-threshold** under the
+  `status_challenge` stimulus's moderate provocation. This was checked directly to rule out that the
+  moderate level had been *chosen* to keep the route sub-threshold (a goalpost-move). It had not:
+  measured, the group/coarse-trigger path routes `thwarting → 0.6 provocation : 0.3 nociception`, while
+  the direct-appraisal path routes `0.6 : 0.2`; that extra nociception drives avoidance and holds the
+  aggression drive at **~0.184 against the ~0.215 that crosses** — a **knife-edge just below threshold**.
+  So the sub-threshold result is a **consequence of the (independently-defensible) stimulus ratio, not a
+  tuned level**. The attack mechanism is **robustly demonstrated where it should be** — the closure test,
+  strong *direct* provocation at age 2 → overt aggression. **No assertion is forced across the knife-edge**
+  (an assertion that passes only at one tuned point is staging, not evidence — the same anti-brittleness
+  discipline as the punishment-metric reframe). *Minor open calibration item (decoupled from any outcome):*
+  the `0.6:0.3` vs `0.6:0.2` provocation:nociception inconsistency between the coarse-trigger and appraisal
+  paths could be revisited as its own deliberate decision — justified by what goal-blockage's threat
+  fraction *should* be and measured against everything it affects — **never** bundled into "so the route
+  crosses." Changing a parameter to flip a result across a threshold is the pattern the build refuses.
 
 Guardrails proven: `tests/test_aggression_pathway.py` asserts direction-only (provocation → aggress-drive
 > avoid; plain threat → avoid; neutral → restrain, no leak; the differential shift; behavioural efficacy +
