@@ -63,6 +63,10 @@ def _slug(name: str) -> str:
 class SimEngine:
     """A running town. Advance it with step(); read it with snapshot()."""
 
+    # how many residents' (expensive, read-only) drive read-out to refresh per /state poll;
+    # the rest serve a cached label, so a polled snapshot stays fast (see snapshot()).
+    _DRIVE_REFRESH_PER_POLL = 8
+
     def __init__(self, population: int = 80, seed: int = 7, tick_minutes: int = 15,
                  name: str = "Ashcombe", experiment: bool = False,
                  library=None, study_subjects: Optional[List[str]] = None,
@@ -314,14 +318,34 @@ class SimEngine:
                 "height": c.rows * cell + 2 * pad}
 
     def snapshot(self) -> dict:
-        """Live per-person state: position + emergent drive, plus the clock."""
+        """Live per-person state: position + emergent drive, plus the clock.
+
+        The per-person `drive` is a read_mind() dominant-domain read-out. Since the substrate
+        migration read_mind runs a 25-tick freeze-restore settle (~20ms/resident), so computing it
+        for the whole town on every /state poll costs ~1s and makes a polled endpoint unusable
+        (the browser aborts the slow poll -> BrokenPipeError). We AMORTISE it: refresh only a few
+        residents' drive per call (round-robin) and serve the cached label for the rest, so a poll
+        stays fast. This is a pure STALENESS/caching change -- read_mind is the same read-only
+        measurement (freeze-restore, no development), just called on fewer residents per poll; a
+        drive label lags a few polls while positions/clock stay live. The read-only wall holds:
+        snapshotting never develops an agent."""
+        if not hasattr(self, "_drive_cache"):
+            self._drive_cache = {}                        # cid -> last drive read-out (string)
+            self._drive_rr = 0                            # round-robin cursor across residents
+        cids = list(self.state.keys())
+        n = len(cids)
+        k = min(self._DRIVE_REFRESH_PER_POLL, n)
+        refresh = {cids[(self._drive_rr + i) % n] for i in range(k)} if n else set()
+        self._drive_rr = (self._drive_rr + k) % n if n else 0
         people = {}
         for cid, st in self.state.items():
             person = self.pop.persons.get(cid)
-            dom = read_mind(person.mind).dominant if person else None
+            if person is not None and cid in refresh:     # read_mind: read-only measurement, no develop
+                dom = read_mind(person.mind).dominant
+                self._drive_cache[cid] = (dom.value if hasattr(dom, "value") else str(dom)) if dom else ""
             people[cid] = {
                 "x": st["tile"][0], "y": st["tile"][1],
-                "drive": (dom.value if hasattr(dom, "value") else str(dom)) if dom else "",
+                "drive": self._drive_cache.get(cid, ""),  # cached; "" until this cid's first refresh
                 "role": "child" if self.info[cid][0] else "adult",
                 "role_name": self.roles.get(cid),        # fine role (child/teenager/retired/...)
                 "subject": cid not in self.frozen,       # evolves live vs fixed background
