@@ -41,17 +41,21 @@ class TestGroupMatrix(unittest.TestCase):
         self.assertIn(mem.state(), ("unknown", "excluded", "peripheral", "member",
                                     "belonging", "central"))
 
-    def test_status_route_prestige_emerges_dominance_pending_obs3(self):
-        # HONEST REFRAME (OBS-3): the DOMINANCE route requires an aggressive act on a status
-        # encounter, which the v8 substrate is fear/avoidance-dominant and does not produce; so
-        # standing here is earned by PRESTIGE (appetitive acts), and the dominance route does not
-        # emerge. Reframed to the substrate's actual behaviour, not propped. The dominance-vs-
-        # prestige distinction becomes testable when the substrate can produce aggression (v9).
+    def test_status_route_prestige_emerges_dominance_stays_subthreshold(self):
+        # v9 closed the OBS-3 connectome gap: the substrate CAN now produce reactive aggression
+        # under strong provocation (see test_aggression_pathway -- age-2 provocation -> overt
+        # aggress). But standing here is still earned by PRESTIGE: the status encounters present
+        # only MODERATE provocation (thwarting 0.6 -> IN-INTERO:provocation 0.36) mixed with a
+        # reward_cue that drives the appetitive/prestige route, and at this developed age (12) the
+        # maturing STN brake holds that modest provocation below the overt-aggression threshold.
+        # So the dominance route stays sub-threshold here -- reported as measured, not propped, and
+        # not tuned to make it win. (An immature agent under strong pure provocation is where the
+        # dominance route becomes overt; a stronger status-challenge stimulus is a calibration q.)
         pro = _brain({"CARE": 0.85, "SEEKING": 0.7, "FRUSTRATION": 0.15}, seed=1)
         m = GroupMatrix(); mem = m.membership("team", "team"); r = random.Random(7)
         for _ in range(40):
             group_encounter(pro, self._team(), mem, sample_encounter_type(r), age_years=12)
-        self.assertGreaterEqual(mem.prestige_route, mem.dominance_route)  # prestige >= dominance (no aggression)
+        self.assertGreaterEqual(mem.prestige_route, mem.dominance_route)  # prestige >= dominance (restrained)
 
     def test_encounter_stimuli_are_neutral_bundles(self):
         for kind, stim in ENCOUNTER_STIMULI.items():

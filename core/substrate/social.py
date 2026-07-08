@@ -39,7 +39,10 @@ SOCIAL_LATERAL = 0.20
 SOCIAL_AFFORDANCES: Dict[str, tuple] = {
     "nurture":      ("PVN-OT", "MPOA", "SEPT"),           # affiliation / bonding
     "approach":     ("VTA", "NAc-core", "NAc-shell"),     # appetitive approach
-    "aggress":      ("CeA", "PAG", "HYPdm"),              # threat->attack (defensive aggression)
+    "aggress":      ("VMHvl", "PAG", "HYPdm"),            # provocation->attack (reactive aggression): the
+                                                          # hypothalamic attack area + effectors. NOT CeA --
+                                                          # CeA is GABAergic and SUPPRESSES PAG/HYPdm, so its
+                                                          # activation misread as attack-drive (v9 re-grounding)
     "avoid":        ("LA", "BA", "BNST"),                 # fear / avoidance
     "seek_comfort": ("PAG-PANIC",),                      # separation distress
 }
@@ -116,14 +119,18 @@ def _clamp(x: float) -> float:
 # how a coarse STIMULUS bundle (the interim trigger vocabulary the matrices/development loop pass)
 # presents to the substrate's input channels. Description of what a stimulus presents to the
 # senses, NOT a verdict about what it should evoke. Unmapped triggers are ignored.
+# each coarse trigger presents to one OR MORE input channels. thwarting/restraint are
+# provocation-type stimuli: they drive the hypothalamic attack area (IN-INTERO:provocation, v9)
+# AND carry a threat fraction (nociception) -- genuine competition (avoid vs aggress), not a flip.
 _TRIGGER_CHANNELS = {
-    "reward_cue": ("IN-GUST:sweet", 1.0), "comfort": ("IN-GUST:sweet", 0.6),
-    "affiliation": ("IN-SOMATO:affective_touch", 1.0), "safety": ("IN-INTERO:thermal_warmth", 0.8),
-    "vulnerable_other": ("IN-VIS:biological_motion", 1.0), "play_signal": ("IN-VIS:biological_motion", 0.6),
-    "threat": ("IN-SOMATO:nociception", 1.0), "pain": ("IN-SOMATO:nociception", 0.9),
-    "thwarting": ("IN-SOMATO:nociception", 0.6), "restraint": ("IN-SOMATO:nociception", 0.5),
-    "separation": ("IN-INTERO:contact_loss", 1.0), "loss": ("IN-INTERO:contact_loss", 0.8),
-    "novelty": ("IN-VIS", 0.6),
+    "reward_cue": [("IN-GUST:sweet", 1.0)], "comfort": [("IN-GUST:sweet", 0.6)],
+    "affiliation": [("IN-SOMATO:affective_touch", 1.0)], "safety": [("IN-INTERO:thermal_warmth", 0.8)],
+    "vulnerable_other": [("IN-VIS:biological_motion", 1.0)], "play_signal": [("IN-VIS:biological_motion", 0.6)],
+    "threat": [("IN-SOMATO:nociception", 1.0)], "pain": [("IN-SOMATO:nociception", 0.9)],
+    "thwarting": [("IN-INTERO:provocation", 0.6), ("IN-SOMATO:nociception", 0.3)],
+    "restraint": [("IN-INTERO:provocation", 0.5), ("IN-SOMATO:nociception", 0.25)],
+    "separation": [("IN-INTERO:contact_loss", 1.0)], "loss": [("IN-INTERO:contact_loss", 0.8)],
+    "novelty": [("IN-VIS", 0.6)],
 }
 
 
@@ -171,9 +178,9 @@ def felt_response(engine: SubstrateEngine, triggers: Dict[str, float],
         engine.set_age(age_years)
     engine.clear_inputs()
     for trig, intensity in triggers.items():
-        m = _TRIGGER_CHANNELS.get(trig)
-        if m and intensity > 0:
-            ch, scale = m
+        if intensity <= 0:
+            continue
+        for ch, scale in _TRIGGER_CHANNELS.get(trig, ()):
             engine.inject_channel(ch, _clamp(intensity * scale))
     engine.settle(18)   # converged count (affiliation settles by ~16); see convergence check
     b = select_social_behaviour(engine, baseline)
@@ -192,9 +199,14 @@ def appraisal_to_substrate_input(appr) -> Dict[str, float]:
     warm = max(0.0, getattr(appr, "social_valence", 0.0))
     hostile = max(0.0, -getattr(appr, "social_valence", 0.0))
     distress = getattr(appr, "other_distress", 0.0)
+    provocation = getattr(appr, "provocation", 0.0)
     return {
+        # provocation keeps a THREAT fraction here (0.2) -- it still drives fear/avoid -- while its
+        # provocation-specific part drives the attack area below (IN-INTERO:provocation). Genuine
+        # competition, not a scripted flip. SCAFFOLD split (was 0.4 into nociception alone); v9.
         "IN-SOMATO:nociception":     _clamp(getattr(appr, "threat", 0.0) + 0.3 * hostile
-                                            + 0.4 * getattr(appr, "provocation", 0.0)),
+                                            + 0.2 * provocation),
+        "IN-INTERO:provocation":     _clamp(0.6 * provocation),   # v9: provocation->VMHvl attack-area drive
         "IN-GUST:sweet":             _clamp(getattr(appr, "reward", 0.0)),
         "IN-SOMATO:affective_touch": _clamp(warm),
         "IN-INTERO:thermal_warmth":  _clamp(0.6 * warm),

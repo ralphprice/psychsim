@@ -78,17 +78,19 @@ class TestNoSocialArbiter(unittest.TestCase):
 
 
 class TestThreatResponseIsEmergent(unittest.TestCase):
-    """HONEST observation (surfaced, not forced): the v8 substrate is fear/avoidance-dominant.
-    Aggression competes as a live candidate but does not win even under strong threat, because
-    the attack effectors (PAG/HYPdm) are net-inhibited. This is a substrate property to report at
-    the parity review, not something to tune."""
+    """The substrate is fear-dominant for GENERIC threat, and (v9) aggression is PROVOCATION-
+    specific: a purely nociceptive threat drives avoidance and does NOT drive the attack area.
+    The v9 pathway routes attack via IN-INTERO:provocation -> VMHvl, not via nociception -> the
+    GABAergic CeA (which inhibits the attack effectors). So generic threat -> avoid, aggress ~0;
+    aggression appears only under provocation (see test_aggression_pathway). This is the corrected
+    OBS-3 property, not a tuned one -- the CeA->PAG/HYPdm inhibition is untouched."""
 
-    def test_threat_drives_avoidance_and_aggression_competes(self):
+    def test_generic_threat_drives_avoidance_not_aggression(self):
         e = SubstrateEngine(_MODEL, age_years=25.0)
         e.clear_inputs(); e.inject_channel("IN-SOMATO:nociception", 0.9); e.settle(30)
         b = select_social_behaviour(e)
-        self.assertEqual(b.behaviour, "avoid")          # threat -> avoidance (fear-dominant)
-        self.assertGreater(b.drives["aggress"], 0.0)    # aggression IS a live candidate, just not the winner
+        self.assertEqual(b.behaviour, "avoid")          # generic threat -> avoidance (fear baseline)
+        self.assertEqual(b.drives["aggress"], 0.0)      # NOT driven by generic threat -- provocation-specific (v9)
 
 
 if __name__ == "__main__":

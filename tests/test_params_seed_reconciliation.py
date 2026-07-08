@@ -27,7 +27,7 @@ from substrate import params as sub_params
 from affective_engine import params as ae_params
 from affective_engine import interocept
 
-_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v8.json")
+_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v9.json")
 _SEED = json.load(open(_SEED_PATH, encoding="utf-8"))
 _MODEL = load_substrate()
 

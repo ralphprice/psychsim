@@ -1,9 +1,9 @@
 """
-model.py (substrate) -- load the v7 substrate seed into a runtime model.
+model.py (substrate) -- load the v9 substrate seed into a runtime model.
 
-The v8 seed (docs/neuralnetworks/psychsim_substrate_seed_v8.json) is the SINGLE SOURCE OF
-TRUTH for substrate structure and parameters (Part 2 S1.3; Part 3 S3): 77 circuits (nucleus-
-level rate units), 176 directed edges, a 15-entry innate-wiring catalogue, 8 input channels, a
+The v9 seed (docs/neuralnetworks/psychsim_substrate_seed_v9.json) is the SINGLE SOURCE OF
+TRUTH for substrate structure and parameters (Part 2 S1.3; Part 3 S3): 78 circuits (nucleus-
+level rate units), 179 directed edges, an 18-entry innate-wiring catalogue, 8 input channels, a
 physical-endowment table, the 8 plasticity rules, and a gaps register. This module reads it
 verbatim into typed records + indices; it supplies NO dynamics (engine.py) and NO psychological
 meaning (a circuit is just an id with parameters).
@@ -32,12 +32,13 @@ from typing import Dict, List, Optional, Tuple
 from . import params
 
 _ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# v8 is the canonical substrate seed (supersedes v7): v7 + the cognitive/mentalizing network
-# (rSMG-TPJ, pSTS, PCun-PCC, ATL-TP; domain social_cognition) + 17 connections. 77 circuits /
-# 176 connections. Drop-in (same schema); the new circuits gate by developmental_online_age,
-# the social_cortex_late schedule resolves through eta()'s "late" branch, and the new gating
-# neuromodulators (ACh<-BF-ACh, NA<-LC) are already in NEUROMOD_SOURCE. v1-v7 are archived.
-_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v8.json")
+# v9 is the canonical substrate seed (supersedes v8): v8 + the VMHvl hypothalamic-attack area
+# and its provocation->attack pathway (IN-INTERO:provocation->VMHvl, VMHvl->PAG, VMHvl->HYPdm),
+# which closes the OBS-3 connectome gap (provocation could previously reach the attack effectors
+# only via the GABAergic CeA, which inhibits them); the CeA->PAG/HYPdm inhibition is UNTOUCHED.
+# Plus the S1.4 social innate-wiring catalogue entries (documentary). 78 circuits / 179 edges.
+# Drop-in (same schema; VMHvl reuses hypothalamic_low_flat/brainstem_low_flat schedules). v1-v8 archived.
+_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v9.json")
 
 # Which SOURCE CIRCUIT produces each gating neuromodulator (R5). Resolved to real v7 circuit
 # ids; the R5 modulator is that circuit's LIVE activity, never a set scalar. 'none' -> ungated.

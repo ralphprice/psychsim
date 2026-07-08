@@ -196,7 +196,13 @@ artifact of the coarse live-circuit set that early (many circuits online later),
 peak-at-adolescence result is robust across the age curve. Reproduce: `substrate/phenomena.py`,
 `tests/test_phenomena_battery.py`. Suite 408, green.
 
-## OBS-3 — the v8 substrate is fear/avoidance-dominant (aggression a live-but-weak candidate)
+## OBS-3 — the v8 substrate is fear/avoidance-dominant (aggression a live-but-weak candidate) — CLOSED in v9
+
+> **Update (Part 8 v9 pass): the connectome gap named below is CLOSED.** v9 adds the VMHvl
+> hypothalamic-attack area and a provocation-specific drive of it; provocation now produces
+> reactive aggression instead of only deepening its suppression. See "OBS-3 closure — the v9
+> provocation→attack pathway" further down. The v8 account below is kept as the diagnosis that
+> made the fix legitimate.
 
 *Recorded 2026-07 as a bounded core property with a mechanistic account (same posture as OBS-2), found
 while building substrate social behaviour (Part 6 substrate-social phase).*
@@ -229,13 +235,14 @@ reproduces the social behaviour the town sim consumes). It is logged as a v9 can
 
 No v9 is needed now; these are the accumulated candidates for one future, reviewed seed pass. (Neither
 DA/satiety nor continuous maturation needed a seed edit -- both were engine-side.)
-- **Social innate-wiring entries (S1.4):** the seed's `innate_wiring_catalogue` lacks explicit social
-  perturbations (separation / loss-of-contact -> distress; caregiver proximity -> security) that the
-  functional layer carries. (Parked at 8b.5.)
-- **Thwarting / frustrative-non-reward -> hypothalamic-attack pathway (OBS-3):** does the v8 connectome
-  lack a documented provocation->attack route (Panksepp RAGE; the medial/dorsomedial hypothalamic attack
-  area; frustrative-non-reward literature) that would let reactive aggression win under provocation? A
-  real, citeable neuroscience question -- for a deliberate v9 pass, not now.
+- **Social innate-wiring entries (S1.4):** ~~the seed's `innate_wiring_catalogue` lacks explicit social
+  perturbations (separation / loss-of-contact -> distress; caregiver proximity -> security).~~ **RESOLVED
+  in v9** (Part 8 S16.7): added SR-SEPARATION / SR-PROXIMITY / SR-REJECTION catalogue entries documenting
+  the social primary perturbations the functional layer already wires (documentary; no dynamics change).
+- **Thwarting / frustrative-non-reward -> hypothalamic-attack pathway (OBS-3):** ~~does the v8 connectome
+  lack a documented provocation->attack route ... that would let reactive aggression win under
+  provocation?~~ **RESOLVED in v9** (Part 8 v9 pass): the answer was YES (a genuine connectome defect),
+  and v9 adds the VMHvl attack area + provocation drive that closes it. See the closure record below.
 
 ## Part 6 step 3e — the substrate-social phase (Panksepp retirement), stage 4: the two reductions
 
@@ -279,4 +286,59 @@ brain's RNG.
 **Still interim-legacy (removed in stage 5, the deletion hold):** `AffectiveAgent.__post_init__` still
 constructs a `self.brain = brain_from_seed(...)` (the inert Panksepp brain), and two `test_observer` cases
 still read `brain.to_dict()` as a not-mutated measurement. These are the last `.brain` references; they go
-with `Brain`/`System`/`Drive` in stage 5 (pending the Part 8 v9 ruling on the aggression circuit).
+with `Brain`/`System`/`Drive` in stage 5. The Part 8 v9 ruling (aggression circuit before or after the cut)
+was decided **before**: v9 lands first (below), so stage 5 retires Panksepp against a v9-parity substrate.
+
+## OBS-3 closure — the v9 provocation→attack pathway (Part 8 v9 pass)
+
+The design session ruled **aggression-first (v9-before-cut)**: earn the aggression the substrate lacked
+via a grounded connectome change, then retire Panksepp against a substrate whose aggression is properly
+represented. The edit is a new `psychsim_substrate_seed_v9.json` (v8 archived; `_SEED_PATH` repointed).
+
+**The diagnosis (why it was legitimate, not a thumb on the scale).** OBS-3 was not "aggression loses the
+race" — it was **"aggression cannot be driven at all."** Provocation entered the substrate ONLY folded
+into `IN-SOMATO:nociception` (`social.py`), which drives the **GABAergic** `CeA` — the dominant projection
+into both attack effectors (`CeA→PAG −0.70`, `CeA→HYPdm −0.70`). So more provocation only DEEPENED attack
+suppression; the wiring guaranteed the opposite of aggression. A genuine connectome defect.
+
+**The edit (minimal, cited, weights SCAFFOLD by physiological ordering — not tuned to a target):**
+- **New circuit `VMHvl`** — ventrolateral ventromedial hypothalamus, the hypothalamic attack area
+  (Lin et al. 2011; Falkner & Lin 2014; Hashikawa 2017), distinct from the reproductive VMHdm the seed's
+  `VMH` collapses. Glutamatergic (+1), online 0.0, `hypothalamic_low_flat` plasticity.
+- **3 edges:** `IN-INTERO:provocation→VMHvl` (strong), `VMHvl→PAG` (strong; VMHvl→dPAG attack output,
+  Wang 2015), `VMHvl→HYPdm` (moderate-strong; recruits the medial hypothalamic attack area, Panksepp RAGE).
+- **Provocation split** (`appraisal_to_substrate_input`): the `provocation` term now routes 0.2 to
+  nociception (still carries threat → avoid) + 0.6 to the new `IN-INTERO:provocation` channel (→ VMHvl).
+  Genuine competition, not a scripted flip. `thwarting`/`restraint` triggers likewise reach both.
+- **`aggress` affordance re-grounded** `(CeA,PAG,HYPdm)→(VMHvl,PAG,HYPdm)` — a correctness fix: CeA's
+  activation was inflating the "aggress drive" while CeA was *suppressing* the real effectors.
+- **NOT touched:** the `CeA→PAG/HYPdm` inhibition (byte-identical to v8; guarded by a test). No
+  hand-dis-inhibition — fear stays the baseline threat response.
+
+**Measured result (reported as-is; the phasic race decided, weights not adjusted to force it):**
+- **The gap is closed.** Provocation makes `aggress` the **dominant drive** at every age (adult: aggress
+  0.18 vs avoid 0.03) — it went from unreachable (exactly 0 in v8) to leading. Plain threat still → `avoid`
+  (aggress exactly 0); neutral → `restrain` (aggress exactly 0, **no leak** — the required provocation-
+  specificity control).
+- **An un-tuned developmental trajectory emerged.** At **age 2**, strong provocation → **overt `aggress`**
+  (crosses the act threshold); by **age 8+** the same provocation → **`restrain`** — aggression is the
+  dominant impulse but held below the threshold by the *maturing STN brake* (the OBS-2 maturation
+  mechanism). This is reactive aggression's real course (early expression → progressive restraint), and it
+  fell out of the v9 pathway meeting existing maturation — nothing was tuned to produce it. So OBS-3's
+  "aggression does not win even under strong threat" is genuinely **falsified** (it wins under strong
+  provocation before executive control matures), not merely nudged.
+- **Calibration note (not fixed, reported):** the group-matrix **dominance route stays sub-threshold** at
+  age 12 — the `status_challenge` stimulus presents only moderate provocation (`thwarting 0.6 →
+  provocation 0.36`) mixed with a reward_cue that drives the prestige route, and the developed brake holds
+  it below overt aggression. Whether the status-challenge stimulus should be stronger is a calibration
+  question for a future cited pass, not a weight to raise now.
+
+Guardrails proven: `tests/test_aggression_pathway.py` asserts direction-only (provocation → aggress-drive
+> avoid; plain threat → avoid; neutral → restrain, no leak; the differential shift; behavioural efficacy +
+maturational restraint) plus a guard that `CeA→PAG/HYPdm` is inhibitory and unchanged.
+
+**S1.4 social innate-wiring fold-in (batched here, Part 8 S16.7):** added `SR-SEPARATION`, `SR-PROXIMITY`,
+`SR-REJECTION` to the `innate_wiring_catalogue` — documentary entries for social primary perturbations the
+functional layer already wires (`IN-INTERO:contact_loss→PAG-PANIC`; `IN-SOMATO:affective_touch→NAc-shell`).
+The loader reads only circuits/connections, so these change no dynamics; they close the S1.4 documentation
+gap without confounding the aggression closure test.
