@@ -175,7 +175,7 @@ def felt_response(engine: SubstrateEngine, triggers: Dict[str, float],
         if m and intensity > 0:
             ch, scale = m
             engine.inject_channel(ch, _clamp(intensity * scale))
-    engine.settle(12)
+    engine.settle(18)   # converged count (affiliation settles by ~16); see convergence check
     b = select_social_behaviour(engine, baseline)
     strength = max(b.drives.values()) if b.drives else 0.0
     if saved is not None:
@@ -207,7 +207,7 @@ def appraisal_to_substrate_input(appr) -> Dict[str, float]:
 
 def respond_to_substrate(engine: SubstrateEngine, appr,
                          baseline: Optional[Dict[str, float]] = None,
-                         ticks: int = 25) -> SocialBehaviour:
+                         ticks: int = 16) -> SocialBehaviour:
     """One behavioural moment on the substrate: the situation's perturbation pattern fires the
     agent's circuits, and the multi-affordance BG race resolves the emergent social act. The
     engine develops through the episode (as a lived moment should) -- the same substrate the
