@@ -22,9 +22,9 @@ _MODEL = load_substrate()
 
 
 class TestInstantiation(unittest.TestCase):
-    def test_loads_the_v8_substrate(self):
+    def test_loads_the_v9_substrate(self):
         m = _MODEL
-        self.assertEqual(len(m.circuits), 77)           # v8: v7 (73) + mentalizing network (4)
+        self.assertEqual(len(m.circuits), 78)           # v9: v8 (77) + VMHvl (hypothalamic attack area)
         self.assertGreater(len(m.connections), 130)     # circuit->circuit edges
         self.assertGreater(len(m.input_edges), 15)      # sensory channel entry edges
         # inhibitory nuclei derived from principal transmitter (GABAergic)
@@ -41,7 +41,7 @@ class TestInstantiation(unittest.TestCase):
         young = SubstrateEngine(_MODEL, age_years=0.0)
         adult = SubstrateEngine(_MODEL, age_years=25.0)
         self.assertLess(len(young.live_circuits()), len(adult.live_circuits()))
-        self.assertEqual(len(adult.live_circuits()), 77)
+        self.assertEqual(len(adult.live_circuits()), 78)   # v9: 77 + VMHvl (online at birth)
 
 
 class TestLeakyIntegrator(unittest.TestCase):
