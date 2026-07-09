@@ -105,6 +105,19 @@ class TestDistanceIsPerSignatureNotWeighted(unittest.TestCase):
         self.assertTrue(r.objective.startswith("match:"))            # recorded by name
         self.assertEqual(r.signature, pat.signature)
 
+    def test_distance_sign_is_a_fixed_point(self):
+        # orientation pin (same spirit as the throttle/dissociation fixed points): a config whose
+        # signature EQUALS the target scores 0.0 -- the MAXIMUM, since fitness = -|dev - target| and
+        # scan() maximises -- and a config further from the target scores STRICTLY LOWER. Makes the
+        # metric's direction unambiguous.
+        from scan import ProfileResult
+        pat = load_field_pattern("placeholder_cu_punishment.json")
+        obj = MatchObjective(pat)
+        at_target = ProfileResult({}, {pat.signature: pat.target}, True, 0)
+        further = ProfileResult({}, {pat.signature: pat.target + 0.3}, True, 0)
+        self.assertEqual(obj.value(at_target, at_target), 0.0)       # at target = max
+        self.assertLess(obj.value(further, at_target), obj.value(at_target, at_target))  # further = lower
+
 
 class TestInheritsStructuralGuards(unittest.TestCase):
     def test_field_data_never_reaches_the_mechanism(self):
