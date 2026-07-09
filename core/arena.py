@@ -226,8 +226,15 @@ def _solo_episode(agent: AffectiveAgent, age_years: float, rng: random.Random, c
 # act MEANS or how bad it is. Same category as a Thing's stimulus. This is the resolved perception
 # channel the dyad talks through -- richer than the two-bit is_cohesive/is_aggressive read-outs
 # (which are kept only for tie accrual). Precedent: speech.acts' "hearer appraises the perceived
-# act". SCAFFOLD intensities. Unknown acts present a faint co-presence.
-_ARENA_PERCEPTION: Dict[str, Dict[str, float]] = {
+# act". Unknown acts present a faint co-presence.
+#
+# SCAFFOLD (calibration targets, replace-with-data): the STRUCTURE -- which act presents which
+# trigger channel -- is grounded in perception (an attack presents provocation/threat, caregiving
+# presents affiliation, withdrawal presents contact-loss). The STRENGTHS below are placeholders,
+# not yet calibrated. (Routing acts through the speech INTENTS was rejected in review: it collapsed
+# approach->ASSERT, whose appraisal dims appraisal_to_substrate_input ignores, so a warm approach
+# presented NOTHING -- a silent null the Arena surfaced on day one; see the core record.)
+_ARENA_PERCEPTION: Dict[str, Dict[str, float]] = {   # SCAFFOLD strengths
     "nurture":      {"affiliation": 0.7, "vulnerable_other": 0.3},  # caregiving: warmth + tending
     "approach":     {"affiliation": 0.5},                           # a friendly appetitive bid
     "play":         {"affiliation": 0.4, "play_signal": 0.5},

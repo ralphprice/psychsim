@@ -377,3 +377,28 @@ mapped, parity-gated, reviewed, and reversible-in-spirit until it wasn't.
 *Deferred doc hygiene (with the UI-sync pass):* `sim_world/group_matrix.py:38` and `sim_world/README.md:45`
 still describe the retired engine in prose ("own primary systems fire, the dominant one drives behaviour";
 "dominant behavioural network") — stale architecture descriptions to update so they are not read as current.
+
+## OBS-4 — the Arena earned its keep on day one (a methodological note, Part 6 S12)
+
+*Recorded 2026-07 while building the Arena (Part 6 Step 4).* The Arena's **first act** was to expose a
+**silent null in the inter-agent social channel that no single-agent test could have surfaced** — the kind
+of finding a development-and-regression harness exists to catch.
+
+The first dyadic loop routed each agent's perception of the other's act through the *speech intents*
+(`speech.acts`: behaviour → intent → `appraisal_from_act`). But `approach` maps to the `ASSERT` intent,
+whose appraisal dimensions (`goal_relevance`/`controllability`) `appraisal_to_substrate_input` **does not
+read** — so a warm approach delivered **nothing** to the perceiver's substrate. Two agents talked through a
+channel that dropped the most common social act, and the dyad died into mutual `restrain`. That was **not** a
+substrate property or an honesty failure — it was plumbing that silently nulled the message. Had it shipped,
+the Arena would have recorded "agents don't engage" as an emergent finding; it would have been an artifact.
+
+Caught by **probing, not assuming** (measure before asserting). The fix: a **direct act→perturbation
+perception mapping in the trigger vocabulary Things use** (`_ARENA_PERCEPTION`), fed via `felt_response` —
+what a perceived act physically presents, never a valuation; `is_cohesive_act`/`is_aggressive_act` kept for
+tie accrual only. Two channels, each at the fidelity its job needs.
+
+*Why this belongs in the record:* when the study later asks "how much do we trust the Arena's dynamics?",
+part of the answer is "it found, on day one, the one plumbing fault that would have invalidated them." The
+Regime-B guard (two intact agents remain viable/settled/non-escalating in a closed loop — Part 5 S9.3 tested
+in the multi-agent regime for the first time) closes the S12.6 closed-loop-instability concern with a test,
+not a hope.
