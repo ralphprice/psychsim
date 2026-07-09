@@ -109,6 +109,11 @@ def throttleable_circuits(model: Optional[SubstrateModel] = None) -> List[str]:
 # The measured signatures -- named, individually-grounded scalar read-outs
 # ---------------------------------------------------------------------------
 
+# the named signatures a scan may maximise (search-for-effect) or match against (search-for-match)
+# -- the exact keys measure_signatures returns. A field pattern's `signature` must be one of these.
+SIGNATURE_NAMES = ("punishment_learning", "dissociation_index")
+
+
 def measure_signatures(engine) -> Dict[str, float]:
     """The named scalar signatures the scan can maximise -- ONE at a time, never blended. Each is a
     single measured read-out the study already computes and grounds on its own:

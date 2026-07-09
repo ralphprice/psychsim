@@ -1,0 +1,12 @@
+{
+  "name": "cu_punishment_deficit_PLACEHOLDER",
+  "signature": "punishment_learning",
+  "target": -0.05,
+  "provenance": {
+    "source": "PLACEHOLDER -- synthetic, NOT real field data",
+    "population": "none (placeholder)",
+    "instrument": "none (placeholder)",
+    "not_used_in_calibration": true,
+    "note": "A conspicuously-labelled placeholder so the search-for-match plumbing can be built and tested. It is NEVER reported as corroboration (its source contains PLACEHOLDER). Replace with a real, properly-sourced held-out clinical/epidemiological pattern -- one that was NOT used to calibrate the substrate -- before any match is treated as convergent evidence."
+  }
+}

@@ -128,16 +128,23 @@ def _evaluate(config: Dict[str, Throttle], obj: Objective, seeds: List[int],
 # The coarse-to-fine search
 # ---------------------------------------------------------------------------
 
-def scan(objective: str, seeds: List[int], *, circuits: Optional[List[str]] = None,
+def scan(objective, seeds: List[int], *, circuits: Optional[List[str]] = None,
          screen_delta: float = _SCREEN_DELTA, top_k: int = 3,
          graded_levels: Tuple[float, ...] = (75.0, 50.0, 25.0)) -> ScanResult:
-    """Coarse-to-fine search for the throttle configuration that maximises ONE named signature,
-    relative to the intact control. Phase 1 binary-screens single circuits; Phase 2 grades only the
+    """Coarse-to-fine search for the throttle configuration that maximises ONE objective, relative
+    to the intact control. Phase 1 binary-screens single circuits; Phase 2 grades only the
     survivors. Deterministic from `seeds`. Reaches the substrate only via develop_and_measure ->
-    set_throttle (no model handle here)."""
-    if objective not in OBJECTIVES:
-        raise ValueError(f"unknown objective '{objective}'; choose one of {sorted(OBJECTIVES)}")
-    obj = OBJECTIVES[objective]
+    set_throttle (no model handle here).
+
+    `objective` is either the NAME of a built-in search-for-effect objective (a key of OBJECTIVES)
+    or any objective INSTANCE exposing `.name`, `.signature`, `.orientation`, and
+    `.value(result, baseline)` -- e.g. a search-for-match MatchObjective (scan_match)."""
+    if isinstance(objective, str):
+        if objective not in OBJECTIVES:
+            raise ValueError(f"unknown objective '{objective}'; choose one of {sorted(OBJECTIVES)}")
+        obj = OBJECTIVES[objective]
+    else:
+        obj = objective        # an objective instance (search-for-match, etc.); no model handle either way
     circuits = circuits if circuits is not None else throttleable_circuits()
 
     # the intact control arm -- every score is relative to this (the contrast IS the result)
