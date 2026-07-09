@@ -75,9 +75,9 @@ class TestPluginReportIntegration(unittest.TestCase):
 class TestLegacyAdapterNeverFedBack(unittest.TestCase):
     def test_observe_does_not_mutate_the_agent(self):
         ag = _agent(shared_root_seed)
-        before = copy.deepcopy(ag.brain.to_dict())
+        before = list(ag.engine.weight)                # the developed substrate connectome
         _ = observe_agent(ag)
-        self.assertEqual(ag.brain.to_dict(), before)   # measurement, not a driver
+        self.assertEqual(list(ag.engine.weight), before)   # measurement, not a driver
 
     def test_reads_emergent_substrate(self):
         r = observe_agent(_agent(shared_root_seed))

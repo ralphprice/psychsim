@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 
 from affective_engine.core import clamp
-from affective_engine.drives import is_cohesive, is_aggressive
+from substrate.social import is_cohesive_act, is_aggressive_act
 from affective_engine.development import Environment, develop  # reuse the learning rule
 from speech.acts import act_from_behaviour, SpeechChannel, SpeechAct
 from speech.render import TemplateRenderer
@@ -103,10 +103,10 @@ class GameMaster:
     # -- the core adjudication --------------------------------------------
     def adjudicate(self, person: Person, resp,
                    event: Optional[SocialEvent] = None) -> Interaction:
-        """Commit the consequences of `person`'s emergent action `resp` (a drives.Response).
-        The world keys on FEATURE read-outs of the act (is_cohesive/is_aggressive) and on the
-        emergent action itself (`resp.behaviour`) -- never on an outcome-category label
-        (honesty migration #2)."""
+        """Commit the consequences of `person`'s emergent action `resp` (a substrate
+        SocialBehaviour -- any act carrying a `.behaviour` string). The world keys on FEATURE
+        read-outs of the act (is_cohesive_act/is_aggressive_act) and on the emergent action itself
+        (`resp.behaviour`) -- never on an outcome-category label (honesty migration #2)."""
         world = self.world
         place = world.location_of(person.agent_id) or "?"
         inst = world.governing_institution(person.agent_id)
@@ -120,10 +120,10 @@ class GameMaster:
         if target is not None:
             r = self.rel(person.agent_id, target)
             r.familiarity = clamp(r.familiarity + 0.1)
-            if is_cohesive(resp):              # appetitive/affiliative act -> warms the tie
+            if is_cohesive_act(resp.behaviour):    # appetitive/affiliative act -> warms the tie
                 r.affect = clamp(r.affect + 0.15, -1.0, 1.0)
                 r.trust = clamp(r.trust + 0.1)
-            elif is_aggressive(resp):          # RAGE-driven act -> strains the tie
+            elif is_aggressive_act(resp.behaviour):  # defensive-aggression act -> strains the tie
                 r.affect = clamp(r.affect - 0.2, -1.0, 1.0)
                 r.trust = clamp(r.trust - 0.15)
 

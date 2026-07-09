@@ -12,7 +12,6 @@ import unittest
 
 from affective_engine.learning import (ValueLearner, three_factor, prepared_multiplier)
 from affective_engine import params
-from affective_engine.drives import (Brain, imprint, window_plasticity)
 
 
 class TestRPEConvergence(unittest.TestCase):
@@ -120,29 +119,10 @@ class TestThreeFactor(unittest.TestCase):
         self.assertEqual(argnames, {"pre", "post", "neuromod", "window", "lr"})
 
 
-class TestImprintParity(unittest.TestCase):
-    def _brain(self):
-        return Brain.from_temperament(random.Random(3))
-
-    def test_default_neuromod_preserves_legacy_strengthening(self):
-        from affective_engine.drives import System
-        b = self._brain()
-        stim = {"reward_cue": 0.9}
-        resp = b.respond(stim)
-        used = resp.dominant
-        before = b.drives[used].strength
-        imprint(b, resp, age_years=6.0)                 # default neuromod=1.0
-        after_default = b.drives[used].strength
-        self.assertGreater(after_default, before)       # legacy path still strengthens
-
-    def test_zero_neuromod_gates_off_strengthening(self):
-        b = self._brain()
-        resp = b.respond({"reward_cue": 0.9})
-        used = resp.dominant
-        before = b.drives[used].strength
-        imprint(b, resp, age_years=6.0, neuromod=0.0)   # no dopamine -> no consolidation
-        # the used system is not strengthened (may drift only by disuse of others)
-        self.assertLessEqual(b.drives[used].strength, before + 1e-9)
+# NOTE: the former TestImprintParity (Panksepp Brain.imprint strengthening) was removed with the
+# Panksepp drive-engine in Part 6 step 3e / stage 5. The substrate's own use-dependent
+# strengthening (the BCM/three-factor plasticity in the settle loop) is covered by
+# test_substrate_learning.py; the three_factor rule itself is tested above.
 
 
 if __name__ == "__main__":

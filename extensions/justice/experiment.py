@@ -25,7 +25,7 @@ from .system import JusticeParams, JusticeSystem, develop_with_justice
 @dataclass
 class CohortResult:
     condition: str                       # "justice_off" | "justice_on"
-    outcomes: List = field(default_factory=list)     # drives.MindReadout per child (emergent)
+    outcomes: List = field(default_factory=list)     # substrate.readout.MindReadout per child (emergent)
     contacts: List[int] = field(default_factory=list)
 
     def shares(self) -> Dict[str, float]:

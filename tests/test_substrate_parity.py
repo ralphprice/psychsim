@@ -4,19 +4,19 @@ _S.path.insert(0, _O.path.join(_ROOT, "core"))
 _S.path.insert(0, _O.path.join(_ROOT, "extensions"))
 _S.path.insert(0, _ROOT)
 
-"""Part 6 substrate-social phase (3d) -- PARITY demonstrated with the legacy still present.
+"""Part 6 substrate-social phase -- the substrate is the SOLE engine (Panksepp retired, stage 5).
 
-Invariant 6: the Panksepp Brain is retired only once the substrate REPRODUCES the social
-behaviour the town sim consumes. These tests demonstrate that the substrate does -- it produces
-observable social acts (approach/nurture/avoid/seek_comfort) that the existing, now engine-
-agnostic consumers (gamemaster adjudication, the is_cohesive/is_aggressive feature read-outs, the
-observer read-out) accept -- while the Panksepp engine is still in place. The retirement cut is a
-separate, reviewed step."""
+Invariant 6 was met before the cut: the substrate REPRODUCES the social behaviour the town sim
+consumes. These tests demonstrate that on the substrate alone -- it produces observable social
+acts (approach/nurture/avoid/seek_comfort/aggress) that the engine-agnostic consumers (gamemaster
+adjudication, the substrate feature read-outs is_cohesive_act/is_aggressive_act, the observer
+read-out) accept. The former cross-engine parity assertion (substrate == Panksepp) is gone with
+the Panksepp engine; what remains is the substrate-native seam the consumers key on."""
 
 import unittest
 
 from affective_engine.core import Appraisal, shared_root_seed
-from affective_engine.drives import is_cohesive, is_aggressive, respond_to_appraisal
+from substrate.social import is_cohesive_act, is_aggressive_act
 from affective_engine.observer import observe_substrate
 from sim_world import build_world, Person, GameMaster, SocialEvent
 
@@ -25,12 +25,12 @@ class TestSubstrateProducesConsumableSocialBehaviour(unittest.TestCase):
     def test_warm_situation_yields_a_cohesive_substrate_act(self):
         p = Person("a", "A", shared_root_seed())
         b = p.social_act(Appraisal(social_valence=0.8, reward=0.4, label="warm"), age_years=25.0)
-        self.assertTrue(is_cohesive(b), f"warm -> {b.behaviour}")
+        self.assertTrue(is_cohesive_act(b.behaviour), f"warm -> {b.behaviour}")
 
     def test_threat_situation_is_not_cohesive(self):
         p = Person("a", "A", shared_root_seed())
         b = p.social_act(Appraisal(threat=0.8, social_valence=-0.4, label="threat"), age_years=25.0)
-        self.assertFalse(is_cohesive(b), f"threat -> {b.behaviour}")
+        self.assertFalse(is_cohesive_act(b.behaviour), f"threat -> {b.behaviour}")
 
     def test_separation_seeks_comfort(self):
         p = Person("a", "A", shared_root_seed())
@@ -53,18 +53,15 @@ class TestConsumersAdjudicateSubstrateActs(unittest.TestCase):
         self.assertEqual(len(gm.log), 1)
 
 
-class TestFeatureSeamIsEngineAgnostic(unittest.TestCase):
-    def test_is_cohesive_agrees_across_engines_for_warmth(self):
-        # the feature read-outs give the SAME verdict for the Panksepp Response and the substrate
-        # SocialBehaviour to the same warm situation -- the seam that lets either engine drive the
-        # sim, and the reason the consumers did not need per-engine branches.
+class TestFeatureSeamIsSubstrateNative(unittest.TestCase):
+    def test_feature_read_outs_key_on_the_emergent_substrate_act(self):
+        # the seam the consumers use: the feature read-outs classify the substrate's emergent act
+        # (a behaviour string) -- no per-engine branch. A warm situation yields a cohesive,
+        # non-aggressive act; the read-outs agree on that from the act alone.
         p = Person("a", "A", shared_root_seed())
-        warm = Appraisal(social_valence=0.8, reward=0.5, label="warm")
-        pan = respond_to_appraisal(p.mind, warm)          # Panksepp
-        sub = p.social_act(warm, age_years=25.0)          # substrate
-        self.assertTrue(is_cohesive(pan))
-        self.assertEqual(is_cohesive(pan), is_cohesive(sub))
-        self.assertFalse(is_aggressive(sub))
+        warm = p.social_act(Appraisal(social_valence=0.8, reward=0.5, label="warm"), age_years=25.0)
+        self.assertTrue(is_cohesive_act(warm.behaviour))
+        self.assertFalse(is_aggressive_act(warm.behaviour))
 
 
 class TestObserverAdapterMeasuresThePerson(unittest.TestCase):

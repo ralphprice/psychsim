@@ -1,10 +1,9 @@
 """
 readout.py -- study-neutral aggregation over emergent mind read-outs.
 
-Given any iterable of `MindReadout` (from `affective_engine.drives.read_mind`), summarise
-the cohort descriptively: the distribution of dominant primary systems, the mean strength
-profile, and stats on a neutral projection axis. No verdict, no study vocabulary -- any
-module reuses this.
+Given any iterable of `MindReadout` (from `substrate.readout.read_mind`), summarise the cohort
+descriptively: the distribution of dominant emergent domains, the mean profile, and stats on a
+neutral projection axis. No verdict, no study vocabulary -- any module reuses this.
 """
 
 from __future__ import annotations

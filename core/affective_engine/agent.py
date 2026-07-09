@@ -1,17 +1,15 @@
 """
-agent.py -- the affective agent: an episodic memory on a Panksepp brain.
+agent.py -- the affective agent: an episodic memory on the category-free neural substrate.
 
-HONESTY MIGRATION #2 (MASTER Phase 6 / "8b.4"): the outcome-category NETWORK SCORER that used
-to live here -- score each category-named Network by circuit activation x the seed's `access`
-reachability, then a hysteretic argmax over the outcome categories -- has been REMOVED. It was
-the encoded-answer path (behaviour selected among outcome-category primitives). Behaviour now
-comes from the emergent Panksepp substrate (`self.brain`, drives.py) via `respond_to_appraisal`;
-the outcome categories are computed only as OBSERVER read-outs (observer.py), never selected as
-primitives and never fed back.
+Behaviour is the substrate's emergent social act: a situation's perturbation pattern fires the
+agent's own developing `engine` (core/substrate) and the basal-ganglia race resolves the act
+(`social_act`). No outcome categories are selected as primitives or fed back; the categories are
+computed only as OBSERVER read-outs (observer.py). The Panksepp drive-engine that once backed
+this agent was RETIRED in the substrate-social phase (Part 6 step 3e / stage 5) -- the substrate
+is now the sole engine.
 
-The agent holds: the Panksepp brain, the temperament `gains` (read by the observer read-out),
-and the episodic memory. The Panksepp brain is itself interim-legacy -- its retirement onto the
-circuit substrate (core/substrate) is a separate, parity-gated phase, not this cut.
+The agent holds: its developing substrate `engine`, the temperament `gains` (read by the observer
+read-out), and the episodic memory.
 """
 
 from __future__ import annotations
@@ -38,6 +36,9 @@ class AffectiveAgent:
     (`social_act`); the legacy Panksepp engine is retired."""
     seed: TraitSeed
     use_memory: bool = True
+    # retained for API compatibility; the substrate is seeded DETERMINISTICALLY from the seed's
+    # gains (seed_substrate), so this no longer affects the agent (the Panksepp brain it once
+    # seeded is retired).
     temperament_seed: Optional[int] = None
     gain: Dict[str, float] = field(init=False)
     memory: MemoryStream = field(init=False)
@@ -52,13 +53,6 @@ class AffectiveAgent:
                                                self.engine.throttle)
         self.gain = dict(self.seed.gains)
         self.memory = MemoryStream()
-        # interim-legacy: the Panksepp brain is still present while consumers are migrated onto
-        # the substrate (staged retirement). Removed once nothing live reads `.brain`.
-        import random as _r
-        from .drives import brain_from_seed
-        _rng = (_r.Random(self.temperament_seed)
-                if self.temperament_seed is not None else _r.Random())
-        self.brain = brain_from_seed(self.seed, _rng)
 
     def adopt_engine(self, engine: SubstrateEngine) -> None:
         """Place an already-developed substrate (e.g. a library adult restored from the bank) into

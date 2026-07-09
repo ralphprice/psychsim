@@ -194,7 +194,7 @@ def felt_response(engine: SubstrateEngine, triggers: Dict[str, float],
 # how a situation (an Appraisal) presents itself to the SENSES -- the perturbation pattern it
 # drives into the substrate's input channels. This is description (a threatening situation
 # presents a nociceptive/threat cue), NOT a verdict and NOT a situation->act rule: the substrate
-# decides what to do with it. Mirrors drives.appraisal_to_stimulus, but into substrate channels.
+# decides what to do with it. Maps an appraisal onto the substrate's sensory input channels.
 def appraisal_to_substrate_input(appr) -> Dict[str, float]:
     warm = max(0.0, getattr(appr, "social_valence", 0.0))
     hostile = max(0.0, -getattr(appr, "social_valence", 0.0))

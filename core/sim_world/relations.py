@@ -31,7 +31,7 @@ import os as _os
 import random
 
 from affective_engine.core import Appraisal, clamp
-from affective_engine.drives import is_cohesive, is_aggressive
+from substrate.social import is_cohesive_act, is_aggressive_act
 from affective_engine.learning import ValueLearner
 
 
@@ -190,8 +190,8 @@ def interact(tie: Tie, higher_mind, lower_mind,
     lo_resp = lower_mind.social_act(_appraisal_for_lower(tie))
     hi, lo = hi_resp.behaviour, lo_resp.behaviour   # the acts, from the substrate
 
-    higher_restrained = is_cohesive(hi_resp)   # holds authority well (affiliative)
-    lower_respectful = is_cohesive(lo_resp)    # responds with engagement/respect
+    higher_restrained = is_cohesive_act(hi)    # holds authority well (affiliative)
+    lower_respectful = is_cohesive_act(lo)     # responds with engagement/respect
 
     # the tie updates: both cohesive -> repair & warm; either presses/disengages
     # -> strain, and the more so when the powerful party is the one who does
@@ -201,7 +201,7 @@ def interact(tie: Tie, higher_mind, lower_mind,
         d_recip = +0.10
     else:
         pressed_by_power = (not higher_restrained)
-        base = 0.30 if is_aggressive(hi_resp) or is_aggressive(lo_resp) else 0.15
+        base = 0.30 if is_aggressive_act(hi) or is_aggressive_act(lo) else 0.15
         d_strain = base + (0.15 * tie.pair.power if pressed_by_power else 0.0)
         d_standing = -0.12 - (0.10 if pressed_by_power else 0.0)
         d_recip = -0.15 if (higher_restrained != lower_respectful) else -0.05

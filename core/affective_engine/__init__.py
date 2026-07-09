@@ -14,10 +14,10 @@ from .development import (
     Environment, warm_firm_home, harsh_inconsistent_home,
     develop, classify,
 )
-from .drives import (System, Brain, Drive, imprint, window_plasticity,
-                     dominant_profile, read_mind, MindReadout,
-                     brain_from_seed, appraisal_to_stimulus,
-                     respond_to_appraisal, is_cohesive, is_aggressive)
+# NOTE: the Panksepp drive-engine (drives.py: System/Brain/Drive/imprint/read_mind/...) was
+# RETIRED in Part 6 step 3e / stage 5. The substrate (core/substrate) is the sole engine: its
+# feature read-outs are substrate.social.is_cohesive_act/is_aggressive_act and its disposition
+# read-out is substrate.readout.read_mind.
 
 __all__ = [
     "Appraisal", "TraitSeed",
@@ -27,9 +27,6 @@ __all__ = [
     "AffectiveAgent",
     "Environment", "warm_firm_home", "harsh_inconsistent_home",
     "develop", "classify",
-    "System", "Brain", "Drive", "imprint", "window_plasticity",
-    "dominant_profile", "read_mind", "MindReadout", "brain_from_seed",
-    "respond_to_appraisal", "is_cohesive", "is_aggressive",
 ]
 
 __version__ = "0.2.0"
