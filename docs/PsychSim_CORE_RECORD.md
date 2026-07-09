@@ -353,3 +353,27 @@ maturational restraint) plus a guard that `CeA→PAG/HYPdm` is inhibitory and un
 functional layer already wires (`IN-INTERO:contact_loss→PAG-PANIC`; `IN-SOMATO:affective_touch→NAc-shell`).
 The loader reads only circuits/connections, so these change no dynamics; they close the S1.4 documentation
 gap without confounding the aggression closure test.
+
+## Substrate-social phase COMPLETE — the substrate is the sole engine (Part 6 step 3e, stage 5/5)
+
+The Panksepp drive-engine is retired (`drives.py` deleted in full; `.brain` gone; the `is_cohesive`/
+`is_aggressive` feature read-outs relocated to `substrate.social.is_cohesive_act/is_aggressive_act` and
+consumed by `gamemaster`/`relations`; honest test reframes). **Verified against origin/main by the design
+session.** The core organism is complete and it is the only engine: coded outcome-categories gone,
+substrate the single source of structure, development converges, the phenomena battery passes, and the
+OBS-3 aggression gap was closed by a grounded connectome fix (the v9 VMHvl pathway), not a thumb on the
+scale. Every irreversible step (8b.4 category cut, the Executive retirement, this drive-engine cut) was
+mapped, parity-gated, reviewed, and reversible-in-spirit until it wasn't.
+
+> **Watching the sim — read this first.** An idle town skews **appetitive**: `approach`/`restrain`
+> dominate, and the aversive/aggressive repertoire (`avoid`/`seek_comfort`/`aggress`) is largely absent
+> from the idle stream. This is **correct, not a missing repertoire.** The town's default social contexts
+> are mostly cooperative, and aggression is **provocation-gated by design** (the OBS-3 closure: reactive
+> aggression is provocation-specific with a maturing STN brake). A cooperative town should not be full of
+> fights; the full repertoire appears under the appropriate perturbations (threat→avoid, separation→
+> seek_comfort, strong provocation in an immature agent→aggress), as the tests confirm. Anyone watching
+> the live sim should be told this up front, or they will mistake correct behaviour for a defect.
+
+*Deferred doc hygiene (with the UI-sync pass):* `sim_world/group_matrix.py:38` and `sim_world/README.md:45`
+still describe the retired engine in prose ("own primary systems fire, the dominant one drives behaviour";
+"dominant behavioural network") — stale architecture descriptions to update so they are not read as current.
