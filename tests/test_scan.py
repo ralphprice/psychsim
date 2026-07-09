@@ -86,6 +86,18 @@ class TestObjectiveIsPerSignatureNotBlended(unittest.TestCase):
         for v in sigs.values():
             self.assertIsInstance(v, float)                       # each a single scalar read-out
 
+    def test_dissociation_index_sign_is_pinned(self):
+        # The objective's DIRECTION must be unambiguous or a search would hunt the wrong end of the
+        # space with perfect internal consistency. Fixed point: throttling the affective-empathy
+        # network RAISES dissociation_index (more reads-but-doesn't-feel). If the sign ever flips,
+        # this fails -- "maximise dissociation_index" would silently mean its opposite.
+        from scan import AFFECTIVE_EMPATHY
+        intact = develop_and_measure({}, seed=5).signatures["dissociation_index"]
+        throttled = develop_and_measure(
+            {c: Throttle.fully_attenuated() for c in AFFECTIVE_EMPATHY}, seed=5
+        ).signatures["dissociation_index"]
+        self.assertLess(intact, throttled)                        # higher = more reads-but-doesn't-feel
+
     def test_no_single_blended_fitness_exists(self):
         # the objective must be ONE named read-out at a time -- structurally, the primitive keeps
         # the signatures SEPARATE (a dict of named read-outs) and carries NO single blended

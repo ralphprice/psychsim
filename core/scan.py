@@ -116,7 +116,9 @@ def measure_signatures(engine) -> Dict[str, float]:
         (low/negative = the passive-avoidance / CU inversion).
       * `dissociation_index` -- reads-but-doesn't-feel: cognitive mentalizing MINUS affective
         empathy (a difference of two measured quantities, so a legitimate scalar -- the contrast IS
-        the phenomenon, not a scoring choice)."""
+        the phenomenon, not a scoring choice). DIRECTION (pinned by a fixed-point test, so "maximise
+        this" is unambiguous): HIGHER = more reads-but-doesn't-feel; throttling the affective-empathy
+        network RAISES it (intact ~-0.24 -> affective-throttled ~+0.07)."""
     aff, cog = empathy_response(engine)
     return {
         "punishment_learning": punishment_learning(engine),
