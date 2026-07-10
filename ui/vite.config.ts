@@ -1,4 +1,5 @@
-import { defineConfig } from "vite";
+/// <reference types="vitest/config" />
+import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
 // In dev (`npm run dev` on :5173) the UI uses same-origin relative URLs and Vite
@@ -19,5 +20,11 @@ export default defineConfig({
     outDir: "dist",
     // keep asset names predictable; the Python static server serves whatever is here
     emptyOutDir: true,
+  },
+  test: {
+    environment: "jsdom",
+    setupFiles: ["./src/test/setup.ts"],
+    include: ["src/**/*.test.{ts,tsx}"],
+    css: false,
   },
 });

@@ -868,3 +868,79 @@ button.mx-id:hover {
   height: auto;
   display: block;
 }
+
+/* ---- MasterDetail: the shared list+detail primitive (all non-Town tabs) ---- */
+.master-detail {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+}
+.md-list-col {
+  flex: 0 0 260px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid var(--line);
+  background: var(--chassis);
+}
+.md-filter {
+  margin: 8px;
+  padding: 6px 9px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.md-filter::placeholder {
+  color: var(--faint);
+}
+.md-filter:focus {
+  outline: none;
+  border-color: var(--trace);
+}
+.md-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  outline: none;
+}
+.md-row {
+  padding: 7px 12px;
+  border-left: 2px solid transparent;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+}
+.md-row:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+.md-row.selected {
+  background: var(--raised);
+  border-left-color: var(--trace);
+  color: var(--text);
+}
+.md-empty-list,
+.md-empty {
+  padding: 14px 16px;
+  color: var(--faint);
+  font-size: 13px;
+  list-style: none;
+}
+.md-detail {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 16px 20px;
+  color: var(--text);
+  outline: none;
+}
+.md-detail:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--trace);
+}
