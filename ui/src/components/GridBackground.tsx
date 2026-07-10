@@ -5,12 +5,12 @@ import { memo } from "react";
 import type { TownGeometry } from "../types";
 import { GRID_CELL, TERRAIN_COLOUR, BUILDING_COLOUR } from "../theme";
 
-function GridBackgroundImpl({ town }: { town: TownGeometry }) {
+function GridBackgroundImpl({ town, night }: { town: TownGeometry; night?: boolean }) {
   const cell = GRID_CELL;
   const W = town.cols * cell;
   const H = town.rows * cell;
   return (
-    <svg className="bg" width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+    <svg className={"bg" + (night ? " night" : "")} width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
       {town.terrain?.map((row, y) =>
         row.map((t, x) => (
           <rect

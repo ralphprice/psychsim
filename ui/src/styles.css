@@ -109,6 +109,10 @@ body,
 .telemetry .idle {
   color: var(--faint);
 }
+/* day/night is a CLOCK read-out only (--muted); --phosphor stays reserved for LIVE */
+.telemetry .daynight {
+  color: var(--muted);
+}
 .telemetry .tk {
   color: var(--faint);
 }
@@ -1447,4 +1451,69 @@ button.mx-id:hover {
   font-size: 11px;
   color: var(--faint);
   line-height: 1.4;
+}
+
+/* ---- Phase 8: face-only markers, monitored badge, night ground, cohort pin --- */
+/* the FACE (emoji) is the marker; a ring on selection, a badge on monitored, a dot when zoomed out */
+.person .pface {
+  user-select: none;
+}
+.person .sel-ring {
+  stroke: var(--trace);
+}
+.person .pdot {
+  fill: var(--faint);
+}
+.person .pbadge {
+  fill: var(--warn);
+  font-family: var(--mono);
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 2.2px;
+}
+.person .plabel {
+  fill: #2a2f36;
+}
+
+/* night is a restrained CLOCK read-out: the ground steps a few points darker. A colour STEP, not a
+   fade (no transition) — inherently reduced-motion-safe. */
+.bg.night {
+  filter: brightness(0.9) saturate(0.93);
+}
+
+/* cohort: the map-badge lookup + the monitor pin */
+.co-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--warn);
+  border-radius: 3px;
+  padding: 0 5px;
+}
+.subject-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.subject-head h3 {
+  margin: 0;
+}
+.co-monitor {
+  font: inherit;
+  font-size: 11px;
+  padding: 4px 9px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.co-monitor.on {
+  color: var(--warn);
+  border-color: var(--warn);
 }

@@ -62,6 +62,13 @@ export interface SimState {
   /** telemetry (for the console strip): the sim seed and the substrate seed version. */
   seed?: number;
   version?: string;
+  /** sim wall-clock (Phase 8): the tick count, the fixed epoch, the current sim time (ISO,
+   *  epoch + elapsed), whole elapsed hours, and the speed multiplier. */
+  tick?: number;
+  epoch?: string;
+  sim_time?: string;
+  elapsed_hours?: number;
+  speed?: number;
 }
 export interface PersonLive {
   x: number;

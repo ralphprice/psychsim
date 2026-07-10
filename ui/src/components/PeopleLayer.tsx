@@ -1,17 +1,20 @@
 // PeopleLayer — the live residents, overlaid on whichever background is showing.
 //
-// The server reports discrete tile positions ~5x/second; a person can jump several
-// tiles per tick. To avoid teleport-y "gliding", each dot eases toward its target
-// pixel every animation frame (requestAnimationFrame), decoupled from the poll rate.
-// React handles who exists; rAF handles where they are. While a person is followed,
-// this same loop recentres the camera on their eased position (no React re-render).
+// The server reports discrete tile positions ~5x/second; a person can jump several tiles per tick.
+// To avoid teleport-y "gliding", each marker eases toward its target pixel every animation frame
+// (requestAnimationFrame), decoupled from the poll rate. React handles who exists; rAF handles where.
+//
+// Phase 8: the FACE (role emoji) IS the marker — no spot behind it. A selection ring (--trace) is
+// drawn on the selected person only; a numeric badge (--warn) on monitored agents only (a plain
+// index, keyed to the cohort lookup — never a condition label). Below a zoom threshold the face is
+// illegible, so we render a single dot instead (never both — that keeps one node per person).
 
 import { memo, useEffect, useRef } from "react";
 import type * as React from "react";
 import type { SimState } from "../types";
 import type { ViewModel } from "../view";
 import type { StageHandle } from "./Stage";
-import { driveColour, ROLE_EMOJI } from "../theme";
+import { ROLE_EMOJI } from "../theme";
 
 interface PeopleLayerProps {
   people: SimState["people"];
@@ -19,6 +22,10 @@ interface PeopleLayerProps {
   selectedCid: string | null;
   followCid: string | null;
   showLabels: boolean;
+  /** cid -> 1-based monitor index; a badge is drawn only for cids present here */
+  monitoredIndex: Record<string, number>;
+  /** true when the stage is zoomed out far enough that faces are illegible -> render dots */
+  zoomedOut: boolean;
   stage: React.RefObject<StageHandle>;
 }
 
@@ -35,12 +42,12 @@ function PeopleLayerImpl({
   selectedCid,
   followCid,
   showLabels,
+  monitoredIndex,
+  zoomedOut,
   stage,
 }: PeopleLayerProps) {
-  // eased pixel position + DOM node per resident, kept across renders
   const pos = useRef<Map<string, Pt>>(new Map());
   const nodes = useRef<Map<string, SVGGElement>>(new Map());
-  // latest inputs, read by the rAF loop without restarting it
   const latest = useRef({ people, view, followCid });
   latest.current = { people, view, followCid };
 
@@ -61,11 +68,9 @@ function PeopleLayerImpl({
         const node = nodes.current.get(cid);
         if (node) node.setAttribute("transform", `translate(${cur.x.toFixed(2)},${cur.y.toFixed(2)})`);
       }
-      // drop the eased state of anyone who has left
       for (const cid of pos.current.keys()) {
         if (!(cid in ppl)) pos.current.delete(cid);
       }
-      // camera-follow rides the eased position for smoothness
       if (fcid) {
         const c = pos.current.get(fcid);
         if (c) stage.current?.centerOn(c.x, c.y);
@@ -76,12 +81,16 @@ function PeopleLayerImpl({
     return () => cancelAnimationFrame(raf);
   }, [stage]);
 
-  const r = view.mode === "plan" ? 5.5 : 7;
+  const face = view.mode === "plan" ? 13 : 15; // emoji size in world px
+  const dotR = view.mode === "plan" ? 4 : 5;
+  const ringR = face * 0.62;
 
   return (
     <svg className="overlay" width={view.W} height={view.H} viewBox={`0 0 ${view.W} ${view.H}`}>
       {Object.entries(people).map(([cid, p]) => {
         const selected = cid === selectedCid;
+        const idx = monitoredIndex[cid]; // number | undefined
+        const faded = !p.subject; // fixed background residents render dimmer
         return (
           <g
             className="person"
@@ -92,19 +101,28 @@ function PeopleLayerImpl({
               else nodes.current.delete(cid);
             }}
           >
-            {selected && <circle r={r + 4} fill="none" stroke="#111" strokeWidth={2} opacity={0.55} />}
-            {/* fixed background residents render faded + dashed; live study subjects solid */}
-            <circle
-              r={r}
-              fill={driveColour(p.drive)}
-              fillOpacity={p.subject ? 1 : 0.32}
-              stroke={selected ? "#111" : p.subject ? "#222" : "#666"}
-              strokeWidth={selected ? 1.6 : p.subject ? 1 : 1.1}
-              strokeDasharray={p.subject ? undefined : "2 1.5"}
-            />
+            {selected && <circle className="sel-ring" r={ringR} fill="none" strokeWidth={2} />}
+            {zoomedOut ? (
+              <circle className="pdot" r={dotR} opacity={faded ? 0.45 : 1} />
+            ) : (
+              <text
+                className="pface"
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontSize={face}
+                opacity={faded ? 0.5 : 1}
+              >
+                {ROLE_EMOJI[p.role] ?? "•"}
+              </text>
+            )}
+            {idx != null && (
+              <text className="pbadge" x={face * 0.5} y={-face * 0.42} fontSize={10}>
+                {idx}
+              </text>
+            )}
             {showLabels && (
-              <text className="plabel" x={r + 3} y={r - 2} fontSize={r * 1.5}>
-                {ROLE_EMOJI[p.role] ?? ""}
+              <text className="plabel" x={face * 0.55} y={face * 0.62} fontSize={9}>
+                {cid}
               </text>
             )}
           </g>

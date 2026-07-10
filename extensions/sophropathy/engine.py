@@ -19,6 +19,7 @@ import pickle
 import random
 import re
 import time
+from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 
 from project import ProjectSpec, spawn_universe
@@ -49,6 +50,12 @@ TEMPERAMENT_SEEDS = {
 
 Cell = Tuple[int, int]
 _DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+# --- Sim wall-clock (Phase 8) ---------------------------------------------
+# The sim clock starts at this epoch and each tick advances the world by `tick_minutes` sim-minutes
+# (the explicit tick<->time mapping; default 15 -> 4 ticks/hour). The epoch is a constant OF THE SIM
+# CLOCK, not a client offset: sim_time = SIM_EPOCH + minutes, and the UI only formats it.
+SIM_EPOCH = datetime(2000, 1, 1, 0, 0, 0)
 
 # where saved simulations live (repo-root/sims), and a safe filename maker
 _ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -351,8 +358,13 @@ class SimEngine:
                 "role_name": self.roles.get(cid),        # fine role (child/teenager/retired/...)
                 "subject": cid not in self.frozen,       # evolves live vs fixed background
             }
+        sim_dt = SIM_EPOCH + timedelta(minutes=self.minutes)
         return {"clock": self.clock_label(), "minutes": self.minutes,
-                "step": self.step_count, "experiment": self.experiment,
+                "step": self.step_count, "tick": self.step_count,
+                # sim wall-clock: epoch is a server-side constant; sim_time = epoch + elapsed minutes
+                "epoch": SIM_EPOCH.isoformat(), "sim_time": sim_dt.isoformat(),
+                "elapsed_hours": self.minutes // 60,
+                "experiment": self.experiment,
                 "subjects": len(self.subjects), "background": len(self.frozen),
                 "seed": self.seed, "version": _SUB_MODEL.meta.get("version", "?"),
                 "people": people}

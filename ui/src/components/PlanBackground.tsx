@@ -6,10 +6,10 @@
 import { memo } from "react";
 import type { PlanView } from "../types";
 
-function PlanBackgroundImpl({ plan }: { plan: PlanView }) {
+function PlanBackgroundImpl({ plan, night }: { plan: PlanView; night?: boolean }) {
   return (
     <div
-      className="bg plan-bg"
+      className={"bg plan-bg" + (night ? " night" : "")}
       style={{ width: plan.width, height: plan.height }}
       // trusted: this SVG comes from our own sim server, not user input
       dangerouslySetInnerHTML={{ __html: plan.svg }}

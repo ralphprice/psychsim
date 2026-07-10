@@ -19,6 +19,8 @@ interface StageProps {
   H: number;
   onPick: (cid: string) => void;
   onEmptyClick?: () => void;
+  /** notified whenever the zoom scale changes (for the people layer's face<->dot fallback) */
+  onScaleChange?: (scale: number) => void;
   children: ReactNode;
 }
 
@@ -33,17 +35,25 @@ interface ViewState {
 }
 
 export const Stage = forwardRef<StageHandle, StageProps>(function Stage(
-  { W, H, onPick, onEmptyClick, children },
+  { W, H, onPick, onEmptyClick, onScaleChange, children },
   ref,
 ) {
   const stageRef = useRef<HTMLDivElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
   const view = useRef<ViewState>({ s: 1, x: 0, y: 0, drag: false, lx: 0, ly: 0, moved: 0 });
+  // keep onScaleChange in a ref so `apply` stays stable (a changing dep would re-run fit and reset zoom)
+  const onScaleRef = useRef(onScaleChange);
+  onScaleRef.current = onScaleChange;
+  const lastS = useRef(0);
 
   const apply = useCallback(() => {
     const v = view.current;
     if (worldRef.current) {
       worldRef.current.style.transform = `translate(${v.x}px,${v.y}px) scale(${v.s})`;
+    }
+    if (v.s !== lastS.current) {
+      lastS.current = v.s;
+      onScaleRef.current?.(v.s);
     }
   }, []);
 

@@ -135,8 +135,10 @@ class Handler(BaseHTTPRequestHandler):
                 self._send(ENGINE.plan(cell=cell))
         elif u.path == "/state":
             with LOCK:
+                # speed is the multiplier of the base step interval (0.25s); 1.00x = default
                 self._send({**ENGINE.snapshot(), "playing": PLAYING,
-                            "interval": STEP_INTERVAL})
+                            "interval": STEP_INTERVAL,
+                            "speed": round(0.25 / STEP_INTERVAL, 2)})
         elif u.path == "/person":
             cid = parse_qs(u.query).get("cid", [""])[0]
             with LOCK:

@@ -21,10 +21,15 @@ export function DevelopmentCohortTab({
   people,
   selectedId,
   onSelect,
+  monitoredIndex,
+  onToggleMonitor,
 }: {
   people: SimState["people"];
   selectedId: string | null;
   onSelect: (id: string | null) => void;
+  /** cid -> 1-based badge index; this tab IS the lookup for the map badges */
+  monitoredIndex: Record<string, number>;
+  onToggleMonitor: (cid: string) => void;
 }) {
   const [cohort, setCohort] = useState<CohortReport | null>(null);
   useEffect(() => {
@@ -47,6 +52,11 @@ export function DevelopmentCohortTab({
         getText={(r) => `${r.cid} ${r.role} ${r.role_name ?? ""}`}
         renderRow={(r) => (
           <span className="co-row">
+            {monitoredIndex[r.cid] != null && (
+              <span className="co-badge" title="monitored — badge index on the map">
+                {monitoredIndex[r.cid]}
+              </span>
+            )}
             <b>{r.cid}</b>
             <span className="co-stage">{r.role_name ?? r.role}</span>
             {r.subject && (
@@ -56,7 +66,13 @@ export function DevelopmentCohortTab({
             )}
           </span>
         )}
-        renderDetail={(r) => <SubjectDetail cid={r.cid} />}
+        renderDetail={(r) => (
+          <SubjectDetail
+            cid={r.cid}
+            monitorIndex={monitoredIndex[r.cid]}
+            onToggleMonitor={onToggleMonitor}
+          />
+        )}
         selectedId={selectedId}
         onSelect={(id) => onSelect(id)}
         noun="resident"
@@ -105,7 +121,15 @@ function CohortStrip({ cohort }: { cohort: CohortReport | null }) {
   );
 }
 
-function SubjectDetail({ cid }: { cid: string }) {
+function SubjectDetail({
+  cid,
+  monitorIndex,
+  onToggleMonitor,
+}: {
+  cid: string;
+  monitorIndex: number | undefined;
+  onToggleMonitor: (cid: string) => void;
+}) {
   const [person, setPerson] = useState<PersonDetail | null>(null);
   const [report, setReport] = useState<SubjectReport | null>(null);
 
@@ -127,7 +151,16 @@ function SubjectDetail({ cid }: { cid: string }) {
   return (
     <div className="subject-detail">
       <section className="subject-card">
-        <h3>Subject</h3>
+        <div className="subject-head">
+          <h3>Subject</h3>
+          <button
+            className={"co-monitor" + (monitorIndex != null ? " on" : "")}
+            onClick={() => onToggleMonitor(cid)}
+            title="show a numeric badge on this resident on the map (a plain index, not a label)"
+          >
+            {monitorIndex != null ? `● monitored · ${monitorIndex}` : "○ monitor on map"}
+          </button>
+        </div>
         {person ? (
           <>
             <dl className="subject-facts">

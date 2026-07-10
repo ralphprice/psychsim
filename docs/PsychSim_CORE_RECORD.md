@@ -402,3 +402,71 @@ part of the answer is "it found, on day one, the one plumbing fault that would h
 Regime-B guard (two intact agents remain viable/settled/non-escalating in a closed loop — Part 5 S9.3 tested
 in the multi-agent regime for the first time) closes the S12.6 closed-loop-instability concern with a test,
 not a hope.
+
+---
+
+## Phase 8 (UI console): recorded findings — escalated, NOT built
+
+Phase 8 was cosmetic/UX + one bug fix. Two first-run findings are recorded here and **escalated**;
+nothing was populated, wired, or displayed for either. Recording them is the point — an empty
+"Physical" card or a "temporarily" seeded sex attribute would each imply data that does not exist.
+
+**§6.1 Physical endowment is specified but unwired.** The v9 seed carries a full 7-attribute
+`physical_endowment` table (PH-ATTRACT, PH-SIZE, PH-MUSCLE, PH-AGILITY, PH-HEALTH, PH-SENSORY,
+PH-TEMPERAMENT), each with a distribution and a stated bias. But `core/affective_engine/endowment.py`
+populates `physical` from `getattr(seed, "physical", {})`, which does not exist on `TraitSeed`, so it
+is always empty — and nothing reads it (zero consumers in `sim_world/` or `substrate/`). So the
+Inspector isn't failing to display it; there is nothing to display. Drawing the traits is legitimate
+endowment (like temperament); a coded `attractive → tie +0.3` would be an authored social outcome (the
+forbidden encoded effect). The honest form is a physical trait modulating what another agent
+*perceives* (a stimulus property), with affiliation emerging from the perceiver's own circuits —
+"attractive faces are rewarding" is itself an innate prior needing a citation, i.e. an
+`innate_wiring_catalogue` entry, i.e. a reviewed v10 seed pass.
+
+**§6.2 Biological sex is assumed-but-undefined.** Sex does not exist anywhere in the code (zero refs
+in `core/` or `extensions/`), yet the seed presupposes it twice: PH-SIZE is `normal(mean_by_age_sex, sd)`
+— parameterised by a sex variable that does not exist — and VMH is "gonadal-steroid gated" by hormones
+the model has no representation of. It bears on the v9 attack node: the ventrolateral VMH is the
+canonical sexually dimorphic nucleus (Hashikawa et al. 2017, already in the v9 citation list —
+Esr1/ERα density; separate aggression vs sex subdivisions), and our VMHvl carries no sex parameterisation
+at all. Scope, precisely: biological sex only (chromosomal/gonadal sex + the hormonal systems it
+determines — prenatal androgenic organisation of dimorphic nuclei, activational modulation at puberty);
+gender-as-social-construct is out of scope. The honesty line: sex as **substrate parameters** is in;
+whether that substrate yields the observed sex ratio in CU traits is **measured, never assumed** — a
+model where sex raises CU likelihood by construction has encoded the answer. That question —
+"does a sex-differentiated substrate, nothing about outcomes encoded, reproduce the observed sex ratio?"
+— is a search-for-match objective for the scan controller: a hit is corroboration, a miss a real
+sufficiency finding. Genetic markers (MAOA/OXTR methylation) sit downstream and are likewise out of
+scope.
+
+Both are **declared-or-assumed but unwired**, both bear on how others respond, both need the same
+treatment: escalated jointly as a single scoped **v10 organism pass** — grounded, cited, reviewed. One
+seed version, one review. Action this phase: none.
+
+**§7 Performance (measured, not acted on).** "Runs slowly" is not the front end. Measured:
+(a) server **sim step ≈ 947 ms/step** at pop 67 — the dominant cost (a full substrate settle per person
+per act); (b) **/state ≈ 150–200 ms** (the amortised read_mind round-robin cache holding); (c) client
+render not measurable headlessly — the lever is SVG node count, ~halved by the face-only marker change.
+Escalated as a separate task: trim settle ticks only if convergence is verified (any golden change proves
+the ticks were load-bearing); otherwise fewer residents / `develop=False` background agents / accept the
+speed. No settle-tick change made.
+
+*This is a property of the model, not a bug.* A faithful per-person substrate settle costs ~14
+ms/resident/step (947 ms / 67) — the honest price of not faking the dynamics. The sim step is ~5× the
+poll and far more than render: the server-side substrate cost dominates and the browser sits idle
+waiting, exactly as predicted. At ~1 s/step a 60-year life-course is a long wall-clock run — which is
+itself the argument for the **bank** (grow once, re-hydrate) and for the **Arena's** compressed
+small-world as the place most study actually happens. The perf number quietly validates the
+instrument-suite design.
+
+**§5 Pause "bug" — diagnosed, verified correct, locked.** First-run feedback reported pause as inert.
+Diagnosed across all four candidate layers: the server stops the tick when `PLAYING` is cleared
+(live-verified + `test_transport_pause.py`: the /state tick is stable across two polls and resumes on
+play), and the full client flow (poll → `state.playing` → toggle → command) is correct
+(`TransportSection.test.tsx`, 3 jsdom tests) — the toggle is byte-identical to the pre-redesign
+`Controls.tsx`. **No layer held a fault in the current code.** The honest claim is therefore *"pause is
+now verified correct and locked against regression,"* not *"there was never a bug."* The original
+symptom is most consistent with a stale / un-hot-reloaded client bundle during first-run — which is the
+**third** time the sync/reload story has bitten (stale git remote; the server that died mid-session;
+now a suspected stale bundle). Worth naming as a pattern: confirm the artefact actually reloaded before
+diagnosing behaviour, on both the git and the browser side.

@@ -2,11 +2,12 @@
 // in the main panel. Tab content lives in tabs/*; the shell owns cross-tab state (active tab, the
 // Town selection that the rail's VIEW section reads) and nothing else.
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSim } from "./hooks/useSim";
 import { getPerson } from "./api";
 import type { PersonDetail } from "./types";
 import { type ViewMode } from "./view";
+import { isDaytime } from "./shell/clock";
 import { TownTab } from "./tabs/TownTab";
 import { MatrixTab } from "./tabs/MatrixTab";
 import { DevelopmentCohortTab } from "./tabs/DevelopmentCohortTab";
@@ -40,6 +41,31 @@ export default function App() {
   // shell so selection persists across tab switches, keyed by tab.
   const [selById, setSelById] = useState<Partial<Record<TabId, string | null>>>({});
   const selectFor = (t: TabId) => (id: string | null) => setSelById((m) => ({ ...m, [t]: id }));
+
+  // monitored agents (Phase 8): a researcher-curated set, pinned from the Development Cohort tab.
+  // Order fixes the map badge index (1..N); persisted. A badge is a plain index, never a condition.
+  const [monitored, setMonitored] = useState<string[]>(() => {
+    try {
+      const v = typeof localStorage !== "undefined" ? localStorage.getItem("psychsim.monitored") : null;
+      return v ? (JSON.parse(v) as string[]) : [];
+    } catch {
+      return [];
+    }
+  });
+  useEffect(() => {
+    if (typeof localStorage !== "undefined")
+      localStorage.setItem("psychsim.monitored", JSON.stringify(monitored));
+  }, [monitored]);
+  const toggleMonitor = (cid: string) =>
+    setMonitored((m) => (m.includes(cid) ? m.filter((c) => c !== cid) : [...m, cid]));
+  const monitoredIndex = useMemo(
+    () => Object.fromEntries(monitored.map((cid, i) => [cid, i + 1])) as Record<string, number>,
+    [monitored],
+  );
+
+  // night is a CLOCK read-out (the substrate has no diurnal coupling) — used only to step the town
+  // ground a few points darker.
+  const night = !isDaytime(state.sim_time);
 
   const selectedCid = selected?.cid ?? null;
 
@@ -80,6 +106,8 @@ export default function App() {
       selected={selected}
       selectedCid={selectedCid}
       followCid={followCid}
+      monitoredIndex={monitoredIndex}
+      night={night}
       onPick={pick}
       onClear={clearSelection}
     />
@@ -117,6 +145,8 @@ export default function App() {
                 people={state.people}
                 selectedId={selById.cohort ?? null}
                 onSelect={selectFor("cohort")}
+                monitoredIndex={monitoredIndex}
+                onToggleMonitor={toggleMonitor}
               />
             ) : tab === "social" || tab === "environment" || tab === "group" ? (
               <MatrixTab kind={tab} selectedId={selById[tab] ?? null} onSelect={selectFor(tab)} />
