@@ -398,6 +398,12 @@ a test asserts the UI has no neural write path.
 - **Arena / bank / scan UI** — later, once those instruments are exercised from the CLI.
 - The stale Panksepp docstrings in `core/sim_world/group_matrix.py` and `core/sim_world/README.md`
   (they describe the retired engine). Fix in the same pass, but they are not UI.
+- **Numeric age / distinct resident names in the cohort list.** The sim exposes neither (`name === cid`,
+  and only a life-stage `role_name`, no `age_years`). The Development Cohort list therefore shows
+  cid + life-stage + role and sorts by cid — it displays what exists rather than inventing an age
+  from a life-stage bucket or synthesising names. A real age column/sort is a **server field**
+  (`/person` or `/state` exposing `age_years`), authorised as its own small change if wanted. Ruled
+  deferred (Phase 5) — not faked in the view.
 
 ---
 

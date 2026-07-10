@@ -3,8 +3,8 @@ report.py -- honest development reports for the sophropath study.
 
 The live engine runs REAL time (never compressed), so a development report is a
 *trajectory of samples* over the run, plus a cohort snapshot -- not a fast-forwarded
-life. Every read-out is DESCRIPTIVE: a subject's "dominant" is the emergent Panksepp
-system, never a psychopath/sophropath verdict. At this crude substrate stage the output
+life. Every read-out is DESCRIPTIVE: a subject's "dominant" is the emergent substrate
+domain, never a psychopath/sophropath verdict. At this crude substrate stage the output
 is expected to be undifferentiated/chaotic; that is correct and not to be tuned away.
 
 Samples exactly what the engine already exposes (`person_detail`/`read_mind`).
@@ -18,7 +18,7 @@ from substrate.readout import read_mind, profile_axis
 from affective_engine.observer import observe_agent
 from sim_experiment.readout import dominant_distribution, mean_profile, axis_stats
 
-_CAVEAT = ("Descriptive read-out only: 'dominant' is the emergent Panksepp system, NOT a "
+_CAVEAT = ("Descriptive read-out only: 'dominant' is the emergent substrate domain, NOT a "
            "psychopath/sophropath verdict. At this crude substrate stage output is "
            "expected to be undifferentiated/chaotic -- that is correct.")
 
