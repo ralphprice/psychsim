@@ -137,4 +137,39 @@ describe("MasterDetail", () => {
     fireEvent.keyDown(list, { key: "ArrowDown" });
     expect(active()).toHaveTextContent("Row 1");
   });
+
+  it("renders a listFooter at the bottom of the list column", () => {
+    render(
+      <MasterDetail
+        items={mk(3)}
+        getId={(r) => r.id}
+        getText={(r) => r.name}
+        renderRow={(r) => <span>{r.name}</span>}
+        renderDetail={(r) => <div>{r.name}</div>}
+        selectedId={null}
+        onSelect={() => {}}
+        noun="widget"
+        listFooter={<button>+ New widget</button>}
+      />,
+    );
+    expect(screen.getByRole("button", { name: "+ New widget" })).toBeInTheDocument();
+  });
+
+  it("detailOverride replaces the detail panel (selected item and empty state alike)", () => {
+    render(
+      <MasterDetail
+        items={mk(3)}
+        getId={(r) => r.id}
+        getText={(r) => r.name}
+        renderRow={(r) => <span>{r.name}</span>}
+        renderDetail={(r) => <div>detail:{r.name}</div>}
+        selectedId="r1"
+        onSelect={() => {}}
+        noun="widget"
+        detailOverride={<div>NEW FORM</div>}
+      />,
+    );
+    expect(screen.getByText("NEW FORM")).toBeInTheDocument();
+    expect(screen.queryByText("detail:Row 1")).toBeNull(); // override wins over the selected item
+  });
 });

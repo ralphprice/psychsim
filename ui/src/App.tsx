@@ -8,6 +8,7 @@ import { getPerson } from "./api";
 import type { PersonDetail } from "./types";
 import { type ViewMode } from "./view";
 import { TownTab } from "./tabs/TownTab";
+import { MatrixTab } from "./tabs/MatrixTab";
 import { TelemetryStrip } from "./shell/TelemetryStrip";
 import { TabBar, TABS, type TabId } from "./shell/TabBar";
 import { ControlRail } from "./shell/ControlRail";
@@ -33,6 +34,10 @@ export default function App() {
   const [labels, setLabels] = useState(true);
   const [follow, setFollow] = useState(false);
   const [selected, setSelected] = useState<PersonDetail | null>(null);
+  // per-tab selection for the master-detail tabs (matrices now; cohort/neural later). Kept in the
+  // shell so selection persists across tab switches, keyed by tab.
+  const [selById, setSelById] = useState<Partial<Record<TabId, string | null>>>({});
+  const selectFor = (t: TabId) => (id: string | null) => setSelById((m) => ({ ...m, [t]: id }));
 
   const selectedCid = selected?.cid ?? null;
 
@@ -105,6 +110,8 @@ export default function App() {
           <ErrorBoundary resetKey={tab}>
             {tab === "town" ? (
               townView
+            ) : tab === "social" || tab === "environment" || tab === "group" ? (
+              <MatrixTab kind={tab} selectedId={selById[tab] ?? null} onSelect={selectFor(tab)} />
             ) : (
               <div className="tab-placeholder">{activeLabel} — arrives in a later phase.</div>
             )}

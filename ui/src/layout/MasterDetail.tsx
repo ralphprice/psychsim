@@ -37,6 +37,11 @@ export interface MasterDetailProps<T> {
   /** accessible name for the listbox — each tab should pass a meaningful one ("Social role-pairs",
    *  "Circuits", "Residents"); a bare listbox announces nothing useful. Defaults to `<noun> list`. */
   label?: string;
+  /** optional node pinned to the bottom of the list column (e.g. a "+ New" row) */
+  listFooter?: ReactNode;
+  /** when set, replaces the detail panel entirely (e.g. a new-item form); takes precedence over the
+   *  selected-item / empty-state default so a consumer can own the detail area transiently */
+  detailOverride?: ReactNode;
   /** show the filter box once the list is longer than this (default 10) */
   filterThreshold?: number;
 }
@@ -51,6 +56,8 @@ export function MasterDetail<T>({
   onSelect,
   noun = "item",
   label,
+  listFooter,
+  detailOverride,
   filterThreshold = 10,
 }: MasterDetailProps<T>) {
   const [query, setQuery] = useState("");
@@ -125,14 +132,16 @@ export function MasterDetail<T>({
             })
           )}
         </ul>
+        {listFooter && <div className="md-list-footer">{listFooter}</div>}
       </div>
 
       <div className="md-detail" ref={detailRef} tabIndex={-1} role="region" aria-label={`${noun} detail`}>
-        {selectedItem ? (
-          renderDetail(selectedItem)
-        ) : (
-          <div className="md-empty">Select a {noun} to see its detail.</div>
-        )}
+        {detailOverride ??
+          (selectedItem ? (
+            renderDetail(selectedItem)
+          ) : (
+            <div className="md-empty">Select a {noun} to see its detail.</div>
+          ))}
       </div>
     </div>
   );
