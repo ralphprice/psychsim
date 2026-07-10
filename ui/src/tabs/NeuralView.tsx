@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { getNeural } from "../api";
 import type { NeuralView as NeuralViewT, NeuralCircuit, NeuralConnection } from "../types";
 import { MasterDetail } from "../layout/MasterDetail";
+import { SkeletonList } from "../layout/Skeleton";
 
 export function NeuralView({
   selectedId,
@@ -28,7 +29,7 @@ export function NeuralView({
       .catch(() => setErr("Could not load the substrate seed."));
   }, []);
   if (err) return <div className="tab-loading">{err}</div>;
-  if (!view) return <div className="tab-loading">Loading substrate seed…</div>;
+  if (!view) return <SkeletonList rows={8} label="Loading the substrate seed" />;
   return <NeuralViewContent view={view} selectedId={selectedId} onSelect={onSelect} />;
 }
 

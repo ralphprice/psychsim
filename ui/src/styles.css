@@ -37,6 +37,28 @@ body,
   overflow: hidden;
 }
 
+/* Phase 7 — visible keyboard focus everywhere (--trace), and only on keyboard focus (not mouse). */
+:focus-visible {
+  outline: 2px solid var(--trace);
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Phase 7 — honour prefers-reduced-motion: no transitions, no animations, anywhere. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ---- console shell (telemetry strip + tab bar + [rail | tab content]) --------- */
 .console {
   height: 100vh;
@@ -1516,4 +1538,52 @@ button.mx-id:hover {
 .co-monitor.on {
   color: var(--warn);
   border-color: var(--warn);
+}
+
+/* ---- Phase 7: responsive to 1024px + loading skeletons -------------------- */
+@media (max-width: 1100px) {
+  .control-rail {
+    max-width: 232px;
+  }
+  .md-list-col {
+    flex: 0 0 216px;
+  }
+  .telemetry {
+    gap: 14px;
+  }
+}
+
+/* loading skeletons — placeholder bars instead of a bare "Loading…"; the shimmer is disabled by the
+   global prefers-reduced-motion rule above */
+.skeleton {
+  background: linear-gradient(90deg, var(--surface) 25%, var(--raised) 37%, var(--surface) 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  border-radius: 4px;
+}
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+.skeleton-list {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.skeleton-row {
+  height: 14px;
+}
+.skeleton-row.w60 {
+  width: 60%;
+}
+.skeleton-row.w40 {
+  width: 40%;
+}
+.skeleton-row.w80 {
+  width: 80%;
 }

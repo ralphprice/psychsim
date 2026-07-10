@@ -136,7 +136,13 @@ export default function App() {
             hasSelection: !!selectedCid,
           }}
         />
-        <div className="tab-content" role="tabpanel" aria-label={activeLabel}>
+        <div
+          className="tab-content"
+          id="tabpanel"
+          role="tabpanel"
+          aria-labelledby={`tab-${tab}`}
+          tabIndex={-1}
+        >
           <ErrorBoundary resetKey={tab}>
             {tab === "town" ? (
               townView

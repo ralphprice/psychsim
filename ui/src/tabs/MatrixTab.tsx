@@ -12,6 +12,7 @@ import { useCallback, useEffect, useState } from "react";
 import { getMatrixKinds, getMatrixItems, sendCommand } from "../api";
 import type { MatrixKindInfo, MatrixItem } from "../types";
 import { MasterDetail } from "../layout/MasterDetail";
+import { SkeletonList } from "../layout/Skeleton";
 import { initBuffer, buildItem, blankItem, isComplex, type Buffer } from "./matrixForm";
 
 export type MatrixKind = "social" | "environment" | "group";
@@ -59,7 +60,7 @@ export function MatrixTab({
     reload();
   }, [kind, reload]);
 
-  if (!spec) return <div className="tab-loading">Loading {LIST_LABEL[kind]}…</div>;
+  if (!spec) return <SkeletonList rows={6} label={`Loading ${LIST_LABEL[kind]}`} />;
   const idf = spec.id_field;
   const idOf = (it: MatrixItem) => String(it[idf]);
 
