@@ -46,3 +46,12 @@ export const ROLE_EMOJI: Record<string, string> = {
   child: "🧒",
   adult: "🧑",
 };
+
+// Instrument console tokens (UI redesign). The canonical values live as CSS custom properties in
+// styles.css; this mirror is for any programmatic use. --phosphor marks running state only;
+// --trace marks selection/focus only; never both on one element.
+export const UI_TOKENS = {
+  ink: "#0F1216", chassis: "#171B22", surface: "#1E232C", raised: "#262C37", line: "#2E3642",
+  text: "#E6E9EE", muted: "#939DAD", faint: "#626C7C",
+  phosphor: "#E3A23C", trace: "#5FD3C4", warn: "#D97C6A",
+} as const;

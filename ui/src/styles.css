@@ -1,8 +1,25 @@
 :root {
+  /* chassis */
+  --ink: #0f1216;      /* app ground */
+  --chassis: #171b22;  /* rail, tab bar */
+  --surface: #1e232c;  /* panels, cards */
+  --raised: #262c37;   /* hover, selected row */
+  --line: #2e3642;     /* hairlines, 1px */
+  /* text */
+  --text: #e6e9ee;
+  --muted: #939dad;
+  --faint: #626c7c;
+  /* signal — used sparingly */
+  --phosphor: #e3a23c; /* LIVE / running / active tab underline */
+  --trace: #5fd3c4;    /* selection, focus ring */
+  --warn: #d97c6a;     /* destructive, non-viable */
+
+  /* legacy light panel/stage (still used by the TOWN tab's existing content; migrated per phase) */
   --panel-bg: #fffef8;
   --stage-bg: #eaf0f2;
-  --ink: #333;
-  --line: #e6e6e0;
+
+  --ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 * {
@@ -13,14 +30,126 @@ body,
 #root {
   margin: 0;
   height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-  color: var(--ink);
-  background: var(--stage-bg);
+  font-family: var(--ui);
+  color: var(--text);
+  background: var(--ink);
   overflow: hidden;
 }
 
-.root {
+/* ---- console shell (telemetry strip + tab bar + [rail | tab content]) --------- */
+.console {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.console-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+.tab-content {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* telemetry strip — the one memorable element; monospace, true state at a glance */
+.telemetry {
+  height: 32px;
+  flex: 0 0 32px;
+  background: var(--chassis);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 0 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.telemetry .brand {
+  font-family: var(--ui);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--text);
+}
+.telemetry .live {
+  color: var(--phosphor);
+}
+.telemetry .idle {
+  color: var(--faint);
+}
+.telemetry .tk {
+  color: var(--faint);
+}
+.telemetry b {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* tab bar */
+.tabbar {
+  height: 40px;
+  flex: 0 0 40px;
+  background: var(--chassis);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: stretch;
+  padding: 0 8px;
+}
+.tabbar .tab {
+  appearance: none;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-family: "IBM Plex Sans Condensed", var(--ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  padding: 0 14px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.tabbar .tab:hover {
+  color: var(--text);
+  background: none;
+}
+.tabbar .tab.active {
+  color: var(--text);
+  border-bottom-color: var(--phosphor);
+}
+
+/* control rail (filled in Phase 1) */
+.control-rail {
+  flex: 0 0 auto;
+  background: var(--chassis);
+  border-right: 1px solid var(--line);
+  overflow-y: auto;
+  color: var(--text);
+}
+.tab-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--faint);
+  font-size: 13px;
+}
+
+/* the TOWN tab still renders the legacy stage+panel; keep its light surfaces readable */
+.panel,
+.controls,
+.inspect {
+  color: #2a2f36;
+}
+
+.root {
+  position: absolute;
+  inset: 0;
   display: flex;
 }
 

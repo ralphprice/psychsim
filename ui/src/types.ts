@@ -59,6 +59,9 @@ export interface SimState {
   people: Record<string, PersonLive>;
   playing: boolean;
   interval: number;
+  /** telemetry (for the console strip): the sim seed and the substrate seed version. */
+  seed?: number;
+  version?: string;
 }
 export interface PersonLive {
   x: number;

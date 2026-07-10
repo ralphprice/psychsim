@@ -17,11 +17,26 @@ import { Legend } from "./components/Legend";
 import { Development } from "./components/Development";
 import { MatrixEditor } from "./components/MatrixEditor";
 import { NeuralEditor } from "./components/NeuralEditor";
+import { TelemetryStrip } from "./shell/TelemetryStrip";
+import { TabBar, TABS, type TabId } from "./shell/TabBar";
+import { ControlRail } from "./shell/ControlRail";
 
 const DETAIL_POLL_MS = 700;
 
 export default function App() {
   const { town, plan, state, saves, error, command } = useSim();
+  // shell: which subsystem tab is open (persisted), and the control-rail width (persisted).
+  const [tab, setTab] = useState<TabId>(
+    () => (typeof localStorage !== "undefined"
+      ? (localStorage.getItem("psychsim.tab") as TabId) : null) || "town",
+  );
+  useEffect(() => {
+    if (typeof localStorage !== "undefined") localStorage.setItem("psychsim.tab", tab);
+  }, [tab]);
+  const [railW] = useState(() => {
+    const v = typeof localStorage !== "undefined" ? Number(localStorage.getItem("psychsim.railW")) : NaN;
+    return v >= 240 ? v : 280;
+  });
   const [mode, setMode] = useState<ViewMode>("plan");
   const [labels, setLabels] = useState(true);
   const [follow, setFollow] = useState(false);
@@ -94,7 +109,7 @@ export default function App() {
 
   const followCid = follow && selectedCid ? selectedCid : null;
 
-  return (
+  const townView = (
     <div className="root">
       <div className="stage-wrap">
         {vm ? (
@@ -148,6 +163,24 @@ export default function App() {
           <Development selectedCid={selectedCid} />
           <MatrixEditor />
           <NeuralEditor />
+        </div>
+      </div>
+    </div>
+  );
+
+  const activeLabel = TABS.find((t) => t.id === tab)?.label ?? "";
+  return (
+    <div className="console">
+      <TelemetryStrip state={state} />
+      <TabBar active={tab} onTab={setTab} />
+      <div className="console-body">
+        <ControlRail width={railW} />
+        <div className="tab-content" role="tabpanel" aria-label={activeLabel}>
+          {tab === "town" ? (
+            townView
+          ) : (
+            <div className="tab-placeholder">{activeLabel} — arrives in a later phase.</div>
+          )}
         </div>
       </div>
     </div>
