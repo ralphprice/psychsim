@@ -9,6 +9,7 @@ import type { PersonDetail } from "./types";
 import { type ViewMode } from "./view";
 import { TownTab } from "./tabs/TownTab";
 import { MatrixTab } from "./tabs/MatrixTab";
+import { DevelopmentCohortTab } from "./tabs/DevelopmentCohortTab";
 import { TelemetryStrip } from "./shell/TelemetryStrip";
 import { TabBar, TABS, type TabId } from "./shell/TabBar";
 import { ControlRail } from "./shell/ControlRail";
@@ -110,6 +111,12 @@ export default function App() {
           <ErrorBoundary resetKey={tab}>
             {tab === "town" ? (
               townView
+            ) : tab === "cohort" ? (
+              <DevelopmentCohortTab
+                people={state.people}
+                selectedId={selById.cohort ?? null}
+                onSelect={selectFor("cohort")}
+              />
             ) : tab === "social" || tab === "environment" || tab === "group" ? (
               <MatrixTab kind={tab} selectedId={selById[tab] ?? null} onSelect={selectFor(tab)} />
             ) : (

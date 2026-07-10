@@ -121,6 +121,9 @@ export interface SubjectReport {
   temperament: string | null;
   home: string | null;
   trajectory: { step: number; clock: string; dominant: string; axis: number }[];
+  /** The observer's per-subject read-out, exactly as it names it. Deliberately loose (an opaque
+   *  key→value tree): the UI must render it VERBATIM (U4), never hard-code the observer's schema. */
+  observer?: Record<string, unknown>;
   caveat: string;
 }
 export interface MemoryEvent {

@@ -36,6 +36,14 @@ export function coerceValue(raw: string, template: unknown): unknown {
   return raw; // string (also the default when the template field is absent)
 }
 
+// LIMITATION (by design, flagged): type inference is only as good as the `template`. Types are read
+// from a single example value, so a field that is absent from the exemplar, or that happens to hold
+// 0 / null / "" there, can infer wrong (e.g. a numeric field seen as 0 still infers number — fine —
+// but a field the exemplar omits coerces as a string, and a genuinely-nullable field loses its type).
+// This never throws and never fails a render; it surfaces later as a value of the wrong type in the
+// data file. If that bites, the robust fix is per-field inference (scan items for the first non-null
+// value of each field) rather than one exemplar — cheap to add here precisely because it is pure.
+
 /** Reconstruct a typed item from the buffer, taking per-field types from `template`. */
 export function buildItem(buf: Buffer, template: Item, fields: string[]): Item {
   const out: Item = {};
