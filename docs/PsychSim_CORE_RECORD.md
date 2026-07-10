@@ -470,3 +470,31 @@ symptom is most consistent with a stale / un-hot-reloaded client bundle during f
 **third** time the sync/reload story has bitten (stale git remote; the server that died mid-session;
 now a suspected stale bundle). Worth naming as a pattern: confirm the artefact actually reloaded before
 diagnosing behaviour, on both the git and the browser side.
+
+
+---
+
+## v10 build finding: new sub-channels inherit every coarse injection to their prefix
+
+Building v10 (physical endowment) added two perception edges on `IN-VIS:attractive_face` /
+`IN-VIS:formidability_cue`. The step-1 behaviour-neutrality gate (the additions must be inert until the
+step-2 perception code drives them) FAILED: the characterisation golden moved. Diagnosed by a controlled
+v9-vs-v10 probe on a bare-`IN-VIS` injection -- the exact mechanism is that `SubstrateEngine.inject_channel`
+is **prefix-matched** (`_edge_drive`: `edge_channel.startswith(key)`), so a bare `IN-VIS` injection (which
+the `novelty` trigger does, and development injects) drives **every** `IN-VIS:*` edge, including the new
+ones. The percepts were never dormant; generic visual novelty fired reward (NAc-shell 0.146->0.278) and
+defensive (CeA 0.973->1.0) circuits the moment the edges existed.
+
+Fix (a correction, not a workaround): the physical percepts moved to a NEW input channel **`IN-CONSPEC`**
+(the social-visual conspecific-valuation stream -- FFA->OFC/NAcc, Aharon 2001 / O'Doherty 2003), which
+bare `IN-VIS` cannot prefix-match. This is also the *right* anatomy: attractiveness reward is conspecific
+face/person valuation, a distinct pathway from V1/SC orienting to generic visual novelty. `IN-VIS:` was
+mis-modelling the grounding, which is exactly why the leak was possible -- the behaviour bug and the
+citation-fidelity issue were the same issue.
+
+**Reusable lesson (warn the next perceptual-edge author):** a new sub-channel `IN-X:foo` is driven by
+**every** coarse injection whose channel is a prefix of it (`IN-X`, and `IN-X:foo` itself). So a new
+percept that must fire ONLY on its specific injection has to be on a prefix that no existing coarse
+injection matches -- either its own top-level channel, or a sub-channel of a prefix nothing injects
+bare. Prove behaviour-neutrality (golden byte-unmodified) before wiring; do not assume a new edge is
+dormant. This is the tripwire working: the golden moving was the system telling the truth.

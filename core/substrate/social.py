@@ -131,6 +131,14 @@ _TRIGGER_CHANNELS = {
     "restraint": [("IN-INTERO:provocation", 0.5), ("IN-SOMATO:nociception", 0.25)],
     "separation": [("IN-INTERO:contact_loss", 1.0)], "loss": [("IN-INTERO:contact_loss", 0.8)],
     "novelty": [("IN-VIS", 0.6)],
+    # v10 physical-endowment percepts (Arena-only): a bearer's attractiveness / formidability, perceived
+    # as a CONSPECIFIC (the IN-CONSPEC social-visual valuation stream, NOT generic IN-VIS -- bare IN-VIS
+    # / novelty prefix-matches all IN-VIS:* edges and would spuriously fire these). attractive_face ->
+    # the perceiver's reward channel; formidability_cue -> the perceiver's DEFENSIVE/submission channel
+    # (NOT attack -- seeing a strong other makes you defer). The innate edges
+    # (IN-CONSPEC:attractive_face->NAc-shell/OFC; IN-CONSPEC:formidability_cue->CeA) carry it to circuits.
+    "attractive_face": [("IN-CONSPEC:attractive_face", 1.0)],
+    "formidability_cue": [("IN-CONSPEC:formidability_cue", 1.0)],
 }
 
 

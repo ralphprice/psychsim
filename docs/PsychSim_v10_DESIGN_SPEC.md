@@ -13,6 +13,17 @@ stated as a perception-vocabulary extension, and verified against v9 — reward/
 exist but `IN-VIS` reaches neither today, so E4's two priors are **new connectome edges** (not new
 circuits), each grounded.
 
+
+> **v10 build correction (finding):** the two percepts were originally specified on `IN-VIS:` sub-channels.
+> A step-1 behaviour-neutrality check FAILED: `inject_channel` is prefix-matched, so the `novelty` trigger's bare
+> `IN-VIS` injection prefix-matched `IN-VIS:attractive_face`/`formidability_cue` and fired the new reward/defensive
+> edges on generic visual novelty (NAc-shell 0.146->0.278, CeA 0.973->1.0). Fix: a NEW input channel **`IN-CONSPEC`**
+> (the social-visual conspecific-valuation stream, FFA->OFC/NAcc; Aharon/O'Doherty) — distinct from generic `IN-VIS`,
+> so bare `IN-VIS` cannot match it. This is a CORRECTION, not a workaround: the grounding is face/conspecific reward,
+> a distinct stream from V1/SC orienting, so `IN-VIS:` was mis-modelling it. v10 provenance: **1 new input channel
+> (IN-CONSPEC) + 3 edges on it + 2 catalogue entries** (not 'edges on IN-VIS'). Verified: bare IN-VIS -> v10==v9
+> (dormant); specific IN-CONSPEC:attractive_face -> drives reward.
+
 ---
 
 ## 1. Scope (what v10 is, and is not)
@@ -156,17 +167,34 @@ trigger today. v10 **adds these two IN-VIS triggers** to the perception vocabula
 perception, it is not an arbiter — each new trigger becomes exactly one grounded innate edge (E4), the
 same way `IN-GUST:sweet` is a trigger with an innate `→NAc-shell` edge.
 
-**E3 — Present it through `felt_response`, unchanged.** When A perceives B (the Arena/Things encounter
-path), call `felt_response(A.engine, B.physical_stimulus, …)`. A's **own** reward / defensive circuits
-fire; A's approach / deference / wariness **emerges**. No `attract → tie` term — the only wired thing
-is "this percept drives this perceiver's reward/defensive channel," the cited innate prior.
+**E3 — Present it through `felt_response`, in the ARENA (design-session ruling: (b) Arena-only).** The
+only person-perceives-person path in the code is the Arena; the development cycle perceives abstract
+stimulus *types* (`opportunity`, `provocation`, `vulnerable_other`) + world/group, never a specific
+peer with physical traits. And the outcomes are **population-relational** (how specific individuals
+fare relative to each other) — which is exactly what the Arena is. So E2/E4 fire in the Arena's
+existing person-perception path: `felt_response(A.engine, B.physical_stimulus, …)`. A's **own** reward /
+defensive circuits fire; A's approach / deference / wariness **emerges**. The beauty-premium and
+CU-ratio outcomes emerge and are measured **there** (`scan_match`). No `attract → tie` term.
+
+> **Corrected golden expectation (on record):** the development-golden diff for v10 is confined to the
+> **bearer-side self-effects** (E5/E6 — an agent's own strength/sex calibrating its own aggression
+> development). **Perception-of-others produces NO development-golden change** (development instantiates
+> no perceivable peer); if it shows anything in perception-of-others contexts, *that* is the anomaly.
+
+> **Deferred (documented future spec):** *development peer-perception* — a developing agent perceiving
+> sampled peers' physical traits — is a separate, honesty-weighted design decision. Its **peer-sampling
+> model** (who a developing agent meets: random / assortative-by-trait / meet-the-attractive-more) is a
+> social-structure assumption that could bias the outcome before a circuit fires, so it needs its own
+> spec + review — the same path everything else took. **Deferred, not abandoned;** the study does not
+> currently need developmental (vs Arena) emergence of these outcomes. Parked alongside connection-level
+> throttling and the S1.4-only v-future candidates.
 
 **E4 — Two `innate_wiring_catalogue` entries = two NEW connectome EDGES (into existing nodes; weights
 SCAFFOLD; sex-conditioned ON THE WEIGHT).** Verified against v9: the reward and defensive target nodes
 exist, but `IN-VIS` drives only `SC-Pv` today, so each of these is a **new edge**, not a new circuit —
 a real connectome addition with its own grounding, on the `IN-GUST:sweet→NAc-shell` template. Same
 schema as the 18 existing entries:
-- **`IW-ATTRACT-REWARD`** — edge **`IN-VIS:attractive_face → NAc-shell`** (and `→OFC`); innate_effect
+- **`IW-ATTRACT-REWARD`** — edge **`IN-CONSPEC:attractive_face → NAc-shell`** (and `→OFC`); innate_effect
   "appetitive"; `default_birth_strength: weak` (SCAFFOLD); `present_at_birth: yes`; **`sex_conditioned`
   applies to this edge's effective weight** (perceiver×bearer — the dimorphism is in valuation, per
   Aharon); unlearned_evidence = cross-cultural agreement + infant preference (Langlois 2000) +
@@ -174,7 +202,7 @@ schema as the 18 existing entries:
   response (O'Doherty 2003); sources = [Langlois et al. 2000 *Psychol Bull* 126(3):390–423; Aharon et
   al. 2001 *Neuron* 32(3):537–551; O'Doherty et al. 2003 "Beauty in a smile," *Neuropsychologia*
   41(2):147–155].
-- **`IW-FORMIDABILITY-SUBMIT`** — edge **`IN-VIS:formidability_cue → CeA`** (defensive-threat →
+- **`IW-FORMIDABILITY-SUBMIT`** — edge **`IN-CONSPEC:formidability_cue → CeA`** (defensive-threat →
   submission/wariness via CeA→PAG). **NOT VMHvl** (design-session ruling: seeing a strong opponent
   makes you *defer*, not attack — the attack area is the bearer's own, E5). innate_effect
   "aversive/submissive"; `default_birth_strength: weak` (SCAFFOLD); **`sex_conditioned` on the weight**;
@@ -206,8 +234,8 @@ produces aggression, E5 has become a coded outcome and fails.
   **emerge and be measured** (`scan_match`) — it is never the *reason* the parameter is set.
 
 **E7 — Version + provenance.** `meta.version: "v10"`. **No new circuits** (reward, defensive, VMHvl
-nodes all exist — verified). **Two NEW EDGES** (`IN-VIS:attractive_face→NAc-shell/OFC`;
-`IN-VIS:formidability_cue→CeA`), each = one `innate_wiring_catalogue` entry with its own grounding;
+nodes all exist — verified). **Two NEW EDGES** (`IN-CONSPEC:attractive_face→NAc-shell/OFC`;
+`IN-CONSPEC:formidability_cue→CeA`), each = one `innate_wiring_catalogue` entry with its own grounding;
 **+2 IN-VIS triggers**; `sex` a per-agent birth parameter (PH-SIZE mean + VMHvl factor + E4 weights).
 Update `gaps_register`: SCAFFOLD = all magnitudes, the sex-conditioning function form, the
 trait→trigger-magnitude mapping; the two new edges are cited but weak/assumption-basis until better

@@ -1,10 +1,11 @@
 """
-model.py (substrate) -- load the v9 substrate seed into a runtime model.
+model.py (substrate) -- load the v10 substrate seed into a runtime model.
 
-The v9 seed (docs/neuralnetworks/psychsim_substrate_seed_v9.json) is the SINGLE SOURCE OF
+The v10 seed (docs/neuralnetworks/psychsim_substrate_seed_v10.json) is the SINGLE SOURCE OF
 TRUTH for substrate structure and parameters (Part 2 S1.3; Part 3 S3): 78 circuits (nucleus-
-level rate units), 179 directed edges, an 18-entry innate-wiring catalogue, 8 input channels, a
-physical-endowment table, the 8 plasticity rules, and a gaps register. This module reads it
+level rate units), 182 directed edges, a 20-entry innate-wiring catalogue, 9 input channels (v10
+adds IN-CONSPEC), a physical-endowment table, the 8 plasticity rules, and a gaps register. v10 =
+v9 + physical endowment (byte-identical v9 connectome; v1-v9 archived). This module reads it
 verbatim into typed records + indices; it supplies NO dynamics (engine.py) and NO psychological
 meaning (a circuit is just an id with parameters).
 
@@ -36,9 +37,11 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 # and its provocation->attack pathway (IN-INTERO:provocation->VMHvl, VMHvl->PAG, VMHvl->HYPdm),
 # which closes the OBS-3 connectome gap (provocation could previously reach the attack effectors
 # only via the GABAergic CeA, which inhibits them); the CeA->PAG/HYPdm inhibition is UNTOUCHED.
-# Plus the S1.4 social innate-wiring catalogue entries (documentary). 78 circuits / 179 edges.
-# Drop-in (same schema; VMHvl reuses hypothalamic_low_flat/brainstem_low_flat schedules). v1-v8 archived.
-_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v9.json")
+# Plus the S1.4 social innate-wiring catalogue entries (documentary). 78 circuits / 182 edges (v10:
+# v9 + 1 new input channel IN-CONSPEC (conspecific social-visual valuation) + 3 physical-endowment edges
+# on it; the v9 connectome is byte-identical, additions only).
+# Drop-in (same schema; VMHvl reuses hypothalamic_low_flat/brainstem_low_flat schedules). v1-v9 archived.
+_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v10.json")
 
 # Which SOURCE CIRCUIT produces each gating neuromodulator (R5). Resolved to real v7 circuit
 # ids; the R5 modulator is that circuit's LIVE activity, never a set scalar. 'none' -> ungated.
