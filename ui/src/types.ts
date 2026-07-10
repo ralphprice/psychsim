@@ -84,8 +84,8 @@ export interface PersonDetail {
   subject: boolean;
   mind_state: string; // "study subject (live)" | "background (fixed)"
   temperament: string | null; // set for authored subjects (given inherited reactivity)
-  /** system -> [strength, reactivity] */
-  systems: Record<string, [number, number]>;
+  /** substrate domain -> normalised activity share under a neutral probe (values sum to ~1) */
+  systems: Record<string, number>;
   memories: MemoryEvent[];
   groups: GroupStanding[];
 }

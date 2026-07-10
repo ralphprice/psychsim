@@ -54,6 +54,32 @@ body,
   overflow: hidden;
 }
 
+/* contained panel crash (ErrorBoundary) — the shell survives; only this panel reports */
+.panel-error {
+  margin: 24px;
+  padding: 16px 18px;
+  border: 1px solid var(--warn);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  max-width: 640px;
+}
+.panel-error-title {
+  font-weight: 600;
+  color: var(--warn);
+  margin-bottom: 6px;
+}
+.panel-error-msg {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  word-break: break-word;
+}
+.panel-error button {
+  font: inherit;
+}
+
 /* telemetry strip — the one memorable element; monospace, true state at a glance */
 .telemetry {
   height: 32px;

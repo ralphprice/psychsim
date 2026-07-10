@@ -1,11 +1,15 @@
-// Inspector — the click-to-inspect panel: a resident's role, the 7 neural systems
-// (strength / reactivity), group standing, and recent memories. A descriptive
-// read-out only — never a "psychopath/sophropath" label (that classifier is gone).
+// Inspector — the click-to-inspect panel: a resident's role, the emergent substrate
+// domain profile, group standing, and recent memories. A descriptive read-out only —
+// never a "psychopath/sophropath" label (that classifier is gone).
 
 import type { PersonDetail } from "../types";
 import { driveColour } from "../theme";
 
 export function Inspector({ p }: { p: PersonDetail }) {
+  // `systems` is a normalised domain profile (one scalar per domain, summing to ~1).
+  // Scale each bar to the strongest domain so shares stay legible; show the raw share.
+  const systems = Object.entries(p.systems);
+  const peak = systems.reduce((m, [, v]) => Math.max(m, v), 0) || 1;
   return (
     <div>
       <h2>{p.name}</h2>
@@ -20,19 +24,17 @@ export function Inspector({ p }: { p: PersonDetail }) {
         </div>
       )}
 
-      <h3>neural networks (strength / reactivity)</h3>
-      {Object.entries(p.systems).map(([s, v]) => (
+      <h3>domain profile (normalised activity)</h3>
+      {systems.map(([s, v]) => (
         <div className="net" key={s}>
           <span className="n">{s}</span>
           <span className="bar">
             <span
               className="f"
-              style={{ width: `${Math.min(100, v[0] * 100)}%`, background: driveColour(s) }}
+              style={{ width: `${Math.round((v / peak) * 100)}%`, background: driveColour(s) }}
             />
           </span>
-          <span className="v">
-            {v[0].toFixed(2)} / {v[1].toFixed(2)}
-          </span>
+          <span className="v">{v.toFixed(2)}</span>
         </div>
       ))}
 

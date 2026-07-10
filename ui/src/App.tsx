@@ -19,6 +19,7 @@ import { NeuralEditor } from "./components/NeuralEditor";
 import { TelemetryStrip } from "./shell/TelemetryStrip";
 import { TabBar, TABS, type TabId } from "./shell/TabBar";
 import { ControlRail } from "./shell/ControlRail";
+import { ErrorBoundary } from "./shell/ErrorBoundary";
 
 const DETAIL_POLL_MS = 700;
 
@@ -178,11 +179,13 @@ export default function App() {
           }}
         />
         <div className="tab-content" role="tabpanel" aria-label={activeLabel}>
-          {tab === "town" ? (
-            townView
-          ) : (
-            <div className="tab-placeholder">{activeLabel} — arrives in a later phase.</div>
-          )}
+          <ErrorBoundary resetKey={tab}>
+            {tab === "town" ? (
+              townView
+            ) : (
+              <div className="tab-placeholder">{activeLabel} — arrives in a later phase.</div>
+            )}
+          </ErrorBoundary>
         </div>
       </div>
     </div>
