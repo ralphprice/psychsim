@@ -35,11 +35,11 @@ The discipline is the same as everywhere in PsychSim. A group ENCOUNTER presents
 stimulus bundle in the substrate's own trigger vocabulary (acceptance presents
 affiliation and safety; exclusion presents separation and pain; a status contest
 presents thwarting and reward; conformity pressure presents restraint). The person's
-own primary systems fire, the dominant one drives behaviour, and standing, belonging,
-contribution and conformity accrue from that EMERGENT behaviour -- never typed in. So
-a person high in CARE and one high in RAGE come to occupy and value the same group
-differently, and, crucially, gain standing by different ROUTES (prestige vs
-dominance), emergently. Group experience also strengthens the systems it engages, so
+own substrate settles on that bundle, the dominant domain drives behaviour, and standing,
+belonging, contribution and conformity accrue from that EMERGENT behaviour -- never typed in. So
+a person whose substrate leans affiliative and one whose leans defensive-aggressive come to
+occupy and value the same group differently, and, crucially, gain standing by different ROUTES
+(prestige vs dominance), emergently. Group experience also strengthens the pathways it engages, so
 a person's groups shape their personality and their personality shapes their standing
 -- both, through the same substrate.
 """
@@ -193,8 +193,8 @@ ENCOUNTER_STIMULI: Dict[str, Dict[str, float]] = {
     # being excluded / ostracised -- separation, loss, and social pain
     "exclusion":            {"separation": 0.7, "loss": 0.4, "threat": 0.2, "pain": 0.3},
     # a chance to gain standing -- a positional, CONTESTED good: a reward cue AND a
-    # competitive thwarting element, so a RAGE-prone person may construe it as a
-    # fight (taking rank by dominance) and a reward/affiliation-driven person as a
+    # competitive thwarting element, so a defensive-aggressive-leaning person may construe it
+    # as a fight (taking rank by dominance) and a reward/affiliation-driven person as a
     # chance to excel (earning it by prestige)
     "status_gain":          {"reward_cue": 0.6, "thwarting": 0.4, "affiliation": 0.3,
                              "novelty": 0.3},

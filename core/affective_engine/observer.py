@@ -8,10 +8,11 @@ US, for reporting and validation, and are NEVER fed back into the mechanism. Thi
 the substrate principle that named systems are read-outs, not primitives.
 
 Engine-agnostic BY DESIGN: the metrics are computed from a neutral BehaviourProfile of
-measurable signals, so the same read-out works whichever substrate produced the behaviour.
-An adapter builds a BehaviourProfile from the current (legacy) engine now; a new-engine
-adapter follows when the circuit substrate goes live (Phase 8). Nothing here is a verdict on
-the agent -- it is measurement; whether any label is apt is a separate interpretive question.
+measurable signals, so the read-out does not depend on how the behaviour was produced. The
+adapter that builds a BehaviourProfile is `profile_from_substrate` -- the substrate is the
+sole engine since the Panksepp retirement (stage 5), and the earlier legacy-brain adapter is
+gone. Nothing here is a verdict on the agent -- it is measurement; whether any label is apt is
+a separate interpretive question.
 
 All construct weightings are SCAFFOLD.
 """

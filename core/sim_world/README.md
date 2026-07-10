@@ -42,8 +42,8 @@ across which they age.
    -----                                 -------------
    Person.perceive(world, event)  --->   Appraisal
                                          AffectiveAgent.settle(appraisal)
-   GameMaster.adjudicate(person,  <---   dominant behavioural network
-                         network)
+   GameMaster.adjudicate(person,  <---   dominant behavioural domain
+                         domain)
       relationships, reputation,
       institution response valence --->  memory + development
 ```
