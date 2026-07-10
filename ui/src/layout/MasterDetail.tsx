@@ -10,10 +10,16 @@
 //   └──────────────┴──────────────────────────────┘
 //
 // Selection is CONTROLLED (selectedId + onSelect) so a tab can persist it in the shell. The filter
-// query is local view state. Keyboard: ↑/↓ move selection (clamped), Enter focuses the detail
-// panel, "/" focuses the filter box.
+// query is local view state.
+//
+// Keyboard model (deliberate — Phase 7's keyboard pass tests exactly this): ↑/↓ move the SELECTION
+// directly (clamped, no wrap); there is no separate roving-focus cursor, so there is never a
+// focused-but-not-selected row to confuse. The listbox itself is the focus target (with its own
+// focus ring, distinct from the selected row's --trace left border), and `aria-activedescendant`
+// tracks the selected option so a screen reader announces it as selection moves. Enter moves focus
+// to the detail panel; "/" focuses the filter box.
 
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import type { KeyboardEvent, ReactNode } from "react";
 import { filterItems, moveSelection } from "./masterDetailModel";
 
@@ -26,8 +32,11 @@ export interface MasterDetailProps<T> {
   renderDetail: (item: T) => ReactNode;
   selectedId: string | null;
   onSelect: (id: string) => void;
-  /** singular noun for the empty-state copy ("Select a role-pair to see its detail.") */
+  /** singular noun for the empty-state / filter copy ("Select a role-pair to see its detail.") */
   noun?: string;
+  /** accessible name for the listbox — each tab should pass a meaningful one ("Social role-pairs",
+   *  "Circuits", "Residents"); a bare listbox announces nothing useful. Defaults to `<noun> list`. */
+  label?: string;
   /** show the filter box once the list is longer than this (default 10) */
   filterThreshold?: number;
 }
@@ -41,16 +50,22 @@ export function MasterDetail<T>({
   selectedId,
   onSelect,
   noun = "item",
+  label,
   filterThreshold = 10,
 }: MasterDetailProps<T>) {
   const [query, setQuery] = useState("");
   const filterRef = useRef<HTMLInputElement>(null);
   const detailRef = useRef<HTMLDivElement>(null);
+  const uid = useId();
+  const optId = (id: string) => `${uid}-opt-${id}`;
 
   const filtered = filterItems(items, getText, query);
   const filteredIds = filtered.map(getId);
   const selectedItem = items.find((it) => getId(it) === selectedId) ?? null;
   const showFilter = items.length > filterThreshold;
+  // the active option only exists in the DOM when the selection is within the filtered list
+  const activeDescendant =
+    selectedId && filteredIds.includes(selectedId) ? optId(selectedId) : undefined;
 
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "/" && e.target !== filterRef.current) {
@@ -80,7 +95,13 @@ export function MasterDetail<T>({
             aria-label={`filter ${noun}s`}
           />
         )}
-        <ul className="md-list" role="listbox" tabIndex={0} aria-label={`${noun} list`}>
+        <ul
+          className="md-list"
+          role="listbox"
+          tabIndex={0}
+          aria-label={label ?? `${noun} list`}
+          aria-activedescendant={activeDescendant}
+        >
           {filteredIds.length === 0 ? (
             <li className="md-empty-list">
               {items.length === 0 ? `No ${noun}s yet.` : "No matches."}
@@ -92,6 +113,7 @@ export function MasterDetail<T>({
               return (
                 <li
                   key={id}
+                  id={optId(id)}
                   role="option"
                   aria-selected={sel}
                   className={"md-row" + (sel ? " selected" : "")}

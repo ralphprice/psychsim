@@ -909,6 +909,11 @@ button.mx-id:hover {
   min-height: 0;
   outline: none;
 }
+/* the listbox is the keyboard focus target (selection moves on arrow) — give it a distinct,
+   container-level focus ring so it never reads as a second selected row */
+.md-list:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--trace);
+}
 .md-row {
   padding: 7px 12px;
   border-left: 2px solid transparent;

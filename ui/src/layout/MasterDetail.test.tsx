@@ -111,4 +111,30 @@ describe("MasterDetail", () => {
     expect(screen.getByText("No widgets yet.")).toBeInTheDocument();
     expect(screen.getByText("Select a widget to see its detail.")).toBeInTheDocument();
   });
+
+  it("uses the provided label as the listbox accessible name", () => {
+    render(
+      <MasterDetail
+        items={mk(3)}
+        getId={(r) => r.id}
+        getText={(r) => r.name}
+        renderRow={(r) => <span>{r.name}</span>}
+        renderDetail={(r) => <div>{r.name}</div>}
+        selectedId={null}
+        onSelect={() => {}}
+        noun="widget"
+        label="Social role-pairs"
+      />,
+    );
+    expect(screen.getByRole("listbox", { name: "Social role-pairs" })).toBeInTheDocument();
+  });
+
+  it("tracks the selected option via aria-activedescendant as selection moves", () => {
+    render(<Harness items={mk(3)} initial="r0" />);
+    const list = screen.getByRole("listbox");
+    const active = () => document.getElementById(list.getAttribute("aria-activedescendant") ?? "");
+    expect(active()).toHaveTextContent("Row 0");
+    fireEvent.keyDown(list, { key: "ArrowDown" });
+    expect(active()).toHaveTextContent("Row 1");
+  });
 });
