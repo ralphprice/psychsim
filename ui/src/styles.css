@@ -123,13 +123,170 @@ body,
   border-bottom-color: var(--phosphor);
 }
 
-/* control rail (filled in Phase 1) */
+/* control rail — stacked, labelled sections that drive the sim */
 .control-rail {
   flex: 0 0 auto;
   background: var(--chassis);
   border-right: 1px solid var(--line);
   overflow-y: auto;
   color: var(--text);
+  font-size: 13px;
+}
+.rail-err {
+  margin: 8px 12px 0;
+  color: var(--warn);
+  font-size: 12px;
+}
+.rail-section {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rail-section.dim {
+  opacity: 0.4;
+}
+.rail-eyebrow {
+  font-family: "IBM Plex Sans Condensed", var(--ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  color: var(--muted);
+}
+.rail-eyebrow em {
+  color: var(--faint);
+  font-style: normal;
+  margin-left: 4px;
+}
+.control-rail button {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-family: var(--ui);
+}
+.control-rail button:hover:not(:disabled) {
+  background: var(--raised);
+}
+.control-rail button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.rail-primary {
+  background: var(--surface);
+}
+.rail-primary.running {
+  background: var(--phosphor) !important;
+  border-color: var(--phosphor) !important;
+  color: #1a1200 !important;
+  font-weight: 600;
+}
+.rail-two-up {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.rail-readout {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  color: var(--muted);
+  font-size: 12px;
+}
+.rail-readout b {
+  font-family: var(--mono);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.rail-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--muted);
+}
+.rail-field span {
+  font-size: 12px;
+}
+.control-rail select,
+.control-rail input[type="text"],
+.control-rail input[type="number"] {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 4px;
+  padding: 5px 6px;
+  font-size: 12px;
+  font-family: var(--mono);
+  min-width: 0;
+}
+.rail-field select {
+  flex: 1;
+}
+.rail-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.rail-check em {
+  color: var(--faint);
+  font-style: normal;
+  margin-left: 4px;
+}
+.rail-note {
+  font-size: 11px;
+  color: var(--faint);
+  line-height: 1.4;
+}
+.rail-seg {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  width: fit-content;
+}
+.rail-seg button {
+  border: 0;
+  border-radius: 0;
+  background: var(--surface);
+}
+.rail-seg button.on {
+  background: var(--trace);
+  color: #062622;
+}
+.rail-list {
+  max-height: 160px;
+  overflow-y: auto;
+  font-size: 11px;
+}
+.rail-list-row {
+  padding: 2px 0;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+.control-rail button.del,
+.control-rail button.warn {
+  color: var(--warn);
+  border-color: var(--warn);
+}
+.control-rail .dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  vertical-align: 0;
+}
+.control-rail .dot.live {
+  background: var(--phosphor);
+}
+.control-rail .dot.bg {
+  background: var(--faint);
 }
 .tab-placeholder {
   position: absolute;

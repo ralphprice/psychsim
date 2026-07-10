@@ -11,7 +11,6 @@ import { Stage, type StageHandle } from "./components/Stage";
 import { GridBackground } from "./components/GridBackground";
 import { PlanBackground } from "./components/PlanBackground";
 import { PeopleLayer } from "./components/PeopleLayer";
-import { Controls } from "./components/Controls";
 import { Inspector } from "./components/Inspector";
 import { Legend } from "./components/Legend";
 import { Development } from "./components/Development";
@@ -139,19 +138,6 @@ export default function App() {
       />
 
       <div className="panel" style={{ width: panelWidth }}>
-        <Controls
-          state={state}
-          saves={saves}
-          error={error}
-          mode={mode}
-          onMode={setMode}
-          labels={labels}
-          onLabels={setLabels}
-          follow={follow}
-          onFollow={setFollow}
-          hasSelection={!!selectedCid}
-          command={command}
-        />
         <div className="inspect">
           {selected ? (
             <Inspector p={selected} />
@@ -174,7 +160,23 @@ export default function App() {
       <TelemetryStrip state={state} />
       <TabBar active={tab} onTab={setTab} />
       <div className="console-body">
-        <ControlRail width={railW} />
+        <ControlRail
+          width={railW}
+          state={state}
+          saves={saves}
+          command={command}
+          error={error}
+          view={{
+            active: tab === "town",
+            mode,
+            onMode: setMode,
+            labels,
+            onLabels: setLabels,
+            follow,
+            onFollow: setFollow,
+            hasSelection: !!selectedCid,
+          }}
+        />
         <div className="tab-content" role="tabpanel" aria-label={activeLabel}>
           {tab === "town" ? (
             townView
