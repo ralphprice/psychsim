@@ -1,12 +1,17 @@
 # PsychSim v10 — organism design spec (physical endowment + biological sex)
 
-**Status: grounding review PASSED; seed-mechanics review of §5 PENDING. Nothing built.** v9 path
-(design → review → build). The design session verified the load-bearing citations against the
-literature (Aharon, Sell) and ruled the four questions (§7); this revision folds in the five resulting
-edits: O'Doherty corrected to "Beauty in a smile" 41(2):147–155; Sell *Proc R Soc B* 276:575–584 added
-for the perceiver side; PH-AGILITY/PH-SENSORY out of the social channel; the percept-priors wired
-**sex-conditioned** (per the evidence); keystone intact. §5 is now detailed into concrete seed edits
-(E1–E7) for the mechanics review before build.
+**Status: grounding review PASSED; seed-mechanics review PASSED with four required corrections, now
+applied. Awaiting the final pre-build check. Nothing built.** v9 path (design → review → build). The
+four seed-mechanics corrections folded into §5: (1) perceiver-side formidability routes to
+**defensive-threat / CeA (submission), NOT VMHvl** — seeing strength makes you defer, not attack;
+(2) sex-conditioning moved to **E4 (the perceiver's prior weight), not E2 (the bearer's stimulus)** —
+the dimorphism is in valuation; (3) **E6 sex sets a VMHvl baseline-reactivity factor, not an on/off
+gate** — aggression reachable in both sexes, the CU ratio measured not encoded; (4) **E5 gains the
+neutral-floor guard** — `strong × neutral → restrain` proves the calibration didn't code
+"strong→aggressive." Plus: the two new IN-VIS triggers (`attractive_face`, `formidability_cue`) are
+stated as a perception-vocabulary extension, and verified against v9 — reward/defensive target nodes
+exist but `IN-VIS` reaches neither today, so E4's two priors are **new connectome edges** (not new
+circuits), each grounded.
 
 ---
 
@@ -101,13 +106,12 @@ the seed already assumes:
    - Lin et al. 2011, *Nature* 470:221–226 (DOI 10.1038/nature09736) — VMHvl as the aggression locus;
      attack-activated neurons are inhibited during mating (opponent populations).
 
-3. **The percept-priors themselves are sex-conditioned** (forced by the grounding review, not scope
-   creep): the attractiveness reward value is a function of perceiver×bearer sex (Aharon: heterosexual
-   males work to view attractive *female* faces), and formidability assessment/strength→anger is
-   studied primarily in, and is more accurate for, males (Sell). So `sex` is not only a PH-SIZE mean and
-   a VMHvl parameter — it also **modulates the IW-ATTRACT-REWARD and IW-FORMIDABILITY-THREAT priors**
-   (E2/E4). This is what the evidence says; a flat prior would silently contradict the citation. Grounded
-   direction; SCAFFOLD modulation function — detailed in §5.
+3. **The percept-priors are sex-conditioned — on the perceiver's PRIOR WEIGHT (E4), not the bearer's
+   stimulus (E2)** (grounding review): the dimorphism is in the *perceiver's valuation* (Aharon:
+   heterosexual males work to view attractive *female* faces), not in the face itself — B isn't "more
+   attractive to everyone." So `sex` modulates the **effective weight** of the two new innate edges
+   (`IW-ATTRACT-REWARD`, `IW-FORMIDABILITY-SUBMIT`), while the bearer's `physical_stimulus` magnitude
+   stays a pure bearer property. Grounded direction; SCAFFOLD modulation function — detailed in §5 E4.
 
 **The honesty line (non-negotiable).** Sex as a **substrate parameter** is *in*: body-size distribution
 and VMHvl Esr1/subdivision parameterisation, set by the given sex. Whether that sex-differentiated
@@ -136,66 +140,86 @@ PH-HEALTH from the `physical_endowment` distributions; add a per-agent **`sex`**
 PH-SIZE draws from `normal(mean_by_age_sex, sd)` — `sex` resolves the mean. **PH-AGILITY / PH-SENSORY
 are NOT sampled into the social channel this pass** (§3 ruling — deferred bearer-capacity parameters).
 
-**E2 — Derive a per-Person `physical_stimulus` dict (substrate trigger vocabulary) from the traits.**
-This is the bearer's "how I present to a perceiver's senses," the exact category as a Thing's
-`stimulus`:
-- `PH-ATTRACT` (+ `PH-HEALTH` folded in) → an **appetitive/reward** trigger magnitude.
-- `PH-MUSCLE` (primary) + `PH-SIZE` (secondary) → a **formidability/threat** trigger magnitude.
-These magnitudes are **sex-conditioned** — a function of (perceiver sex × bearer sex), per Aharon
-(effort-reward male→female) and Sell (formidability assessment/strength→anger studied in males). The
-**direction** (there is a sex pairing) is grounded; the **modulation function and the magnitudes are
-SCAFFOLD**, labelled as such. (Fallback if we want v10 minimal: wire the priors sex-neutral and flag
-that as a stated simplification — but this spec proposes sex-conditioned, since v10 already carries sex
-and a flat prior would silently contradict the citation.)
+**E2 — Derive a per-Person `physical_stimulus` dict — a PURE BEARER property (sex-NEUTRAL magnitudes).**
+This is "how B physically presents to a perceiver's senses," the exact category as a Thing's
+`stimulus`. It does **not** depend on who is looking — B's musculature is B's musculature:
+- `PH-ATTRACT` (+ `PH-HEALTH` folded in) → an **`attractive_face`** trigger (visual), magnitude = B's
+  attractiveness.
+- `PH-MUSCLE` (primary) + `PH-SIZE` (secondary) → a **`formidability_cue`** trigger (visual),
+  magnitude = B's formidability.
+Magnitudes SCAFFOLD. **Sex-conditioning lives at E4, not here** (design-session ruling): the dimorphism
+is in the *perceiver's valuation*, not in the bearer's face — B isn't "more attractive to everyone,"
+the *response* varies by perceiver.
 
-**E3 — Present it through `felt_response`, unchanged.** When A perceives B (same encounter path the
-Arena/Things use), call `felt_response(A.engine, B.physical_stimulus, …)`. A's **own** reward / threat
-circuits fire; A's approach / deference / wariness **emerges**. There is no `attract → tie` term
-anywhere — the only thing wired is "this percept presents as reward/threat," which is the cited innate
-prior, not an outcome.
+*Trigger-vocabulary extension (stated explicitly):* there is no `attractive_face` or `formidability_cue`
+trigger today. v10 **adds these two IN-VIS triggers** to the perception vocabulary. This extends
+perception, it is not an arbiter — each new trigger becomes exactly one grounded innate edge (E4), the
+same way `IN-GUST:sweet` is a trigger with an innate `→NAc-shell` edge.
 
-**E4 — Two `innate_wiring_catalogue` entries (the cited priors; magnitudes SCAFFOLD, sex_conditioned).**
-Same schema as the 18 existing entries (`{id, category, stimulus, target, innate_effect,
-mechanism_type, default_birth_strength, present_at_birth, unlearned_evidence, confidence, caveat,
-sources[]}`):
-- **`IW-ATTRACT-REWARD`** — stimulus "attractive face/body (visual, IN-VIS)"; target
-  "reward/appetitive (REW/OFC/NAcc)"; innate_effect "appetitive"; `default_birth_strength: weak`
-  (SCAFFOLD); `present_at_birth: yes` (infant preference); `sex_conditioned: true`; unlearned_evidence
-  = cross-cultural rater agreement + infant preference (Langlois 2000) and **willing-to-work-to-view**
-  (Aharon 2001, the operational reward signature) + medial-OFC response (O'Doherty 2003); sources =
-  [Langlois et al. 2000 *Psychol Bull* 126(3):390–423; Aharon et al. 2001 *Neuron* 32(3):537–551;
-  O'Doherty et al. 2003 "Beauty in a smile," *Neuropsychologia* 41(2):147–155].
-- **`IW-FORMIDABILITY-THREAT`** — stimulus "formidability cue: musculature > size (visual, IN-VIS)";
-  target "defensive-threat / submission (VMHvl + defensive circuits)"; innate_effect
-  "aversive/submissive"; `default_birth_strength: weak` (SCAFFOLD); `sex_conditioned: true`;
-  unlearned_evidence = fast/automatic visual strength assessment (Sell Proc R Soc B, the perceiver
-  side) + strength→anger/entitlement recalibration (Sell PNAS, the bearer side); sources =
-  [Sell, Tooby & Cosmides 2009 *PNAS* 106(35):15073–15078; Sell et al. 2009 *Proc R Soc B*
-  276:575–584].
+**E3 — Present it through `felt_response`, unchanged.** When A perceives B (the Arena/Things encounter
+path), call `felt_response(A.engine, B.physical_stimulus, …)`. A's **own** reward / defensive circuits
+fire; A's approach / deference / wariness **emerges**. No `attract → tie` term — the only wired thing
+is "this percept drives this perceiver's reward/defensive channel," the cited innate prior.
 
-**E5 — Bearer-side calibration (not a percept).** PH-MUSCLE/PH-SIZE also calibrate the **bearer's own**
-anger/entitlement (Sell PNAS): a within-agent input raising the bearer's VMHvl reactivity / lowering
-its attack threshold. A calibration parameter, SCAFFOLD magnitude, grounded direction.
+**E4 — Two `innate_wiring_catalogue` entries = two NEW connectome EDGES (into existing nodes; weights
+SCAFFOLD; sex-conditioned ON THE WEIGHT).** Verified against v9: the reward and defensive target nodes
+exist, but `IN-VIS` drives only `SC-Pv` today, so each of these is a **new edge**, not a new circuit —
+a real connectome addition with its own grounding, on the `IN-GUST:sweet→NAc-shell` template. Same
+schema as the 18 existing entries:
+- **`IW-ATTRACT-REWARD`** — edge **`IN-VIS:attractive_face → NAc-shell`** (and `→OFC`); innate_effect
+  "appetitive"; `default_birth_strength: weak` (SCAFFOLD); `present_at_birth: yes`; **`sex_conditioned`
+  applies to this edge's effective weight** (perceiver×bearer — the dimorphism is in valuation, per
+  Aharon); unlearned_evidence = cross-cultural agreement + infant preference (Langlois 2000) +
+  **willing-to-work-to-view** (Aharon 2001, the operational reward signature; NAcc) + medial-OFC
+  response (O'Doherty 2003); sources = [Langlois et al. 2000 *Psychol Bull* 126(3):390–423; Aharon et
+  al. 2001 *Neuron* 32(3):537–551; O'Doherty et al. 2003 "Beauty in a smile," *Neuropsychologia*
+  41(2):147–155].
+- **`IW-FORMIDABILITY-SUBMIT`** — edge **`IN-VIS:formidability_cue → CeA`** (defensive-threat →
+  submission/wariness via CeA→PAG). **NOT VMHvl** (design-session ruling: seeing a strong opponent
+  makes you *defer*, not attack — the attack area is the bearer's own, E5). innate_effect
+  "aversive/submissive"; `default_birth_strength: weak` (SCAFFOLD); **`sex_conditioned` on the weight**;
+  unlearned_evidence = fast/automatic visual strength assessment (Sell *Proc R Soc B*, the perceiver
+  side); sources = [Sell et al. 2009 *Proc R Soc B* 276:575–584; Sell, Tooby & Cosmides 2009 *PNAS*
+  106(35):15073–15078].
 
-**E6 — Sex as a given parameter on two circuits (no hormonal dynamics).**
+**E5 — Bearer-side calibration + the neutral-floor guard (the one smuggle-risk).** PH-MUSCLE/PH-SIZE
+calibrate the **bearer's own** anger/entitlement (Sell PNAS: strength→anger-proneness): `sex`-neutral
+here, a within-agent bias raising the bearer's VMHvl **baseline reactivity**. **Guard (required):** this
+is a calibration input to the attack circuit's *competition*, **never a determinant of its output** —
+strength biases VMHvl's starting gain, but whether the bearer aggresses must still win the basal-ganglia
+race against the executive brake and the defensive channels, under actual provocation. **Test (same
+shape as the v9 neutral control):** `strong × neutral (unprovoked) → restrain` (the neutral floor holds)
+AND `strong × provocation → more aggress than weak × provocation`. The differential is the finding; the
+neutral floor **proves it is not coded "strong→aggressive."** If raising strength alone (no provocation)
+produces aggression, E5 has become a coded outcome and fails.
+
+**E6 — Sex as a given parameter (no hormonal dynamics): a baseline-reactivity FACTOR, not a gate.**
 - PH-SIZE distribution mean (E1).
-- **VMHvl**: `sex` parameterises the Esr1-density / aggression-subdivision balance (Hashikawa 2017:
-  female VMHvl carries distinct aggression vs sex subdivisions; the node is already `Esr1+/SF1` with
-  Lin 2011 + Hashikawa 2017 in its `sources`). As a **given parameter**, `sex` sets a VMHvl
-  reactivity/threshold factor (or the formidability→VMHvl weight) — SCAFFOLD magnitude, grounded
-  direction (dimorphic). No prenatal organisation, no activational hormones.
-- `sex` also feeds the sex-conditioning of E2/E4.
+- **VMHvl**: `sex` sets a VMHvl **baseline-reactivity factor** — Hashikawa 2017 shows Esr1+ VMHvl is
+  necessary for aggression **in both sexes**, with a higher male baseline and differing subdivisions.
+  So this is **not** "male = aggression-on, female = off" (that would overstate it and encode a
+  sex→aggression outcome); it is a baseline-gain difference, with **aggression fully reachable in both
+  sexes under provocation** (the v9 pathway intact). SCAFFOLD magnitude, grounded direction
+  (male>female baseline). No prenatal organisation, no hormones.
+- `sex` also parameterises the E4 edge weights (perceiver valuation).
+- **Honesty line:** whether this baseline difference yields the observed **CU sex ratio** must still
+  **emerge and be measured** (`scan_match`) — it is never the *reason* the parameter is set.
 
-**E7 — Version + provenance.** `meta.version: "v10"`. Likely **no new circuits** (the traits are
-percepts/inputs + parameters on existing nodes); **+2 innate_wiring_catalogue entries**; `sex` a
-per-agent birth parameter. Update `gaps_register`: SCAFFOLD = all magnitudes + the sex-conditioning
-function form + the physical-trait→trigger-magnitude mapping; ASSUMED-pending = the exact
-sex-pairing function. Ordinal/structural tests only, never target values.
+**E7 — Version + provenance.** `meta.version: "v10"`. **No new circuits** (reward, defensive, VMHvl
+nodes all exist — verified). **Two NEW EDGES** (`IN-VIS:attractive_face→NAc-shell/OFC`;
+`IN-VIS:formidability_cue→CeA`), each = one `innate_wiring_catalogue` entry with its own grounding;
+**+2 IN-VIS triggers**; `sex` a per-agent birth parameter (PH-SIZE mean + VMHvl factor + E4 weights).
+Update `gaps_register`: SCAFFOLD = all magnitudes, the sex-conditioning function form, the
+trait→trigger-magnitude mapping; the two new edges are cited but weak/assumption-basis until better
+sourced. Ordinal/structural tests only, never target values.
 
-**The keystone, restated in the mechanics:** every trait becomes a `physical_stimulus` (a percept) fed
-through the existing `felt_response` into the *perceiver's own* circuits; sex is a birth parameter on
-distributions + VMHvl; **both population outcomes (beauty premium; CU sex ratio) are `scan_match`
-objectives, never weights.** Nothing here codes a social outcome.
+**The keystone, restated in the mechanics:** every trait becomes a `physical_stimulus` (a bearer
+percept) fed through the existing `felt_response` into the *perceiver's own* circuits — attractiveness
+to reward, another's formidability to **defensive submission** (not attack); the bearer's own strength
+calibrates the bearer's attack circuit but **cannot fire it without provocation** (neutral-floor guard);
+sex is a birth parameter (distribution means, VMHvl baseline factor, perceiver-valuation weights);
+**both population outcomes (beauty premium; CU sex ratio) are `scan_match` objectives, never weights.**
+Nothing here codes a social outcome.
 
 ---
 
