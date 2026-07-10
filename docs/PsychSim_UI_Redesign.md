@@ -24,7 +24,7 @@ The UI is a window onto the organism. It must not become a back door.
 
 | # | Constraint | Why |
 |---|---|---|
-| U1 | **No outcome-named presets, anywhere.** No dropdown, preset, or button named "psychopath", "callous", "sophropath", "fearless", etc. | Outcome categories were removed as causal primitives (8b.4). A preset that *sets* an outcome re-seeds the answer. The UI exposes **circuits and parameters**; what a configuration produces is **measured**. |
+| U1 | **No outcome-named presets, anywhere.** No dropdown, preset, or button that *sets* an outcome category — the removed 8b.4 vocabulary (`strategic_prosociality`, `cool_instrumental_boldness`, `affiliative_warmth`, `reactive_aggression`, `fearful_withdrawal`) or a verdict word (`psychopath`, `callous`, `sophropath`). **A temperament seed is not an outcome.** `fearless` describes the *endowment you start with*, not what you become — a legitimate seed parameter (the temperament interface is nonetheless deprecated in favour of the throttle panel: a UI change, not an honesty one). | Outcome categories were removed as causal primitives (8b.4). A preset that *sets* an outcome re-seeds the answer. The UI exposes **circuits and parameters**; what a configuration produces is **measured**. Temperament describes initial conditions and stays settable. |
 | U2 | **Neural Design is READ-ONLY, over the live v9 seed.** | The seed is the single source of truth, grounded and cited. A browser that can nudge a weight routes around the whole cited-and-reviewed discipline. Circuit changes go through a reviewed seed pass (as v9 did). |
 | U3 | The current `/neural` editor edits `data/neural/library.json` — the **dead authoring sandbox**, not the live substrate. It must be repointed (read-only) or clearly relabelled. | Today a user editing "circuits" is silently editing a parallel copy that nothing runs on. Correctness-of-expectation. |
 | U4 | **Report labels carry no removed outcome-category vocabulary.** | `/report/*` reads from the observer. Confirm displayed labels match current observer output. |
@@ -377,8 +377,12 @@ a test asserts the UI has no neural write path.
 
 ## 9. Definition of done — honesty checklist
 
-- [ ] No outcome-named preset, dropdown, or button anywhere in `ui/src` (grep: `psychopath`,
-      `callous`, `sophropath`, `strategic`, `boldness`).
+- [ ] No outcome-named preset, dropdown, or button anywhere in `ui/src` — **zero hits outside
+      comments** for the removed 8b.4 outcome vocabulary:
+      `grep -riE "psychopath|callous|sophropath|strategic_prosociality|cool_instrumental_boldness|affiliative_warmth|reactive_aggression|fearful_withdrawal" ui/src`.
+      (`fearless` is a *temperament seed*, not an outcome — excluded by ruling. `strategic`/`boldness`
+      use their full category names so the pattern doesn't false-positive on ordinary English.
+      Retirement/provenance comments that name a category to say it was *removed* are fine.)
 - [ ] Temperament dropdown marked `DEPRECATED` in code, replacement deferred to the scan controller.
 - [ ] `NeuralTab` is read-only over the **live v9 seed**; `neural_upsert` / `neural_delete` deleted;
       no write path exists (asserted by test).
