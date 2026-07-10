@@ -46,8 +46,10 @@ from sophropathy.engine import SimEngine
 from sophropathy.townlife import available_roles
 from project import available_modules, available_profiles
 from config.matrixstore import kinds as matrix_kinds, list_items, upsert_item, delete_item
-from neuraldesigner.store import (library_view as neural_view, upsert as neural_upsert_item,
-                                  remove as neural_remove_item)
+# /neural is READ-ONLY over the LIVE v9 seed, read through the same loader the engine uses (Phase 6).
+# The old neuraldesigner sandbox (upsert/remove of a parallel copy) is gone -- the seed is the single
+# source of truth, and there is no browser write path into the organism.
+from substrate.view import substrate_view as neural_view
 
 # ---- the running simulation + its loop -----------------------------------
 ENGINE: SimEngine = None
@@ -232,18 +234,11 @@ class Handler(BaseHTTPRequestHandler):
                 result["deleted"] = delete_item(data.get("kind"), data.get("id"))
             except KeyError as ex:
                 result = {"error": str(ex)}
-        elif cmd == "neural_upsert":
-            try:
-                result["item"] = neural_upsert_item(data.get("kind"), data.get("item") or {})
-            except (KeyError, ValueError, TypeError) as ex:
-                result = {"error": str(ex)}
-        elif cmd == "neural_delete":
-            try:
-                result["deleted"] = neural_remove_item(data.get("kind"), data.get("id"))
-            except KeyError as ex:
-                result = {"error": str(ex)}
+        # neural_upsert / neural_delete are DELETED (Phase 6): the Neural tab is read-only over the
+        # live seed. They now fall through to this unknown-command rejection (HTTP 400), on purpose.
         else:
-            result = {"error": f"unknown cmd {cmd}"}
+            self._send({"error": f"unknown cmd {cmd}"}, 400)
+            return
         self._send(result)
 
 

@@ -10,6 +10,7 @@ import { type ViewMode } from "./view";
 import { TownTab } from "./tabs/TownTab";
 import { MatrixTab } from "./tabs/MatrixTab";
 import { DevelopmentCohortTab } from "./tabs/DevelopmentCohortTab";
+import { NeuralView } from "./tabs/NeuralView";
 import { TelemetryStrip } from "./shell/TelemetryStrip";
 import { TabBar, TABS, type TabId } from "./shell/TabBar";
 import { ControlRail } from "./shell/ControlRail";
@@ -119,6 +120,8 @@ export default function App() {
               />
             ) : tab === "social" || tab === "environment" || tab === "group" ? (
               <MatrixTab kind={tab} selectedId={selById[tab] ?? null} onSelect={selectFor(tab)} />
+            ) : tab === "neural" ? (
+              <NeuralView selectedId={selById.neural ?? null} onSelect={selectFor("neural")} />
             ) : (
               <div className="tab-placeholder">{activeLabel} — arrives in a later phase.</div>
             )}

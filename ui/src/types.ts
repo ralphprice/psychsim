@@ -159,13 +159,47 @@ export interface MatrixKindInfo {
 }
 export type MatrixItem = Record<string, unknown>;
 
-/** GET /neural — the neural-design library (pathways/networks) + its SVG + integrity. */
+/** GET /neural — a READ-ONLY view of the LIVE v9 substrate seed (the single source of truth, read
+ *  through the same loader the engine uses). Provenance (sources/confidence/basis) comes from the
+ *  seed; nothing here is editable. */
+export interface NeuralCircuit {
+  id: string;
+  name: string;
+  domain: string;
+  function: string;
+  baseline: number;
+  tau_ms: number;
+  online_age: number;
+  sign: number; // +1 excitatory / -1 inhibitory
+  confidence: string | null; // E | Em | H, verbatim from the seed
+  evidence_base: string | null;
+  sources: string | null; // citations, verbatim from the seed
+}
+export interface NeuralConnection {
+  source: string;
+  target: string;
+  weight0: number;
+  default_weight: string | null; // qualitative seed value (low/moderate/strong)
+  basis: string | null; // assumption | anatomy | innate_reinforcer | literature
+  scaffold: boolean; // true when the weight is a placeholder assumption, not measured
+  gating_neuromodulator: string;
+  confidence: string | null;
+  citation: string | null; // the seed's `source` note (renamed to avoid colliding with the edge source)
+  is_innate_reinforcer_link: boolean;
+}
 export interface NeuralView {
-  library: Record<string, unknown>; // name + features/circuits/triggers/pathways/networks dicts
-  svg: string;
-  validation: string[];
-  loops: string[][];
-  collections: Record<string, string[]>;
+  meta: {
+    version: string | null;
+    title: string | null;
+    n_circuits: number;
+    n_connections: number;
+    source_of_truth: string; // the seed file path
+  };
+  circuits: NeuralCircuit[];
+  connections: NeuralConnection[];
+  domains: string[];
+  gaps: string[]; // the seed's gaps_register — why default weights are scaffold, not measured
+  read_only: boolean;
 }
 
 /** POST /cmd payloads. */
@@ -179,6 +213,6 @@ export type Command =
   | { cmd: "load"; slug: string }
   | { cmd: "delete_save"; slug: string }
   | { cmd: "matrix_upsert"; kind: string; item: MatrixItem }
-  | { cmd: "matrix_delete"; kind: string; id: string }
-  | { cmd: "neural_upsert"; kind: string; item: MatrixItem }
-  | { cmd: "neural_delete"; kind: string; id: string };
+  | { cmd: "matrix_delete"; kind: string; id: string };
+// neural_upsert / neural_delete are GONE (Phase 6): the seed is the single source of truth and the
+// Neural tab is read-only. The server rejects them as unknown commands.
