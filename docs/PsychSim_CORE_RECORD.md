@@ -554,3 +554,10 @@ residual aggress ~0.003; provoked strong>weak intact), but the "by construction"
 and was corrected in physical.py/engine.py/tests. A real cross-version interaction: a later anatomical
 addition weakened an earlier phase's honesty argument from structural to behavioural — kept because the
 property held and the basis change is documented, not hidden.
+
+**Documented conditionality (design-session ruling):** the E5 neutral floor is now **weight-dependent**.
+A structural guarantee ("can't fire because there is no signal to amplify") holds for any weights; a
+behavioural one ("the afferent signals net to negligible at neutral") holds only while the VMHvl afferent
+weights (MeA→VMHvl, BNST→VMHvl) stay in a range where they cancel at rest. **So: re-check the neutral floor
+whenever the VMHvl afferent weights change** (e.g. when the SCAFFOLD magnitudes are recalibrated). Not a
+defect — a visible dependency for whoever touches those weights later.

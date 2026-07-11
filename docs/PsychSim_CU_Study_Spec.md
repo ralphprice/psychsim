@@ -97,6 +97,7 @@ CUSeed {
     status:            "candidate_hypothesis"    # NEVER "finding" from the backtester
     corroboration:     false                       # a saved seed never self-certifies
     scan_trajectory:   <ref>                        # the landscape it was found in
+    substrate_version: "v11"                         # the seed the validation ran on (below)
     date, world_seed
   }
 }
@@ -104,6 +105,16 @@ CUSeed {
 
 Applied at spawn: a **standard newborn** + `set_throttle(config)` + developed in `family_context`.
 Nothing pre-grown; nothing edited.
+
+**Substrate-version dependency (design-session ruling — the 5-HT caveat).** The provenance carries the
+`substrate_version` it was validated on. A CU seed validated **before the serotonergic (dorsal/median
+raphe, 5-HT) node is in** must be marked **`aggression_regulation: "provisional — validated on pre-5-HT
+substrate"`**. Rationale (§6): 5-HT is the principal aggression/impulsivity-regulating neuromodulator, so
+any *aggression-regulation* conclusion drawn on a substrate missing it is provisional until re-validated on
+the post-5-HT substrate. Non-aggression signatures (physical-endowment, sex-ratio, reward/affiliation
+deficits) are not gated by this. So: **the study apparatus may be built and exercised now; its
+aggression-regulation findings do not become non-provisional until the raphe node lands and the seed is
+re-validated.**
 
 ---
 

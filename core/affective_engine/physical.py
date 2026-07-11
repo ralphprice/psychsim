@@ -113,7 +113,9 @@ def vmhvl_reactivity(physical: Dict[str, float], sex: Optional[str]) -> float:
     VMHvl afferents (MeA->VMHvl inhibitory, BNST->VMHvl excitatory), whose net at neutral is negligible,
     so the floor now holds BEHAVIOURALLY (neutral -> restrain for strong and weak alike; the residual
     neutral aggress drive is ~0), and the provoked strong>weak differential is intact. The gain still
-    cannot manufacture unprovoked aggression. A physical-neutral agent -> 1.0 (no bias). Clamped >0 so it
+    cannot manufacture unprovoked aggression. This behavioural floor is WEIGHT-DEPENDENT: it holds while
+    the VMHvl afferent weights (MeA->VMHvl, BNST->VMHvl) net to negligible at rest -- RE-CHECK the neutral
+    floor if those weights are recalibrated. A physical-neutral agent -> 1.0 (no bias). Clamped >0 so it
     is always a factor, never a gate."""
     if not physical:
         return 1.0
