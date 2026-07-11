@@ -1,0 +1,563 @@
+{
+ "_meta": {
+  "purpose": "Step 6 Allen audit foundation: PsychSim v10 circuits -> Allen CCF ontology region + mouse<->human homology class. Documentary; NOT part of the substrate seed. Sizes the connectivity-audit diff (only STRONG x STRONG subcortical pairs admit Allen-grounded candidate edges).",
+  "homology_classes": {
+   "STRONG": "direct subcortical/brainstem/primary-sensory homolog; Allen mouse data translates securely",
+   "BOUNDARY": "rodent homolog exists but imperfect (granular cortex, primate-elaborated relays); Allen data needs caveat, not admitted on mouse data alone",
+   "NONE": "human/primate-specific or peripheral; outside the Allen mouse atlas"
+  },
+  "tally": {
+   "STRONG": 50,
+   "BOUNDARY": 14,
+   "NONE": 14
+  }
+ },
+ "circuits": {
+  "LA": {
+   "name": "Lateral amygdala",
+   "domain": "defensive_threat",
+   "ccf_region": "LA",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "BA": {
+   "name": "Basal amygdala",
+   "domain": "defensive_threat",
+   "ccf_region": "BLA/BMA",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "CeA": {
+   "name": "Central amygdala",
+   "domain": "defensive_threat",
+   "ccf_region": "CEA",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "ITC": {
+   "name": "Intercalated cell masses",
+   "domain": "defensive_threat",
+   "ccf_region": "IA",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "BNST": {
+   "name": "Bed nucleus of the stria terminalis",
+   "domain": "defensive_threat",
+   "ccf_region": "BST",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "PAG": {
+   "name": "Periaqueductal grey",
+   "domain": "defensive_threat",
+   "ccf_region": "PAG",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "HYPdm": {
+   "name": "Dorsomedial/medial hypothalamus",
+   "domain": "defensive_threat",
+   "ccf_region": "DMH",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "LC": {
+   "name": "Locus coeruleus",
+   "domain": "defensive_threat",
+   "ccf_region": "LC",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "HPCv": {
+   "name": "Ventral hippocampus",
+   "domain": "defensive_threat",
+   "ccf_region": "CA1v/SUBv",
+   "homology": "STRONG",
+   "note": "ventral HPC ~ human anterior HPC"
+  },
+  "vmPFC": {
+   "name": "Ventromedial PFC (infralimbic-type)",
+   "domain": "defensive_threat",
+   "ccf_region": "ILA",
+   "homology": "BOUNDARY",
+   "note": "rodent infralimbic = standard but partial homolog"
+  },
+  "dmPFC": {
+   "name": "Dorsomedial PFC (prelimbic-type)/dACC",
+   "domain": "defensive_threat",
+   "ccf_region": "PL/ACAd",
+   "homology": "BOUNDARY",
+   "note": "prelimbic/ACC homolog, partial"
+  },
+  "SC-Pv": {
+   "name": "Superior colliculus -> pulvinar",
+   "domain": "defensive_threat",
+   "ccf_region": "SCm + LP",
+   "homology": "BOUNDARY",
+   "note": "SC strong; LP(pulvinar) weak homolog"
+  },
+  "StN": {
+   "name": "Caudal pontine reticular nucleus",
+   "domain": "defensive_threat",
+   "ccf_region": "PRNc",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "VTA": {
+   "name": "Ventral tegmental area",
+   "domain": "reward_approach",
+   "ccf_region": "VTA",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "SNc": {
+   "name": "Substantia nigra pars compacta",
+   "domain": "reward_approach",
+   "ccf_region": "SNc",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "NAc-core": {
+   "name": "Nucleus accumbens core",
+   "domain": "reward_approach",
+   "ccf_region": "ACB (core)",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "NAc-shell": {
+   "name": "Nucleus accumbens shell",
+   "domain": "reward_approach",
+   "ccf_region": "ACB (shell)",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "VP": {
+   "name": "Ventral pallidum",
+   "domain": "reward_approach",
+   "ccf_region": "PALv/SI",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "LH": {
+   "name": "Lateral hypothalamus",
+   "domain": "reward_approach",
+   "ccf_region": "LHA",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "OFC": {
+   "name": "Orbitofrontal cortex",
+   "domain": "reward_approach",
+   "ccf_region": "ORBl/ORBm",
+   "homology": "BOUNDARY",
+   "note": "rodent lacks granular OFC"
+  },
+  "DStr": {
+   "name": "Dorsal striatum",
+   "domain": "reward_approach",
+   "ccf_region": "CP",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "LHb": {
+   "name": "Lateral habenula",
+   "domain": "reward_approach",
+   "ccf_region": "LHb",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "RMTg": {
+   "name": "Rostromedial tegmental nucleus",
+   "domain": "reward_approach",
+   "ccf_region": "RMTg/tegmental",
+   "homology": "BOUNDARY",
+   "note": "functionally-defined; Allen label varies"
+  },
+  "PPTg": {
+   "name": "Pedunculopontine tegmental nucleus",
+   "domain": "reward_approach",
+   "ccf_region": "PPN",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "PVT": {
+   "name": "Paraventricular thalamus",
+   "domain": "reward_approach",
+   "ccf_region": "PVT",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "RET": {
+   "name": "Retina",
+   "domain": "sensory",
+   "ccf_region": "(retina)",
+   "homology": "NONE",
+   "note": "peripheral"
+  },
+  "LGN": {
+   "name": "Lateral geniculate nucleus",
+   "domain": "sensory",
+   "ccf_region": "LGd/LGv",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "V1": {
+   "name": "Primary visual cortex",
+   "domain": "sensory",
+   "ccf_region": "VISp",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "V-ventral": {
+   "name": "Ventral visual stream",
+   "domain": "sensory",
+   "ccf_region": "(ventral stream)",
+   "homology": "BOUNDARY",
+   "note": "rodent lacks clear ventral-stream homolog"
+  },
+  "V-dorsal": {
+   "name": "Dorsal visual stream",
+   "domain": "sensory",
+   "ccf_region": "(dorsal stream)",
+   "homology": "BOUNDARY",
+   "note": "rodent dorsal-stream partial"
+  },
+  "COCH": {
+   "name": "Cochlea",
+   "domain": "sensory",
+   "ccf_region": "(cochlea)",
+   "homology": "NONE",
+   "note": "peripheral"
+  },
+  "AUD-brainstem": {
+   "name": "Auditory brainstem",
+   "domain": "sensory",
+   "ccf_region": "CN/SOC",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "MGN": {
+   "name": "Medial geniculate nucleus",
+   "domain": "sensory",
+   "ccf_region": "MG",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "A1-belt": {
+   "name": "Auditory cortex",
+   "domain": "sensory",
+   "ccf_region": "AUDp/AUDd",
+   "homology": "STRONG",
+   "note": "primary strong, belt partial"
+  },
+  "SOM-relay": {
+   "name": "Somatosensory ascending relay",
+   "domain": "sensory",
+   "ccf_region": "(DCN/lemniscal)",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "VPL": {
+   "name": "Ventral posterolateral nucleus",
+   "domain": "sensory",
+   "ccf_region": "VPL",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "S1": {
+   "name": "Primary somatosensory cortex",
+   "domain": "sensory",
+   "ccf_region": "SSp",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "S2-PPC": {
+   "name": "Secondary somatosensory / posterior parietal",
+   "domain": "sensory",
+   "ccf_region": "SSs/PTLp",
+   "homology": "BOUNDARY",
+   "note": "posterior parietal partial homolog"
+  },
+  "OB": {
+   "name": "Olfactory bulb",
+   "domain": "sensory",
+   "ccf_region": "MOB",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "PIR": {
+   "name": "Piriform (olfactory) cortex",
+   "domain": "sensory",
+   "ccf_region": "PIR",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "NTS-gust": {
+   "name": "Nucleus tractus solitarius (gustatory)",
+   "domain": "sensory",
+   "ccf_region": "NTS (rostral)",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "GUST-cortex": {
+   "name": "Gustatory cortex",
+   "domain": "sensory",
+   "ccf_region": "GU",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "VN": {
+   "name": "Vestibular nuclei",
+   "domain": "sensory",
+   "ccf_region": "vestibular nuclei",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "dlPFC": {
+   "name": "Dorsolateral prefrontal cortex",
+   "domain": "executive",
+   "ccf_region": "(no granular homolog)",
+   "homology": "NONE",
+   "note": "granular DLPFC primate-specific"
+  },
+  "vlPFC": {
+   "name": "Ventrolateral prefrontal cortex",
+   "domain": "executive",
+   "ccf_region": "(no granular homolog)",
+   "homology": "NONE",
+   "note": "granular VLPFC primate-specific"
+  },
+  "dACC": {
+   "name": "Dorsal anterior cingulate cortex",
+   "domain": "executive",
+   "ccf_region": "ACAd",
+   "homology": "BOUNDARY",
+   "note": "rodent ACC partial homolog"
+  },
+  "FPC": {
+   "name": "Frontopolar cortex",
+   "domain": "executive",
+   "ccf_region": "(no homolog)",
+   "homology": "NONE",
+   "note": "frontopolar primate/human-specific"
+  },
+  "preSMA": {
+   "name": "Pre-supplementary motor area",
+   "domain": "executive",
+   "ccf_region": "MOs (M2)",
+   "homology": "BOUNDARY",
+   "note": "rodent secondary motor partial"
+  },
+  "FEF": {
+   "name": "Frontal eye fields",
+   "domain": "executive",
+   "ccf_region": "(FRP/M2 approx)",
+   "homology": "NONE",
+   "note": "granular FEF primate-specific"
+  },
+  "MDthal": {
+   "name": "Mediodorsal thalamus",
+   "domain": "executive",
+   "ccf_region": "MD",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "STN": {
+   "name": "Subthalamic nucleus",
+   "domain": "executive",
+   "ccf_region": "STN",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "Caud-assoc": {
+   "name": "Associative (dorsomedial) caudate",
+   "domain": "executive",
+   "ccf_region": "CP (dm)",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "BF-ACh": {
+   "name": "Basal forebrain cholinergic system",
+   "domain": "executive",
+   "ccf_region": "NDB/SI/MS (ACh)",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "PVN-OT": {
+   "name": "Hypothalamic oxytocin/vasopressin neurons",
+   "domain": "affiliation",
+   "ccf_region": "PVH (OT/AVP)",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "MPOA": {
+   "name": "Medial preoptic area",
+   "domain": "affiliation",
+   "ccf_region": "MPO/MPN",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "MeA": {
+   "name": "Medial amygdala",
+   "domain": "affiliation",
+   "ccf_region": "MEA",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "SEPT": {
+   "name": "Lateral/ventral septum",
+   "domain": "affiliation",
+   "ccf_region": "LS/MS",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "PAG-PANIC": {
+   "name": "Periaqueductal separation-distress column",
+   "domain": "affiliation",
+   "ccf_region": "PAG (dl/l col.)",
+   "homology": "STRONG",
+   "note": "PAG subcolumn"
+  },
+  "VMH": {
+   "name": "Ventromedial hypothalamus",
+   "domain": "affiliation",
+   "ccf_region": "VMH",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "NTS": {
+   "name": "Nucleus tractus solitarius (visceral)",
+   "domain": "interoception_autonomic",
+   "ccf_region": "NTS",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "PBN": {
+   "name": "Parabrachial nucleus",
+   "domain": "interoception_autonomic",
+   "ccf_region": "PB",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "VMpo-thal": {
+   "name": "Interoceptive thalamus",
+   "domain": "interoception_autonomic",
+   "ccf_region": "VPMpc/PoT",
+   "homology": "BOUNDARY",
+   "note": "VMpo largely primate-specific (Craig)"
+  },
+  "pIns": {
+   "name": "Posterior insula",
+   "domain": "interoception_autonomic",
+   "ccf_region": "AIp/VISC",
+   "homology": "BOUNDARY",
+   "note": "posterior insula homolog reasonable"
+  },
+  "mIns": {
+   "name": "Mid insula",
+   "domain": "interoception_autonomic",
+   "ccf_region": "AI (mid)",
+   "homology": "BOUNDARY",
+   "note": ""
+  },
+  "aIns": {
+   "name": "Anterior insula",
+   "domain": "interoception_autonomic",
+   "ccf_region": "AId/AIv",
+   "homology": "BOUNDARY",
+   "note": "anterior granular insula primate-elaborated"
+  },
+  "PVN": {
+   "name": "Paraventricular hypothalamus (autonomic/neuroendocrine)",
+   "domain": "interoception_autonomic",
+   "ccf_region": "PVH",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "RVLM": {
+   "name": "Rostral ventrolateral medulla",
+   "domain": "interoception_autonomic",
+   "ccf_region": "VLM (rostral)",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "IML": {
+   "name": "Intermediolateral cell column",
+   "domain": "interoception_autonomic",
+   "ccf_region": "(spinal IML)",
+   "homology": "NONE",
+   "note": "spinal cord, outside CCF brain"
+  },
+  "SympOut": {
+   "name": "Sympathetic ganglia + adrenal medulla",
+   "domain": "interoception_autonomic",
+   "ccf_region": "(sympathetic ganglia)",
+   "homology": "NONE",
+   "note": "peripheral"
+  },
+  "DMV": {
+   "name": "Dorsal motor nucleus of vagus",
+   "domain": "interoception_autonomic",
+   "ccf_region": "DMX",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "NuAmb": {
+   "name": "Nucleus ambiguus",
+   "domain": "interoception_autonomic",
+   "ccf_region": "AMB",
+   "homology": "STRONG",
+   "note": ""
+  },
+  "Pituitary": {
+   "name": "Anterior pituitary (corticotrophs)",
+   "domain": "interoception_autonomic",
+   "ccf_region": "(hypophysis)",
+   "homology": "NONE",
+   "note": "endocrine, outside CCF"
+  },
+  "AdrenalCortex": {
+   "name": "Adrenal cortex",
+   "domain": "interoception_autonomic",
+   "ccf_region": "(adrenal)",
+   "homology": "NONE",
+   "note": "peripheral endocrine"
+  },
+  "rSMG-TPJ": {
+   "name": "Right supramarginal gyrus / temporoparietal junction",
+   "domain": "social_cognition",
+   "ccf_region": "(no homolog)",
+   "homology": "NONE",
+   "note": "human TPJ, no rodent homolog"
+  },
+  "pSTS": {
+   "name": "Posterior superior temporal sulcus",
+   "domain": "social_cognition",
+   "ccf_region": "(no homolog)",
+   "homology": "NONE",
+   "note": "human STS, no rodent homolog"
+  },
+  "PCun-PCC": {
+   "name": "Precuneus / posterior cingulate cortex",
+   "domain": "social_cognition",
+   "ccf_region": "(RSP approx)",
+   "homology": "NONE",
+   "note": "precuneus/PCC largely human-elaborated"
+  },
+  "ATL-TP": {
+   "name": "Anterior temporal lobe / temporal poles",
+   "domain": "social_cognition",
+   "ccf_region": "(no homolog)",
+   "homology": "NONE",
+   "note": "anterior temporal pole, no rodent homolog"
+  },
+  "VMHvl": {
+   "name": "Ventrolateral ventromedial hypothalamus (hypothalamic attack area)",
+   "domain": "defensive_threat",
+   "ccf_region": "VMHvl",
+   "homology": "STRONG",
+   "note": "Allen resolves VMH subdivisions"
+  }
+ }
+}
