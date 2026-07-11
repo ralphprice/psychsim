@@ -1,10 +1,12 @@
 // PopulationSection — live population: resident count + author one study subject.
 //
-// DEPRECATED (U1): the temperament dropdown (typical / fearless / fearless (calc.)) is the
-// pre-redesign study interface -- an outcome-adjacent authoring shortcut. It is REPLACED by the
-// throttle panel (scan controller), which exposes CIRCUITS (0-100, intact = 100), never outcome
-// names; what a configuration produces is measured, never named in advance. Left functional for now,
-// marked here the way the Panksepp primitives were marked before their cut.
+// The temperament-preset dropdown was REMOVED (U1, 2.2c-ahead): a preset that named a disposition
+// implied a SEEDED OUTCOME, which the substrate does not do (a disposition is MEASURED, never
+// selected). Authoring now falls back to standard roles -- a standard agent is seeded and its
+// disposition emerges. Cut the way the Panksepp primitives were cut. (The CU-seed dropdown, 2.2c, is
+// a separate NEW seeding path added once the CU surface is built -- not a replacement for this preset.
+// Configurations are exposed as CIRCUITS via the throttle panel / scan controller; what a
+// configuration produces is measured, never named ahead.)
 import { useEffect, useState } from "react";
 import type { SimState, Command } from "../../types";
 import { getRoles } from "../../api";
@@ -16,7 +18,6 @@ export function PopulationSection({
   state: SimState;
   command: (cmd: Command) => Promise<unknown>;
 }) {
-  const [temper, setTemper] = useState("typical"); // DEPRECATED — replaced by the throttle panel
   const [role, setRole] = useState("child");
   const [roles, setRoles] = useState<string[]>(["child", "adult"]);
 
@@ -32,14 +33,6 @@ export function PopulationSection({
         <span>residents</span>
         <b>{residents}</b>
       </div>
-      <label className="rail-field" title="DEPRECATED — replaced by the throttle panel (scan controller)">
-        <span>profile</span>
-        <select value={temper} onChange={(e) => setTemper(e.target.value)}>
-          <option value="typical">typical</option>
-          <option value="fearless">fearless</option>
-          <option value="fearless_calculating">fearless (calc.)</option>
-        </select>
-      </label>
       <label className="rail-field">
         <span>role</span>
         <select value={role} onChange={(e) => setRole(e.target.value)}>
@@ -50,7 +43,7 @@ export function PopulationSection({
           ))}
         </select>
       </label>
-      <button onClick={() => command({ cmd: "add_person", role, temperament: temper } as Command)}>
+      <button onClick={() => command({ cmd: "add_person", role } as Command)}>
         + Add person
       </button>
     </section>

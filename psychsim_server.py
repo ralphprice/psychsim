@@ -21,7 +21,7 @@ Endpoints:
     GET  /report/subject?cid=ID   one subject's development trajectory
     POST /cmd             {"cmd": "play"|"pause"|"speed"|"add_person"|"respawn"
                                   |"save"|"load"|"delete_save", ...}
-                          respawn accepts {experiment, study_subjects, fearless_frac|module_params}
+                          respawn accepts {experiment, study_subjects, profile}
 """
 import argparse
 import json
@@ -195,19 +195,16 @@ class Handler(BaseHTTPRequestHandler):
             # interval in seconds; smaller = faster. Clamp to sane bounds.
             STEP_INTERVAL = max(0.02, min(2.0, float(data.get("interval", 0.25))))
         elif cmd == "add_person":
+            # a standard agent is seeded (the engine's default temperament); its disposition is
+            # MEASURED, never selected. The deprecated temperament-preset path was removed (U1).
             with LOCK:
-                result["cid"] = ENGINE.add_person(data.get("role", "child"),
-                                                  temperament=data.get("temperament", "typical"))
+                result["cid"] = ENGINE.add_person(data.get("role", "child"))
         elif cmd == "respawn":
-            # the sophropath module's one live knob is fearless_frac; accept it directly
-            # or via module_params={"sophropathy": {"fearless_frac": ...}}
-            mp = data.get("module_params") or {}
-            frac = data.get("fearless_frac", mp.get("sophropathy", {}).get("fearless_frac"))
             with LOCK:
                 ENGINE.respawn(population=data.get("population"), seed=data.get("seed"),
                                experiment=data.get("experiment"),
                                study_subjects=data.get("study_subjects", "__keep__"),
-                               fearless_frac=frac, profile=data.get("profile"))
+                               profile=data.get("profile"))
             PLAYING = False
         elif cmd == "save":
             with LOCK:

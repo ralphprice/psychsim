@@ -214,7 +214,7 @@ export type Command =
   | { cmd: "play" }
   | { cmd: "pause" }
   | { cmd: "speed"; interval: number }
-  | { cmd: "add_person"; role: string; temperament?: string }
+  | { cmd: "add_person"; role: string }
   | { cmd: "respawn"; population?: number; seed?: number; experiment?: boolean; study_subjects?: string[]; profile?: string }
   | { cmd: "save"; name: string }
   | { cmd: "load"; slug: string }
