@@ -606,3 +606,42 @@ still 5/5; the characterisation golden moved by a connectome-change shape (42 sm
 background library was **regrown under v12** (a sign change reshapes developed weights — a v11-grown bank is
 stale, though the `_restore_engine` length-guard does NOT catch a sign-only version change: flagged as a
 possible future version-stamp).
+
+
+---
+
+## v13 (2.1b) — the DRN (5-HT) node: the aggression regulator, built on the receptor-honest convention
+
+The last organism change before the study (register §2.1b), and the one that *needed* the v12a sign
+upgrade: serotonin's sign is **opposite across its targets**, un-representable under the old nucleus rule.
+v13 = v12 + the **dorsal raphe (DRN)** + **10 receptor-signed edges** + `NEUROMOD_SOURCE["5HT"]=["DRN"]`;
+v12 connectome byte-identical; v12 archived.
+
+- **Efferents (9), each sign from its cited 5-HT receptor** — the opposite-signs property that forced the
+  upgrade: `DRN→VMHvl` / `DRN→CeA` **5-HT1A INHIBITORY** (dampens the attack area), `DRN→OFC/vmPFC/dACC`
+  **5-HT2A EXCITATORY** (facilitates the PFC controllers that suppress aggression), `DRN→HPCv` 5-HT1B
+  (reactive-aggression pathway), + `DRN→BA/NAc-shell/PAG` (5-HT1A/1B, receptor determinations FLAGGED).
+- **Afferent (1):** `LHb→DRN` (glutamatergic aversion drive onto the raphe).
+- **The headline emergent (a `scan_match` target, NOT coded):** lowering 5-HT tone (throttling DRN — the
+  model's own study manipulation) **increases provoked aggression** at both ages (adult 0.136→0.187) — the
+  robust clinical direction (low 5-HT ↔ impulsive aggression), emerging from the *net* of competing signed
+  pathways (DRN→VMHvl− dampens attack; DRN→CeA− disinhibits attack effectors; DRN→PFC+ facilitates control).
+  Codified in `test_serotonin_regulation.py`. There is no coded `5HT → −aggression`.
+
+**Found and fixed in re-verification — the DRN↔PFC positive-feedback instability.** As first built, the
+top-down loop `vmPFC/OFC→DRN` (AMPA +) plus `DRN→vmPFC/OFC` (5-HT2A +) formed **mutual excitation** that
+saturated DRN and vmPFC to 1.0 and pushed resting VTA 0.077→0.25 (3.3×). Biologically the PFC→raphe loop is
+*regulatory* (self-limiting) — the real `PFC→DRN` projection recruits raphe GABA interneurons (net braking),
+which single-receptor edges can't capture; and its net sign is **genuinely debated** (direct glutamatergic
+excitation vs interneuron braking). Signing it inhibitory instead over-suppressed DRN to 0 (5-HT tone zero —
+also wrong). So the `vmPFC/OFC→DRN` afferents are **DEFERRED** (LHb→DRN retained): resting VTA back to 0.087,
+DRN at a healthy tonic 0.088, the emergent dampening and v9 closure intact. The PFC top-down loop is a
+future refinement (a raphe-interneuron microcircuit or a cited net-effect sign) — flagged in `gaps_register`.
+
+**Re-verification:** v9 aggression closure holds (the inhibitory regulator does not over-suppress the attack
+circuit); phenomena battery 5/5 (5-HT survives the substrate intact); DA stable after the loop fix; physical
+tests hold. The golden moved (a real node addition) with **2 marginal classification flips** — both
+`shared_root` develop agents, whose profiles are near-flat (top-3 domains within 0.03), tipped
+executive→social_cognition by ~0.025 (a near-tie relabel, not a collapse) — regenerated; library regrown.
+**Deferred (gaps_register / parking lot):** `DRN→VTA` (5-HT→VTA sign genuinely uncertain — 5-HT2C-on-GABA vs
+5-HT1B); median raphe (MRN); the PFC→DRN loop. Median-confidence receptor flags on BA/NAc/PAG carried.

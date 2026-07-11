@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PsychSim — How the System Works</title>
+<style>
+  :root{
+    --ink:#141821; --chassis:#1b2029; --surface:#ffffff; --page:#f4f2ec;
+    --line:#d9d5cc; --rule:#c3bdb0;
+    --text:#20242c; --muted:#5c636f; --faint:#8a909b;
+    --accent:#b5642a;      /* phosphor/terracotta — the one warm signal */
+    --trace:#2f7d74;       /* teal — emergence / selection */
+    --warn:#b04a3a;
+    --sub:#e9f3f1; --exc:#eef6ec; --inh:#faeceb;
+    --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--page);color:var(--text);font-family:var(--serif);
+       font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+  .doc{max-width:920px;margin:0 auto;padding:64px 56px 120px;background:var(--surface);
+       box-shadow:0 0 0 1px var(--line);}
+  h1,h2,h3,h4,.eyebrow,.tag,th,.chip,.pill{font-family:var(--sans);}
+  h1{font-size:40px;line-height:1.1;letter-spacing:-.01em;margin:0 0 8px;font-weight:800;}
+  .sub{font-size:19px;color:var(--muted);font-family:var(--sans);font-weight:400;margin:0 0 4px;}
+  .eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:700;
+           color:var(--accent);margin:0 0 20px;}
+  h2{font-size:27px;margin:56px 0 6px;font-weight:750;letter-spacing:-.01em;padding-top:24px;
+     border-top:2px solid var(--ink);}
+  h2 .n{color:var(--faint);font-variant-numeric:tabular-nums;margin-right:14px;font-weight:700;}
+  h3{font-size:20px;margin:34px 0 4px;font-weight:700;color:var(--ink);}
+  h4{font-size:14px;margin:22px 0 6px;font-weight:700;text-transform:uppercase;
+     letter-spacing:.06em;color:var(--muted);}
+  p{margin:12px 0;}
+  .lead{font-size:19px;line-height:1.55;color:#2a2f38;}
+  strong{font-weight:700;color:var(--ink);}
+  em{font-style:italic;}
+  code,.m{font-family:var(--mono);font-size:.88em;background:#f0eee8;padding:1px 5px;
+          border-radius:3px;color:#3a3f48;}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(181,100,42,.3);}
+  .callout{background:#faf8f2;border-left:3px solid var(--accent);padding:16px 22px;margin:24px 0;
+           font-family:var(--sans);font-size:15px;line-height:1.55;}
+  .callout .lbl{font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:11px;
+                color:var(--accent);display:block;margin-bottom:6px;}
+  .honest{background:#fbf2ef;border-left:3px solid var(--warn);}
+  .honest .lbl{color:var(--warn);}
+  figure{margin:32px 0;padding:0;}
+  figcaption{font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:10px;
+             text-align:center;font-style:normal;}
+  figcaption b{color:var(--ink);}
+  .fig-wrap{background:#fbfaf7;border:1px solid var(--line);border-radius:6px;padding:26px 20px;}
+  svg{display:block;margin:0 auto;max-width:100%;height:auto;}
+  table{width:100%;border-collapse:collapse;margin:22px 0;font-size:14px;}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;text-align:left;
+     padding:9px 12px;border-bottom:2px solid var(--ink);color:var(--ink);font-weight:700;vertical-align:bottom;}
+  td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.4;}
+  td.mono,th.mono{font-family:var(--mono);font-size:12.5px;}
+  tr:last-child td{border-bottom:1px solid var(--rule);}
+  .dom{font-family:var(--sans);font-weight:700;font-size:12px;padding:3px 8px;border-radius:4px;
+       display:inline-block;white-space:nowrap;}
+  .d-threat{background:#f6e7e4;color:#8f3b2c;}
+  .d-reward{background:#e7f0e6;color:#3d6b34;}
+  .d-exec{background:#e5edf6;color:#345b8f;}
+  .d-affil{background:#f6eee0;color:#8a6320;}
+  .d-social{background:#efe7f4;color:#6a3d8a;}
+  .d-intero{background:#e4f1f0;color:#276b64;}
+  .d-sensory{background:#eeece6;color:#5c636f;}
+  .num{font-variant-numeric:tabular-nums;font-family:var(--mono);}
+  .pill{display:inline-block;background:var(--chassis);color:#e8e6df;font-size:11px;
+        padding:3px 10px;border-radius:20px;letter-spacing:.04em;font-weight:600;}
+  .toc{background:#fbfaf7;border:1px solid var(--line);border-radius:6px;padding:22px 26px;margin:32px 0;
+       font-family:var(--sans);font-size:14.5px;}
+  .toc h4{margin:0 0 12px;}
+  .toc ol{margin:0;padding-left:20px;columns:2;column-gap:36px;}
+  .toc li{margin:5px 0;break-inside:avoid;}
+  .toc a{border:none;color:var(--text);}
+  .toc a:hover{color:var(--accent);}
+  .layer-tag{font-family:var(--sans);font-size:10.5px;font-weight:700;text-transform:uppercase;
+             letter-spacing:.07em;padding:2px 8px;border-radius:3px;margin-left:8px;vertical-align:middle;}
+  .l-all{background:#e7f0e6;color:#3d6b34;}
+  .l-user{background:#e5edf6;color:#345b8f;}
+  .l-deep{background:#eeece6;color:#5c636f;}
+  hr{border:none;border-top:1px solid var(--line);margin:40px 0;}
+  .kicker{font-family:var(--sans);font-size:13px;color:var(--faint);text-transform:uppercase;
+          letter-spacing:.1em;margin:0 0 40px;padding-bottom:20px;border-bottom:1px solid var(--line);}
+  ul.clean{list-style:none;padding-left:0;}
+  ul.clean li{padding-left:26px;position:relative;margin:10px 0;}
+  ul.clean li::before{content:"";position:absolute;left:6px;top:11px;width:6px;height:6px;
+                      background:var(--accent);border-radius:50%;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;}
+  @media(max-width:700px){.doc{padding:40px 22px;}.two-col,.toc ol{grid-template-columns:1fr;columns:1;}}
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <p class="eyebrow">Research Platform · System Overview</p>
+  <h1>PsychSim</h1>
+  <p class="sub">A neural-substrate life-course simulator in which behaviour is <em>grown</em>, never scripted — and an account of how it works, for the researchers who will use it.</p>
+  <p class="kicker">Draft · describes a validated instrument and the studies it is built to run · not yet run as a study</p>
+
+  <p class="lead">Most social simulations decide in advance what their agents will do. A rule says "when threatened, flee"; a parameter says "this agent is aggressive." PsychSim was built on the opposite premise: <strong>nothing about an agent's personality or behaviour is written into the model.</strong> Instead, each agent has a simulated brain — a network of neural circuits with no built-in notion of good, bad, friendly, or hostile — and everything the agent becomes emerges from that brain developing through a lifetime of experience. This document explains what the system is, how its parts fit together, and why that one design commitment makes its findings worth trusting.</p>
+
+  <div class="toc">
+    <h4>What's in this document</h4>
+    <ol>
+      <li><a href="#s1">What PsychSim is</a></li>
+      <li><a href="#s2">The core idea: behaviour emerges</a></li>
+      <li><a href="#s3">The neural substrate</a></li>
+      <li><a href="#s4">The circuitry, by level</a></li>
+      <li><a href="#s5">The matrices: experience</a></li>
+      <li><a href="#s6">Development: how a self forms</a></li>
+      <li><a href="#s7">The observer: measuring without interfering</a></li>
+      <li><a href="#s8">The honesty wall</a></li>
+      <li><a href="#s9">A worked example</a></li>
+      <li><a href="#s10">Instruments &amp; the module system</a></li>
+      <li><a href="#s11">Status &amp; what's next</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================================= -->
+  <h2 id="s1"><span class="n">1</span>What PsychSim is <span class="layer-tag l-all">everyone</span></h2>
+
+  <p>PsychSim is a <strong>research platform for studying how personality and behaviour develop</strong>. It simulates a population of individuals, each equipped with a biologically-grounded model of the brain, and lets them grow up inside a shared social world — forming relationships, responding to their environment, and developing stable dispositions over a lifetime.</p>
+
+  <p>It is a <em>general-purpose instrument</em>, not a model of one condition. The platform provides the brain, the world, the developmental machinery, and the measurement tools. Specific research questions are then attached as <strong>modules</strong> — self-contained study designs that plug into the platform. One such module exists today (studying a particular clinical phenotype); the platform is built so that other researchers can write their own, against a published module specification. The value is the platform and its extensibility; the modules are applications of it.</p>
+
+  <div class="two-col">
+    <div>
+      <h4>What it provides</h4>
+      <ul class="clean">
+        <li>A grounded neural substrate — 78 brain circuits, cited to the neuroscience literature</li>
+        <li>A developing social world — relationships, environment, groups, self-reflection</li>
+        <li>Life-course development from birth, on a realistic plasticity schedule</li>
+        <li>Measurement tools that read behaviour without altering it</li>
+        <li>A search engine for discovering which circuit configurations produce which outcomes</li>
+        <li>A module interface for attaching new studies</li>
+      </ul>
+    </div>
+    <div>
+      <h4>What makes it different</h4>
+      <ul class="clean">
+        <li>No behaviour is coded — it all emerges from the substrate</li>
+        <li>Every circuit traces to a real citation, not an assumption</li>
+        <li>Outcomes are <em>measured</em>, never assigned</li>
+        <li>The architecture makes dishonest shortcuts structurally impossible, not merely discouraged</li>
+        <li>Findings are discoveries about the model, testable against real-world data</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <h2 id="s2"><span class="n">2</span>The core idea: behaviour emerges <span class="layer-tag l-all">everyone</span></h2>
+
+  <p class="lead">This is the one idea that everything else follows from. It is worth stating carefully, because it is what separates PsychSim from a conventional agent-based model.</p>
+
+  <p>In a typical simulation, an agent's behaviour is the <em>input</em>: the designer decides the rules, and the simulation plays them out. If you want to study aggression, you write an aggression rule. The trouble is that you can then only ever "discover" what you already wrote — the model confirms your assumptions by construction.</p>
+
+  <p>PsychSim inverts this. Behaviour is the <em>output</em>. The designer specifies only the <strong>neural machinery</strong> — circuits, their connections, and the chemistry that makes connections excite or inhibit one another — and this machinery has <em>no concept of behaviour at all</em>. It doesn't know what "aggression" or "kindness" is. It only knows how to pass activation between circuits. What the agent does is whatever that machinery produces when it meets a situation, after a lifetime of development has shaped it.</p>
+
+  <figure>
+    <div class="fig-wrap">
+      <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+        <!-- conventional -->
+        <text x="180" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#8a909b">CONVENTIONAL SIMULATION</text>
+        <rect x="70" y="46" width="220" height="46" rx="6" fill="#f6e7e4" stroke="#8f3b2c" stroke-width="1"/>
+        <text x="180" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#8f3b2c">Designer writes the rule</text>
+        <text x="180" y="84" text-anchor="middle" font-size="11" fill="#8f3b2c">"when threatened → flee"</text>
+        <line x1="180" y1="92" x2="180" y2="126" stroke="#b04a3a" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="70" y="128" width="220" height="42" rx="6" fill="#fff" stroke="#c3bdb0"/>
+        <text x="180" y="154" text-anchor="middle" font-size="13" fill="#20242c">Simulation plays it out</text>
+        <line x1="180" y1="170" x2="180" y2="204" stroke="#b04a3a" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="70" y="206" width="220" height="42" rx="6" fill="#f0eee8" stroke="#c3bdb0"/>
+        <text x="180" y="226" text-anchor="middle" font-size="12.5" fill="#5c636f">You find the rule</text>
+        <text x="180" y="242" text-anchor="middle" font-size="11" fill="#8a909b">you already wrote</text>
+
+        <!-- divider -->
+        <line x1="360" y1="40" x2="360" y2="260" stroke="#d9d5cc" stroke-width="1" stroke-dasharray="4 4"/>
+
+        <!-- psychsim -->
+        <text x="540" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#b5642a">PSYCHSIM</text>
+        <rect x="430" y="46" width="220" height="46" rx="6" fill="#eef6ec" stroke="#3d6b34" stroke-width="1"/>
+        <text x="540" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#3d6b34">Designer specifies circuits</text>
+        <text x="540" y="84" text-anchor="middle" font-size="11" fill="#3d6b34">meaning-blind neural machinery</text>
+        <line x1="540" y1="92" x2="540" y2="126" stroke="#2f7d74" stroke-width="1.5" marker-end="url(#at)"/>
+        <rect x="430" y="128" width="220" height="42" rx="6" fill="#fff" stroke="#c3bdb0"/>
+        <text x="540" y="149" text-anchor="middle" font-size="13" fill="#20242c">Development shapes it</text>
+        <text x="540" y="163" text-anchor="middle" font-size="11" fill="#8a909b">a lifetime of experience</text>
+        <line x1="540" y1="170" x2="540" y2="204" stroke="#2f7d74" stroke-width="1.5" marker-end="url(#at)"/>
+        <rect x="430" y="206" width="220" height="42" rx="6" fill="#e7f0e6" stroke="#3d6b34"/>
+        <text x="540" y="226" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3d6b34">Behaviour emerges</text>
+        <text x="540" y="242" text-anchor="middle" font-size="11" fill="#3d6b34">a genuine discovery</text>
+
+        <defs>
+          <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 z" fill="#b04a3a"/></marker>
+          <marker id="at" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 z" fill="#2f7d74"/></marker>
+        </defs>
+      </svg>
+    </div>
+    <figcaption><b>Figure 1.</b> The inversion. A conventional model can only reveal what was written into it. PsychSim specifies the machinery and lets behaviour emerge, so a result is a genuine finding about how the machinery behaves.</figcaption>
+  </figure>
+
+  <div class="callout">
+    <span class="lbl">Why this matters</span>
+    Because behaviour is never coded, a finding in PsychSim is evidence about the <em>mechanism</em>. If a particular pattern of circuit development reliably produces a particular disposition, that's something the model <em>discovered</em> — and it can then be checked against real clinical or field data. A conventional model that was told to produce the pattern proves nothing. This is the entire basis of the platform's credibility.
+  </div>
+
+  <!-- ============================================================= -->
+  <h2 id="s3"><span class="n">3</span>The neural substrate <span class="layer-tag l-user">users &amp; evaluators</span></h2>
+
+  <p>At the heart of every agent is the <strong>substrate</strong>: a network of <strong>78 neural circuits</strong> connected by <strong>186 pathways</strong>, standing in for the brain regions and projections that the neuroscience literature identifies as governing emotion, motivation, threat, reward, social perception, and executive control.</p>
+
+  <p>Each circuit is a simple unit with a level of activation. Circuits drive one another along pathways, and a pathway is either <em>excitatory</em> (raises the target's activation) or <em>inhibitory</em> (lowers it). Critically, <strong>whether a pathway excites or inhibits is set by neurochemistry, not by convenience</strong> — it is derived from the transmitter of the source and the receptor at the target, taken from the literature. The designer never sets a pathway to excite or inhibit in order to get a behaviour they want; they cite the biology, and the sign follows. Inhibition is as important as excitation, and is included wherever it exists — even when it works <em>against</em> the phenomenon a study is interested in.</p>
+
+  <figure>
+    <div class="fig-wrap">
+      <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+        <!-- a small circuit motif: input -> LA -> CeA -> effector, with vmPFC inhibiting -->
+        <defs>
+          <marker id="exc" markerWidth="11" markerHeight="11" refX="9" refY="5" orient="auto"><path d="M0,0 L9,5 L0,10 z" fill="#3d6b34"/></marker>
+          <marker id="inh" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto"><line x1="1" y1="1" x2="1" y2="11" stroke="#8f3b2c" stroke-width="2.4"/></marker>
+        </defs>
+        <text x="350" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#8a909b">A FRAGMENT OF THE SUBSTRATE — THE THREAT PATHWAY</text>
+
+        <g font-size="12.5" font-weight="700">
+          <circle cx="80" cy="130" r="30" fill="#eeece6" stroke="#5c636f" stroke-width="1.4"/>
+          <text x="80" y="128" text-anchor="middle" fill="#3a3f48">sensory</text>
+          <text x="80" y="143" text-anchor="middle" font-size="10" font-weight="400" fill="#8a909b">input</text>
+
+          <circle cx="230" cy="130" r="34" fill="#f6e7e4" stroke="#8f3b2c" stroke-width="1.4"/>
+          <text x="230" y="127" text-anchor="middle" fill="#8f3b2c">LA</text>
+          <text x="230" y="142" text-anchor="middle" font-size="9.5" font-weight="400" fill="#8f3b2c">fear learning</text>
+
+          <circle cx="400" cy="130" r="34" fill="#f6e7e4" stroke="#8f3b2c" stroke-width="1.4"/>
+          <text x="400" y="127" text-anchor="middle" fill="#8f3b2c">CeA</text>
+          <text x="400" y="142" text-anchor="middle" font-size="9.5" font-weight="400" fill="#8f3b2c">output hub</text>
+
+          <circle cx="570" cy="130" r="32" fill="#f6e7e4" stroke="#8f3b2c" stroke-width="1.4"/>
+          <text x="570" y="127" text-anchor="middle" fill="#8f3b2c">PAG</text>
+          <text x="570" y="142" text-anchor="middle" font-size="9.5" font-weight="400" fill="#8f3b2c">defensive act</text>
+
+          <circle cx="400" cy="46" r="30" fill="#e5edf6" stroke="#345b8f" stroke-width="1.4"/>
+          <text x="400" y="44" text-anchor="middle" fill="#345b8f" font-size="11.5">vmPFC</text>
+          <text x="400" y="58" text-anchor="middle" font-size="9" font-weight="400" fill="#345b8f">control</text>
+        </g>
+
+        <line x1="112" y1="130" x2="192" y2="130" stroke="#3d6b34" stroke-width="2" marker-end="url(#exc)"/>
+        <line x1="266" y1="130" x2="362" y2="130" stroke="#3d6b34" stroke-width="2" marker-end="url(#exc)"/>
+        <line x1="436" y1="130" x2="534" y2="130" stroke="#3d6b34" stroke-width="2" marker-end="url(#exc)"/>
+        <line x1="400" y1="78" x2="400" y2="94" stroke="#8f3b2c" stroke-width="2" marker-end="url(#inh)"/>
+
+        <text x="150" y="122" text-anchor="middle" font-size="10" fill="#3d6b34" font-weight="600">excites</text>
+        <text x="455" y="70" font-size="10" fill="#8f3b2c" font-weight="600">inhibits</text>
+        <text x="350" y="210" text-anchor="middle" font-size="11.5" fill="#5c636f" font-style="italic">A threat drives fear-learning → the output hub → a defensive response; the prefrontal controller can damp the hub. None of these circuits "knows" it is doing fear — it is all activation.</text>
+      </svg>
+    </div>
+    <figcaption><b>Figure 2.</b> A real fragment of the substrate. Green arrowheads are excitatory pathways; the flat bar is inhibitory. The signs come from the neurochemistry of each projection, not from a desired outcome.</figcaption>
+  </figure>
+
+  <p>The substrate is defined entirely in a single data file — a <strong>seed</strong> — which lists every circuit, its properties, every pathway, and the citation grounding it. The simulation engine reads this seed; it contains no hidden brain of its own. This matters for a practical reason the next section returns to: <strong>reconfiguring the model means editing data, not rewriting code.</strong> The brain can be revised, extended, or corrected by changing the seed, and the change is reviewed against the literature — which is how the substrate has been refined across twelve successive, documented versions without ever rebuilding the engine.</p>
+
+  <div class="callout honest">
+    <span class="lbl">An honest note on the numbers</span>
+    The <em>structure</em> of the substrate — which circuits exist, which connect to which, and whether each connection excites or inhibits — is grounded in citations. The <em>strengths</em> of those connections are, in many cases, still reasonable placeholders ("scaffold"), because the literature gives a direction far more often than it gives a precise weight. Every such value is marked as scaffold in the system, so a placeholder is never mistaken for a measured constant. Calibrating these is part of the work ahead, not something the platform pretends is already settled.
+  </div>
+
+  <!-- ============================================================= -->
+  <h2 id="s4"><span class="n">4</span>The circuitry, by level <span class="layer-tag l-deep">deep dive</span></h2>
+
+  <p>The 78 circuits are organised into seven functional <strong>domains</strong>. This is not a hard partition — the whole point is that domains interact — but it is how the substrate is structured, and it gives a map of what the brain model contains. A reader who wants only the concept can skim the table; a reader building a study will return to it.</p>
+
+  <table>
+    <thead><tr><th style="width:180px">Domain</th><th style="width:56px" class="num">n</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><span class="dom d-threat">defensive threat</span></td><td class="num">14</td><td>Detects danger and produces defensive responses — fear learning, freezing, avoidance, and the prefrontal control that regulates them.</td></tr>
+      <tr><td><span class="dom d-reward">reward &amp; approach</span></td><td class="num">12</td><td>Wanting, liking, and pursuit — the dopamine system, value representation, disappointment, and approach motivation.</td></tr>
+      <tr><td><span class="dom d-sensory" style="background:#eeece6;color:#5c636f">sensory</span></td><td class="num">18</td><td>The perceptual front end — the relays and cortices that turn raw input from each sense into signals the rest of the brain can use.</td></tr>
+      <tr><td><span class="dom d-intero">interoception</span></td><td class="num">14</td><td>The body's internal state — autonomic control, hormonal output, and the felt sense of the body that colours emotion.</td></tr>
+      <tr><td><span class="dom d-exec">executive</span></td><td class="num">10</td><td>Control and deliberation — holding goals, resolving competing impulses, and raising or lowering the threshold to act.</td></tr>
+      <tr><td><span class="dom d-affil">affiliation</span></td><td class="num">6</td><td>Bonding and social motivation — attachment, separation distress, and the circuitry of care.</td></tr>
+      <tr><td><span class="dom d-social">social cognition</span></td><td class="num">4</td><td>Reading others — perspective-taking, social meaning, and the perception of persons as distinct from objects.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Within each domain sit specific circuits, each a named brain region with a documented function. A representative selection — the circuits that recur when the system is explained — gives the flavour:</p>
+
+  <table>
+    <thead><tr><th class="mono" style="width:110px">circuit</th><th style="width:150px">domain</th><th>role in the machine</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">LA</td><td><span class="dom d-threat">defensive threat</span></td><td>The principal site where a neutral cue becomes associated with danger — the seat of learned fear.</td></tr>
+      <tr><td class="mono">CeA</td><td><span class="dom d-threat">defensive threat</span></td><td>The output hub that drives defensive responses; largely inhibitory in its projections.</td></tr>
+      <tr><td class="mono">VMHvl</td><td><span class="dom d-threat">defensive threat</span></td><td>The hypothalamic "attack area" — integrates provocation and social threat toward a threshold for aggression.</td></tr>
+      <tr><td class="mono">vmPFC</td><td><span class="dom d-threat">defensive threat</span></td><td>Top-down damping — safety signalling and the extinction of fear; the brake on the threat system.</td></tr>
+      <tr><td class="mono">VTA</td><td><span class="dom d-reward">reward &amp; approach</span></td><td>The origin of the dopamine signal — the substrate's teaching signal for reward and motivation.</td></tr>
+      <tr><td class="mono">NAc-shell</td><td><span class="dom d-reward">reward &amp; approach</span></td><td>"Wanting" and "liking" — incentive salience and hedonic impact.</td></tr>
+      <tr><td class="mono">LHb</td><td><span class="dom d-reward">reward &amp; approach</span></td><td>The disappointment signal — negative reward-prediction; suppresses dopamine when things go worse than expected.</td></tr>
+      <tr><td class="mono">OFC</td><td><span class="dom d-reward">reward &amp; approach</span></td><td>Flexible valuation — representing what outcomes are worth, and updating when they change.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Feeding all of this are <strong>nine input channels</strong> — the senses. Every experience enters the substrate only through these channels, as a pattern of stimulation; the brain has no other way in. This is what keeps the model honest at the boundary: the world cannot reach in and set a circuit directly — it can only present a stimulus to the senses, and what that stimulus evokes is up to the substrate.</p>
+
+  <table>
+    <thead><tr><th class="mono" style="width:150px">channel</th><th>sense</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">IN-VIS · IN-AUD · IN-OLF</td><td>Vision, hearing, smell.</td></tr>
+      <tr><td class="mono">IN-GUST · IN-SOMATO</td><td>Taste, and bodily sensation (touch, temperature, pain).</td></tr>
+      <tr><td class="mono">IN-PROPRIO · IN-VESTIB</td><td>Body position and balance.</td></tr>
+      <tr><td class="mono">IN-INTERO</td><td>The internal state of the body — the interoceptive sense.</td></tr>
+      <tr><td class="mono">IN-CONSPEC</td><td>The perception of <em>another individual</em> — a distinct social-visual channel, separate from generic vision, reflecting that the brain processes faces and persons through dedicated pathways.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ============================================================= -->
+  <h2 id="s5"><span class="n">5</span>The matrices: where experience comes from <span class="layer-tag l-user">users &amp; evaluators</span></h2>
+
+  <p>A brain in a vat develops nothing. For the substrate to grow, it needs a world to grow in — a stream of experiences to respond to and be shaped by. That world is provided by four <strong>matrices</strong>, each supplying a different dimension of an agent's life:</p>
+
+  <div class="two-col">
+    <div>
+      <ul class="clean">
+        <li><strong>The social matrix</strong> — the agent's relationships: who it knows, and the history of those bonds.</li>
+        <li><strong>The environmental matrix</strong> — the physical and material world: the places, objects, and resources the agent encounters.</li>
+      </ul>
+    </div>
+    <div>
+      <ul class="clean">
+        <li><strong>The group matrix</strong> — the agent's standing in groups: belonging, rank, and social identity.</li>
+        <li><strong>Self-reflection</strong> — the agent's developing model of itself: how it comes to regard and regulate its own tendencies.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>The crucial thing about the matrices is <em>how</em> they touch the substrate. A matrix never tells an agent how to feel or what to do. It presents a <strong>situation</strong> — a pattern of stimulation across the sensory channels — and the agent's own substrate produces the response. A relationship in the social matrix is not a stored feeling; it is a history of encounters, each of which was <em>lived</em> through the substrate, and the bond that results is whatever those encounters built.</p>
+
+  <figure>
+    <div class="fig-wrap">
+      <svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+        <defs>
+          <marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L8,5 L0,10 z" fill="#2f7d74"/></marker>
+          <marker id="a3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L8,5 L0,10 z" fill="#b5642a"/></marker>
+        </defs>
+
+        <!-- four matrices on the left -->
+        <text x="120" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#8a909b">THE FOUR MATRICES</text>
+        <g font-size="12" font-weight="700">
+          <rect x="30" y="46" width="180" height="40" rx="6" fill="#efe7f4" stroke="#6a3d8a"/><text x="120" y="70" text-anchor="middle" fill="#6a3d8a">Social — relationships</text>
+          <rect x="30" y="94" width="180" height="40" rx="6" fill="#e7f0e6" stroke="#3d6b34"/><text x="120" y="118" text-anchor="middle" fill="#3d6b34">Environmental — world</text>
+          <rect x="30" y="142" width="180" height="40" rx="6" fill="#f6eee0" stroke="#8a6320"/><text x="120" y="166" text-anchor="middle" fill="#8a6320">Group — standing</text>
+          <rect x="30" y="190" width="180" height="40" rx="6" fill="#e5edf6" stroke="#345b8f"/><text x="120" y="214" text-anchor="middle" fill="#345b8f">Self-reflection</text>
+        </g>
+
+        <!-- arrows presenting situations -->
+        <line x1="214" y1="66" x2="290" y2="150" stroke="#2f7d74" stroke-width="1.6" marker-end="url(#a2)"/>
+        <line x1="214" y1="114" x2="290" y2="158" stroke="#2f7d74" stroke-width="1.6" marker-end="url(#a2)"/>
+        <line x1="214" y1="162" x2="290" y2="166" stroke="#2f7d74" stroke-width="1.6" marker-end="url(#a2)"/>
+        <line x1="214" y1="210" x2="290" y2="174" stroke="#2f7d74" stroke-width="1.6" marker-end="url(#a2)"/>
+        <text x="240" y="240" font-size="10.5" fill="#2f7d74" font-weight="600" transform="rotate(-8 240 240)">present situations</text>
+        <text x="242" y="253" font-size="9.5" fill="#8a909b" transform="rotate(-8 242 253)">(patterns of stimulation)</text>
+
+        <!-- the substrate in the middle -->
+        <circle cx="400" cy="162" r="66" fill="#fbfaf7" stroke="#141821" stroke-width="1.8"/>
+        <text x="400" y="150" text-anchor="middle" font-size="13" font-weight="800" fill="#141821">THE</text>
+        <text x="400" y="168" text-anchor="middle" font-size="13" font-weight="800" fill="#141821">SUBSTRATE</text>
+        <text x="400" y="186" text-anchor="middle" font-size="10" fill="#8a909b">78 circuits</text>
+        <!-- little circuit dots -->
+        <circle cx="378" cy="140" r="4" fill="#8f3b2c"/><circle cx="418" cy="138" r="4" fill="#3d6b34"/>
+        <circle cx="430" cy="172" r="4" fill="#345b8f"/><circle cx="372" cy="180" r="4" fill="#6a3d8a"/>
+
+        <!-- response emerges back -->
+        <path d="M466,150 Q540,120 560,140" fill="none" stroke="#b5642a" stroke-width="1.8" marker-end="url(#a3)"/>
+        <text x="548" y="112" text-anchor="middle" font-size="11" fill="#b5642a" font-weight="700">response emerges</text>
+
+        <!-- and updates the matrices -->
+        <rect x="500" y="150" width="170" height="52" rx="6" fill="#faf8f2" stroke="#b5642a"/>
+        <text x="585" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="#b5642a">the act updates</text>
+        <text x="585" y="188" text-anchor="middle" font-size="11" fill="#8a6320">the bond / standing / self</text>
+        <path d="M560,202 Q400,300 214,226" fill="none" stroke="#b5642a" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#a3)"/>
+        <text x="390" y="300" text-anchor="middle" font-size="10.5" fill="#b5642a" font-weight="600">what emerged becomes the new history — and the loop continues</text>
+      </svg>
+    </div>
+    <figcaption><b>Figure 3.</b> The matrices present situations to the substrate as sensory patterns; the substrate produces a response; the response updates the relationship, the standing, the self — which becomes the situation next time. The bond is built by living, not stored as a number.</figcaption>
+  </figure>
+
+  <p>This closes a loop. Experience shapes the substrate; the shaped substrate produces behaviour; behaviour changes the agent's relationships and standing; and those changed circumstances become the next experience. Run over a lifetime, this loop is what turns a newborn's generic brain into a particular adult with particular dispositions.</p>
+
+  <!-- ============================================================= -->
+  <h2 id="s6"><span class="n">6</span>Development: how a self forms <span class="layer-tag l-user">users &amp; evaluators</span></h2>
+
+  <p>Every agent begins as a <strong>newborn</strong> — the same generic substrate, with only innate biases in place (the handful of things a brain is born knowing, such as that a sweet taste is rewarding or a looming shape is threatening, each one cited to developmental evidence). Everything else is learned.</p>
+
+  <p>Learning happens through <strong>plasticity</strong>: when the substrate lives through a situation, the connections that were active are adjusted, so that the same situation is met slightly differently next time. Early in life this plasticity is strong — experience writes deeply — and it diminishes with age on a realistic schedule, so that the dispositions laid down in childhood become the stable temperament of the adult. This is why <em>when</em> something happens matters as much as <em>what</em> happens: the same experience shapes a young agent far more than an old one.</p>
+
+  <div class="callout">
+    <span class="lbl">The key consequence</span>
+    Two agents with <em>identical</em> starting brains, raised in different circumstances, become different people — not because anything about their difference was coded, but because they lived different lives through the same machinery. This is the platform's central capability: it lets a researcher ask what kinds of experience, acting on what kind of starting substrate, produce what kinds of adult — and get an answer that was <em>discovered</em>, not assumed.
+  </div>
+
+  <!-- ============================================================= -->
+  <h2 id="s7"><span class="n">7</span>The observer: measuring without interfering <span class="layer-tag l-user">users &amp; evaluators</span></h2>
+
+  <p>To study an agent, you have to measure it — but measurement must never <em>change</em> what it measures, or the finding is contaminated. PsychSim enforces this with a strict separation between the substrate and the <strong>observer</strong>.</p>
+
+  <p>The observer reads an agent's behaviour and computes descriptive measures over it — the psychological constructs a researcher cares about. But this reading is <strong>entirely one-way</strong>. The observer never feeds anything back into the substrate; measuring an agent does not develop it, nudge it, or label it in a way the agent's own machinery can see. The constructs live in the observer's report, not in the agent's brain. An agent is never told what it "is."</p>
+
+  <div class="callout honest">
+    <span class="lbl">Why the names live in the observer, not the brain</span>
+    A construct like "empathy" or "impulsivity" is a <em>measurement</em> — a way of describing behaviour from the outside. It is emphatically not a dial inside the agent. If such a construct were built into the substrate as something that <em>drives</em> behaviour, the model would be assuming the very thing it should be discovering. So these names appear only where they belong: in the observer's read-out, computed over behaviour the substrate produced on its own. The report describes; it never prescribes.
+  </div>
+
+  <!-- ============================================================= -->
+  <h2 id="s8"><span class="n">8</span>The honesty wall <span class="layer-tag l-all">everyone</span></h2>
+
+  <p class="lead">Everything so far has circled one principle. It is the platform's defining commitment, and it is worth naming directly: <strong>the mechanism must never contain the answer.</strong></p>
+
+  <p>If you are studying how a disposition arises, then that disposition — and anything that would trivially produce it — must not be written into the machinery. Otherwise you have not modelled how it arises; you have merely asserted it, and dressed the assertion up as a result. The honesty wall is the discipline that no psychological outcome is ever a cause in the model. Outcomes are always <em>downstream</em> — measured, emergent, discovered — never inputs.</p>
+
+  <p>What makes this more than a good intention is that it is enforced <strong>structurally</strong>, not by vigilance. The architecture is built so that the dishonest move is <em>impossible</em>, not merely discouraged:</p>
+
+  <ul class="clean">
+    <li><strong>The world can't reach the brain directly.</strong> Experience enters only as sensory stimulation; there is no path for a situation to set a circuit to a chosen value.</li>
+    <li><strong>Signs come from chemistry, not from wants.</strong> Whether a pathway excites or inhibits is derived from cited neurochemistry; there is no way to flip a sign to get a behaviour without falsifying a citation — a visible lie, not a quiet tweak.</li>
+    <li><strong>Measurement can't feed back.</strong> The observer is read-only by construction; measuring an agent cannot alter it.</li>
+    <li><strong>The search can't cheat.</strong> The discovery engine (next section) is built so it cannot be handed a target outcome to reproduce — it can only measure what emerges.</li>
+    <li><strong>Nothing that emerges may be dressed as more than a candidate.</strong> A result the system finds is always reported as a hypothesis to be tested, never as a settled finding it certified about itself.</li>
+  </ul>
+
+  <p>This is why the platform's findings are worth trusting. Not because its designers were careful — though they were — but because the structure removes the opportunity to cheat. A result survives contact with people who don't know why the discipline matters, because the discipline is built into what the system will and won't let you do.</p>
+
+  <!-- ============================================================= -->
+  <h2 id="s9"><span class="n">9</span>A worked example <span class="layer-tag l-user">users &amp; evaluators</span></h2>
+
+  <p>To make this concrete, consider how the substrate handles a provocation — a genuine pathway in the model, chosen because it shows the discipline at work.</p>
+
+  <p>The "attack area" (<span class="m">VMHvl</span>) is the circuit that integrates provocation toward a threshold for aggression. One might expect that to study aggression, you would give it a strong tendency to fire. Instead, the substrate wires it as the anatomy dictates: provocation reaches it, other circuits feed into it, and a prefrontal brake and the executive system can hold it below threshold. Then the outcome is <em>measured</em>, not set:</p>
+
+  <ul class="clean">
+    <li>Under genuine provocation, aggression can cross threshold and emerge — the pathway works.</li>
+    <li>Under a plain, non-social threat, the agent avoids rather than attacks — the response fits the situation.</li>
+    <li>With no provocation at all, the agent restrains — aggression does not leak out of nowhere.</li>
+  </ul>
+
+  <p>That last point is the tell. The system is checked to confirm that an agent does <em>not</em> become aggressive in a neutral situation — because if it did, that would mean aggression had been coded in as a standing tendency rather than emerging from provocation. The check that the floor holds is how the platform proves it did not smuggle the answer in. Aggression, when it appears, was <em>earned</em> by the situation, not built into the agent.</p>
+
+  <div class="callout">
+    <span class="lbl">The same logic, everywhere</span>
+    This pattern repeats across the whole platform. Whatever a study is interested in, the substrate is wired to the biology, the outcome is measured against a control that proves it wasn't coded, and a result counts only if it <em>emerges</em>. That is the honesty wall in daily practice.
+  </div>
+
+  <!-- ============================================================= -->
+  <h2 id="s10"><span class="n">10</span>Instruments &amp; the module system <span class="layer-tag l-user">users &amp; evaluators</span></h2>
+
+  <p>Around the substrate sit the tools that turn it into a research platform.</p>
+
+  <h4>The instruments</h4>
+  <ul class="clean">
+    <li><strong>A developed-agent bank</strong> — grow an agent once, through its whole life, and save it, so a costly life-course need not be re-run for every study.</li>
+    <li><strong>A parallel harness</strong> — run many independent agents at once, with a guarantee that they do not contaminate one another.</li>
+    <li><strong>An arena</strong> — a compact social world where saved agents meet and interact, so population-level effects can be studied efficiently.</li>
+    <li><strong>A discovery engine</strong> — a search that explores which configurations of the substrate produce which measured outcomes. It is built so it can never be handed a desired answer to reproduce: it can only search, measure, and report candidates.</li>
+  </ul>
+
+  <h4>The module system — how studies attach</h4>
+  <p>A <strong>module</strong> is a self-contained study design that plugs into the platform. It specifies a research question, the measured signatures that answer it, and the conditions under which agents are grown and tested — all <em>on top of</em> the shared substrate, without modifying it. The platform runs the module; the substrate stays the same trustworthy machine underneath.</p>
+
+  <p>This is the platform's most important property for the wider field. Because a module is a defined, bounded extension, <strong>other researchers can write their own</strong> — a different question, different measured outcomes, a different study design — against a published module specification, and run it on the same validated substrate. One module exists today, as a first example; the interface that will let others build their own is a deliberate part of the roadmap. The ambition is not one study but a platform others extend — each new module inheriting the same honesty guarantees, because they are properties of the substrate every module shares.</p>
+
+  <figure>
+    <div class="fig-wrap">
+      <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+        <!-- platform base -->
+        <rect x="60" y="150" width="580" height="66" rx="8" fill="#fbfaf7" stroke="#141821" stroke-width="1.8"/>
+        <text x="350" y="178" text-anchor="middle" font-size="14" font-weight="800" fill="#141821">THE PSYCHSIM PLATFORM</text>
+        <text x="350" y="198" text-anchor="middle" font-size="11.5" fill="#5c636f">substrate · matrices · development · observer · instruments · honesty wall</text>
+
+        <!-- modules plugging in -->
+        <g font-size="11.5" font-weight="700">
+          <rect x="90" y="40" width="150" height="54" rx="6" fill="#efe7f4" stroke="#6a3d8a"/>
+          <text x="165" y="62" text-anchor="middle" fill="#6a3d8a">Module (today)</text>
+          <text x="165" y="79" text-anchor="middle" font-size="10" font-weight="400" fill="#6a3d8a">a clinical phenotype study</text>
+
+          <rect x="275" y="40" width="150" height="54" rx="6" fill="#eef6f4" stroke="#2f7d74" stroke-dasharray="5 4"/>
+          <text x="350" y="62" text-anchor="middle" fill="#2f7d74">Your module</text>
+          <text x="350" y="79" text-anchor="middle" font-size="10" font-weight="400" fill="#2f7d74">a different question</text>
+
+          <rect x="460" y="40" width="150" height="54" rx="6" fill="#eef6f4" stroke="#2f7d74" stroke-dasharray="5 4"/>
+          <text x="535" y="62" text-anchor="middle" fill="#2f7d74">Their module</text>
+          <text x="535" y="79" text-anchor="middle" font-size="10" font-weight="400" fill="#2f7d74">another study design</text>
+        </g>
+
+        <defs><marker id="plug" markerWidth="10" markerHeight="10" refX="5" refY="8" orient="auto"><path d="M0,0 L10,0 L5,9 z" fill="#8a909b"/></marker></defs>
+        <line x1="165" y1="94" x2="165" y2="148" stroke="#8a909b" stroke-width="1.5" marker-end="url(#plug)"/>
+        <line x1="350" y1="94" x2="350" y2="148" stroke="#8a909b" stroke-width="1.5" marker-end="url(#plug)"/>
+        <line x1="535" y1="94" x2="535" y2="148" stroke="#8a909b" stroke-width="1.5" marker-end="url(#plug)"/>
+
+        <text x="350" y="132" text-anchor="middle" font-size="10.5" fill="#8a909b" font-style="italic">each plugs into the same validated substrate via the module interface</text>
+      </svg>
+    </div>
+    <figcaption><b>Figure 4.</b> The platform is the foundation; studies are modules that plug into it. One exists today; the published interface will let the field build more, each inheriting the same guarantees.</figcaption>
+  </figure>
+
+  <!-- ============================================================= -->
+  <h2 id="s11"><span class="n">11</span>Status &amp; what's next <span class="layer-tag l-all">everyone</span></h2>
+
+  <p>It is important to be exact about what PsychSim is today, because the platform's whole value rests on not overclaiming.</p>
+
+  <p><strong>What is built and validated:</strong> the substrate, grown across twelve documented and literature-reviewed versions; the matrices and the developmental loop; the observer; the full instrument suite; and the honesty wall throughout. The system produces a battery of known developmental phenomena as <em>emergent</em> results — behaviours that were not coded but that arise from the machinery, matching qualitative patterns from the literature. In this sense it is a <strong>validated instrument</strong>: it works, it is grounded, and it behaves as a faithful substrate should.</p>
+
+  <p><strong>What has not yet happened:</strong> the platform has <em>not</em> yet been run as a full study, and its outputs have <em>not</em> yet been quantitatively validated against real clinical or field data. It is an instrument ready to be used, not a set of findings. The studies it is built to run — and the comparison of their results against held-out real-world data — are the work ahead. When those results come, they will be reported as what they are: candidate findings, to be weighed on their evidence.</p>
+
+  <div class="callout honest">
+    <span class="lbl">The honest one-line summary</span>
+    PsychSim is a rigorously-built, biologically-grounded research platform in which behaviour emerges rather than being coded, ready to run studies whose findings can be tested against the real world. It is a validated <em>instrument</em> and a defined <em>method</em> — not, yet, a body of results. That distinction is not a caveat bolted on; it is the same discipline that makes everything the platform eventually finds worth believing.
+  </div>
+
+  <hr>
+  <p style="font-size:13px;color:var(--faint);font-family:var(--sans);text-align:center;">
+    PsychSim · system overview · draft for review · describes a validated instrument and intended studies, not completed findings
+  </p>
+
+</div>
+</body>
+</html>

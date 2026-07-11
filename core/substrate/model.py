@@ -1,16 +1,23 @@
 """
-model.py (substrate) -- load the v12 substrate seed into a runtime model.
+model.py (substrate) -- load the v13 substrate seed into a runtime model.
 
-The v12 seed (docs/neuralnetworks/psychsim_substrate_seed_v12.json) is the SINGLE SOURCE OF
-TRUTH for substrate structure and parameters (Part 2 S1.3; Part 3 S3): 78 circuits (nucleus-
-level rate units), 186 directed edges, a 24-entry innate-wiring catalogue, 9 input channels
-(IN-CONSPEC), a physical-endowment table, the 8 plasticity rules, and a gaps register. v12 =
-v11 + the SIGN-CONVENTION UPGRADE (2.1a): connection sign is now per-edge, DERIVED from a cited
-`dominant_receptor` where receptor-determined, else the source's principal-transmitter fallback
-(3 signs re-derived: MeA->VMHvl -/+ , VP->LHb -/+ , BNST->VMHvl +/-). v11 = v10 + 4 Allen-audit
-afferents; v10 = v9 + physical endowment. Topology is byte-identical across versions (additions/
-sign-only); v1-v11 archived. This module reads the seed verbatim into typed records + indices;
-it supplies NO dynamics (engine.py) and NO psychological meaning (a circuit is just an id).
+The v13 seed (docs/neuralnetworks/psychsim_substrate_seed_v13.json) is the SINGLE SOURCE OF
+TRUTH for substrate structure and parameters (Part 2 S1.3; Part 3 S3): 82 circuits (nucleus-
+level rate units), 206 directed edges, a 25-entry innate-wiring catalogue, 9 input channels
+(IN-CONSPEC), a physical-endowment table, the 8 plasticity rules, and a gaps register. v13 =
+v12 + the DRN (5-HT) NODE + missing local INHIBITORY INTERNEURONS (2.1b): (1) the dorsal raphe
+with receptor-signed edges -- opposite signs across targets (DRN->VMHvl/CeA 5-HT1A INHIBITORY
+dampens the attack area; DRN->OFC/vmPFC/dACC 5-HT2A EXCITATORY facilitates PFC control), the
+top-down loop self-limiting through a DRN-GABA (GAD2+) interneuron, DRN->VTA (5-HT1A) inhibitory,
+5-HT a gating source; low-5-HT -> more provoked aggression EMERGES (a scan_match target). (2) the
+DRN-GABA raphe interneuron and the vmPFC-GABA / dlPFC-GABA cortical interneurons -- the missing
+local feedback inhibition that holds saturating circuits at an E/I set-point (silence any and its
+target runs hot: the proof it is anatomy, not a tuned weight). dmPFC was downstream-resolved (its
+interneurons scheduled for a future systematic cortical-E/I pass). v12 = v11 + the sign-convention
+upgrade (2.1a); v11 = v10 + 4 Allen afferents; v10 = v9 + physical endowment. Topology byte-identical
+across versions (additions / sign-only); v1-v12 archived. This module
+reads the seed verbatim into typed records + indices; it supplies NO dynamics (engine.py) and
+NO psychological meaning (a circuit is just an id).
 
 Two grounded, meaning-blind derivations the seed encodes implicitly:
   * Connection SIGN (v12a). Per-edge, sign = f(source transmitter, cited dominant target receptor):
@@ -49,13 +56,15 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 # v12 = v11 + the sign-convention upgrade (2.1a): per-edge receptor-derived signs; topology unchanged,
 # 3 signs re-derived (MeA->VMHvl, VP->LHb, BNST->VMHvl). 78 circuits / 186 circuit-edges; each version
 # additive or sign-only (prior topology byte-identical). v1-v11 archived.
-_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v12.json")
+_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v13.json")
 
 # Which SOURCE CIRCUIT produces each gating neuromodulator (R5). Resolved to real v7 circuit
 # ids; the R5 modulator is that circuit's LIVE activity, never a set scalar. 'none' -> ungated.
 NEUROMOD_SOURCE = {
     "NA": ["LC"], "DA": ["VTA", "SNc"], "ACh": ["BF-ACh"],
     "OT": ["PVN-OT"], "CRF": ["PVN", "BNST"],
+    "5HT": ["DRN"],   # v12b: the serotonergic source (registered so 5-HT is available as an R5 gate;
+    #                   the DRN direct projections are the mechanism -- no connection is 5HT-gated yet).
 }
 
 
