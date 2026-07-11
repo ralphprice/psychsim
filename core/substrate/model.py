@@ -1,23 +1,23 @@
 """
-model.py (substrate) -- load the v11 substrate seed into a runtime model.
+model.py (substrate) -- load the v12 substrate seed into a runtime model.
 
-The v11 seed (docs/neuralnetworks/psychsim_substrate_seed_v11.json) is the SINGLE SOURCE OF
+The v12 seed (docs/neuralnetworks/psychsim_substrate_seed_v12.json) is the SINGLE SOURCE OF
 TRUTH for substrate structure and parameters (Part 2 S1.3; Part 3 S3): 78 circuits (nucleus-
 level rate units), 186 directed edges, a 24-entry innate-wiring catalogue, 9 input channels
-(IN-CONSPEC), a physical-endowment table, the 8 plasticity rules, and a gaps register. v11 =
-v10 + 4 Allen-audit subcortical afferents (MeA->VMHvl, LH->LHb, VP->LHb, BNST->VMHvl); v10 =
-v9 + physical endowment. Each addition is additive (byte-identical prior connectome); every
-edge's excitatory/inhibitory sign emerges from its source's principal transmitter (never chosen
-to obtain a function -- inhibition is kept because it exists). v1-v10 archived. This module reads
-the seed verbatim into typed records + indices; it supplies NO dynamics (engine.py) and NO
-psychological meaning (a circuit is just an id with parameters).
+(IN-CONSPEC), a physical-endowment table, the 8 plasticity rules, and a gaps register. v12 =
+v11 + the SIGN-CONVENTION UPGRADE (2.1a): connection sign is now per-edge, DERIVED from a cited
+`dominant_receptor` where receptor-determined, else the source's principal-transmitter fallback
+(3 signs re-derived: MeA->VMHvl -/+ , VP->LHb -/+ , BNST->VMHvl +/-). v11 = v10 + 4 Allen-audit
+afferents; v10 = v9 + physical endowment. Topology is byte-identical across versions (additions/
+sign-only); v1-v11 archived. This module reads the seed verbatim into typed records + indices;
+it supplies NO dynamics (engine.py) and NO psychological meaning (a circuit is just an id).
 
 Two grounded, meaning-blind derivations the seed encodes implicitly:
-  * Connection SIGN. The seed's weight_bounds are non-negative, so a connection's excitatory/
-    inhibitory sign comes from the SOURCE nucleus's principal neurotransmitter: a GABAergic
-    projection nucleus inhibits its targets. Inferred from `transmitters`. (Flagged modelling
-    decision: the seed carries no explicit per-connection sign; principal-transmitter is the
-    standard inference and is neurochemistry, not psychology.)
+  * Connection SIGN (v12a). Per-edge, sign = f(source transmitter, cited dominant target receptor):
+    `_receptor_sign` derives it from the receptor's G-protein/ionotropic class (params.RECEPTOR_SIGN)
+    where a `dominant_receptor` is cited; otherwise `_sign` falls back to the source nucleus's
+    principal transmitter (classical ionotropic glutamate+/GABA- projections). The sign is a cited
+    neurochemical fact at receptor resolution, never chosen to obtain a function.
   * Input EDGES. Some seed edges have an input CHANNEL as their source (e.g. IN-GUST:sweet ->
     a circuit) -- the sensory entry points. These are kept as input_edges, driven when the
     channel is injected. A few edges reference circuits absent from the index (connectome
@@ -46,8 +46,10 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 # excitatory, VP->LHb inhibitory [sign-fidelity caveat in gaps_register], BNST->VMHvl excitatory);
 # MeA->VMHvl / BNST->VMHvl give the v9 attack node its anatomical afferents beyond the abstract
 # provocation channel, and LH/VP->LHb revive the previously afferent-less lateral habenula.
-# 78 circuits / 186 circuit-edges; each version additive (prior connectome byte-identical). v1-v10 archived.
-_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v11.json")
+# v12 = v11 + the sign-convention upgrade (2.1a): per-edge receptor-derived signs; topology unchanged,
+# 3 signs re-derived (MeA->VMHvl, VP->LHb, BNST->VMHvl). 78 circuits / 186 circuit-edges; each version
+# additive or sign-only (prior topology byte-identical). v1-v11 archived.
+_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v12.json")
 
 # Which SOURCE CIRCUIT produces each gating neuromodulator (R5). Resolved to real v7 circuit
 # ids; the R5 modulator is that circuit's LIVE activity, never a set scalar. 'none' -> ungated.

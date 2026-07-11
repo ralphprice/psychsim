@@ -561,3 +561,48 @@ behavioural one ("the afferent signals net to negligible at neutral") holds only
 weights (MeA→VMHvl, BNST→VMHvl) stay in a range where they cancel at rest. **So: re-check the neutral floor
 whenever the VMHvl afferent weights change** (e.g. when the SCAFFOLD magnitudes are recalibrated). Not a
 defect — a visible dependency for whoever touches those weights later.
+
+
+---
+
+## v12a — the sign-convention upgrade (projection/receptor-specific signs); v11's MeA→VMHvl "brake" retired
+
+The blocking prerequisite for the DRN/5-HT node (register §2.1a; spec `PsychSim_v12a_Sign_Convention_DESIGN_SPEC.md`).
+Ruled and built: `_sign` moves from nucleus-level (`f(source transmitter)`) to per-edge
+`f(source transmitter, cited dominant target receptor)`. **Stage 1** (the mechanism — `params.RECEPTOR_SIGN`
+pharmacology table + `model._receptor_sign` + a per-`Connection` sign + the engine reading it) was built
+and proven **behaviour-neutral** (no receptor cited yet → every edge falls back to the transmitter rule →
+0 sign mismatches, golden byte-unchanged; commit 52bf27c). **Stage 2** cited a `dominant_receptor` on 20
+in-scope edges (neuromodulator + mixed nuclei), which re-derived **exactly three signs** (v11→v12):
+
+- **MeA→VMHvl −→+** — the MeApd→VMHvl aggression projection is glutamatergic (AMPA; Lin 2011, Hashikawa 2017).
+- **VP→LHb −→+** — the LHb-projecting VP population is glutamatergic (Knowland 2020) — resolves the v11
+  sign-fidelity gap via the receptor, not an override.
+- **BNST→VMHvl +→−** — BNST is a predominantly GABAergic output structure (GABA-A).
+
+**v11's "conspecific cue brakes the attack area" is RETIRED as an artifact** (see the memory principle: a
+measured result is only as trustworthy as the sign convention it was measured under). Measured: with the
+correct excitatory sign at v11's inherited weight (0.5), driving MeA (a conspecific cue) with no provocation
+pushed VMHvl to **0.99** — i.e. attack-on-sight, which is biologically wrong and breaks the provocation-
+specific-aggression property. Per the ruling, the **SCAFFOLD WEIGHT was recalibrated (magnitude only; sign
+stays receptor-derived +): MeA→VMHvl 0.5 → 0.1**, so the conspecific cue **primes** the attack area
+sub-threshold (cue-alone VMHvl ~0.17, rest ~baseline) rather than **drives** it — provocation still fires
+attack (provoked aggress ~0.185), matching the design-session's own C1 intent ("MeA presents a cue,
+provocation tips the race"). Only the magnitude was tuned; the property was re-proven, not assumed.
+
+**Ambiguities documented, never resolved by picking the nicer sign** (`gaps_register`): DA D1/D2 by target
+(SNc→DStr near-arbitrary — D1 scaffold taken, flagged); NA **α2A-in-PFC** (Gi-coupled but *facilitatory* via
+HCN closure — LC→dlPFC kept `+` on the transmitter fallback, NOT signed `−` by G-protein class, because that
+would assert inhibition the projection does not produce); and mixed-nucleus projections not individually
+determined to citation grade (MeA→{MPOA,BNST,VMH,ATL-TP}, MPOA→*, HYPdm→PVN, PVN→autonomic, VMH→PAG) left on
+the transmitter fallback and flagged. Fidelity improved where cited; **not claimed complete.**
+
+**Re-verification (measured, nothing tuned beyond the one authorised weight):** v9 aggression closure holds
+unchanged; the E5 neutral floor holds behaviourally (the excitatory MeA→VMHvl now gives a *tiny* standing
+prime, so the v11 exact-baseline/exact-zero assertions were updated to the behavioural invariant — attack
+sub-threshold, restrain holds); DA stable (resting VTA identical v11→v12); the emergent-phenomena battery
+still 5/5; the characterisation golden moved by a connectome-change shape (42 small leaves, max |Δ|=0.008,
+**0 classification flips**, spread across domains by the normalised read-out) and was regenerated; the
+background library was **regrown under v12** (a sign change reshapes developed weights — a v11-grown bank is
+stale, though the `_restore_engine` length-guard does NOT catch a sign-only version change: flagged as a
+possible future version-stamp).

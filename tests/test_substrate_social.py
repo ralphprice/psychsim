@@ -90,7 +90,10 @@ class TestThreatResponseIsEmergent(unittest.TestCase):
         e.clear_inputs(); e.inject_channel("IN-SOMATO:nociception", 0.9); e.settle(30)
         b = select_social_behaviour(e)
         self.assertEqual(b.behaviour, "avoid")          # generic threat -> avoidance (fear baseline)
-        self.assertEqual(b.drives["aggress"], 0.0)      # NOT driven by generic threat -- provocation-specific (v9)
+        # NOT driven by generic threat -- provocation-specific (v9). v12a: MeA->VMHvl is now (correctly)
+        # excitatory, so the attack area carries a negligible standing prime (~1e-6) from MeA tone --
+        # the exact-zero of the old inhibitory sign is gone, but aggression is still not driven (avoid).
+        self.assertLess(b.drives["aggress"], 1e-4)
 
 
 if __name__ == "__main__":

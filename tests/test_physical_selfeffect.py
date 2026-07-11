@@ -81,7 +81,10 @@ class TestNeutralFloorGuard(unittest.TestCase):
         g = vmhvl_reactivity(_STRONG, SEX_MALE)                  # a strong male: highest gain
         b = _act(Appraisal(), gain=g)
         self.assertEqual(b.behaviour, "restrain")
-        self.assertLess(b.drives["aggress"], _EPS)
+        # v12a: MeA->VMHvl is now (correctly) EXCITATORY, so the perceiver's MeA tone gives VMHvl a tiny
+        # standing prime -- the neutral aggress residual is no longer exactly 0 (as it was under v11's
+        # wrong inhibitory sign) but is negligible and does not fire attack (behaviour = restrain).
+        self.assertLess(b.drives["aggress"], 0.02)
 
     def test_gain_cannot_manufacture_unprovoked_aggression(self):
         # v10 held strong==weak exactly (nothing to amplify at neutral). v11 gave VMHvl afferents
@@ -113,7 +116,10 @@ class TestProvocationDifferential(unittest.TestCase):
                      - _act(Appraisal(), gain=g_weak).drives["aggress"])
         d_provoked = (_act(Appraisal(provocation=0.9), gain=g_strong).drives["aggress"]
                       - _act(Appraisal(provocation=0.9), gain=g_weak).drives["aggress"])
-        self.assertAlmostEqual(d_neutral, 0.0, places=9)
+        # v12a: the excitatory MeA->VMHvl prime makes the neutral differential negligible-but-nonzero
+        # (was exactly 0 under v11's inhibitory sign); the provoked differential is much larger -- the
+        # effect is still overwhelmingly a provoked one.
+        self.assertLess(abs(d_neutral), 0.01)
         self.assertGreater(d_provoked, d_neutral)
 
 

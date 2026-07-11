@@ -67,11 +67,12 @@ class TestPerceiverDirectionsSeparate(unittest.TestCase):
         strong = _settle(_perceiver(), STRONG)
         plain = _settle(_perceiver(), PLAIN)
         self.assertGreater(strong["CeA"], plain["CeA"])          # submission/wariness dominates
-        # the perceiver's attack area is NOT DRIVEN by seeing strength. Under v11 the inhibitory
-        # MeA->VMHvl afferent actually pushes VMHvl slightly BELOW baseline (a conspecific-cue brake),
-        # so the honest invariant is "not driven above rest" + "defensive dominates attack", not the
-        # v10 exact-baseline value.
-        self.assertLessEqual(strong["VMHvl"], 0.05 + 1e-9)       # never driven above baseline
+        # the perceiver's attack area is NOT driven to attack by seeing strength. Sign history: v10 exact
+        # baseline; v11 slightly BELOW (inhibitory MeA->VMHvl brake); v12a the sign is (correctly)
+        # EXCITATORY so the perceiver's own MeA tone primes VMHvl slightly ABOVE baseline -- but only
+        # sub-threshold (well below the ~1.0 attack level), and DEFENSIVE (CeA) still dominates. The
+        # honest invariant is "attack sub-threshold + defensive dominates", not an exact-baseline value.
+        self.assertLess(strong["VMHvl"], 0.20)                   # sub-threshold: not driven to attack
         self.assertGreater(strong["CeA"], strong["VMHvl"])       # defensive >> attack
 
 
