@@ -54,8 +54,9 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 # MeA->VMHvl / BNST->VMHvl give the v9 attack node its anatomical afferents beyond the abstract
 # provocation channel, and LH/VP->LHb revive the previously afferent-less lateral habenula.
 # v12 = v11 + the sign-convention upgrade (2.1a): per-edge receptor-derived signs; topology unchanged,
-# 3 signs re-derived (MeA->VMHvl, VP->LHb, BNST->VMHvl). 78 circuits / 186 circuit-edges; each version
-# additive or sign-only (prior topology byte-identical). v1-v11 archived.
+# 3 signs re-derived (MeA->VMHvl, VP->LHb, BNST->VMHvl). v13 = v12 + the DRN (5-HT) node + 3 cortical
+# inhibitory interneurons (2.1b): 78->82 circuits, 186->206 directed edges. Each version additive or
+# sign-only (prior topology byte-identical). v1-v12 archived.
 _SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v13.json")
 
 # Which SOURCE CIRCUIT produces each gating neuromodulator (R5). Resolved to real v7 circuit

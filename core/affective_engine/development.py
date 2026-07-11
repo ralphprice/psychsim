@@ -224,8 +224,8 @@ def develop(agent: AffectiveAgent, env: Environment, n_episodes: int = 48,
 # HONESTY MIGRATION #2 ("8b.4"): the legacy `probe()` (which ran the removed category-network
 # SCORER via agent.settle) and the `Outcome` dataclass (whose fields were the outcome-category
 # vocabulary -- governance_index/exploitation_index/strategic_access/... ) have been REMOVED.
-# Emergent behaviour is read out by `classify` (the Panksepp MindReadout) and, for study
-# constructs, by the observer read-out (observer.py) computed over lived behaviour.
+# Emergent behaviour is read out by `classify` (which reads the substrate via `read_mind`) and,
+# for study constructs, by the observer read-out (observer.py) computed over lived behaviour.
 
 
 def classify(agent):

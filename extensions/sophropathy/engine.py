@@ -24,7 +24,7 @@ from typing import Dict, List, Optional, Tuple
 
 from project import ProjectSpec, spawn_universe
 from substrate.readout import read_mind
-from affective_engine.agent import _SUBSTRATE_MODEL as _SUB_MODEL   # shared v9 seed (read-only)
+from affective_engine.agent import _SUBSTRATE_MODEL as _SUB_MODEL   # shared live seed (read-only)
 from affective_engine.core import Appraisal
 from sim_world.group_matrix import (GroupMatrix, default_groups, group_encounter,
                                      sample_encounter_type)

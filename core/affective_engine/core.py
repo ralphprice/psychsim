@@ -14,11 +14,12 @@ seeding the outcome). The outcome categories now exist ONLY as observer read-out
 (observer.py, App. D): computed over emergent behaviour, never fed back, never a
 seed input and never a causal branch.
 
-The live behaviour engine is the Panksepp substrate in drives.py (interim-legacy;
-its own retirement onto the circuit substrate is a separate, parity-gated phase).
-Behaviour there emerges from the primary-system dynamics; downstream layers key on
-FEATURE read-outs of the emergent response (`is_cohesive`/`is_aggressive`) and on
-the emergent action itself, not on any outcome-category label.
+The live behaviour engine is now the circuit substrate (core/substrate/, loaded by
+`load_substrate`). The interim-legacy Panksepp 7-drive engine that used to run here
+(`drives.py`) has been RETIRED and removed. Behaviour emerges from the substrate's
+circuit dynamics; downstream layers key on FEATURE read-outs of the emergent response
+(`is_cohesive`/`is_aggressive`) and on the emergent action itself, not on any
+outcome-category label.
 
 Nothing here is biophysical: these are functional primitives, validated
 behaviourally, not a simulation of neurons.

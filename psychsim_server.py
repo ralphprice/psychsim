@@ -46,7 +46,7 @@ from sophropathy.engine import SimEngine
 from sophropathy.townlife import available_roles
 from project import available_modules, available_profiles
 from config.matrixstore import kinds as matrix_kinds, list_items, upsert_item, delete_item
-# /neural is READ-ONLY over the LIVE v9 seed, read through the same loader the engine uses (Phase 6).
+# /neural is READ-ONLY over the LIVE seed, read through the same loader the engine uses (Phase 6).
 # The old neuraldesigner sandbox (upsert/remove of a parallel copy) is gone -- the seed is the single
 # source of truth, and there is no browser write path into the organism.
 from substrate.view import substrate_view as neural_view
