@@ -34,11 +34,14 @@ class Person:
     name: str
     seed: TraitSeed
     birth_day: int = 0
+    # per-agent seed for this person's PHYSICAL endowment (v10 E1), drawn by the population builder
+    # from a SEPARATE rng stream (the main town-layout stream is untouched). None -> physical-neutral.
+    physical_seed: Optional[int] = None
     body: Body = field(default_factory=Body)
     mind: AffectiveAgent = field(init=False)       # the substrate-backed agent (its .engine)
 
     def __post_init__(self) -> None:
-        self.mind = AffectiveAgent(seed=self.seed)
+        self.mind = AffectiveAgent(seed=self.seed, temperament_seed=self.physical_seed)
 
     @property
     def engine(self):

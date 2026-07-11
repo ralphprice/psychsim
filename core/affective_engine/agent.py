@@ -13,11 +13,13 @@ read-out), and the episodic memory.
 """
 
 from __future__ import annotations
+import random
 from dataclasses import dataclass, field
 from typing import Dict, Optional
 
 from .core import TraitSeed
 from .memory import MemoryStream
+from .physical import sample_physical
 
 from substrate.engine import SubstrateEngine
 from substrate.model import load_substrate
@@ -36,12 +38,19 @@ class AffectiveAgent:
     (`social_act`); the legacy Panksepp engine is retired."""
     seed: TraitSeed
     use_memory: bool = True
-    # retained for API compatibility; the substrate is seeded DETERMINISTICALLY from the seed's
-    # gains (seed_substrate), so this no longer affects the agent (the Panksepp brain it once
-    # seeded is retired).
+    # the per-agent seed (drawn from the world's seeded RNG). v10: it seeds this agent's PHYSICAL
+    # endowment draw (E1, __post_init__) -- reproducible from the world seed, distinct per agent.
+    # None -> the agent is physical-NEUTRAL (no seed, no fabricated physical): scan probes / demos
+    # stay byte-unchanged. (The substrate itself is seeded deterministically from the seed's gains
+    # via seed_substrate; this seed does not perturb it.)
     temperament_seed: Optional[int] = None
     gain: Dict[str, float] = field(init=False)
     memory: MemoryStream = field(init=False)
+    # v10 physical endowment (E1): this agent's own physical traits + biological sex. Sampled for a
+    # FRESH seeded agent; RELOADED verbatim for a banked adult (adopt_developed) -- restored-never-
+    # edited. Empty/None for a physical-neutral (seedless) agent. A bearer property, not an outcome.
+    physical: Dict[str, float] = field(init=False, default_factory=dict)
+    sex: Optional[str] = field(init=False, default=None)
     # display slot only: the last emergent ACTION the agent took (a substrate behaviour like
     # "approach"/"aggress"), set by the world loop for inspection. NOT an outcome category.
     dominant: Optional[str] = field(init=False, default=None)
@@ -49,6 +58,14 @@ class AffectiveAgent:
     def __post_init__(self) -> None:
         self.engine = SubstrateEngine(_SUBSTRATE_MODEL, age_years=0.5)
         seed_substrate(self.engine, self.seed.gains)     # temperament -> substrate biases
+        # E1: this agent's physical endowment + sex, sampled FAITHFULLY from its own seeded RNG
+        # (reproducible from the world seed, distinct per agent). A seedless agent stays physical-
+        # neutral -- no fabricated physical. Sampled here but NOT yet read by the dynamics (E5/E6
+        # apply it to the baseline below; E2/E4 present it in the Arena) -- behaviour-neutral alone.
+        if self.temperament_seed is not None:
+            phys = sample_physical(random.Random(self.temperament_seed))
+            self.sex = phys.pop("sex")
+            self.physical = phys
         self._rest_baseline = resting_baseline(_SUBSTRATE_MODEL, self.engine.age_years,
                                                self.engine.throttle)
         self.gain = dict(self.seed.gains)
@@ -60,6 +77,16 @@ class AffectiveAgent:
         connectome and age. The developed weights are dropped in as-is (restored-never-edited)."""
         self.engine = engine
         self._rest_baseline = resting_baseline(_SUBSTRATE_MODEL, engine.age_years, engine.throttle)
+
+    def adopt_developed(self, dev) -> None:
+        """Place a fully banked adult (a DevelopedAgent) into this agent: its developed substrate AND
+        its physical endowment + sex, RELOADED verbatim from the bank -- never re-sampled (restored-
+        never-edited + banked-reproducibility). The single restore-into-mind path; use it in place of
+        adopt_engine wherever a banked adult carries physical. A pre-v10 snapshot has no physical ->
+        the adult restores physical-neutral (never fabricated) until the cache is regrown under v10."""
+        self.adopt_engine(dev.engine)
+        self.physical = dict(getattr(dev, "physical", {}) or {})
+        self.sex = getattr(dev, "sex", None)
 
     def social_act(self, appraisal, age_years: Optional[float] = None):
         """The agent's emergent SOCIAL ACT on the substrate: the situation's perturbation pattern

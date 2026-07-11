@@ -137,6 +137,10 @@ def populate(city, seed: int = 0,
     there are childless homes, one- and two-child families, and some three- and
     four-child families, with bedroom-sharing rising in the larger ones."""
     rng = random.Random(seed)
+    # v10 E1: a SEPARATE stream for per-agent physical-endowment seeds, so the main `rng` (and thus
+    # the entire town layout -- households, warmth, workplaces) is byte-identical whether physical is
+    # active or not. Turning physical on/off then changes ONLY physical, never who lives where.
+    phys_rng = random.Random(seed + 815099)
     hp = household_profile or HouseholdProfile()
     homes = _places(city, "home", "apartment")
     offices = _places(city, "office")
@@ -153,7 +157,7 @@ def populate(city, seed: int = 0,
 
     def _new(seed_fn) -> str:
         i = f"p{pid[0]}"; pid[0] += 1
-        persons[i] = Person(i, i, seed_fn())
+        persons[i] = Person(i, i, seed_fn(), physical_seed=phys_rng.randint(0, 2**31 - 1))
         return i
 
     for home in homes:

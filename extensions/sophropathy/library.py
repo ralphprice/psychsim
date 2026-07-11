@@ -187,7 +187,10 @@ class CharacterLibrary:
         # persist the GROWN developed substrate through the bank's serialization -- the single
         # substrate-serialization path (grown-and-banked, restored-never-edited). No parallel serializer.
         from agent_bank import DevelopedAgent, snapshot
+        # carry the GIVEN physical endowment + sex the adult grew with, so a restored adult reloads
+        # its real traits (restored-never-edited), not a fresh sample (v10 E1).
         dev = DevelopedAgent(engine=agent.engine,
+                             physical=dict(agent.physical), sex=agent.sex,
                              provenance={"temperament": temperament_key, "rearing": rearing_key,
                                          "seed": seed})
         entry = LibraryEntry(name=name, temperament=temperament_key, rearing=rearing_key,

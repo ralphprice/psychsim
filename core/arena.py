@@ -278,7 +278,9 @@ def _build_agent(slot: Slot, rng: random.Random, present: tuple) -> AffectiveAge
         if slot.bank is None or slot.bank_id is None:
             raise ValueError(f"banked slot '{slot.slot_id}' needs bank + bank_id")
         ag = AffectiveAgent(seed=slot.seed or intact_seed())
-        ag.adopt_engine(slot.bank.restore(slot.bank_id).engine)   # stage-4b placement; restored, never edited
+        # restored, never edited -- reload the whole banked adult (developed substrate AND its given
+        # physical endowment + sex), not just the engine, so physical is preserved not re-sampled (v10 E1).
+        ag.adopt_developed(slot.bank.restore(slot.bank_id))       # stage-4b placement
         return ag
     ag = AffectiveAgent(seed=slot.seed or intact_seed())
     if slot.source == "grown":

@@ -95,6 +95,9 @@ class SimEngine:
         self.population_n = population
         self.seed = seed
         self.rng = random.Random(seed)
+        # v10 E1: a SEPARATE stream for physical-endowment seeds of dynamically added people
+        # (add_person), so the main `self.rng` (movement jitter etc.) is byte-untouched.
+        self.phys_rng = random.Random(seed + 815099)
         self.spec = live_spec(self.name, population, seed,
                               fearless_frac=getattr(self, "fearless_frac", 0.4),
                               profile=getattr(self, "profile", "england_2021"))
@@ -181,10 +184,11 @@ class SimEngine:
             is_child, home, work = self.info[cid]
             person = self.pop.persons.get(cid)
             if person is not None and not is_child:
-                # a grown library adult's developed substrate, restored from the bank and
-                # dropped in deterministically so the background is identical across
-                # conditions/runs of the same town (restored-never-edited).
-                person.mind.adopt_engine(entries[i % len(entries)].make_agent().engine)
+                # a grown library adult's developed substrate + its given physical endowment,
+                # restored from the bank and dropped in deterministically so the background is
+                # identical across conditions/runs of the same town (restored-never-edited; physical
+                # reloaded not re-sampled -- v10 E1).
+                person.mind.adopt_developed(entries[i % len(entries)].make_agent())
                 i += 1
             self.frozen.add(cid)
 
@@ -428,8 +432,10 @@ class SimEngine:
         cid = f"new_{len(self.info)}_{self.rng.randint(1000,9999)}"
         seed_fn = TEMPERAMENT_SEEDS.get(temperament, typical_child_seed)
         # the substrate is seeded deterministically from the temperament's gains in the agent's
-        # __post_init__, so an authored person is reproducible from its seed alone.
-        person = Person(agent_id=cid, name=cid, seed=seed_fn())
+        # __post_init__, so an authored person is reproducible from its seed alone. Its physical
+        # endowment is seeded from the engine's separate physical stream (v10 E1).
+        person = Person(agent_id=cid, name=cid, seed=seed_fn(),
+                        physical_seed=self.phys_rng.randint(0, 2**31 - 1))
         self.pop.persons[cid] = person
         # role may be a fine role from the library (teenager/retired/...) or child/adult
         is_child = role_is_child(role) if role in ROLE_SCHEDULES else (role == "child")

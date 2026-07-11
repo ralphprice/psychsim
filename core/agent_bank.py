@@ -52,6 +52,11 @@ class DevelopedAgent:
     self_reflection: SelfReflection = field(default_factory=SelfReflection)
     state_vector: StateVector = field(default_factory=StateVector)
     provenance: Dict = field(default_factory=dict)   # growth conditions + RNG seed (S11.2)
+    # v10: the GIVEN physical endowment + biological sex this adult grew with (E1). Banked so a
+    # restored adult RELOADS its real traits (restored-never-edited + banked-reproducibility) rather
+    # than being re-sampled. Empty/None for a physical-neutral adult or a pre-v10 (legacy) snapshot.
+    physical: Dict[str, float] = field(default_factory=dict)
+    sex: Optional[str] = None
 
     @property
     def age_years(self) -> float:
@@ -169,6 +174,8 @@ def snapshot(agent: DevelopedAgent) -> Dict:
         "self_reflection": _dump_relmatrix(agent.self_reflection.matrix),
         "state_vector": _dump_statevector(agent.state_vector),
         "provenance": dict(agent.provenance),
+        "physical": dict(agent.physical),   # v10: the given endowment, banked verbatim (E1)
+        "sex": agent.sex,
     }
 
 
@@ -184,6 +191,10 @@ def restore(state: Dict, model: Optional[SubstrateModel] = None) -> DevelopedAge
         self_reflection=SelfReflection(matrix=_load_relmatrix(state["self_reflection"])),
         state_vector=_load_statevector(state["state_vector"]),
         provenance=dict(state.get("provenance", {})),
+        # v10: RELOAD the banked endowment verbatim. A pre-v10 snapshot has no "physical"/"sex" key
+        # -> physical-neutral (never fabricated) until the cache is regrown under v10.
+        physical=dict(state.get("physical", {}) or {}),
+        sex=state.get("sex", None),
     )
 
 
