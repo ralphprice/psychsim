@@ -5,7 +5,7 @@ is explicitly deferred. **Nothing outside this list gets built without a deliber
 it.** If a new idea appears, it goes to "Parking lot" (§4) — it does not get built into the current
 work. The intention is fixed; we finish it, we don't grow it.
 
-Current head: `96330d9` (v12 5-HT design spec) on `origin/main`. Seed head: `v11`.
+Current head: `e33fb08` (v12 sign-convention upgrade, 2.1a) on `origin/main`. Seed head: `v12`.
 
 ---
 
@@ -20,7 +20,9 @@ Current head: `96330d9` (v12 5-HT design spec) on `origin/main`. Seed head: `v11
 - **Instrument suite:** developed-agent bank · parallel-instance harness · Arena · scan controller
   (search-for-effect + search-for-match) — all built, honesty-gated structurally.
 - **Seed lineage:** v9 (aggression circuit, OBS-3 closed) · v10 (physical endowment + biological sex,
-  IN-CONSPEC) · v11 (4 Allen afferents, honest signs). Each byte-additive, reviewed.
+  IN-CONSPEC) · v11 (4 Allen afferents, honest signs) · **v12 (2.1a sign-convention upgrade — per-edge
+  receptor-derived signs; 3 flips MeA→VMHvl/VP→LHb/BNST→VMHvl; v11's MeA→VMHvl "brake" retired; CLEARED,
+  the heaviest review since the Panksepp cut)**. Each byte-additive or sign-only, reviewed.
 - **UI console** — Phases 0–8 + accessibility. Tab shell, read-only Neural view over the live seed,
   clock/day-night, monitored-agent badges, face-only markers, pause fixed.
 
@@ -39,24 +41,20 @@ dorsal raphe would assert the *inverse* of the biology on the aggression-regulat
 the convention first (design-session ruling, option **(C)**). So §2.1 is two ordered passes — this is a
 reordering forced by a discovered prerequisite, **not** a new feature.
 
-**2.1a — sign-convention upgrade (organism; DESIGN SPEC FIRST → review → build). BLOCKING.**
-- **What:** change `_sign()` from nucleus-level (`sign = f(source transmitter)`) to projection/receptor-
-  specific (`sign = f(source transmitter, target receptor)`, both from the literature). More meaning-blind,
-  not less — it defers to the neuroscience at finer resolution; the sign still comes from cited
-  neurochemistry, **never** from desired behaviour.
-- **Scope (bounded):** only edges whose sign is receptor-determined change — the ~14 neuromodulator
-  projections (DA D1/D2, NA α/β, ACh nic/musc) and the genuinely-mixed projection nuclei (VP→LHb the
-  clearest flip; MeA/BNST/MPOA/SEPT/LH per-projection). Classical ionotropic glutamate(+)/GABA(−)
-  projections are unchanged. Each in-scope edge is **re-signed from its target receptor, cited**.
-- **Resolves VP→LHb** honestly (its LHb-projecting glutamatergic population gets its correct excitatory
-  sign from the receptor — not a per-edge override). Moved here from §4.
-- **Risk — the most delicate pass since the Panksepp cut:** it changes signs on *existing, reviewed*
-  edges, so it can perturb v9's aggression closure, DA dynamics, and the emergent-phenomena battery. Full
-  treatment required: every sign change cited to a receptor; v9 closure re-verified; phenomena battery
-  re-run; golden diff inspected **edge-by-edge against the sign flips**; each flip justified by a receptor
-  citation, never by its effect on behaviour. NOT a mechanical find-replace.
+**2.1a — sign-convention upgrade — ✅ DONE, CLEARED (v12, `e33fb08`; the heaviest review since the
+Panksepp cut).** `_sign()` is now per-edge, `f(source transmitter, cited dominant target receptor)`, sign
+derived from a fixed `params.RECEPTOR_SIGN` pharmacology table (never written directly). 20 edges cited a
+receptor → exactly **3 flips**: MeA→VMHvl −/+ (glutamatergic aggression projection, MODERATE — mixed-nucleus
+ambiguity flagged), VP→LHb −/+ (glutamatergic, HIGH — closes the fidelity gap), BNST→VMHvl +/− (GABAergic).
+v11's MeA→VMHvl "brake" **retired** as an artifact; one authorised scaffold-weight recalibration
+(MeA→VMHvl 0.5→0.1, magnitude only, so it primes-not-drives — provocation-specificity re-proven). Ambiguities
+documented not fudged (α2A-PFC kept + on fallback; SNc→DStr D1/D2 near-arbitrary; undetermined edges on
+fallback). Full re-verification green (v9 closure, E5 floor, DA, phenomena 5/5, golden 0-classification-flips,
+library regrown). **Caveat carried forward:** the MeA→VMHvl flip rests on a MODERATE-confidence receptor
+determination (MeA is genuinely mixed); v12's "conspecific cue primes attack, provocation-gated" is a
+candidate, not a settled fact — revisit if MeApd-vs-MeA projection-specificity sharpens.
 
-**2.1b — DRN (5-HT) node, built on the upgraded convention.**
+**2.1b — DRN (5-HT) node, built on the upgraded convention. ← CLEARED TO BUILD (next).**
 - **Why required, not optional:** the substrate lacks its principal aggression/impulsivity *regulating*
   neuromodulator. Measuring aggression regulation without 5-HT is measuring a regulated system with the
   regulator absent — cherry-picking-by-omission (the v11 error, one level up).
@@ -119,9 +117,14 @@ Promoting any of them is an explicit, separate decision — not a drift.
   deferred. `manipulation_scope: "nodes only"` travels on scan results until/unless built.
 - **PH-AGILITY / PH-SENSORY as bearer capacities** — ruled out of the social channel; may enter later
   as bearer-capacity parameters (a different mechanism). Deferred.
-- **VP→LHb sign fidelity** — ~~deferred~~ **PROMOTED into 2.1a** (the sign-convention upgrade resolves it
-  honestly: its glutamatergic LHb-projecting population gets its correct excitatory sign from the receptor).
-  No longer a separate item.
+- **VP→LHb sign fidelity** — ✅ **CLOSED** (resolved by the 2.1a convention upgrade, v12: the glutamatergic
+  LHb-projecting population is signed excitatory from its receptor, −/+, not by override). No longer open.
+- **Bank version-guard (bank-hardening)** — `_restore_engine`'s length-guard catches a *connection-count*
+  mismatch but NOT a *sign-only* version change (a v11-grown bank restored into v12 loads without a stale
+  flag even though the sign convention changed under it). For now a **cache regrow** under each new seed
+  version covers it (done for v12). Add a **version-stamp** to the snapshot + a version check on restore
+  when convenient, so a future sign/param-only version mismatch is caught by a version check, not a length
+  check. Deferred (small, non-blocking).
 - **Median raphe (MRN) node** — the second serotonergic source, more implicated in anxiety/hippocampal
   tone than aggression. A separate, smaller addition than the DRN (2.1b). Deferred; promote only if the
   study needs it.
