@@ -137,11 +137,12 @@ class SubstrateEngine:
             if not self.live_circuit[cid]:
                 continue
             inp = self.external.get(cid, 0.0)
-            # circuit -> circuit input, signed by the SOURCE nucleus's projection type
+            # circuit -> circuit input, signed PER CONNECTION (v12a: from the cited dominant target
+            # receptor; else the source nucleus's principal transmitter)
             for j in m.incoming.get(cid, ()):
                 if self.live_conn[j] and not self.pruned[j]:
                     src = m.connections[j].source
-                    inp += (m.circuits[src].sign * self.weight[j]
+                    inp += (m.connections[j].sign * self.weight[j]
                             * a[src] * self._gain(src))    # throttle: weak output drive
             # sensory input edges (channel -> circuit), driven when the channel is injected
             for e in m.incoming_channel.get(cid, ()):

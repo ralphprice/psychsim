@@ -31,6 +31,29 @@ DEFAULT_WEIGHT = 0.30             # SCAFFOLD fallback for an unrecognised qualit
 # innate default_birth_strength (catalogue) -> numeric. SCAFFOLD.
 BIRTH_STRENGTH = {"weak": 0.25, "moderate": 0.5, "strong": 0.8, "very strong": 0.95}
 
+# v12a -- receptor -> postsynaptic SIGN (+1 excitatory / -1 inhibitory), by G-protein / ionotropic class.
+# A connection's sign is DERIVED from its cited `dominant_receptor` (model._receptor_sign), NOT set
+# directly: a dishonest flip would require citing a FALSE receptor (a checkable lie, not a silent tune).
+# This is fixed pharmacology, not a per-edge judgement. Edges with no cited receptor fall back to the
+# source's principal transmitter (glutamate +, GABA -). Standard classification (Guide to Pharmacology).
+RECEPTOR_SIGN = {
+    # ionotropic
+    "AMPA": +1, "NMDA": +1, "kainate": +1, "nicotinic": +1,          # cation -> depolarising
+    "GABA-A": -1, "GABA-C": -1, "glycine": -1,                        # anion -> hyperpolarising
+    # metabotropic Gs/Gq -> excitatory
+    "D1": +1, "D5": +1,
+    "5-HT2": +1, "5-HT2A": +1, "5-HT2C": +1, "5-HT4": +1, "5-HT6": +1, "5-HT7": +1,
+    "alpha1": +1, "beta": +1, "beta1": +1, "beta2": +1,
+    "M1": +1, "M3": +1, "M5": +1, "mGluR1": +1, "mGluR5": +1,
+    "H1": +1, "OX": +1, "OX1": +1, "OX2": +1, "V1a": +1, "OTR": +1,   # orexin, vasopressin, oxytocin
+    # metabotropic Gi/Go -> inhibitory
+    "D2": -1, "D3": -1, "D4": -1,
+    "5-HT1A": -1, "5-HT1B": -1, "5-HT1D": -1, "5-HT5": -1,
+    "alpha2": -1, "M2": -1, "M4": -1, "GABA-B": -1,
+    "mu-opioid": -1, "kappa-opioid": -1, "delta-opioid": -1,
+    "mGluR2": -1, "mGluR3": -1, "mGluR4": -1, "CB1": -1, "H3": -1,
+}
+
 # plasticity (R3-BCM / R5-NMOD / R4-HOMEO). SCAFFOLD rates.
 BCM_LR = 0.02                     # weight-change rate scaling the gated eligibility
 THETA_LR = 0.02                   # rate the BCM threshold tracks the circuit's own mean activity

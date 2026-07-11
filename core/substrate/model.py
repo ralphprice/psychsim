@@ -65,8 +65,22 @@ def _num_weight(qual) -> float:
 
 def _sign(transmitters: str) -> float:
     """+1 excitatory / -1 inhibitory, from the nucleus's PRINCIPAL neurotransmitter. A leading
-    'GABA...' is a GABAergic projection nucleus (inhibitory). Neurochemistry, not meaning."""
+    'GABA...' is a GABAergic projection nucleus (inhibitory). Neurochemistry, not meaning. This is the
+    FALLBACK sign (v12a): used only for a connection with no cited `dominant_receptor` -- i.e. classical
+    ionotropic glutamate(+)/GABA(-) projections, where transmitter implies the receptor."""
     return -1.0 if (transmitters or "").strip().lower().startswith("gaba") else 1.0
+
+
+def _receptor_sign(receptor) -> Optional[float]:
+    """v12a -- a connection's sign DERIVED from its cited dominant target receptor's G-protein/ionotropic
+    class (params.RECEPTOR_SIGN): the honest, finer-resolution rule (sign = f(transmitter, target
+    receptor)). Parses the leading receptor token (so 'D1 (Gs, direct MSN)' -> 'D1'). Returns None for a
+    missing/unknown receptor, so the caller falls back to the source's principal-transmitter sign."""
+    if not receptor:
+        return None
+    key = str(receptor).replace("/", " ").split("(")[0].split()[0].strip() if str(receptor).strip() else ""
+    v = params.RECEPTOR_SIGN.get(key)
+    return None if v is None else float(v)
 
 
 def _tuple2(x, default=(0.0, 1.0)) -> Tuple[float, float]:
@@ -102,6 +116,9 @@ class Connection:
     online_age: float = 0.0
     calibration_active: bool = True
     is_innate_reinforcer_link: bool = False
+    sign: float = 1.0                 # +1 excit / -1 inhib. v12a: from the cited dominant_receptor
+    #                                   (params.RECEPTOR_SIGN); falls back to the source transmitter.
+    dominant_receptor: str = ""       # cited postsynaptic receptor (only where receptor-determined)
 
 
 @dataclass
@@ -184,12 +201,18 @@ def load_substrate(path: Optional[str] = None) -> SubstrateModel:
         online = float(k.get("developmental_online_age", 0.0) or 0.0)
         active = bool(k.get("calibration_active_default", True))
         if src in circuits:
+            # v12a: sign from the cited dominant target receptor (finer resolution); if none is cited,
+            # fall back to the source nucleus's principal-transmitter sign (classical ionotropic edges).
+            recv = k.get("dominant_receptor", "") or ""
+            rsign = _receptor_sign(recv)
+            sign = rsign if rsign is not None else circuits[src].sign
             connections.append(Connection(
                 source=src, target=tgt, weight0=w0, bounds=_tuple2(k.get("weight_bounds")),
                 gating_neuromodulator=str(k.get("gating_neuromodulator", "none") or "none"),
                 eligibility_tau_ms=float(k.get("eligibility_trace_tau_ms", 1000.0) or 1000.0),
                 schedule_ref=k.get("plasticity_coeff_schedule_ref", ""),
                 online_age=online, calibration_active=active,
+                sign=sign, dominant_receptor=str(recv),
                 is_innate_reinforcer_link=bool(k.get("is_innate_reinforcer_link", False))))
         elif is_channel(src):
             input_edges.append(InputEdge(channel=src, target=tgt, weight0=w0,
