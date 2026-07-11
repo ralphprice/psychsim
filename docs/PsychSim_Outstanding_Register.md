@@ -79,8 +79,8 @@ candidate, not a settled fact — revisit if MeApd-vs-MeA projection-specificity
 - **Three pieces:** (a) the backtester = the scan controller applied to a CU objective (measured
   signature or held-out clinical profile, target age ~18, family/environment context); (b) validated-
   CU-seed save/load (neutral name `CU-Profile-A`, transparent/editable config, provenance-carrying,
-  `candidate_hypothesis`/`corroboration:false`); (c) spawn integration (validated seeds in the dropdown,
-  replacing the deprecated `fearless` presets).
+  `candidate_hypothesis`/`corroboration:false`); (c) spawn integration (validated seeds in the dropdown
+  — a NEW seeding path, NOT a replacement for the already-removed `fearless` presets; see §3).
 - **Honesty (already specced):** objective is measured-or-held-out, never a drawn CU target; family
   variables are perturbation patterns, never coded effects; a config earns the CU name only by
   validation.
@@ -94,12 +94,22 @@ candidate, not a settled fact — revisit if MeApd-vs-MeA projection-specificity
 ### 2.3 — UI redundant-artifact removal (the cleanup you asked for; §3 below is the concrete list)
 - Small, bounded, no new features. Remove what the redesign superseded and the deprecated study
   interface. Do this as its own commit so it's legible.
+- **IN PROGRESS:** the deprecated temperament presets + `respawn` `fearless_frac` server path are
+  DONE (395e813, its own commit). Remaining §3 items (dead `neuraldesigner` route, stale
+  Panksepp-as-current docstrings, orphaned components) still to audit.
 
 ## 3. UI redundant artifacts to remove (concrete, bounded — no new UI)
 
-- **Deprecated temperament presets** (`fearless` / `fearless (calc.)`) and `respawn`'s `fearless_frac`
-  — superseded by the CU-seed dropdown (2.2c). Remove once 2.2c exists; until then they stay marked
-  DEPRECATED (don't leave a gap with no way to seed a study child).
+- **Deprecated temperament presets** (`typical` / `fearless` / `fearless (calc.)`) and `respawn`'s
+  `fearless_frac` server path — **REMOVED (395e813, 2026-07-11)**, ahead of the CU dropdown, per the
+  researcher's direction. Rationale: a temperament preset implies a seeded OUTCOME, which the substrate
+  does not do; the population selector falls back to standard roles (a standard agent is seeded, its
+  disposition MEASURED, never selected), so there is **no seeding gap** — superseding the earlier
+  "keep until 2.2c" note. **Scope removed:** the UI dropdown (`PopulationSection`), the `add_person`
+  temperament arg (UI + server), and the server `respawn` `fearless_frac` API path. **UNTOUCHED:** the
+  sophropathy MODULE's `fearless_frac` (its study spawn knob, exercised across the suite via
+  `live_spec`) — out of this bounded scope. Grep-clean: no `fearless` in `ui/src` or the server spawn
+  path; no temperament-preset option in the profile selector.
 - **The dead `neuraldesigner` sandbox route**, if still present anywhere — the live Neural view (read-
   only over the seed) replaced it. Confirm it's gone or drop it.
 - **Any stale docstrings** still describing the retired Panksepp engine as current (audit
@@ -107,8 +117,11 @@ candidate, not a settled fact — revisit if MeApd-vs-MeA projection-specificity
   stay; anything implying the engine is *live* goes).
 - **Orphaned components** superseded by the tab redesign (confirm `Controls.tsx`, `MatrixEditor.tsx`,
   `NeuralEditor.tsx` are deleted, not just unimported).
-- **NOT removed:** the deprecated presets stay *until* the CU dropdown replaces them (no seeding gap);
-  provenance docstrings stay (they're history, not staleness).
+- **NOT removed:** provenance docstrings stay (they're history, not staleness); the descriptive
+  temperament read-outs (`Inspector`, `DevelopmentCohortTab`, `LibrarySection` — showing a subject's
+  *given* temperament) stay (they measure/display, they don't select an outcome). *(The deprecated
+  presets themselves WERE removed ahead of the CU dropdown — 395e813 — the standard-roles fallback
+  leaves no seeding gap.)*
 
 ## 4. DEFERRED / PARKING LOT — real, recorded, NOT built now (require a deliberate decision to promote)
 
