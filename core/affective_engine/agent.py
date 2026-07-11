@@ -19,7 +19,7 @@ from typing import Dict, Optional
 
 from .core import TraitSeed
 from .memory import MemoryStream
-from .physical import sample_physical
+from .physical import sample_physical, vmhvl_reactivity
 
 from substrate.engine import SubstrateEngine
 from substrate.model import load_substrate
@@ -60,12 +60,16 @@ class AffectiveAgent:
         seed_substrate(self.engine, self.seed.gains)     # temperament -> substrate biases
         # E1: this agent's physical endowment + sex, sampled FAITHFULLY from its own seeded RNG
         # (reproducible from the world seed, distinct per agent). A seedless agent stays physical-
-        # neutral -- no fabricated physical. Sampled here but NOT yet read by the dynamics (E5/E6
-        # apply it to the baseline below; E2/E4 present it in the Arena) -- behaviour-neutral alone.
+        # neutral -- no fabricated physical.
         if self.temperament_seed is not None:
             phys = sample_physical(random.Random(self.temperament_seed))
             self.sex = phys.pop("sex")
             self.physical = phys
+        # E5/E6: own strength + sex bias this agent's VMHvl reactivity (its response to provocation),
+        # before the resting baseline is captured. A calibration on the attack circuit's competition;
+        # it cannot fire aggression unprovoked (VMHvl's only input is provocation -- neutral-floor
+        # guard). Physical-neutral -> gain 1.0 (no-op). Set on the OWN engine only (a self-effect).
+        self._apply_physical_calibration()
         self._rest_baseline = resting_baseline(_SUBSTRATE_MODEL, self.engine.age_years,
                                                self.engine.throttle)
         self.gain = dict(self.seed.gains)
@@ -84,9 +88,18 @@ class AffectiveAgent:
         never-edited + banked-reproducibility). The single restore-into-mind path; use it in place of
         adopt_engine wherever a banked adult carries physical. A pre-v10 snapshot has no physical ->
         the adult restores physical-neutral (never fabricated) until the cache is regrown under v10."""
-        self.adopt_engine(dev.engine)
         self.physical = dict(getattr(dev, "physical", {}) or {})
         self.sex = getattr(dev, "sex", None)
+        self.adopt_engine(dev.engine)
+        # re-derive the E5/E6 VMHvl calibration from the RELOADED physical (a pure function of it, so
+        # this reproduces the gain the adult grew with -- not a re-sample). The rest baseline is a
+        # no-input measurement, so the gain (which scales input) does not change it; no re-capture.
+        self._apply_physical_calibration()
+
+    def _apply_physical_calibration(self) -> None:
+        """Bias the OWN engine's VMHvl reactivity from this agent's physical endowment (E5/E6). Pure
+        function of (physical, sex); a physical-neutral agent -> gain 1.0 (no-op)."""
+        self.engine.set_reactivity("VMHvl", vmhvl_reactivity(self.physical, self.sex))
 
     def social_act(self, appraisal, age_years: Optional[float] = None):
         """The agent's emergent SOCIAL ACT on the substrate: the situation's perturbation pattern

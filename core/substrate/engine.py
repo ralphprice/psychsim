@@ -38,6 +38,13 @@ class SubstrateEngine:
         # fully learn back to normal (a plasticity ceiling). The study manipulation; NOT an
         # outcome weight. Applied to an otherwise-ordinary substrate; what it produces is measured.
         self.throttle: Dict[str, float] = {}
+        # per-agent per-circuit INPUT-reactivity gain (default 1.0 via .get). v10 E5/E6: an agent's
+        # own physical strength + sex bias its VMHvl reactivity -- how strongly it responds to
+        # provocation. Multiplies the circuit's driven input, NOT its baseline, so it cannot add a
+        # standing drive; with provocation as VMHvl's only input, no provocation -> nothing to
+        # amplify (the neutral-floor guard is structural). A calibration on the competition, never a
+        # determinant of output. Not an outcome weight; what it produces is measured.
+        self.reactivity: Dict[str, float] = {}
         self._silent: List[int] = [0] * len(m.connections)
         self.exp_count: List[int] = [0] * len(m.connections)   # relevant experiences (S10.1)
         self._coactive_flag: List[bool] = [False] * len(m.connections)
@@ -96,6 +103,13 @@ class SubstrateEngine:
     def _gain(self, circuit_id: str) -> float:
         return 1.0 - self.throttle.get(circuit_id, 0.0)
 
+    # -- input-reactivity gain (v10 E5/E6 physical calibration) -----------
+    def set_reactivity(self, circuit_id: str, gain: float) -> None:
+        """Set a circuit's INPUT-reactivity gain (>0; 1.0 = normal). Scales how strongly the circuit
+        responds to its drive, NOT its resting level -- a calibration on the competition, applied at
+        birth from the agent's physical endowment. Distinct from throttle (which weakens OUTPUT)."""
+        self.reactivity[circuit_id] = max(0.0, float(gain))
+
     # -- R5 modulator: a neuromodulator SOURCE CIRCUIT's live output ------
     def neuromod_output(self, nmod: str) -> float:
         """The R5 modulator scalar for a connection gated by `nmod`. It is the mean live
@@ -133,6 +147,12 @@ class SubstrateEngine:
                 edge = m.input_edges[e]
                 if edge.calibration_active and edge.online_age <= self.age_years:
                     inp += edge.weight0 * self._edge_drive(edge.channel)
+            # E5/E6: scale the DRIVEN input by the per-circuit reactivity gain (default 1.0). The
+            # baseline-relaxation term is separate, so a raised gain amplifies response to drive
+            # (provocation) without lifting the resting level -- the neutral floor holds.
+            r = self.reactivity.get(cid)
+            if r is not None and r != 1.0:
+                inp *= r
             da = (dt / c.tau_ms) * (-(a[cid] - c.baseline) + inp)
             lo, hi = c.bounds
             new_a[cid] = P.clamp_weight(a[cid] + da, lo, hi)

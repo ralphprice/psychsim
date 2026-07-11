@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import math
 import random
-from typing import Dict
+from typing import Dict, Optional
 
 SEX_MALE = "male"
 SEX_FEMALE = "female"
@@ -51,6 +51,14 @@ SCAFFOLD = {
         (SEX_FEMALE, SEX_MALE): 0.85,
         (SEX_FEMALE, SEX_FEMALE): 0.7,
     },
+    # E5: how much the BEARER's OWN formidability biases its VMHvl reactivity gain. own_formidability
+    # in [0,1] centred at 0.5, so a strong agent gets gain>1, a weak one <1 (Sell PNAS: strength ->
+    # anger-proneness/entitlement). Magnitude assumed; only the sign (strong -> higher) is claimed.
+    "own_strength_gain_k": 0.6,
+    # E6: sex sets a VMHvl baseline-reactivity FACTOR (Hashikawa 2017: Esr1+ VMHvl aggression in BOTH
+    # sexes, higher male baseline). Both entries > 0 -> aggression fully reachable in both sexes under
+    # provocation (a factor, NOT an on/off gate). Grounded direction (male>female), magnitude assumed.
+    "vmhvl_sex_factor": {SEX_MALE: 1.15, SEX_FEMALE: 0.9},
 }
 
 
@@ -87,6 +95,28 @@ def physical_stimulus(physical: Dict[str, float]) -> Dict[str, float]:
     attract = _z_to_unit(0.7 * physical.get("PH-ATTRACT", 0.0) + 0.3 * physical.get("PH-HEALTH", 0.0))
     formid = _z_to_unit(0.7 * physical.get("PH-MUSCLE", 0.0) + 0.3 * physical.get("PH-SIZE", 0.0))
     return {"attractive_face": attract, "formidability_cue": formid}
+
+
+def own_formidability(physical: Dict[str, float]) -> float:
+    """The BEARER's own formidability magnitude [0,1] (PH-MUSCLE primary + PH-SIZE secondary) -- the
+    same trait combination it presents as a cue, but read by the bearer for its OWN calibration
+    (Sell PNAS). 0.5 for an average endowment."""
+    return _z_to_unit(0.7 * physical.get("PH-MUSCLE", 0.0) + 0.3 * physical.get("PH-SIZE", 0.0))
+
+
+def vmhvl_reactivity(physical: Dict[str, float], sex: Optional[str]) -> float:
+    """E5 x E6: the per-agent GAIN on VMHvl's response to provocation -- how strongly the bearer's own
+    attack area reacts when provoked. E5 (sex-neutral): a stronger agent reacts more (own_formidability
+    above 0.5 -> gain > 1). E6: a sex FACTOR (male>female baseline), both > 0 so aggression stays
+    reachable in both sexes. This scales VMHvl's INPUT, never adds a standing drive -- and VMHvl's only
+    input is provocation, so at neutral there is nothing to amplify (the neutral-floor guard holds by
+    construction; strength cannot fire aggression unprovoked). A physical-neutral agent -> 1.0 (no bias).
+    Clamped >0 so it is always a factor, never a gate."""
+    if not physical:
+        return 1.0
+    strength_bias = SCAFFOLD["own_strength_gain_k"] * (own_formidability(physical) - 0.5)   # E5
+    factor = SCAFFOLD["vmhvl_sex_factor"].get(sex, 1.0)                                      # E6
+    return max(0.05, factor * (1.0 + strength_bias))
 
 
 def sex_weight(perceiver_sex: str, bearer_sex: str, cue: str) -> float:

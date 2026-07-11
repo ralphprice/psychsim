@@ -45,7 +45,7 @@
       "profile": {
         "affiliation": 0.0958,
         "defensive_threat": 0.2014,
-        "executive": 0.2897,
+        "executive": 0.2898,
         "reward_approach": 0.189,
         "social_cognition": 0.2241
       }
@@ -54,7 +54,7 @@
       "classification": "executive",
       "profile": {
         "affiliation": 0.0953,
-        "defensive_threat": 0.2024,
+        "defensive_threat": 0.2023,
         "executive": 0.2909,
         "reward_approach": 0.1895,
         "social_cognition": 0.2219
