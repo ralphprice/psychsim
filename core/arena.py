@@ -42,6 +42,7 @@ import random
 
 from affective_engine import AffectiveAgent, TraitSeed
 from affective_engine.development import live_stimulus
+from affective_engine.physical import physical_stimulus, sex_weight
 from affective_engine.activities import sample_activity
 from substrate.social import is_cohesive_act, is_aggressive_act, felt_response
 from sim_world.environment_matrix import Thing, default_things, birth_matrix, encounter
@@ -252,19 +253,38 @@ def _perceive(other_act: str) -> Dict[str, float]:
     return dict(_ARENA_PERCEPTION.get(other_act, {"affiliation": 0.1}))
 
 
+def _add_physical_percept(percept: Dict[str, float], perceiver: AffectiveAgent,
+                          bearer: AffectiveAgent) -> None:
+    """E2/E4: the bearer's physical endowment also presents as a conspecific percept -- an
+    `attractive_face` and a `formidability_cue`, BEARER-PURE magnitudes (E2) valued by THIS perceiver
+    through a genuine sex PAIRING (perceiver x bearer, E4). Merged into the same percept dict fed to
+    felt_response, which routes these triggers via the IN-CONSPEC edges into the perceiver's OWN
+    reward / defensive circuits -- the keystone: the response emerges from the perceiver's circuits,
+    never a coded trait->outcome weight. A physical-neutral bearer presents nothing; an unknown sex
+    pairing values neutrally (0.5). What this differential develops into is measured, not coded."""
+    bearer_physical = getattr(bearer, "physical", None)
+    if not bearer_physical:
+        return
+    perceiver_sex, bearer_sex = getattr(perceiver, "sex", None), getattr(bearer, "sex", None)
+    for cue, mag in physical_stimulus(bearer_physical).items():          # E2: bearer-pure stimulus
+        percept[cue] = percept.get(cue, 0.0) + mag * sex_weight(perceiver_sex, bearer_sex, cue)  # E4
+
+
 @dataclass
 class _Tie:
     affect: float = 0.0
     strain: float = 0.0
 
 
-def _social_episode(agent: AffectiveAgent, other_last_act: str,
+def _social_episode(agent: AffectiveAgent, other_agent: AffectiveAgent, other_last_act: str,
                     tie: _Tie, age_years: float) -> str:
-    """One co-located moment: THIS agent perceives the other's prior act as a social perturbation
-    (in the trigger vocabulary) and its substrate resolves an emergent act, developing through the
-    moment. The DESCRIPTIVE tie accrues from the feature read-outs of that act (where the two
-    booleans belong)."""
-    fr = felt_response(agent.engine, _perceive(other_last_act), age_years,
+    """One co-located moment: THIS agent perceives the other's prior act AND physical presentation as
+    a social perturbation (in the trigger vocabulary) and its substrate resolves an emergent act,
+    developing through the moment. The DESCRIPTIVE tie accrues from the feature read-outs of that act
+    (where the two booleans belong)."""
+    percept = _perceive(other_last_act)
+    _add_physical_percept(percept, agent, other_agent)   # E2/E4: the other's endowment, sex-valued
+    fr = felt_response(agent.engine, percept, age_years,
                        getattr(agent, "_rest_baseline", None))
     if is_aggressive_act(fr.behaviour):
         tie.strain = min(1.0, tie.strain + _TIE_STEP); tie.affect = max(-1.0, tie.affect - _TIE_STEP)
@@ -337,7 +357,7 @@ def run_arena(spec: ArenaSpec, *, childhood_years: float = 18.0,
             if others and rng.random() < shared_frac:
                 other = rng.choice(others)
                 tie = ties.setdefault(_pair(iid, other), _Tie())
-                b = _social_episode(ag, last_act[other], tie, age)
+                b = _social_episode(ag, agents[other], last_act[other], tie, age)
                 last_act[iid] = b                       # the perceivable social act toward the roster
             else:
                 b = _solo_episode(ag, age, rng, ctxs[iid])   # own stream; not perceivable as a social bid
