@@ -1,7 +1,7 @@
 """
 scan.py -- the scan controller's trusted PRIMITIVE (Part 4 S8): develop_and_measure.
 
-Manual mode is primary (S8.1): set throttles by hypothesis, develop a childhood on a FIXED v9
+Manual mode is primary (S8.1): set throttles by hypothesis, develop a childhood on the FIXED live
 substrate, and measure the developed signatures. The auto-mode SEARCH layer is a separate, later
 build that only CALLS this primitive -- it is not here.
 
@@ -11,7 +11,7 @@ Honesty (S8.3), held STRUCTURALLY, not by discipline:
     each grounded on its own. NO composite blend and NO distance-to-a-drawn-profile lives here; the
     search layer maximises ONE named read-out at a time (per-signature), never a weighted mixture.
   * FOUND-NOT-FITTED IS ARCHITECTURAL. The ONLY channel from this module to the substrate is
-    `engine.set_throttle`. It never writes the model (the v9 seed's weights/connections). "The
+    `engine.set_throttle`. It never writes the model (the seed's weights/connections). "The
     substrate stays fixed" is therefore a property of the code, not a promise -- a test asserts the
     shared model is byte-unchanged across a run.
   * THE THROTTLE CONVENTION IS STRUCTURAL, NOT ARITHMETIC. A named `Throttle` type carries the
@@ -162,10 +162,10 @@ class ProfileResult:
 
 def develop_and_measure(config: ThrottleConfig, seed: int, *, n_episodes: int = 48,
                         env: Optional[Environment] = None) -> ProfileResult:
-    """MANUAL-MODE PRIMITIVE: apply a throttle config to a FIXED v9 substrate, develop a compressed
+    """MANUAL-MODE PRIMITIVE: apply a throttle config to the FIXED live substrate, develop a compressed
     childhood, and measure the developed signatures. Deterministic from `seed`. The substrate model
     is never written -- the only channel to it is `engine.set_throttle` (the agent's own engine
-    holds per-instance weights; the shared v9 seed structure is read-only)."""
+    holds per-instance weights; the shared seed structure is read-only)."""
     agent = AffectiveAgent(seed=_intact_seed())         # fixed neutral temperament; throttle is the manipulation
     for cid, thr in config.items():
         agent.engine.set_throttle(cid, thr.fraction)    # the ONLY channel to the substrate
@@ -175,7 +175,8 @@ def develop_and_measure(config: ThrottleConfig, seed: int, *, n_episodes: int = 
         signatures=measure_signatures(agent.engine),
         viable=_viable(agent.engine),
         seed=seed,
-        provenance={"substrate": "v9", "base_temperament": "intact",
+        provenance={"substrate": agent.engine.model.meta.get("version", "unknown"),  # from the live model, never hardcoded (can't drift)
+                    "base_temperament": "intact",
                     "manipulation_scope": MANIPULATION_SCOPE, "n_episodes": n_episodes},
     )
     return result
