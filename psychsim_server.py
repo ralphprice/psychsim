@@ -3,10 +3,12 @@
 psychsim_server.py -- run the PsychSim step loop CONTINUOUSLY and stream it to a page.
 
 Starts a running SimEngine, steps it on a background thread while "playing", and serves
-its live state over plain HTTP (no extra dependencies). A frontend (psychsim_ui.html)
-polls /state and posts control commands. This is the Park-style live loop, modernised.
+its live state over plain HTTP (no extra dependencies). The PRIMARY frontend is the React
+SPA built into `ui/dist` (served at `/`); the standalone `psychsim_ui.html` at the repo root
+is a LEGACY no-build fallback. Either polls /state and posts control commands. This is the
+Park-style live loop, modernised.
 
-    python psychsim_server.py            # then open psychsim_ui.html in a browser
+    python psychsim_server.py            # then open http://127.0.0.1:<port>/  (built UI in ui/dist)
     python psychsim_server.py --port 8000 --population 100
 
 Endpoints:

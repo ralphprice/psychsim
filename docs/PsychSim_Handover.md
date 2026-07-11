@@ -289,13 +289,10 @@ UI panel has a collapsible editor for each.
   networks (aggregate pathways into a weighted network). `GET /neural`,
   `POST /cmd {neural_upsert|neural_delete}`; UI NeuralEditor (SVG + integrity). **Authoring
   sandbox only — NOT wired into the live substrate** (that is the separate substrate overhaul).
-- **Executive-function editor** (`core/affective_engine/exec_store.py`,
-  `data/executive/monitors.json`): declarative frontal-cortex monitor specs
-  `{name, target, kind, when_dominant}` compile to the executive's `MonitoredPattern`
-  callables. `GET /executive`, `POST /cmd {executive_upsert|executive_delete}`; UI
-  ExecutiveEditor. **DISCIPLINE (design §2.9): the registry is EMPTY by default** — the
-  executive is consulted on every event but acts only on *researched* patterns installed
-  here; never hand-invent them.
+- **Executive-function editor** — *RETIRED (see `PsychSim_CORE_RECORD.md`, Reduction A).* The
+  Panksepp learned-monitor Executive (`exec_store.py`, `data/executive/monitors.json`, the
+  `/executive` endpoint + `executive_upsert|delete` commands, the ExecutiveEditor UI) was
+  **deleted**; executive/regulatory function now lives in the substrate's PFC circuits.
 
 All additive: existing spawns/behaviour are byte-identical (built-in defaults preserved,
 civic ratios ~0 for small towns, empty executive registry). ~264 tests pass. `sys.path` is
