@@ -33,10 +33,11 @@ alone. None of this is code work.
 
 ## 1. Current state in one paragraph
 
-The platform has: a neuroscience-grounded **emergent substrate** (Panksepp's 7 primary
-systems), **three interface matrices** (relationships, environment, groups), an
-always-on **executive layer** with a memory-driven learning route, a **developmental
-life-stepper** (children grow up over years), a **town spawn generator** (a tile
+The platform has: a neuroscience-grounded **emergent circuit substrate** (category-free,
+~82 nucleus-level circuits — including PFC executive/regulatory circuits), **three
+interface matrices** (relationships, environment, groups), a **memory-driven learning
+route**, a **developmental life-stepper** (children grow up over years), a **town spawn
+generator** (a tile
 settlement), a **day-to-day town-life layer** (people walk between home/school/work/
 leisure on role schedules, with A* pathfinding), a **plan-view ("glass-roof")
 renderer**, and — newest — a **live step-loop engine + streaming server + a

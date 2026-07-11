@@ -53,11 +53,11 @@ people **faded + dashed** and subjects **solid**; the Inspector shows each perso
 mind-state ("study subject (live)" vs "background (fixed)"); a status line reports the
 subject/background counts; and a **library browser** lists the grown adults.
 
-**Authoring a subject**: the add-resident row has a **temperament** picker (typical /
-fearless / fearless-calculating). A new person is built fresh from that temperament seed
-(given inherited reactivity, seeded reproducibly) and evolves live — never a scripted
-personality. The Inspector shows its temperament. Development itself runs over **real
-life spans** via the life-stepper (`timeline_driver.py`), not any compressed live clock.
+**Authoring a subject**: the add-resident row seeds a fresh **standard** person (a role) that
+evolves live — never a scripted personality; its disposition is **measured, never selected**
+(the temperament-preset picker was removed, U1). The Inspector still shows a subject's *given*
+temperament as a read-out. Development itself runs over **real life spans** via the life-stepper
+(`timeline_driver.py`), not any compressed live clock.
 See the handover doc §3.8.
 
 ## Save / load

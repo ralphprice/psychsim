@@ -64,9 +64,10 @@ and lets only the **study subjects** (children by default) evolve — an identic
 background across conditions being the experimental control. Toggle it on the Spawn
 control; background people render faded/dashed, subjects solid.
 
-You can **author a study subject** (a temperament picker on the add-resident buttons):
-a fresh mind is built from that temperament seed (given inherited reactivity) and evolves
-live around the fixed background. Only temperament is given; the personality grows.
+You can **author a study subject** (the add-resident row): a fresh mind is seeded and
+evolves live around the fixed background. Its disposition is **measured, never selected** —
+the personality grows. (The temperament-preset picker was removed, U1; authoring falls back
+to standard roles.)
 
 > **Timescale:** PsychSim models **real human life spans** — it is a research instrument,
 > not a game. Development belongs to the life-stepper (`timeline_driver.py`), on the real
@@ -94,8 +95,8 @@ only — never a verdict). See handover §3.9.
 | `core/modular` | the plug-in module system — `Module` + `discover_modules` (studies plug in here) |
 | `core/config` | data-file config: `TownProfile` (demography + household) loaded from `data/` |
 | `core/sim_world` | places, objects, institutions, people, time, Game-Master, dialogic interaction |
-| `core/affective_engine` | circuits → behavioural networks → arbitration → development (+ graded affordances) |
-| `core/neuraldesigner` | author circuits/pathways/networks as data — the seam for swapping the affect model |
+| `core/affective_engine` | wraps the circuit substrate: trait seeds → development → descriptive read-out |
+| `core/neuraldesigner` | offline authoring sandbox — NOT wired into the live substrate (the seed is the single source of truth) |
 | `core/sim_experiment` | life-course runner + trait × environment factorials + `readout` aggregation |
 | `core/speech` | two-channel language layer: speech-acts (causal) + renderer (observer), wired into the world |
 | `core/sim_viz` | isometric map + compositor + tileset slot for AI art |

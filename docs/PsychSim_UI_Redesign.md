@@ -396,8 +396,8 @@ a test asserts the UI has no neural write path.
 - **The throttle panel** — ships with the scan controller; exposes circuits (0–100, intact = 100),
   never outcome-named presets.
 - **Arena / bank / scan UI** — later, once those instruments are exercised from the CLI.
-- The stale Panksepp docstrings in `core/sim_world/group_matrix.py` and `core/sim_world/README.md`
-  (they describe the retired engine). Fix in the same pass, but they are not UI.
+- ~~The stale Panksepp docstrings in `core/sim_world/group_matrix.py` and `core/sim_world/README.md`~~
+  — **checked (2026-07 audit): neither file actually contains a Panksepp reference; nothing to fix here.**
 - **Numeric age / distinct resident names in the cohort list.** The sim exposes neither (`name === cid`,
   and only a life-stage `role_name`, no `age_years`). The Development Cohort list therefore shows
   cid + life-stage + role and sorts by cid — it displays what exists rather than inventing an age

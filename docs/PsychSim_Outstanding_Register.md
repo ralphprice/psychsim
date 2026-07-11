@@ -88,8 +88,8 @@ candidate, not a settled fact — revisit if MeApd-vs-MeA projection-specificity
   AND the DRN node (2.1b) land must carry `validated_on: pre-5HT-substrate (pre-sign-upgrade);
   aggression-regulation conclusions provisional` in its provenance — the sign upgrade changes the
   aggression circuit's dynamics too, so both are prerequisites for non-provisional aggression findings.
-- **FIRST STEP before build:** commit `PsychSim_CU_Study_Spec.md` to origin/main (it is currently
-  local-only — a sync gap) and answer the four open questions in its §9.
+- **FIRST STEP before build:** answer the four open questions in its §9. (The spec itself is
+  already on origin/main — `86f53b5`; the earlier "local-only sync gap" is closed.)
 
 ### 2.3 — UI redundant-artifact removal (the cleanup you asked for; §3 below is the concrete list)
 - Small, bounded, no new features. Remove what the redesign superseded and the deprecated study

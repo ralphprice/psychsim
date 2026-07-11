@@ -12,39 +12,37 @@ programme is about.
 
 ## What it provides
 
-- **Circuits** — leaky-integrator drives (THREAT, ANXIETY, SEEKING, FRUSTRATION,
-  CARE, SOCIAL_LOSS, and two regulatory circuits, CONTROL and
-  INSTRUMENTAL_CONTROL) computed from an `Appraisal` of a situation.
-- **Behavioural networks** — the modes a person can act in: affiliative warmth,
-  strategic prosociality, cool instrumental boldness, reactive aggression,
-  callous exploitation, fearful withdrawal. Each is driven by a weighted mix of
-  circuits, with an arbitration step that settles on the dominant one.
-- **Trait seeds** — dispositions as parameter sets (`shared_root_seed`,
-  `sophropathic_seed`, `psychopathic_seed`, and others), so two agents can differ
+- **The behaviour engine** — the circuit **substrate** (`core/substrate/`, ~82
+  nucleus-level circuits loaded by `load_substrate`) is the live engine;
+  `AffectiveAgent` wraps it and runs it per tick. *(The earlier leaky-integrator
+  Panksepp 7-drive engine, `drives.py`, and the outcome-category **behavioural
+  networks** + arbitration step were **retired and removed** — see the honesty
+  note in `core.py`. THREAT / ANXIETY / SEEKING / … survive only as temperament
+  **gain biases**, not as circuits.)*
+- **Trait seeds** — dispositions as parameter sets (`shared_root_seed` and others):
+  temperament gains plus the valence-engine endowment, so two agents can differ
   only in temperament and let the environment do the rest.
 - **A development rule (`develop`)** — a childhood lived in an environment shifts
-  conscience-control plasticity and network access, with plasticity declining
-  with developmental age. Supports **graded (sigmoid) affordances** so outcome
-  boundaries can be smooth rather than knife-edge at 0.5.
+  plasticity with developmental age, so outcome divergence is **produced by the life
+  lived, not stipulated**.
 - **Episodic memory** — a memory stream that primes appraisal from similar past
   episodes, so history shapes behaviour by a second, bounded pathway alongside
   development.
-- **An outcome classifier (`classify`)** — reads behaviour on a probe battery and
-  labels the outcome sophropathic / intermediate / psychopathic. Psychopathy is
-  scored by the **callous-exploitative core** (exploiting, or being unmoved by, a
-  *vulnerable other*), not by reactive aggression and not by pursuing a victimless
-  reward.
+- **A descriptive read-out (`classify`)** — reads the emergent substrate
+  (`read_mind`) and reports which domain dominates. It is **measurement, not a
+  driver, and attaches NO verdict**; the study's outcome constructs are computed
+  separately by the observer read-out (`observer.py`), over emergent behaviour,
+  never fed back.
 
 ## Use it
 
 ```python
 from affective_engine import (AffectiveAgent, shared_root_seed,
-                               warm_firm_home, harsh_inconsistent_home,
-                               develop, classify)
+                               harsh_inconsistent_home, develop, classify)
 
 agent = AffectiveAgent(seed=shared_root_seed())
-develop(agent, harsh_inconsistent_home(), graded=True)
-print(classify(agent).classification)      # e.g. "psychopathic"
+develop(agent, harsh_inconsistent_home())
+readout = classify(agent)      # DESCRIPTIVE read-out of the emergent substrate -- no verdict
 ```
 
 ## Honest scope
@@ -60,9 +58,9 @@ print(classify(agent).classification)      # e.g. "psychopathic"
 
 ```
 affective_engine/
-  core.py           appraisal, circuits, networks, trait seeds, the language actuator stub
-  agent.py          the AffectiveAgent: tick, settle, arbitrate
-  development.py    the development rule (+ graded affordances) and the classifier
+  core.py           appraisal, trait seeds, and affect primitives
+  agent.py          the AffectiveAgent: wraps the circuit substrate; tick, settle
+  development.py    the development rule and the descriptive read-out (classify)
   memory.py         the episodic memory stream and appraisal priming
   demo.py           developmental separation from one seed across two homes
 ```
