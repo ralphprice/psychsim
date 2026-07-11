@@ -105,13 +105,16 @@ def own_formidability(physical: Dict[str, float]) -> float:
 
 
 def vmhvl_reactivity(physical: Dict[str, float], sex: Optional[str]) -> float:
-    """E5 x E6: the per-agent GAIN on VMHvl's response to provocation -- how strongly the bearer's own
-    attack area reacts when provoked. E5 (sex-neutral): a stronger agent reacts more (own_formidability
-    above 0.5 -> gain > 1). E6: a sex FACTOR (male>female baseline), both > 0 so aggression stays
-    reachable in both sexes. This scales VMHvl's INPUT, never adds a standing drive -- and VMHvl's only
-    input is provocation, so at neutral there is nothing to amplify (the neutral-floor guard holds by
-    construction; strength cannot fire aggression unprovoked). A physical-neutral agent -> 1.0 (no bias).
-    Clamped >0 so it is always a factor, never a gate."""
+    """E5 x E6: the per-agent GAIN on VMHvl's driven input -- how strongly the bearer's own attack area
+    reacts to what drives it. E5 (sex-neutral): a stronger agent reacts more (own_formidability above
+    0.5 -> gain > 1). E6: a sex FACTOR (male>female baseline), both > 0 so aggression stays reachable in
+    both sexes. This scales VMHvl's INPUT, never adds a standing drive. NEUTRAL FLOOR: at v10 VMHvl's ONLY
+    input was provocation, so the floor held BY CONSTRUCTION (nothing to amplify at neutral). v11 added
+    VMHvl afferents (MeA->VMHvl inhibitory, BNST->VMHvl excitatory), whose net at neutral is negligible,
+    so the floor now holds BEHAVIOURALLY (neutral -> restrain for strong and weak alike; the residual
+    neutral aggress drive is ~0), and the provoked strong>weak differential is intact. The gain still
+    cannot manufacture unprovoked aggression. A physical-neutral agent -> 1.0 (no bias). Clamped >0 so it
+    is always a factor, never a gate."""
     if not physical:
         return 1.0
     strength_bias = SCAFFOLD["own_strength_gain_k"] * (own_formidability(physical) - 0.5)   # E5

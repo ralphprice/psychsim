@@ -39,11 +39,12 @@ class SubstrateEngine:
         # outcome weight. Applied to an otherwise-ordinary substrate; what it produces is measured.
         self.throttle: Dict[str, float] = {}
         # per-agent per-circuit INPUT-reactivity gain (default 1.0 via .get). v10 E5/E6: an agent's
-        # own physical strength + sex bias its VMHvl reactivity -- how strongly it responds to
-        # provocation. Multiplies the circuit's driven input, NOT its baseline, so it cannot add a
-        # standing drive; with provocation as VMHvl's only input, no provocation -> nothing to
-        # amplify (the neutral-floor guard is structural). A calibration on the competition, never a
-        # determinant of output. Not an outcome weight; what it produces is measured.
+        # own physical strength + sex bias its VMHvl reactivity -- how strongly it responds to its
+        # drive. Multiplies the circuit's driven input, NOT its baseline, so it cannot add a standing
+        # drive. Neutral-floor: at v10 provocation was VMHvl's only input, so the floor held BY
+        # CONSTRUCTION; v11 added VMHvl afferents (MeA/BNST), whose neutral net is negligible, so the
+        # floor now holds BEHAVIOURALLY (neutral -> restrain; residual ~0). A calibration on the
+        # competition, never a determinant of output. Not an outcome weight; what it produces is measured.
         self.reactivity: Dict[str, float] = {}
         self._silent: List[int] = [0] * len(m.connections)
         self.exp_count: List[int] = [0] * len(m.connections)   # relevant experiences (S10.1)

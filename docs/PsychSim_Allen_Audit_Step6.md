@@ -131,6 +131,88 @@ seed** — I am not adding any edge. The largest real gap is node-level (no 5-HT
 *not* on the candidate list because it is not an edge decision. If none are authorised, "coverage adequate,
 one node-level flag recorded" is an honest and acceptable close to Step 6.
 
+## 8. v11 outcome — all four added with honest signs (the sign-correction)
+
+**Ruling: Option A — add all four edges with their honest `_sign()`-derived neurochemical signs, weights
+SCAFFOLD, and measure whatever emerges. Cherry-pick nothing; override no sign.** All four were authorised
+(existence + direction); the sign is *not* something anyone authorises — it emerges from the source's
+principal transmitter, and the behaviour is whatever results.
+
+**A correction to §5's framing, recorded so it is not repeated.** During the v11 pre-build I read the
+*rationale* for why each edge exists ("MeA→VMHvl is the route by which a conspecific cue reaches the attack
+area") as an *authorised excitatory function*, found that our convention signs MeA→VMHvl and VP→LHb
+**inhibitory** (both are GABA-leading), and proposed deferring those two ("add only the sign-compatible
+pair"). **That was cherry-picking** — selecting the neurochemistry whose emergent sign matched the story we
+expected, which is the same move as hand-setting a sign, done by omission. There is no authorised sign; a
+model that keeps only the excitatory edges that drive the studied outcome has *encoded* the outcome.
+Inhibition is half the machine and is kept because it *exists*. Distinguish two things the earlier framing
+collapsed: "the convention signs it opposite to what we wanted" = the model working (keep it); "the
+convention signs it opposite to the literature's *projection-specific* transmitter" = a real fidelity
+limitation to document (below).
+
+**What went in (v11 = v10 + 4 edges; v10 connectome byte-identical):**
+
+| Edge | Emergent sign (source transmitter) | Measured effect | 
+|---|---|---|
+| C1 MeA→VMHvl | **−1 inhibitory** (MeA GABA/glutamate → GABA-leading) | a conspecific cue **brakes** the attack area (drive MeA, no provocation → VMHvl 0.000). Biologically sensible — you don't attack every conspecific you see — and it can only *help* the neutral floor hold. A finding, kept. |
+| C2 LH→LHb | +1 excitatory | **revives the previously afferent-less (dead) LHb**: aversion drive reaches the habenula, and LHb→RMTg⊣VTA now suppresses DA (isolated: LHb→VTA 0.000). |
+| C3 VP→LHb | **−1 inhibitory** (VP GABAergic) | the reward/hedonic arm (VP→LHb 0.000). **Sign-fidelity limited — see below.** |
+| C4 BNST→VMHvl | +1 excitatory | an extended-amygdala afferent now reaches the attack area (drive BNST → VMHvl 0.43), beyond the abstract provocation channel. |
+
+**Integration guards (measured, nothing tuned):** the v9 aggression closure holds **unchanged**
+(provocation→aggress, plain threat→avoid, neutral→restrain); DA is **stable** (resting VTA v11 0.077 ≈ v10
+0.084 — bounded, no collapse/blowup); the characterisation golden moved by a **connectome-change shape**
+(42 small leaves, max |Δ|=0.0047, **no classification flips**) and was regenerated.
+
+**Documented sign-fidelity limitation (VP→LHb).** The nucleus-level `_sign()` (Dale-by-nucleus) signs
+VP→LHb **inhibitory** because VP is GABA-leading; the literature's LHb-projecting VP population is
+**glutamatergic/aversive**. Our single-sign-per-nucleus convention cannot represent a projection whose
+specific transmitter differs from its source's dominant one. This is recorded in the seed's
+`gaps_register` and is to be resolved **only** by a convention-wide upgrade to projection-specific signs
+(uniform, cited) if ever undertaken — **never** by a per-edge override to obtain a function.
+
+**The 5-HT node stays on the required list.** Recorded in `gaps_register`: no serotonergic (dorsal/median
+raphe) source exists, and 5-HT is the principal aggression/impulsivity-regulating neuromodulator — so a
+model missing it cannot honestly measure aggression regulation. A required future *node*-pass (grounded,
+cited, reviewed), and **to be revisited before the CU study draws aggression-regulation conclusions.**
+
+**Meta-lesson (the governing principle):** completeness includes the effects that work *against* the
+phenomenon under study. We include every neurochemical effect we know of — inhibitory and excitatory
+equally, whether or not it suits the hypothesis — and add missing systems (5-HT) as we learn of them. The
+job is to build the machine as it is and report what it does.
+
+### 8.1 Integration findings from the v11 full-suite gate (surfaced, not tuned away)
+
+The first full suite after v11 surfaced six red tests. None were the connectome being wrong; each was the
+system telling the truth about a v11 consequence. Recorded here because two are load-bearing:
+
+- **Stale-cache under a connectome change (3 errors).** The committed background library
+  (`library/adults.json`) held adults *grown under v10* — 154-length per-connection arrays — which
+  IndexError'd deep in `step()` when restored into the 158-edge v11 model. This is the same class as the
+  pre-v10 physical-neutral case: **a bank is stale when the connectome version that grew it differs from
+  the one restoring it.** Fixed per the standing rule — **regrow the cache** (`build_default_library()`
+  under v11) — and added a **defensive guard** in `_restore_engine`: a connection-count mismatch now raises
+  a clear "stale bank, regrow" error instead of a cryptic IndexError. It never pads the missing edges
+  (that would fabricate weights the adult never developed — restored-never-edited).
+
+- **The E5/E6 neutral-floor changed basis: structural → behavioural (the load-bearing one).** E5/E6's
+  neutral-floor guard held at v10 **by construction** — VMHvl's *only* input was `provocation`, so the
+  reactivity gain had nothing to amplify at neutral. **v11 gives VMHvl afferents** (MeA→VMHvl inhibitory,
+  BNST→VMHvl excitatory), so that structural guarantee is gone. Measured consequence: the floor **still
+  holds behaviourally** — at neutral both a strong and a weak agent restrain (residual aggress drive ~0.003,
+  far below threshold), and the provoked strong>weak differential is intact — but it now holds *because the
+  neutral net afferent drive is negligible*, not *because there is nothing to amplify*. The false "by
+  construction" claim was corrected in `physical.py`, `engine.py`, and the test (reframed to the behavioural
+  invariant). **This is a genuine cross-version interaction: adding VMHvl afferents weakened an E5/E6
+  honesty argument from structural to behavioural. Flagged for the design session.**
+
+- **Formidability-perceiver (1 fail, intent intact).** Seeing a formidable other still drives the
+  perceiver's defensive submission (CeA 0.67) and NOT attack — but VMHvl is now *suppressed below* baseline
+  (0.00) by the inhibitory MeA→VMHvl brake, rather than sitting exactly at baseline. The v10 exact-baseline
+  assertion was a numeric artifact; the invariant (defensive dominates, attack not driven up) is reasserted.
+
+- **Seed-version string + the params↔seed reconciliation path** updated v10→v11 (mechanical).
+
 ---
 *Sources consulted:*
 [Nordman 2020 J Neurosci 40(25):4858](https://www.jneurosci.org/content/40/25/4858) ·

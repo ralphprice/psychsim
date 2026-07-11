@@ -147,6 +147,15 @@ def _dump_engine(e: SubstrateEngine) -> Dict:
 
 def _restore_engine(model: SubstrateModel, s: Dict) -> SubstrateEngine:
     e = SubstrateEngine(model, age_years=s["age_years"])
+    # a banked agent's per-connection arrays are sized to the connectome it GREW on; if the current
+    # seed has a different connection count (a version bump added/removed edges), the bank is stale.
+    # Fail clearly here rather than IndexError deep in step(); do NOT pad (that would fabricate weights
+    # for edges the adult never developed -- restored-never-edited). The fix is to regrow the cache.
+    if len(s["weight"]) != len(model.connections):
+        raise ValueError(
+            f"stale bank: banked agent has {len(s['weight'])} connections but the current seed has "
+            f"{len(model.connections)} -- grown on a different connectome version. Regrow the cache "
+            f"under the current seed (never pad; restored-never-edited).")
     e.weight = list(s["weight"])
     e.exp_count = list(s["exp_count"])
     e.theta = dict(s["theta"])

@@ -66,9 +66,13 @@ class TestPerceiverDirectionsSeparate(unittest.TestCase):
     def test_formidability_drives_defensive_submission_not_attack(self):
         strong = _settle(_perceiver(), STRONG)
         plain = _settle(_perceiver(), PLAIN)
-        self.assertGreater(strong["CeA"], plain["CeA"])          # submission/wariness
-        # the perceiver's attack area is NOT engaged by seeing strength -- it stays at rest
-        self.assertAlmostEqual(strong["VMHvl"], 0.05, delta=1e-6)
+        self.assertGreater(strong["CeA"], plain["CeA"])          # submission/wariness dominates
+        # the perceiver's attack area is NOT DRIVEN by seeing strength. Under v11 the inhibitory
+        # MeA->VMHvl afferent actually pushes VMHvl slightly BELOW baseline (a conspecific-cue brake),
+        # so the honest invariant is "not driven above rest" + "defensive dominates attack", not the
+        # v10 exact-baseline value.
+        self.assertLessEqual(strong["VMHvl"], 0.05 + 1e-9)       # never driven above baseline
+        self.assertGreater(strong["CeA"], strong["VMHvl"])       # defensive >> attack
 
 
 class TestBearerPureStimulus(unittest.TestCase):

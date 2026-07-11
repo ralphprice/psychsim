@@ -1,13 +1,16 @@
 """
-model.py (substrate) -- load the v10 substrate seed into a runtime model.
+model.py (substrate) -- load the v11 substrate seed into a runtime model.
 
-The v10 seed (docs/neuralnetworks/psychsim_substrate_seed_v10.json) is the SINGLE SOURCE OF
+The v11 seed (docs/neuralnetworks/psychsim_substrate_seed_v11.json) is the SINGLE SOURCE OF
 TRUTH for substrate structure and parameters (Part 2 S1.3; Part 3 S3): 78 circuits (nucleus-
-level rate units), 182 directed edges, a 20-entry innate-wiring catalogue, 9 input channels (v10
-adds IN-CONSPEC), a physical-endowment table, the 8 plasticity rules, and a gaps register. v10 =
-v9 + physical endowment (byte-identical v9 connectome; v1-v9 archived). This module reads it
-verbatim into typed records + indices; it supplies NO dynamics (engine.py) and NO psychological
-meaning (a circuit is just an id with parameters).
+level rate units), 186 directed edges, a 24-entry innate-wiring catalogue, 9 input channels
+(IN-CONSPEC), a physical-endowment table, the 8 plasticity rules, and a gaps register. v11 =
+v10 + 4 Allen-audit subcortical afferents (MeA->VMHvl, LH->LHb, VP->LHb, BNST->VMHvl); v10 =
+v9 + physical endowment. Each addition is additive (byte-identical prior connectome); every
+edge's excitatory/inhibitory sign emerges from its source's principal transmitter (never chosen
+to obtain a function -- inhibition is kept because it exists). v1-v10 archived. This module reads
+the seed verbatim into typed records + indices; it supplies NO dynamics (engine.py) and NO
+psychological meaning (a circuit is just an id with parameters).
 
 Two grounded, meaning-blind derivations the seed encodes implicitly:
   * Connection SIGN. The seed's weight_bounds are non-negative, so a connection's excitatory/
@@ -37,11 +40,14 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 # and its provocation->attack pathway (IN-INTERO:provocation->VMHvl, VMHvl->PAG, VMHvl->HYPdm),
 # which closes the OBS-3 connectome gap (provocation could previously reach the attack effectors
 # only via the GABAergic CeA, which inhibits them); the CeA->PAG/HYPdm inhibition is UNTOUCHED.
-# Plus the S1.4 social innate-wiring catalogue entries (documentary). 78 circuits / 182 edges (v10:
-# v9 + 1 new input channel IN-CONSPEC (conspecific social-visual valuation) + 3 physical-endowment edges
-# on it; the v9 connectome is byte-identical, additions only).
-# Drop-in (same schema; VMHvl reuses hypothalamic_low_flat/brainstem_low_flat schedules). v1-v9 archived.
-_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v10.json")
+# Plus the S1.4 social innate-wiring catalogue entries (documentary). v10 = v9 + IN-CONSPEC channel +
+# 3 physical-endowment edges. v11 = v10 + 4 Allen-audit subcortical afferents added existence+direction
+# only, weights SCAFFOLD, signs emergent from the source transmitter (MeA->VMHvl inhibitory, LH->LHb
+# excitatory, VP->LHb inhibitory [sign-fidelity caveat in gaps_register], BNST->VMHvl excitatory);
+# MeA->VMHvl / BNST->VMHvl give the v9 attack node its anatomical afferents beyond the abstract
+# provocation channel, and LH/VP->LHb revive the previously afferent-less lateral habenula.
+# 78 circuits / 186 circuit-edges; each version additive (prior connectome byte-identical). v1-v10 archived.
+_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v11.json")
 
 # Which SOURCE CIRCUIT produces each gating neuromodulator (R5). Resolved to real v7 circuit
 # ids; the R5 modulator is that circuit's LIVE activity, never a set scalar. 'none' -> ungated.

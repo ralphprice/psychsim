@@ -7,14 +7,18 @@ _S.path.insert(0, _ROOT)
 """v10 physical endowment -- E5/E6 bearer-side self-effect (the one smuggle-risk).
 
 An agent's OWN physical strength (E5) and sex (E6) bias its OWN VMHvl reactivity -- how strongly its
-attack area responds to provocation. Implemented as an INPUT-reactivity gain: it scales VMHvl's
-driven input, never adds a standing drive. Because VMHvl's only input is provocation, at neutral
-there is nothing to amplify, so the neutral-floor guard holds BY CONSTRUCTION.
+attack area responds to its drive. Implemented as an INPUT-reactivity gain: it scales VMHvl's driven
+input, never adds a standing drive. At v10, provocation was VMHvl's ONLY input, so at neutral there
+was nothing to amplify and the floor held BY CONSTRUCTION. v11 added VMHvl afferents (MeA->VMHvl
+inhibitory, BNST->VMHvl excitatory), whose net at neutral is negligible, so the floor now holds
+BEHAVIOURALLY: at neutral a strong and a weak agent both RESTRAIN and the residual aggress drive is
+negligible; the provoked strong>weak differential is intact. (Cross-version interaction flagged in
+the v11 Allen-pass notes -- the guard's basis changed from structural to behavioural, the property held.)
 
 The load-bearing honesty properties (ordinal/structural only -- the differential is the finding, the
 neutral floor proves it is not coded "strong->aggressive"):
-  * NEUTRAL FLOOR: strong x neutral (unprovoked) -> restrain, no aggression leak -- identical to a
-    weak agent. Raising strength alone cannot fire aggression.
+  * NEUTRAL FLOOR: strong x neutral (unprovoked) -> restrain, negligible aggress residual. Raising
+    strength alone cannot fire aggression.
   * PROVOCATION DIFFERENTIAL (E5): strong x provocation -> more aggression drive than weak x
     provocation. Same-sex comparison, so the effect is strength, not sex.
   * SEX FACTOR NOT GATE (E6): male baseline reactivity > female, but BOTH > 0 -> aggression fully
@@ -79,12 +83,15 @@ class TestNeutralFloorGuard(unittest.TestCase):
         self.assertEqual(b.behaviour, "restrain")
         self.assertLess(b.drives["aggress"], _EPS)
 
-    def test_gain_has_no_effect_at_neutral(self):
-        # strong and weak produce the SAME neutral response -- the gain has nothing to amplify at rest
-        strong = _act(Appraisal(), gain=vmhvl_reactivity(_STRONG, SEX_MALE)).drives["aggress"]
-        weak = _act(Appraisal(), gain=vmhvl_reactivity(_WEAK, SEX_FEMALE)).drives["aggress"]
-        self.assertAlmostEqual(strong, weak, places=9)
-        self.assertLess(strong, _EPS)
+    def test_gain_cannot_manufacture_unprovoked_aggression(self):
+        # v10 held strong==weak exactly (nothing to amplify at neutral). v11 gave VMHvl afferents
+        # (MeA/BNST) whose neutral net is negligible, so the floor now holds BEHAVIOURALLY: at neutral
+        # BOTH a strong and a weak agent restrain, with a negligible aggress residual far below any
+        # threshold. The gain cannot manufacture unprovoked aggression.
+        for phys, sex in ((_STRONG, SEX_MALE), (_WEAK, SEX_FEMALE)):
+            b = _act(Appraisal(), gain=vmhvl_reactivity(phys, sex))
+            self.assertEqual(b.behaviour, "restrain")
+            self.assertLess(b.drives["aggress"], 0.02)   # negligible residual (measured ~0.003)
 
 
 class TestProvocationDifferential(unittest.TestCase):

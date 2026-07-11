@@ -498,3 +498,59 @@ percept that must fire ONLY on its specific injection has to be on a prefix that
 injection matches -- either its own top-level channel, or a sub-channel of a prefix nothing injects
 bare. Prove behaviour-neutrality (golden byte-unmodified) before wiring; do not assume a new edge is
 dormant. This is the tripwire working: the golden moving was the system telling the truth.
+
+
+---
+
+## v11 Allen-audit pass — four subcortical afferents, and the sign-correction (completeness includes inhibition)
+
+Step 6 (the Allen connectivity audit) delivered a short candidate list; the design session authorised all
+four for a deliberate v11 edge pass (existence + direction only, weights SCAFFOLD): **MeA→VMHvl, LH→LHb,
+VP→LHb, BNST→VMHvl**. Full write-up in `docs/PsychSim_Allen_Audit_Step6.md` (with the CCF ontology map
+foundation, `docs/neuralnetworks/ccf_ontology_map.json`, STRONG 50 / BOUNDARY 14 / NONE 14). v11 = v10 + 4
+edges (v10 connectome byte-identical); v10 archived.
+
+**The important lesson — a dangerous move caught before it landed.** During the v11 pre-build I read each
+edge's *existence rationale* ("MeA→VMHvl is the conspecific-cue route to the attack area") as an
+*authorised excitatory function*, noticed our meaning-blind `_sign()` (source principal transmitter) makes
+MeA→VMHvl and VP→LHb **inhibitory** (both GABA-leading), and proposed **deferring those two** ("add only
+the sign-compatible pair"). That is **cherry-picking by sign** — keeping only the anatomy whose emergent
+sign matched the story we expected, the same as hand-setting a sign but done by omission. A model that
+includes only the excitatory edges driving the studied outcome has *encoded* the outcome — the single most
+dishonest thing we could build. **The rule: there is no authorised sign. Anatomy sets the edge; the
+source's neurochemistry sets the sign; behaviour is whatever emerges. Inhibition is half the machine and is
+kept because it exists.** If MeA→VMHvl comes out inhibitory, the honest finding is "a conspecific cue
+*brakes* the attack area" (measured: drive MeA, no provocation → VMHvl 0.000) — sensible (you don't attack
+every conspecific you see), and it can only help the neutral floor. A result to keep, not a failure to fix.
+
+**Genuine limitation kept separate from the cherry-picking:** the nucleus-level `_sign()` cannot represent a
+projection whose specific transmitter differs from its source's dominant one — **VP→LHb** is
+glutamatergic/aversive in the literature but VP is GABA-leading, so it is signed inhibitory here (the reward
+arm). Recorded in the seed `gaps_register`; to be fixed **only** by a convention-wide upgrade to
+projection-specific signs, never a per-edge override.
+
+**Emergent effects (measured, nothing tuned):** LH→LHb (+1) **revives the previously afferent-less LHb** —
+aversion now reaches the habenula and LHb→RMTg⊣VTA suppresses DA; BNST→VMHvl (+1) gives the attack node an
+extended-amygdala afferent beyond the abstract provocation channel; MeA→VMHvl (−1) brakes it; VP→LHb (−1)
+is the reward arm. **Guards:** v9 aggression closure holds unchanged; DA stable (resting VTA 0.077 ≈ v10
+0.084); golden moved by a connectome-change shape (42 leaves, max |Δ|=0.0047, no classification flips),
+regenerated.
+
+**Still on the required list:** no serotonergic (dorsal/median raphe, 5-HT) source node — the principal
+aggression/impulsivity-regulating neuromodulator. A required future *node*-pass, and to be revisited
+**before the CU study draws aggression-regulation conclusions** (a model missing it cannot honestly measure
+aggression regulation).
+
+**Two integration findings from the v11 full-suite gate (details in `docs/PsychSim_Allen_Audit_Step6.md`
+§8.1), both surfaced not tuned:** (1) **stale-cache under a connectome change** — the committed background
+library `library/adults.json` was grown under v10 (154-edge arrays) and IndexError'd when restored into the
+158-edge v11 model; fixed by regrowing the cache under v11 and adding a `_restore_engine` guard that raises
+a clear "stale bank, regrow" error on a connection-count mismatch (never pad — restored-never-edited). A
+bank is stale whenever the connectome version that grew it differs from the one restoring it. (2) **the
+E5/E6 neutral-floor changed basis, structural → behavioural.** At v10 the floor held BY CONSTRUCTION
+(VMHvl's only input was provocation, nothing to amplify at neutral); v11's VMHvl afferents (MeA/BNST)
+removed that guarantee. The floor STILL HOLDS behaviourally (neutral → restrain for strong and weak;
+residual aggress ~0.003; provoked strong>weak intact), but the "by construction" claim was false under v11
+and was corrected in physical.py/engine.py/tests. A real cross-version interaction: a later anatomical
+addition weakened an earlier phase's honesty argument from structural to behavioural — kept because the
+property held and the basis change is documented, not hidden.
