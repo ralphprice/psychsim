@@ -5,7 +5,7 @@ is explicitly deferred. **Nothing outside this list gets built without a deliber
 it.** If a new idea appears, it goes to "Parking lot" (§4) — it does not get built into the current
 work. The intention is fixed; we finish it, we don't grow it.
 
-Current head: `e33fb08` (v12 sign-convention upgrade, 2.1a) on `origin/main`. Seed head: `v12`.
+Current head: `b328978` (v13 -- DRN 5-HT node + cortical inhibitory interneurons, 2.1b) on `origin/main`. Seed head: `v13`.
 
 ---
 
@@ -54,7 +54,12 @@ library regrown). **Caveat carried forward:** the MeA→VMHvl flip rests on a MO
 determination (MeA is genuinely mixed); v12's "conspecific cue primes attack, provocation-gated" is a
 candidate, not a settled fact — revisit if MeApd-vs-MeA projection-specificity sharpens.
 
-**2.1b — DRN (5-HT) node, built on the upgraded convention. ← CLEARED TO BUILD (next).**
+**2.1b — DRN (5-HT) node + missing cortical inhibitory interneurons — ✅ DONE, on origin/main (v13, `b328978`); awaiting design-session full review.** The DRN 5-HT node (receptor-signed efferents — opposite signs across targets; DRN->VTA inhibitory; the PFC->raphe loop self-limiting through a DRN-GABA GAD2+ interneuron; low-5-HT -> more provoked aggression emerges as a scan_match target). Plus the missing local inhibitory interneurons the pass surfaced: vmPFC-GABA + dlPFC-GABA (the two DEMONSTRATED self-saturating PFC circuits), all silence-tested. dmPFC declined (downstream-resolved) -> scheduled below. Purely additive (0 cut); coherence: fixing vmPFC saturation also restored a healthy DRN tonic AND a proper adolescent-risk inverted-U, no tuning. Full suite 518 green.
+
+**Two SCHEDULED future passes this pass created (deliberate additions, not drift -- the substrate growing to completeness in the right order):**
+- **Systematic cortical-E/I pass** -- the other cortical pyramidal circuits (dmPFC, OFC, dACC, and the rest) also lack their local PV/SST interneurons; their current afferent balance masks it. Their real interneurons enter here, grounded + reviewed, as a batch. Any afferent change to a masked cortical circuit must re-check for saturation.
+- **Adolescent-risk maturation** -- whether the PFC-interneuron developmental trajectory (delaying the interneuron relative to its pyramidal circuit -> an adolescent window of immature prefrontal control) needs wiring. The adult substrate already produces the adolescent-risk inverted-U on its own, so this is a refinement to test, informed by the shape-test result -- a deliberate pass, not a gap.
+- **Proactive inhibitory-interneuron audit** (design-session note) -- two passes (DRN, PFC) each surfaced a saturating circuit missing its inhibitory partner; the substrate has excitatory long-range projections well-represented and local inhibitory interneurons under-represented. Worth a deliberate systematic audit *after the study* rather than discovering them one saturation at a time.
 - **Why required, not optional:** the substrate lacks its principal aggression/impulsivity *regulating*
   neuromodulator. Measuring aggression regulation without 5-HT is measuring a regulated system with the
   regulator absent — cherry-picking-by-omission (the v11 error, one level up).
