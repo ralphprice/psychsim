@@ -27,11 +27,11 @@ from substrate import params as sub_params
 from affective_engine import params as ae_params
 from affective_engine import interocept
 
-# reconcile against the CURRENT canonical seed -- the same file load_substrate() reads (v13).
+# reconcile against the CURRENT canonical seed -- the same file load_substrate() reads (v14).
 # (the reconciliation loads the seed dynamically and is per-circuit, so it tracks whatever the
 # current seed contains -- later versions may add circuits and/or edges. Kept in lockstep with
 # core/substrate/model._SEED_PATH.)
-_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v13.json")
+_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v14.json")
 _SEED = json.load(open(_SEED_PATH, encoding="utf-8"))
 _MODEL = load_substrate()
 

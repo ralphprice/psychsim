@@ -1,7 +1,7 @@
 """
-model.py (substrate) -- load the v13 substrate seed into a runtime model.
+model.py (substrate) -- load the v14 substrate seed into a runtime model.
 
-The v13 seed (docs/neuralnetworks/psychsim_substrate_seed_v13.json) is the SINGLE SOURCE OF
+The v14 seed (docs/neuralnetworks/psychsim_substrate_seed_v14.json) is the SINGLE SOURCE OF
 TRUTH for substrate structure and parameters (Part 2 S1.3; Part 3 S3): 82 circuits (nucleus-
 level rate units), 206 directed edges, a 25-entry innate-wiring catalogue, 9 input channels
 (IN-CONSPEC), a physical-endowment table, the 8 plasticity rules, and a gaps register. v13 =
@@ -13,9 +13,15 @@ top-down loop self-limiting through a DRN-GABA (GAD2+) interneuron, DRN->VTA (5-
 DRN-GABA raphe interneuron and the vmPFC-GABA / dlPFC-GABA cortical interneurons -- the missing
 local feedback inhibition that holds saturating circuits at an E/I set-point (silence any and its
 target runs hot: the proof it is anatomy, not a tuned weight). dmPFC was downstream-resolved (its
-interneurons scheduled for a future systematic cortical-E/I pass). v12 = v11 + the sign-convention
-upgrade (2.1a); v11 = v10 + 4 Allen afferents; v10 = v9 + physical endowment. Topology byte-identical
-across versions (additions / sign-only); v1-v12 archived. This module
+interneurons scheduled for a future systematic cortical-E/I pass). v14 = v13 + the OT/VP bonding
+pathway (kinship/attachment Phase 1): the 6 unambiguous PVN-OT projections (->NAc-shell/MeA/SEPT/
+MPOA/BNST/PAG-PANIC) receptor-signed OTR/V1a (Gq -> +1), cited -- BEHAVIOUR-NEUTRAL (sign unchanged
+from the transmitter fallback +1, making the existing OT/VP scaffold receptor-honest). CeA (target-
+cell subtlety), the 3 MPOA efferents (sign determination), and the OT->reward gating completion are
+FLAGGED in gaps_register for reviewer ruling, NOT forced/added (instructions 1.2/1.3). v12 = v11 +
+the sign-convention upgrade (2.1a); v11 = v10 + 4 Allen afferents; v10 = v9 + physical endowment.
+Topology byte-identical across versions (additions / sign-only); v1-v12 archived (v13 retained at
+root pending v14 Phase-1 clearance). This module
 reads the seed verbatim into typed records + indices; it supplies NO dynamics (engine.py) and
 NO psychological meaning (a circuit is just an id).
 
@@ -57,7 +63,7 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 # 3 signs re-derived (MeA->VMHvl, VP->LHb, BNST->VMHvl). v13 = v12 + the DRN (5-HT) node + 3 cortical
 # inhibitory interneurons (2.1b): 78->82 circuits, 186->206 directed edges. Each version additive or
 # sign-only (prior topology byte-identical). v1-v12 archived.
-_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v13.json")
+_SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_seed_v14.json")
 
 # Which SOURCE CIRCUIT produces each gating neuromodulator (R5). Resolved to real v7 circuit
 # ids; the R5 modulator is that circuit's LIVE activity, never a set scalar. 'none' -> ungated.

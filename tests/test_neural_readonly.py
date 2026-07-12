@@ -27,7 +27,7 @@ class TestSubstrateViewMatchesEngine(unittest.TestCase):
 
     def test_reports_the_seed_version_and_is_read_only(self):
         self.assertEqual(self.view["meta"]["version"], self.model.meta.get("version"))
-        self.assertTrue(self.view["meta"]["source_of_truth"].endswith("psychsim_substrate_seed_v13.json"))
+        self.assertTrue(self.view["meta"]["source_of_truth"].endswith("psychsim_substrate_seed_v14.json"))
         self.assertTrue(self.view["read_only"])
 
 
