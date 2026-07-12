@@ -11,6 +11,7 @@ that the seam exposes DEFINED content (no hollow labels), temperament as PARAMET
 names), the structural escape (never a tag), the emergent-relationship honesty, the 2-5 instrument
 bound surfacing, and determinism preserved through the seam."""
 
+import json
 import unittest
 import arena_view as av
 
@@ -83,6 +84,16 @@ class TestRunSeam(unittest.TestCase):
         with self.assertRaises(ValueError):
             av.run(_payload({"slot_id": "A", "source": "newborn"},
                             {"slot_id": "K", "source": "banked", "bank_id": "x"}), )
+
+    def test_run_output_is_json_serialisable_with_string_strain_keys(self):
+        # the trace keys tie-strain by a PAIR TUPLE; the seam must remap to 'a|b' strings, or the
+        # HTTP layer's json.dumps blows up (regression: it did, caught by the live end-to-end test).
+        out = av.run(_payload({"slot_id": "A", "source": "newborn"},
+                              {"slot_id": "B", "source": "newborn"}))
+        json.dumps(out)                                  # must not raise
+        for r in out["records"]:
+            for k in r["strain"]:
+                self.assertIsInstance(k, str)
 
     def test_determinism_preserved_through_the_seam(self):
         p = _payload({"slot_id": "A", "source": "newborn"}, {"slot_id": "B", "source": "newborn"})

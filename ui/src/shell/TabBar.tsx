@@ -9,6 +9,7 @@ import type { KeyboardEvent } from "react";
 
 export const TABS = [
   { id: "town", label: "Town" },
+  { id: "arena", label: "Arena" },
   { id: "cohort", label: "Development Cohort" },
   { id: "social", label: "Social" },
   { id: "environment", label: "Environment" },

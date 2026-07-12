@@ -209,6 +209,44 @@ export interface NeuralView {
   read_only: boolean;
 }
 
+// ---- Arena (the fine-detail lens: a few agents in a confined micro-env, developed + watched) ----
+/** A defined micro-environment = its present Things + the STRUCTURAL escape count (never a tag). */
+export interface ArenaEnvironment { id: string; note: string; present: string[]; escape: number }
+/** The instrument's design bound (S12.2): the UI enforces min 2 / max 5. */
+export interface ArenaRosterBounds { min: number; max: number; why: string }
+export interface ArenaEnvironmentsView { environments: ArenaEnvironment[]; roster: ArenaRosterBounds }
+/** Slot sources + the temperament GAIN-DIM vocabulary (parameters, never outcome names). */
+export interface ArenaSources { kinds: string[]; gain_dims: string[]; default_grow_years: number; banked_ids: string[] }
+export interface ArenaRelationships { defined: string[]; substrate: string; note: string }
+/** One roster slot the UI composes and posts. Temperament is optional gain dims (default = intact). */
+export interface ArenaSlotPayload {
+  slot_id: string;
+  source: string;            // "newborn" | "grown" | "banked"
+  age: number;               // spawn age (years)
+  grow_years?: number;       // if grown
+  bank_id?: string;          // if banked
+  gains?: Record<string, number>;  // temperament parameters (0..1); absent => intact reference
+}
+/** One episode of the ArenaTrace: emergent acts + saturation/drift per agent, strain per tie-pair. */
+export interface ArenaRecord {
+  episode: number;
+  age: number;
+  acts: Record<string, string>;     // agent id -> emergent act
+  max_act: Record<string, number>;  // agent id -> max circuit activation (the saturation signal)
+  drift: Record<string, number>;    // agent id -> developed-weight drift
+  strain: Record<string, number>;   // "a|b" tie-pair -> strain
+}
+export interface ArenaTraceResult {
+  spec: { micro_env: string; seed: number; shared_hours: number; escape: number;
+          slots: { slot_id: string; source: string; age: number }[] };
+  agent_ids: string[];
+  records: ArenaRecord[];
+  act_counts: Record<string, number>;
+  peak_activation: number;  // highest single-circuit activation any agent reached
+  viable: boolean;          // no agent driven into persistent saturation
+  settled: boolean;         // tail-settled, not oscillating (Regime-B)
+}
+
 /** POST /cmd payloads. */
 export type Command =
   | { cmd: "play" }
@@ -220,6 +258,7 @@ export type Command =
   | { cmd: "load"; slug: string }
   | { cmd: "delete_save"; slug: string }
   | { cmd: "matrix_upsert"; kind: string; item: MatrixItem }
-  | { cmd: "matrix_delete"; kind: string; id: string };
+  | { cmd: "matrix_delete"; kind: string; id: string }
+  | { cmd: "arena_run"; micro_env: string; seed: number; shared_hours: number; childhood_years: number; slots: ArenaSlotPayload[] };
 // neural_upsert / neural_delete are GONE (Phase 6): the seed is the single source of truth and the
 // Neural tab is read-only. The server rejects them as unknown commands.

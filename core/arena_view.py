@@ -112,14 +112,24 @@ def run(payload: dict, bank: Optional[AgentBank] = None) -> dict:
     return _serialize(spec, trace)
 
 
+def _pair_key(p) -> str:
+    """The trace keys tie-strain by a PAIR TUPLE (('A','B')); JSON keys must be strings, so join to
+    'A|B' -- the form the UI renders per tie-pair."""
+    return "|".join(p) if isinstance(p, tuple) else str(p)
+
+
 def _serialize(spec, trace) -> dict:
     ids = [s.slot_id for s in spec.slots]
+    # remap each record's strain dict from pair-tuple keys to 'a|b' strings (JSON-safe), without
+    # mutating the trace. acts/max_act/drift are already keyed by agent id (strings).
+    records = [{**r, "strain": {_pair_key(p): v for p, v in r["strain"].items()}}
+               for r in trace.records]
     return {
         "spec": {"micro_env": spec.micro_env, "seed": spec.seed, "shared_hours": spec.shared_hours,
                  "escape": _arena.MICRO_ENVS[spec.micro_env].escape,
                  "slots": [{"slot_id": s.slot_id, "source": s.source, "age": s.age} for s in spec.slots]},
         "agent_ids": ids,
-        "records": trace.records,                        # per-episode: acts/max_act/drift (per agent), strain (per pair)
+        "records": records,                              # per-episode: acts/max_act/drift (per agent), strain (per pair 'a|b')
         "act_counts": dict(trace.act_counts()),
         "peak_activation": trace.peak_activation(),      # the saturation signal
         "viable": trace.viable(),                        # no agent driven into persistent saturation

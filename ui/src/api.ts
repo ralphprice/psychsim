@@ -6,7 +6,7 @@
 import type {
   TownGeometry, PlanView, SimState, PersonDetail, SaveMeta, LibraryInfo,
   ModuleInfo, CohortReport, SubjectReport, MatrixKindInfo, MatrixItem, NeuralView,
-  Command,
+  Command, ArenaEnvironmentsView, ArenaSources, ArenaRelationships, ArenaTraceResult,
 } from "./types";
 
 async function getJSON<T>(path: string): Promise<T> {
@@ -36,6 +36,11 @@ export const getCohortReport = () => getJSON<CohortReport>("/report/cohort");
 export const getSubjectReport = (cid: string) =>
   getJSON<SubjectReport>(`/report/subject?cid=${encodeURIComponent(cid)}`);
 
+// ---- Arena: list DEFINED content, then run-and-serialise a trace ----
+export const getArenaEnvironments = () => getJSON<ArenaEnvironmentsView>("/arena/environments");
+export const getArenaSources = () => getJSON<ArenaSources>("/arena/sources");
+export const getArenaRelationships = () => getJSON<ArenaRelationships>("/arena/relationships");
+
 export interface CommandResult {
   ok?: boolean;
   cid?: string;
@@ -43,6 +48,7 @@ export interface CommandResult {
   saved?: SaveMeta;
   loaded?: { clock: string; residents: number };
   deleted?: boolean;
+  trace?: ArenaTraceResult;
 }
 
 export async function sendCommand(cmd: Command): Promise<CommandResult> {

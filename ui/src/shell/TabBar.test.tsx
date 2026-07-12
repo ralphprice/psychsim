@@ -40,9 +40,9 @@ describe("TabBar — WAI-ARIA tablist keyboard pattern", () => {
     render(<Harness onTab={onTab} />);
     const list = screen.getByRole("tablist");
     fireEvent.keyDown(list, { key: "ArrowRight" });
-    expect(onTab).toHaveBeenLastCalledWith("cohort");
-    expect(screen.getByRole("tab", { selected: true })).toHaveTextContent("Development Cohort");
-    fireEvent.keyDown(list, { key: "ArrowLeft" });
+    expect(onTab).toHaveBeenLastCalledWith("arena");                 // Arena is the 2nd tab
+    expect(screen.getByRole("tab", { selected: true })).toHaveTextContent("Arena");
+    fireEvent.keyDown(list, { key: "ArrowLeft" });                   // arena -> town
     fireEvent.keyDown(list, { key: "ArrowLeft" }); // wrap past town -> neural
     expect(screen.getByRole("tab", { selected: true })).toHaveTextContent("Neural");
   });

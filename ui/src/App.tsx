@@ -9,6 +9,7 @@ import type { PersonDetail } from "./types";
 import { type ViewMode } from "./view";
 import { isDaytime } from "./shell/clock";
 import { TownTab } from "./tabs/TownTab";
+import { ArenaTab } from "./tabs/ArenaTab";
 import { MatrixTab } from "./tabs/MatrixTab";
 import { DevelopmentCohortTab } from "./tabs/DevelopmentCohortTab";
 import { NeuralView } from "./tabs/NeuralView";
@@ -146,6 +147,8 @@ export default function App() {
           <ErrorBoundary resetKey={tab}>
             {tab === "town" ? (
               townView
+            ) : tab === "arena" ? (
+              <ArenaTab />
             ) : tab === "cohort" ? (
               <DevelopmentCohortTab
                 people={state.people}
