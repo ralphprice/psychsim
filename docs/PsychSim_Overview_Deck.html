@@ -1,0 +1,660 @@
+<title>PsychSim — behaviour is grown, never scripted</title>
+<style>
+  :root {
+    --ground: #eef1f4;
+    --surface: #ffffff;
+    --ink: #131a24;
+    --muted: #5b6675;
+    --faint: #8994a2;
+    --line: #d7dee5;
+    --line-soft: #e6ebf0;
+    --excite: #b06a12;   /* raises activation */
+    --inhibit: #2f8a94;  /* lowers activation */
+    --emerge: #c7871a;   /* the emergence highlight */
+    --emerge-soft: #f3e6c6;
+    --warn: #b23b2d;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0c1017;
+      --surface: #141b26;
+      --ink: #e7edf4;
+      --muted: #93a0b1;
+      --faint: #63707f;
+      --line: #24303f;
+      --line-soft: #1a2331;
+      --excite: #e29048;
+      --inhibit: #43adb9;
+      --emerge: #f0b642;
+      --emerge-soft: #3a3016;
+      --warn: #e06a5a;
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #eef1f4; --surface: #ffffff; --ink: #131a24; --muted: #5b6675; --faint: #8994a2;
+    --line: #d7dee5; --line-soft: #e6ebf0; --excite: #b06a12; --inhibit: #2f8a94; --emerge: #c7871a;
+    --emerge-soft: #f3e6c6; --warn: #b23b2d;
+  }
+  :root[data-theme="dark"] {
+    --ground: #0c1017; --surface: #141b26; --ink: #e7edf4; --muted: #93a0b1; --faint: #63707f;
+    --line: #24303f; --line-soft: #1a2331; --excite: #e29048; --inhibit: #43adb9; --emerge: #f0b642;
+    --emerge-soft: #3a3016; --warn: #e06a5a;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  .deck { height: 100dvh; overflow: hidden; position: relative; }
+  .track {
+    display: flex; height: 100%;
+    transition: transform .5s cubic-bezier(.4, 0, .1, 1);
+    will-change: transform;
+  }
+  @media (prefers-reduced-motion: reduce) { .track { transition: none; } }
+
+  .slide {
+    min-width: 100%; height: 100%;
+    display: grid; grid-template-rows: auto 1fr auto;
+    padding: clamp(1.4rem, 4vw, 4rem) clamp(1.4rem, 6vw, 6.5rem);
+    gap: clamp(0.8rem, 2vh, 1.6rem);
+  }
+  .slide-body { min-height: 0; align-self: center; max-width: 1180px; width: 100%; }
+
+  /* --- shared type --- */
+  .eyebrow {
+    font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--muted); display: flex; gap: 0.9rem; align-items: center;
+  }
+  .eyebrow .num { color: var(--emerge); font-weight: 600; }
+  .eyebrow .rule { flex: 1; height: 1px; background: var(--line); }
+  h1, h2 { text-wrap: balance; font-weight: 700; letter-spacing: -0.02em; margin: 0; }
+  h1 { font-size: clamp(2.1rem, 5.4vw, 4.2rem); line-height: 1.02; }
+  h2 { font-size: clamp(1.55rem, 3.4vw, 2.7rem); line-height: 1.08; }
+  .lead { font-size: clamp(1rem, 1.5vw, 1.22rem); color: var(--muted); max-width: 62ch; margin: 0.7rem 0 0; }
+  p { margin: 0; }
+
+  ul.points { list-style: none; padding: 0; margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.85rem; max-width: 68ch; }
+  ul.points li { display: grid; grid-template-columns: auto 1fr; gap: 0.8rem; align-items: start; font-size: clamp(0.96rem, 1.35vw, 1.1rem); }
+  ul.points li::before {
+    content: ""; margin-top: 0.62em; width: 0.62rem; height: 0.62rem; border-radius: 2px;
+    background: var(--excite); transform: rotate(45deg); flex: none;
+  }
+  ul.points li b, ul.points li strong { color: var(--ink); font-weight: 650; }
+  .k { font-family: var(--font-mono); font-size: 0.9em; color: var(--inhibit); }
+
+  .footer {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--faint); letter-spacing: 0.04em;
+  }
+  .brandmark { color: var(--muted); }
+  .brandmark b { color: var(--ink); letter-spacing: -0.01em; }
+  .counter { font-variant-numeric: tabular-nums; }
+
+  .progress { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--emerge); width: 0; transition: width .5s cubic-bezier(.4,0,.1,1); z-index: 5; }
+  @media (prefers-reduced-motion: reduce) { .progress { transition: none; } }
+
+  .nav-btn {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 6;
+    background: color-mix(in srgb, var(--surface) 82%, transparent); color: var(--muted);
+    border: 1px solid var(--line); width: 2.6rem; height: 2.6rem; border-radius: 50%;
+    font-size: 1.1rem; cursor: pointer; display: grid; place-items: center; backdrop-filter: blur(4px);
+    transition: color .15s, border-color .15s;
+  }
+  .nav-btn:hover { color: var(--emerge); border-color: var(--emerge); }
+  .nav-btn:focus-visible { outline: 2px solid var(--emerge); outline-offset: 2px; }
+  .nav-btn.prev { left: clamp(0.5rem, 1.5vw, 1.4rem); }
+  .nav-btn.next { right: clamp(0.5rem, 1.5vw, 1.4rem); }
+  .theme-btn { position: absolute; top: 1rem; right: 1.1rem; z-index: 6; background: none; border: 1px solid var(--line); color: var(--muted); font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.1em; padding: 0.34rem 0.6rem; border-radius: 5px; cursor: pointer; text-transform: uppercase; }
+  .theme-btn:hover { color: var(--ink); border-color: var(--muted); }
+
+  /* --- two-column figure layout --- */
+  .split { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; }
+  @media (max-width: 820px) { .split { grid-template-columns: 1fr; } .slide { padding: 1.3rem 1.3rem; } h1 { font-size: 2rem; } }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: clamp(1rem, 2vw, 1.6rem); }
+  .figure-label { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.7rem; }
+
+  /* --- sign legend chips --- */
+  .signs { display: flex; gap: 1.4rem; font-family: var(--font-mono); font-size: 0.82rem; }
+  .sign { display: flex; align-items: center; gap: 0.5rem; }
+  .sign svg { flex: none; }
+  .sign.exc { color: var(--excite); }
+  .sign.inh { color: var(--inhibit); }
+
+  /* --- hero substrate motif --- */
+  .hero { display: grid; grid-template-rows: 1fr auto; height: 100%; }
+  .hero-graph { position: absolute; inset: 0; z-index: 0; opacity: 0.5; pointer-events: none; }
+  .hero-content { position: relative; z-index: 1; align-self: center; }
+  .hero .kicker { font-family: var(--font-mono); color: var(--emerge); letter-spacing: 0.2em; text-transform: uppercase; font-size: 0.8rem; }
+  .hero h1 { margin-top: 0.8rem; max-width: 16ch; }
+  .hero .sub { font-size: clamp(1.05rem, 2vw, 1.4rem); color: var(--muted); max-width: 42ch; margin-top: 1.1rem; }
+  .hero .tag { margin-top: 1.6rem; font-family: var(--font-mono); font-size: 0.78rem; color: var(--faint); }
+
+  /* --- done/next board --- */
+  .board { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 1.2rem; }
+  @media (max-width: 820px){ .board { grid-template-columns: 1fr; } }
+  .board .col { border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.2rem; background: var(--surface); }
+  .board .col h3 { margin: 0 0 0.7rem; font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  .board .done h3 { color: var(--inhibit); }
+  .board .next h3 { color: var(--emerge); }
+  .board ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.95rem; }
+  .board li { display: grid; grid-template-columns: auto 1fr; gap: 0.55rem; }
+  .board li::before { content: "›"; color: var(--faint); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.1rem; }
+  .chip { font-family: var(--font-mono); font-size: 0.76rem; border: 1px solid var(--line); border-radius: 20px; padding: 0.25rem 0.75rem; color: var(--muted); }
+  .chip b { color: var(--emerge); }
+
+  .callout { border-left: 3px solid var(--emerge); background: color-mix(in srgb, var(--emerge-soft) 55%, transparent); padding: 0.7rem 1rem; border-radius: 0 8px 8px 0; font-size: 0.95rem; color: var(--ink); margin-top: 1.2rem; max-width: 60ch; }
+
+  /* walls diagram */
+  .walls { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
+  .wall { border: 1px solid var(--line); border-radius: 9px; padding: 0.7rem 0.85rem; background: var(--surface); font-size: 0.86rem; }
+  .wall .wn { font-family: var(--font-mono); color: var(--inhibit); font-size: 0.72rem; }
+  .wall b { display: block; margin: 0.15rem 0; }
+
+  .core-out { text-align: center; font-family: var(--font-mono); font-size: 0.8rem; color: var(--emerge); margin-top: 0.9rem; letter-spacing: 0.05em; }
+
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.3rem; }
+  @media (max-width: 820px){ .three { grid-template-columns: 1fr; } }
+  .three .t { border: 1px solid var(--line); border-radius: 11px; padding: 1rem 1.1rem; background: var(--surface); }
+  .three .t h3 { margin: 0.5rem 0 0.4rem; font-size: 1.05rem; }
+  .three .t .tag { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); }
+  .three .t p { font-size: 0.88rem; color: var(--muted); }
+
+  .fine { color: var(--faint); font-size: 0.8rem; font-family: var(--font-mono); }
+  .verify { color: var(--warn); }
+
+  /* SVG text picks up the mono utility face via CSS (presentation attrs can't read var()) */
+  .deck svg text { font-family: var(--font-mono); }
+
+  @media (max-width: 820px) { .walls { grid-template-columns: 1fr; } .nav-btn { width: 2.2rem; height: 2.2rem; } }
+</style>
+
+<div class="deck">
+  <div class="progress" id="progress"></div>
+  <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">Theme</button>
+  <div class="track" id="track">
+
+    <!-- 1 · TITLE -->
+    <section class="slide" aria-label="Title">
+      <div></div>
+      <div class="slide-body hero">
+        <svg class="hero-graph" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true" id="heroGraph"></svg>
+        <div class="hero-content">
+          <div class="kicker">Neural-substrate life-course simulator</div>
+          <h1>Behaviour is grown, never&nbsp;scripted.</h1>
+          <p class="sub">Simulating how one individual develops over a whole life — on a brain that has no idea what <em>aggression</em> or <em>kindness</em> is.</p>
+          <p class="tag">A research instrument &amp; a method — not a finished set of results.</p>
+        </div>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b></span><span class="counter">↔ / space to advance</span></div>
+    </section>
+
+    <!-- 2 · THE PROBLEM -->
+    <section class="slide" aria-label="The problem">
+      <div class="eyebrow"><span class="num">01</span> The problem <span class="rule"></span></div>
+      <div class="slide-body">
+        <h2>Most social simulations answer their own question.</h2>
+        <ul class="points">
+          <li>Conventional agent models take behaviour as an <b>input</b>: the designer writes the rule — <span class="k">when threatened → flee</span>, <span class="k">this agent is aggressive</span>.</li>
+          <li>You can then only ever "discover" what you already wrote. The model confirms your assumptions <b>by construction</b>.</li>
+          <li>That is fatal for a <b>developmental</b> question. To learn <em>how</em> a disposition forms, you cannot begin by coding the disposition in.</li>
+          <li>Why do two people with similar starts diverge? How does a temperament become a character? Those are questions a rule-based model cannot honestly produce.</li>
+        </ul>
+        <div class="callout">So the whole design had to be inverted.</div>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b> · the inversion</span><span class="counter" data-counter></span></div>
+    </section>
+
+    <!-- 3 · THE ONE IDEA -->
+    <section class="slide" aria-label="The one idea">
+      <div class="eyebrow"><span class="num">02</span> The one idea <span class="rule"></span></div>
+      <div class="slide-body split">
+        <div>
+          <h2>Behaviour is the <span style="color:var(--emerge)">output</span>.</h2>
+          <ul class="points">
+            <li>PsychSim specifies only the <b>neural machinery</b> — circuits, their wiring, and the chemistry that makes connections excite or inhibit.</li>
+            <li>That machinery has <b>no concept of behaviour</b>. It knows only how to pass activation between circuits.</li>
+            <li>What an agent does is whatever the machinery produces on meeting a situation — <b>after a lifetime of development has shaped it.</b></li>
+            <li>A result is a genuine <b>finding about the mechanism</b>, checkable against real data — not a restatement of an assumption.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="figure-label">Two ways to build a mind</div>
+          <div style="display:flex;flex-direction:column;gap:0.9rem;font-size:0.9rem">
+            <div style="border:1px dashed var(--line);border-radius:8px;padding:0.8rem">
+              <div class="fine" style="color:var(--warn)">CONVENTIONAL</div>
+              rule written → sim plays it out → <b>you find the rule you wrote.</b>
+            </div>
+            <div style="text-align:center;color:var(--faint);font-family:var(--font-mono)">— invert —</div>
+            <div style="border:1px solid var(--emerge);border-radius:8px;padding:0.8rem;background:color-mix(in srgb,var(--emerge-soft) 45%,transparent)">
+              <div class="fine" style="color:var(--emerge)">PSYCHSIM</div>
+              mechanism specified → a life is lived → <b>behaviour emerges &amp; is measured.</b>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b> · behaviour is the output</span><span class="counter" data-counter></span></div>
+    </section>
+
+    <!-- 4 · WHAT IT IS -->
+    <section class="slide" aria-label="What PsychSim is">
+      <div class="eyebrow"><span class="num">03</span> What it is <span class="rule"></span></div>
+      <div class="slide-body">
+        <h2>A general platform for how personality develops.</h2>
+        <ul class="points">
+          <li>It provides the <b>brain, the world, the developmental machinery, and the measurement tools</b> — not a model of one condition.</li>
+          <li>Specific questions attach as <b>modules / instruments</b> on top of the shared, validated substrate. The value is the platform and its extensibility.</li>
+          <li><b>The driving subject:</b> how a <em>developing non-offending psychopath</em> — a "sophropath", the callous-unemotional pathway — forms. But the platform grows a <em>life</em> and reads <b>what emerges</b>.</li>
+          <li><b>Descriptive, no verdict.</b> It produces a life; the observer describes what that life became. It never judges and never labels the agent.</li>
+        </ul>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b> · one platform, many studies</span><span class="counter" data-counter></span></div>
+    </section>
+
+    <!-- 5 · THE SUBSTRATE -->
+    <section class="slide" aria-label="The substrate">
+      <div class="eyebrow"><span class="num">04</span> The substrate <span class="rule"></span></div>
+      <div class="slide-body split">
+        <div>
+          <h2>A category-free brain.</h2>
+          <ul class="points">
+            <li><b>~82 nucleus-level circuits</b> joined by <b>~206 receptor-signed pathways</b> — the regions the literature ties to threat, reward, social perception, interoception, and executive control.</li>
+            <li><b>No drives, no built-in good/bad.</b> This replaced an earlier Panksepp 7-drive engine, deliberately <b>retired</b> — an "honesty cut".</li>
+            <li>Experience enters only through <b>9 sensory channels</b> (incl. <span class="k">IN-CONSPEC</span>, an "another individual" channel). The world can present a stimulus — it can never set a circuit.</li>
+            <li>The whole brain is <b>one reviewed data file — a "seed"</b>, refined across <b>13 documented versions</b>. Revising the model edits data, not code.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="figure-label">Seven functional domains — a map, not a partition</div>
+          <div id="domains" style="display:flex;flex-direction:column;gap:0.35rem;font-family:var(--font-mono);font-size:0.82rem"></div>
+        </div>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b> · the seed</span><span class="counter" data-counter></span></div>
+    </section>
+
+    <!-- 6 · SIGNS FROM CHEMISTRY -->
+    <section class="slide" aria-label="Signs from chemistry">
+      <div class="eyebrow"><span class="num">05</span> Signs from chemistry <span class="rule"></span></div>
+      <div class="slide-body split">
+        <div>
+          <h2>The sign is derived, never chosen.</h2>
+          <ul class="points">
+            <li>Whether a pathway <b>excites or inhibits</b> is set by the transmitter and the target <b>receptor</b>, taken from the literature — not by the behaviour the designer wants.</li>
+            <li>Flipping a sign would mean <b>falsifying a citation — a visible lie</b>, not a quiet tweak.</li>
+            <li><b>Inhibition is kept because it exists</b>, even when it works <em>against</em> a study's phenomenon. Keeping only the edges that drive your outcome <em>is</em> coding the outcome.</li>
+            <li>Serotonin forced the rule: its sign is <b>opposite across targets</b> — it dampens the attack area (5-HT1A) while facilitating the prefrontal controllers (5-HT2A).</li>
+          </ul>
+          <div class="callout">Lower 5-HT tone → <b>more provoked aggression</b> — the real clinical direction — emerging from the net of competing signed pathways. No coded "5-HT → less aggression" rule.</div>
+        </div>
+        <div class="card">
+          <div class="figure-label">A threat pathway — signs from the receptors</div>
+          <svg viewBox="0 0 360 250" width="100%" aria-hidden="true" id="pathwaySvg"></svg>
+          <div class="signs" style="margin-top:0.6rem;justify-content:center">
+            <span class="sign exc"><svg width="30" height="12"><line x1="0" y1="6" x2="22" y2="6" stroke="currentColor" stroke-width="2"/><polygon points="22,2 30,6 22,10" fill="currentColor"/></svg>excites</span>
+            <span class="sign inh"><svg width="30" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="currentColor" stroke-width="2"/><line x1="26" y1="1" x2="26" y2="11" stroke="currentColor" stroke-width="2.4"/></svg>inhibits</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b> · +/− from the biology</span><span class="counter" data-counter></span></div>
+    </section>
+
+    <!-- 7 · THE LOOP -->
+    <section class="slide" aria-label="How a life is lived">
+      <div class="eyebrow"><span class="num">06</span> Living a life <span class="rule"></span></div>
+      <div class="slide-body">
+        <h2>Four matrices present situations; the substrate responds.</h2>
+        <ul class="points">
+          <li>A brain in a vat develops nothing. The substrate grows inside a world of four matrices — <b>social</b> (relationships), <b>environmental</b> (places &amp; things), <b>group</b> (standing &amp; belonging), <b>self-reflection</b> (its developing model of itself).</li>
+          <li>A matrix <b>never says how to feel</b>. It presents a <b>situation</b> — a pattern of stimulation — and the substrate produces the response.</li>
+          <li>A relationship is <b>not a stored number</b>; it is a <em>history of encounters</em>, each lived through the substrate. The bond is whatever those encounters built.</li>
+          <li>The loop closes: experience shapes the substrate → the substrate produces behaviour → behaviour changes the bond, the standing, the self → that becomes the next situation.</li>
+        </ul>
+        <div class="callout">The mundane counts: a rare sharp episode <em>and</em> the ordinary walk to school, repeated for years, both shape who the agent becomes.</div>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b> · the developmental loop</span><span class="counter" data-counter></span></div>
+    </section>
+
+    <!-- 8 · REAL TIME -->
+    <section class="slide" aria-label="Development over real time">
+      <div class="eyebrow"><span class="num">07</span> Real developmental time <span class="rule"></span></div>
+      <div class="slide-body split">
+        <div>
+          <h2>Two identical newborns become two different people.</h2>
+          <ul class="points">
+            <li>Every agent starts as a <b>newborn</b>: the same generic substrate, a handful of <b>cited innate biases</b> (sweet taste rewards; a looming shape threatens). Everything else is learned.</li>
+            <li>Learning is <b>plasticity</b> — strong early, tapering with age on a realistic schedule. Childhood lays down the adult's stable temperament. <em>When</em> matters as much as <em>what</em>.</li>
+            <li><b>Real time, never compressed.</b> A 60-year life is a genuinely long run — a full substrate settle per person, per act.</li>
+            <li>Identical starting brains, raised differently, <b>diverge</b> — not because the difference was coded, but because they lived different lives through the same machinery.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="figure-label">Plasticity vs age — high in childhood, tapering</div>
+          <svg viewBox="0 0 360 200" width="100%" aria-hidden="true" id="plasticitySvg"></svg>
+        </div>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b> · discovered, not assumed</span><span class="counter" data-counter></span></div>
+    </section>
+
+    <!-- 9 · THE HONESTY WALL -->
+    <section class="slide" aria-label="The honesty wall">
+      <div class="eyebrow"><span class="num">08</span> The honesty wall · <span style="color:var(--emerge)">the thesis</span> <span class="rule"></span></div>
+      <div class="slide-body split">
+        <div>
+          <h2>The mechanism must never contain the answer.</h2>
+          <p class="lead">Any outcome under study — and anything that would trivially produce it — is never written into the machinery. Outcomes are always downstream: measured, emergent, discovered. And it's enforced <b>structurally</b>, so the dishonest move is <em>impossible</em>, not discouraged.</p>
+          <div class="core-out">— every arrow points outward; nothing points in —</div>
+        </div>
+        <div>
+          <div class="walls">
+            <div class="wall"><span class="wn">wall 1</span><b>World can't reach the brain</b>experience enters only as sensory stimulation.</div>
+            <div class="wall"><span class="wn">wall 2</span><b>Signs come from chemistry</b>you can't flip one without falsifying a citation.</div>
+            <div class="wall"><span class="wn">wall 3</span><b>Measurement can't feed back</b>the observer is read-only by construction.</div>
+            <div class="wall"><span class="wn">wall 4</span><b>The search can't cheat</b>no slot to be handed a target outcome.</div>
+            <div class="wall" style="grid-column:1/-1"><span class="wn">wall 5</span><b>Nothing that emerges is dressed up</b>every result is a <em>candidate hypothesis</em>, never a self-certified finding.</div>
+          </div>
+          <div class="callout">This is <b>why the findings are worth trusting</b> — not because the designers were careful, but because the structure removes the opportunity to cheat.</div>
+        </div>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b> · the differentiator</span><span class="counter" data-counter></span></div>
+    </section>
+
+    <!-- 10 · THE OBSERVER -->
+    <section class="slide" aria-label="The observer">
+      <div class="eyebrow"><span class="num">09</span> The observer <span class="rule"></span></div>
+      <div class="slide-body">
+        <h2>Measuring without interfering.</h2>
+        <ul class="points">
+          <li>To study an agent you must measure it — but measurement must never <b>change</b> what it measures, or the finding is contaminated.</li>
+          <li>Strict separation of <b>substrate</b> and <b>observer</b>. The observer reads behaviour and computes the constructs a researcher cares about — empathy, impulsivity, executive control, a CU signature — <b>one-way</b>.</li>
+          <li>The constructs live in the <b>observer's report, not the agent's brain</b>. If "empathy" were a dial inside the agent, the model would assume the very thing it should discover.</li>
+          <li>A temperament seed (e.g. <span class="k">fearless</span> — a low-fear <em>starting</em> disposition) is a legitimate input; the CU <b>outcome</b> is only ever a <b>measured</b> read-out. Naming an input after an outcome pre-supposes the answer.</li>
+        </ul>
+        <div class="callout">The report <b>describes; it never prescribes.</b> The names live in the observer, not in the brain.</div>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b> · a measurement diode</span><span class="counter" data-counter></span></div>
+    </section>
+
+    <!-- 11 · EMERGENCE (hero chart) -->
+    <section class="slide" aria-label="Emergence: the adolescent inverted-U">
+      <div class="eyebrow"><span class="num">10</span> Emergence · <span style="color:var(--emerge)">the credibility highlight</span> <span class="rule"></span></div>
+      <div class="slide-body split">
+        <div>
+          <h2>A known phenomenon fell out of a mechanism never built to produce it.</h2>
+          <ul class="points">
+            <li>A continuous-maturation mechanism was added for an <em>unrelated</em> reason — executive <b>control</b> keeps maturing into the mid-20s while reward-sensitivity peaks in mid-adolescence. Age enters only as a <b>rate</b>; no "risk" rule anywhere.</li>
+            <li>What emerged: an <b>adolescent risk-taking inverted-U</b>, peaking in adolescence, above both childhood and adulthood — matching the developmental literature.</li>
+            <li>It <b>emerged rather than being fitted.</b> Nothing was tuned to produce it. That is the difference between confirming an assumption and discovering a pattern.</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">DA/satiety <b>1.32×</b></span>
+            <span class="chip">negativity bias</span>
+            <span class="chip">ambivalent bond</span>
+            <span class="chip">one event, two valences</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="figure-label">Risk index vs age — not coded, emerged</div>
+          <svg viewBox="0 0 380 250" width="100%" aria-hidden="true" id="uCurve"></svg>
+        </div>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b> · emerged, not fitted</span><span class="counter" data-counter></span></div>
+    </section>
+
+    <!-- 12 · WORKED EXAMPLE -->
+    <section class="slide" aria-label="A worked example">
+      <div class="eyebrow"><span class="num">11</span> A worked example <span class="rule"></span></div>
+      <div class="slide-body">
+        <h2>Proving the answer wasn't smuggled in.</h2>
+        <p class="lead">Take aggression. The naive move: make the attack area <span class="k">VMHvl</span> fire strongly. PsychSim instead wires it as the anatomy dictates — provocation reaches it; a prefrontal brake and the maturing executive can hold it below threshold — then <b>measures</b> the outcome.</p>
+        <div class="three">
+          <div class="t"><span class="tag">provocation</span><h3>crosses threshold</h3><p>genuine provocation → aggression can emerge. The pathway works.</p></div>
+          <div class="t"><span class="tag">plain threat</span><h3>avoids, not attacks</h3><p>a non-social threat → withdrawal. The response fits the situation.</p></div>
+          <div class="t" style="border-color:var(--emerge)"><span class="tag" style="color:var(--emerge)">neutral · the control</span><h3>restrains</h3><p>no provocation → aggression <b>does not leak from nowhere</b>. The tell that nothing was coded in.</p></div>
+        </div>
+        <div class="callout">Bonus: early on, strong provocation shows overt aggression; by age ~8 the same provocation is held below threshold by the <b>maturing brake</b> — reactive aggression's real developmental course, un-tuned.</div>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b> · the neutral floor</span><span class="counter" data-counter></span></div>
+    </section>
+
+    <!-- 13 · INSTRUMENTS -->
+    <section class="slide" aria-label="The instruments">
+      <div class="eyebrow"><span class="num">12</span> The instruments <span class="rule"></span></div>
+      <div class="slide-body">
+        <h2>Town, Arena, scan controller, bank.</h2>
+        <div class="three" style="grid-template-columns:repeat(2,1fr)">
+          <div class="t"><span class="tag">the town</span><h3>the population view</h3><p>many agents in a generated settlement — households, school, work, ONS-anchored demography. Coarse per-agent detail, slow.</p></div>
+          <div class="t" style="border-color:var(--emerge)"><span class="tag" style="color:var(--emerge)">the arena · the fine-detail lens</span><h3>a few agents, high resolution</h3><p>2–5 agents in a confined micro-environment, developed &amp; watched at depth. Confinement is <b>structural</b> — few things present — never a "stressful" label.</p></div>
+          <div class="t"><span class="tag">the scan controller</span><h3>the discovery engine</h3><p>searches which configurations produce which <b>measured</b> outcomes. <b>Cannot be handed a target</b>; every hit is a candidate hypothesis.</p></div>
+          <div class="t"><span class="tag">the bank</span><h3>grow once, reuse</h3><p>save a costly developed life-course; re-hydrate it for many studies — restored, never edited.</p></div>
+        </div>
+        <div class="callout">On its very first run, the Arena caught a silent plumbing null that would have produced a fake "agents don't engage" finding — exactly what a regression harness exists to catch.</div>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b> · the instrument rack</span><span class="counter" data-counter></span></div>
+    </section>
+
+    <!-- 14 · STATUS -->
+    <section class="slide" aria-label="Status">
+      <div class="eyebrow"><span class="num">13</span> Status · stated plainly <span class="rule"></span></div>
+      <div class="slide-body">
+        <h2>A validated instrument — not yet a body of findings.</h2>
+        <div class="board">
+          <div class="col done">
+            <h3>Built &amp; validated</h3>
+            <ul>
+              <li>the category-free substrate — 13 reviewed versions, now <b>frozen</b> (the legacy engine retired)</li>
+              <li>the four matrices &amp; the developmental loop</li>
+              <li>the read-only observer; the honesty wall throughout</li>
+              <li>the instrument suite — Town, Arena, scan controller, bank</li>
+              <li>a battery of known phenomena reproduced as <b>emergent</b> results</li>
+            </ul>
+          </div>
+          <div class="col next">
+            <h3>Not yet done</h3>
+            <ul>
+              <li>the platform has <b>not</b> yet been run as a full study</li>
+              <li>outputs are <b>not</b> yet quantitatively validated against clinical / field data</li>
+              <li>parameters are <b>illustrative scaffold</b> — structure cited, many strengths are placeholders, marked as such</li>
+              <li><b>next:</b> the callous-unemotional (CU) study — discover (never design) throttle configurations that produce a <b>measured</b> CU signature, validated against <b>held-out</b> clinical profiles</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b> · you are here</span><span class="counter" data-counter></span></div>
+    </section>
+
+    <!-- 15 · WHY IT MATTERS -->
+    <section class="slide" aria-label="Why it matters">
+      <div class="eyebrow"><span class="num">14</span> Why it matters <span class="rule"></span></div>
+      <div class="slide-body">
+        <h2>Findings worth trusting — because the structure removes the chance to cheat.</h2>
+        <ul class="points">
+          <li>A biologically-grounded platform in which <b>behaviour emerges rather than being coded</b> — a validated instrument and a defined method.</li>
+          <li>Its credibility comes from <b>enforced honesty</b>, not careful designers. A result survives contact with people who don't know why the discipline matters.</li>
+          <li>It turns hard developmental questions — <em>what experience, on what starting substrate, produces what adult?</em> — into things you can <b>discover, then test against the real world.</b></li>
+          <li><b>General and extensible:</b> one platform, many studies, each inheriting the same guarantees because they are properties of the shared substrate.</li>
+        </ul>
+        <p style="font-family:var(--font-mono);font-size:clamp(1rem,2vw,1.35rem);color:var(--emerge);margin-top:1.6rem;letter-spacing:-0.01em;text-wrap:balance">Behaviour is grown, never scripted — so a finding is a discovery, not an assumption.</p>
+      </div>
+      <div class="footer"><span class="brandmark"><b>PsychSim</b></span><span class="counter">happy to demo the Town or Arena live</span></div>
+    </section>
+
+  </div>
+  <button class="nav-btn prev" id="prev" aria-label="Previous slide">‹</button>
+  <button class="nav-btn next" id="next" aria-label="Next slide">›</button>
+</div>
+
+<script>
+  (function () {
+    "use strict";
+    var track = document.getElementById("track");
+    var slides = Array.prototype.slice.call(track.children);
+    var n = slides.length, i = 0;
+    var progress = document.getElementById("progress");
+    var counters = document.querySelectorAll("[data-counter]");
+
+    function render() {
+      track.style.transform = "translateX(" + (-i * 100) + "%)";
+      progress.style.width = ((i) / (n - 1) * 100) + "%";
+      counters.forEach(function (c) { c.textContent = String(i + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0"); });
+    }
+    function go(d) { i = Math.max(0, Math.min(n - 1, i + d)); render(); }
+    function to(k) { i = Math.max(0, Math.min(n - 1, k)); render(); }
+
+    document.getElementById("next").addEventListener("click", function () { go(1); });
+    document.getElementById("prev").addEventListener("click", function () { go(-1); });
+    window.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") { e.preventDefault(); go(1); }
+      else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(-1); }
+      else if (e.key === "Home") { to(0); } else if (e.key === "End") { to(n - 1); }
+    });
+    // touch
+    var x0 = null;
+    track.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener("touchend", function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 48) go(dx < 0 ? 1 : -1);
+      x0 = null;
+    }, { passive: true });
+
+    // theme toggle (overrides the viewer default; persists within the session)
+    var root = document.documentElement, tb = document.getElementById("themeBtn");
+    tb.addEventListener("click", function () {
+      var cur = root.getAttribute("data-theme");
+      var mq = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var isDark = cur ? cur === "dark" : mq;
+      root.setAttribute("data-theme", isDark ? "light" : "dark");
+    });
+
+    // ---- domains list ----
+    var domains = [
+      ["sensory", "vision · gustatory · somato"],
+      ["defensive threat", "LA · BA · CeA · VMHvl"],
+      ["interoception", "aIns · LH · autonomic"],
+      ["reward & approach", "VTA · NAc · OFC"],
+      ["executive control", "dlPFC · vmPFC · dACC"],
+      ["affiliation", "MeA · vHPC · BNST"],
+      ["social cognition", "TPJ · pSTS · ATL"]
+    ];
+    var dEl = document.getElementById("domains");
+    domains.forEach(function (d) {
+      var row = document.createElement("div");
+      row.style.cssText = "display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid var(--line-soft);padding-bottom:0.32rem";
+      row.innerHTML = '<span style="color:var(--ink)">' + d[0] + '</span><span style="color:var(--faint)">' + d[1] + '</span>';
+      dEl.appendChild(row);
+    });
+
+    // ---- hero substrate graph (deterministic, seeded) ----
+    (function () {
+      var svg = document.getElementById("heroGraph");
+      var W = 1200, H = 700, seed = 7;
+      function rnd() { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; }
+      var nodes = [];
+      for (var k = 0; k < 34; k++) nodes.push({ x: 60 + rnd() * (W - 120), y: 50 + rnd() * (H - 100), r: 3 + rnd() * 5 });
+      var frag = "";
+      for (var a = 0; a < nodes.length; a++) {
+        for (var b = a + 1; b < nodes.length; b++) {
+          var dx = nodes[a].x - nodes[b].x, dy = nodes[a].y - nodes[b].y;
+          if (dx * dx + dy * dy < 34000 && rnd() > 0.4) {
+            var exc = rnd() > 0.5;
+            frag += '<line x1="' + nodes[a].x.toFixed(1) + '" y1="' + nodes[a].y.toFixed(1) + '" x2="' + nodes[b].x.toFixed(1) + '" y2="' + nodes[b].y.toFixed(1) +
+              '" style="stroke:' + (exc ? "var(--excite)" : "var(--inhibit)") + '" stroke-width="1" opacity="0.5"/>';
+          }
+        }
+      }
+      nodes.forEach(function (nd) {
+        frag += '<circle cx="' + nd.x.toFixed(1) + '" cy="' + nd.y.toFixed(1) + '" r="' + nd.r.toFixed(1) + '" style="fill:var(--ink)" opacity="0.55"/>';
+      });
+      svg.innerHTML = frag;
+    })();
+
+    // ---- pathway diagram: sensory -> LA -> CeA -> PAG (exc), vmPFC -| CeA (inh) ----
+    (function () {
+      var svg = document.getElementById("pathwaySvg");
+      function node(x, y, label, color) {
+        return '<g><circle cx="' + x + '" cy="' + y + '" r="20" style="fill:var(--surface);stroke:' + (color || "var(--muted)") + '" stroke-width="1.6"/>' +
+          '<text x="' + x + '" y="' + (y + 4) + '" text-anchor="middle" font-size="10" style="fill:var(--ink)">' + label + '</text></g>';
+      }
+      function exc(x1, y1, x2, y2) {
+        var ang = Math.atan2(y2 - y1, x2 - x1), ex = x2 - Math.cos(ang) * 21, ey = y2 - Math.sin(ang) * 21;
+        var bx = ex - Math.cos(ang) * 9, by = ey - Math.sin(ang) * 9;
+        var px = Math.cos(ang + Math.PI / 2) * 4.5, py = Math.sin(ang + Math.PI / 2) * 4.5;
+        return '<line x1="' + (x1 + Math.cos(ang) * 21) + '" y1="' + (y1 + Math.sin(ang) * 21) + '" x2="' + ex + '" y2="' + ey + '" style="stroke:var(--excite)" stroke-width="2"/>' +
+          '<polygon points="' + ex + ',' + ey + ' ' + (bx + px) + ',' + (by + py) + ' ' + (bx - px) + ',' + (by - py) + '" style="fill:var(--excite)"/>';
+      }
+      function inh(x1, y1, x2, y2) {
+        var ang = Math.atan2(y2 - y1, x2 - x1), ex = x2 - Math.cos(ang) * 22, ey = y2 - Math.sin(ang) * 22;
+        var px = Math.cos(ang + Math.PI / 2) * 6, py = Math.sin(ang + Math.PI / 2) * 6;
+        return '<line x1="' + (x1 + Math.cos(ang) * 21) + '" y1="' + (y1 + Math.sin(ang) * 21) + '" x2="' + ex + '" y2="' + ey + '" style="stroke:var(--inhibit)" stroke-width="2"/>' +
+          '<line x1="' + (ex + px) + '" y1="' + (ey + py) + '" x2="' + (ex - px) + '" y2="' + (ey - py) + '" style="stroke:var(--inhibit)" stroke-width="2.6"/>';
+      }
+      var s = "";
+      s += exc(40, 60, 150, 60); s += exc(150, 60, 260, 60); s += exc(260, 90, 260, 165);
+      s += inh(150, 200, 245, 95);
+      s += node(40, 60, "sens"); s += node(150, 60, "LA", "var(--excite)"); s += node(260, 60, "CeA", "var(--excite)");
+      s += node(260, 185, "PAG"); s += node(150, 200, "vmPFC", "var(--inhibit)");
+      svg.innerHTML = s;
+    })();
+
+    // ---- plasticity vs age ----
+    (function () {
+      var svg = document.getElementById("plasticitySvg"), W = 360, H = 200, pad = 30;
+      function px(a) { return pad + a / 60 * (W - pad - 10); }
+      function py(v) { return H - pad - v * (H - pad - 14); }
+      var d = "", pts = [];
+      for (var a = 0; a <= 60; a += 2) { var v = Math.exp(-a / 11) * 0.92 + 0.05; pts.push([px(a), py(v)]); }
+      d = "M " + pts.map(function (p) { return p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" L ");
+      var area = d + " L " + px(60) + " " + py(0) + " L " + px(0) + " " + py(0) + " Z";
+      var g = "";
+      [0, 20, 40, 60].forEach(function (a) { g += '<line x1="' + px(a) + '" y1="' + py(0) + '" x2="' + px(a) + '" y2="14" style="stroke:var(--line-soft)" stroke-width="1"/><text x="' + px(a) + '" y="' + (H - 12) + '" text-anchor="middle" font-size="9" style="fill:var(--faint)">' + a + '</text>'; });
+      svg.innerHTML = g +
+        '<path d="' + area + '" style="fill:var(--excite)" opacity="0.12"/>' +
+        '<path d="' + d + '" fill="none" style="stroke:var(--excite)" stroke-width="2.2"/>' +
+        '<text x="' + px(6) + '" y="30" font-size="9" style="fill:var(--muted)">high in childhood</text>' +
+        '<text x="' + (W - 12) + '" y="' + (H - 22) + '" text-anchor="end" font-size="9" style="fill:var(--faint)">age →</text>';
+    })();
+
+    // ---- the inverted-U (risk index vs age): 0.070 @3 -> 0.195 @16 -> 0.177 @30 ----
+    (function () {
+      var svg = document.getElementById("uCurve"), W = 380, H = 250, padL = 40, padB = 34, padT = 18;
+      var data = [[3, 0.070], [10, 0.150], [16, 0.195], [22, 0.190], [30, 0.177]];
+      var maxV = 0.21;
+      function px(a) { return padL + (a - 3) / (30 - 3) * (W - padL - 14); }
+      function py(v) { return padT + (1 - v / maxV) * (H - padT - padB); }
+      var pts = data.map(function (d) { return [px(d[0]), py(d[1])]; });
+      var path = "M " + pts[0][0].toFixed(1) + " " + pts[0][1].toFixed(1);
+      for (var j = 1; j < pts.length; j++) {
+        var xc = (pts[j - 1][0] + pts[j][0]) / 2, yc = (pts[j - 1][1] + pts[j][1]) / 2;
+        path += " Q " + pts[j - 1][0].toFixed(1) + " " + pts[j - 1][1].toFixed(1) + " " + xc.toFixed(1) + " " + yc.toFixed(1);
+      }
+      path += " L " + pts[pts.length - 1][0].toFixed(1) + " " + pts[pts.length - 1][1].toFixed(1);
+      var grid = "";
+      [3, 10, 16, 22, 30].forEach(function (a) { grid += '<text x="' + px(a) + '" y="' + (H - 12) + '" text-anchor="middle" font-size="9" style="fill:var(--faint)">' + a + '</text>'; });
+      var peak = pts[2];
+      svg.innerHTML =
+        '<line x1="' + padL + '" y1="' + py(0) + '" x2="' + (W - 10) + '" y2="' + py(0) + '" style="stroke:var(--line)" stroke-width="1"/>' +
+        grid +
+        '<path d="' + path + '" fill="none" style="stroke:var(--emerge)" stroke-width="2.6" stroke-linecap="round"/>' +
+        pts.map(function (p) { return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3" style="fill:var(--emerge)"/>'; }).join("") +
+        '<circle cx="' + peak[0].toFixed(1) + '" cy="' + peak[1].toFixed(1) + '" r="6" fill="none" style="stroke:var(--emerge)" stroke-width="1.6"/>' +
+        '<text x="' + peak[0].toFixed(1) + '" y="' + (peak[1] - 12).toFixed(1) + '" text-anchor="middle" font-size="10" style="fill:var(--emerge)">peak · 0.195 @16</text>' +
+        '<text x="' + px(3) + '" y="' + (py(0.070) - 10).toFixed(1) + '" text-anchor="middle" font-size="9" style="fill:var(--muted)">0.070</text>' +
+        '<text x="' + px(30) + '" y="' + (py(0.177) - 10).toFixed(1) + '" text-anchor="end" font-size="9" style="fill:var(--muted)">0.177</text>' +
+        '<text x="' + (padL - 6) + '" y="' + padT + '" text-anchor="end" font-size="9" style="fill:var(--faint)">risk</text>' +
+        '<text x="' + (W - 12) + '" y="' + (py(0) + 22) + '" text-anchor="end" font-size="9" style="fill:var(--faint)">age →</text>';
+    })();
+
+    render();
+  })();
+</script>
