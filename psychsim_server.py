@@ -52,9 +52,13 @@ from config.matrixstore import kinds as matrix_kinds, list_items, upsert_item, d
 # The old neuraldesigner sandbox (upsert/remove of a parallel copy) is gone -- the seed is the single
 # source of truth, and there is no browser write path into the organism.
 from substrate.view import substrate_view as neural_view
+# The Arena (core/arena.py) is a STANDALONE instrument, not part of ENGINE; arena_view is the
+# JSON seam the ARENA tab talks to (list defined content + run-and-serialise a trace).
+import arena_view
 
 # ---- the running simulation + its loop -----------------------------------
 ENGINE: SimEngine = None
+ARENA_BANK = None             # optional AgentBank for 'banked' Arena slots; None => no banked agents yet
 LOCK = threading.Lock()
 PLAYING = False
 STEP_INTERVAL = 0.25          # seconds between steps while playing (speed control)
@@ -166,6 +170,12 @@ class Handler(BaseHTTPRequestHandler):
                 self._send({"error": f"unknown matrix kind {kind}"}, 404)
         elif u.path == "/neural":
             self._send(neural_view())
+        elif u.path == "/arena/environments":
+            self._send({"environments": arena_view.environments(), "roster": arena_view.roster_bounds()})
+        elif u.path == "/arena/sources":
+            self._send(arena_view.sources(ARENA_BANK))
+        elif u.path == "/arena/relationships":
+            self._send(arena_view.relationships())
         elif u.path == "/report/cohort":
             with LOCK:
                 self._send(ENGINE.cohort_report().to_dict())
@@ -235,6 +245,14 @@ class Handler(BaseHTTPRequestHandler):
                 result["deleted"] = delete_item(data.get("kind"), data.get("id"))
             except KeyError as ex:
                 result = {"error": str(ex)}
+        elif cmd == "arena_run":
+            # compose an ArenaSpec from the payload + run it (synchronous, ~seconds). run_arena's
+            # 2-5 roster guard and any bad-slot errors surface as a 400 with the message.
+            try:
+                result["trace"] = arena_view.run(data, ARENA_BANK)
+            except (ValueError, KeyError) as ex:
+                self._send({"error": str(ex)}, 400)
+                return
         # neural_upsert / neural_delete are DELETED (Phase 6): the Neural tab is read-only over the
         # live seed. They now fall through to this unknown-command rejection (HTTP 400), on purpose.
         else:
