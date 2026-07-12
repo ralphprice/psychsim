@@ -2,8 +2,8 @@
 model.py (substrate) -- load the v14 substrate seed into a runtime model.
 
 The v14 seed (docs/neuralnetworks/psychsim_substrate_seed_v14.json) is the SINGLE SOURCE OF
-TRUTH for substrate structure and parameters (Part 2 S1.3; Part 3 S3): 82 circuits (nucleus-
-level rate units), 206 directed edges, a 25-entry innate-wiring catalogue, 9 input channels
+TRUTH for substrate structure and parameters (Part 2 S1.3; Part 3 S3): 83 circuits (nucleus-
+level rate units), 209 directed edges, a 25-entry innate-wiring catalogue, 9 input channels
 (IN-CONSPEC), a physical-endowment table, the 8 plasticity rules, and a gaps register. v13 =
 v12 + the DRN (5-HT) NODE + missing local INHIBITORY INTERNEURONS (2.1b): (1) the dorsal raphe
 with receptor-signed edges -- opposite signs across targets (DRN->VMHvl/CeA 5-HT1A INHIBITORY

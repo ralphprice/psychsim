@@ -71,7 +71,7 @@
     "v8_addition_note": "v8 adds the cognitive/mentalizing (theory-of-mind) social-cognition network -- rSMG-TPJ, pSTS, PCun-PCC, ATL-TP and their connections (see MASTER Part 3 S1). This completes the COGNITIVE-empathy side (the affective side -- aIns/dACC/OFC/amygdala -- was already present), so the CU/psychopathy lesion-throttle sweep can DISSOCIATE cognitive from affective empathy. Grounded in human meta-analyses; all dynamics (weights/tau/setpoint) are SCAFFOLD; new domain tag 'social_cognition'.",
     "v9_addition_note": "v9 (Part 6 step 3e / Part 8 v9 pass): (a) NEW circuit VMHvl (hypothalamic attack area) + a provocation->attack pathway [IN-INTERO:provocation->VMHvl 'strong'; VMHvl->PAG 'strong'; VMHvl->HYPdm 'moderate-strong'] closing the OBS-3 connectome gap -- provocation could previously reach attack effectors only via the GABAergic CeA, which INHIBITS them, so more provocation deepened attack suppression. The CeA->PAG/HYPdm inhibition is UNTOUCHED (fear stays the baseline threat response); weights are SCAFFOLD, set by physiological ordering, not tuned to a target. (b) S1.4 social innate-wiring catalogue entries (SR-SEPARATION/PROXIMITY/REJECTION) documenting social primary perturbations the functional layer already wires (documentary; no dynamics change). Circuits 77->78, connections 176->179.",
     "v10_additions": "Physical endowment + biological sex (v10). Adds ONE new input channel (IN-CONSPEC, the social-visual conspecific-valuation stream, distinct from generic IN-VIS), THREE edges on it (IN-CONSPEC:attractive_face->NAc-shell/OFC reward; IN-CONSPEC:formidability_cue->CeA defensive), and TWO physical-percept catalogue entries. Sex is a per-agent birth parameter (PH-SIZE mean; VMHvl baseline-reactivity factor -- code). Perception fires Arena-only (design ruling b). v9 connectome byte-identical (additions only). IN-CONSPEC is deliberately NOT an IN-VIS sub-channel: bare IN-VIS (novelty) prefix-matches all IN-VIS:* edges, so an IN-VIS:* physical percept would fire on generic novelty (v10 build finding). Magnitudes SCAFFOLD; outcomes (beauty premium, CU sex ratio) are scan_match targets, never weights.",
-    "v14_addition_note": "v14 Phase 1 (kinship/attachment, OT/VP bonding pathway) -- BEHAVIOUR-NEUTRAL foundation: the 6 unambiguous PVN-OT projections (->NAc-shell/MeA/SEPT/MPOA/BNST/PAG-PANIC) receptor-signed OTR/V1a (Gq->+1), cited; sign UNCHANGED from the transmitter fallback (+1), so no behaviour change -- this makes the existing OT/VP scaffold receptor-honest. CeA (target-cell subtlety), the 3 MPOA efferents (sign determination), and the OT->reward gating completion are FLAGGED in gaps_register for reviewer ruling, NOT forced/added (instructions 1.2/1.3). OTR/V1a already present in params.RECEPTOR_SIGN. Substrate GROWS: 0 circuits/edges removed vs v13."
+    "v14_addition_note": "v14 Phase 1 (kinship/attachment, OT/VP bonding pathway) -- BEHAVIOUR-NEUTRAL foundation: the 6 unambiguous PVN-OT projections (->NAc-shell/MeA/SEPT/MPOA/BNST/PAG-PANIC) receptor-signed OTR/V1a (Gq->+1), cited; sign UNCHANGED from the transmitter fallback (+1), so no behaviour change -- this makes the existing OT/VP scaffold receptor-honest. CeA (target-cell subtlety), the 3 MPOA efferents (sign determination), and the OT->reward gating completion are FLAGGED in gaps_register for reviewer ruling, NOT forced/added (instructions 1.2/1.3). OTR/V1a already present in params.RECEPTOR_SIGN. Substrate GROWS: 0 circuits/edges removed vs v13. || Phase 1.1: ADDED the CeA-GABA (CeL) interneuron + PVN-OT->CeA-GABA (OTR,+) + CeA-GABA->CeA (GABA-A,-), resolving the PVN-OT->CeA target-cell subtlety the honest way (net OT->CeA inhibitory via the interneuron; Knobloch 2012); silence-tested. The direct PVN-OT->CeA edge stays on fallback (NOT signed). VTA afferents (MPOA->VTA, PVN-OT->VTA) + MPOA->PAG-PANIC/VMH remain FLAGGED pending the VTA target-cell research (brought to review, not signed). || Phase 1.1 (reviewer-cleared): ADDED CeA-GABA interneuron (OT->CeA net-dampening via the interneuron; tonic OT-gating of CeA accepted as grounded biology; silence-tested; golden regenerated). ADDED PVN-OT->VTA (OTR+, DIRECT on DA; completes OT->reward gating; Hung 2017). SIGNED MPOA->PAG-PANIC + MPOA->VMH GABA-A- (direct GABAergic, behaviour-neutral, cited). HELD for review: the MPOA->VTA disinhibition (VTA-GABA interneuron) -- the disinhibition does NOT net-function (the direct MPOA->VTA -1 fallback dominates; VTA's low baseline bounds the disinhibition; forcing it would destabilise DA = missing-element question). Surfaced, not forced."
   },
   "schemas": {
     "circuit": {
@@ -836,7 +836,8 @@
     "ITEM-1/ITEM-2 LINK (record, not built): PFC E/I balance matures during adolescence; adolescent risk-taking is substantially prefrontal-inhibitory-control immaturity. The PFC interneuron system added here (adult set-point) is the CANDIDATE SUBSTRATE for adolescent-risk maturation -- its developmental coming-online trajectory (delaying the interneuron relative to its pyramidal circuit) is the grounded mechanism to test against the adolescent-risk curve, as its own deliberate future pass. NOT wired now.",
     "v14 Phase 1 FLAG (CeA target-cell subtlety; bring to review, do NOT force -- instructions 1.3): PVN-OT->CeA is LEFT on the transmitter fallback (+1), NOT receptor-signed OTR+, because OT excites CeA-lateral GABAergic interneurons which then inhibit CeA output -- the NET effect on CeA output is inhibitory via an excitatory synapse onto an inhibitory cell (Knobloch et al. 2012 Neuron). v13's CeA is a SINGLE node (no CeA-GABA interneuron), so signing OTR->+ would assert OT EXCITES CeA output, the opposite of the biology. Options for reviewer: (a) defer the sign (un-representable as a single edge, recorded reason), or (b) add a grounded CeA-GABA interneuron (parallel to v13's DRN-GABA; Knobloch 2012). Awaiting ruling.",
     "v14 Phase 1 FLAG (MPOA efferent signs; bring to review, do NOT force): MPOA->VTA, MPOA->PAG-PANIC, MPOA->VMH are LEFT on the transmitter fallback (-1), NOT receptor-signed, pending a sign determination. MPOA is mixed GABA/glutamate (galanin). Instructions 1.1 intend MPOA->VTA as + (drive to reward for parental motivation) -- a sign FLIP from the -1 fallback -- but the MPOA->VTA parental circuit likely acts via DISINHIBITION of VTA DA (a target-cell subtlety like CeA), so a direct + would assert MPOA excites VTA and may misstate the synaptic sign. Awaiting reviewer ruling on the cited receptor/transmitter + whether an interneuron representation is needed. NOT forced.",
-    "v14 Phase 1 ENUMERATION (OT->reward gating; bring to review BEFORE adding -- instructions 1.2): the DIRECT OT->reward core IS present (PVN-OT->NAc-shell, OT-gated, receptor-signed OTR+ this phase). What may be MISSING for a specific conspecific's cues to be LEARNED as rewarding via the DA teaching signal: direct OTR modulation of VTA DA to social cues -- there is NO PVN-OT->VTA edge (MPOA->VTA exists but is unsigned/subtle, see above). Candidate minimal addition: PVN-OT->VTA (OTR; OT modulation of the DA teaching signal for social cues). NOT added speculatively; enumerated for reviewer ruling."
+    "v14 Phase 1 ENUMERATION (OT->reward gating; bring to review BEFORE adding -- instructions 1.2): the DIRECT OT->reward core IS present (PVN-OT->NAc-shell, OT-gated, receptor-signed OTR+ this phase). What may be MISSING for a specific conspecific's cues to be LEARNED as rewarding via the DA teaching signal: direct OTR modulation of VTA DA to social cues -- there is NO PVN-OT->VTA edge (MPOA->VTA exists but is unsigned/subtle, see above). Candidate minimal addition: PVN-OT->VTA (OTR; OT modulation of the DA teaching signal for social cues). NOT added speculatively; enumerated for reviewer ruling.",
+    "v14 Phase 1.1 FLAG (MPOA->VTA disinhibition -- missing-element question, HELD for reviewer ruling): building the ruled MPOA->VTA disinhibition (VTA-GABA interneuron: MPOA->VTA-GABA -, VTA-GABA->VTA -) does NOT yield a net-excitatory MPOA->VTA. The direct MPOA->VTA (-1, fallback) dominates, and the disinhibition is structurally bounded by VTA's LOW baseline (~0.06): making the disinhibition net-positive would require VTA-GABA to tonically suppress DA by ~0.45 -> DA DESTABILISED. Per the standing rule (instability = missing element, not a rebalance), surfaced for ruling: what is missing -- a higher VTA baseline (another afferent)? a reconsideration of the direct MPOA->VTA edge? is MPOA->VTA context-dependent/not-net-positive? MPOA->VTA left on fallback; PVN-OT->VTA (direct OTR+) kept."
   ],
   "circuits": [
     {
@@ -2556,6 +2557,26 @@
       "function": "Local cortical GABAergic (PV/SST) interneuron for dlPFC: feedback inhibition holding the pyramidal circuit at an E/I set-point (prevents runaway excitation). Comes online WITH dlPFC (adult set-point; the adolescent E/I-maturation trajectory is a deliberate future pass, NOT wired here).",
       "nodes": "dlPFC local GABAergic interneurons (PV basket / SST Martinotti)",
       "sources": "Ferguson & Gao 2018 Front Neural Circuits 12:37 (PV/E-I in PFC); Isaacson & Scanziani 2011 Neuron 72:231; Markram et al. 2004 Nat Rev Neurosci 5:793"
+    },
+    {
+      "id": "CeA-GABA",
+      "domain": "defensive_threat",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 100,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "calibration_active_default": true,
+      "transmitters": "GABAergic (CeL local interneuron)",
+      "evidence_base": "animal_dominant",
+      "confidence": "Em",
+      "function": "CeA-lateral (CeL) GABAergic interneuron population: oxytocin EXCITES it (OTR), and it INHIBITS CeA (CeM) output -- so the NET OT effect on CeA output is inhibitory via an excitatory synapse onto an inhibitory cell (v14 Phase 1.1). Resolves the PVN-OT->CeA target-cell subtlety the honest way -- the missing inhibitory element -- rather than asserting OT excites CeA output. Parallel to the v13 DRN-GABA interneuron.",
+      "nodes": "central amygdala lateral division (CeL) GABAergic neurons",
+      "sources": "Knobloch et al. 2012 Neuron 73:553 (OT->CeL->CeM microcircuit gating fear output)"
     }
   ],
   "connections": [
@@ -4550,7 +4571,9 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 0.0,
       "confidence": "Em",
-      "source": "maternal-behaviour / caregiving output; animal-dominant"
+      "source": "maternal-behaviour / caregiving output; animal-dominant",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY -- GABAergic MPOA directly inhibits PAG defensive output (maternal suppression of defensive responses during caregiving). Direct GABAergic, no disinhibition subtlety; matches the transmitter fallback (-1), now cited (Numan; MPOA parental literature)."
     },
     {
       "source_circuit": "MPOA",
@@ -4567,7 +4590,9 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 0.0,
       "confidence": "Em",
-      "source": "reproductive/social hypothalamic integration; animal-dominant"
+      "source": "reproductive/social hypothalamic integration; animal-dominant",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY -- GABAergic MPOA directly inhibits VMH (reproductive/social hypothalamic integration). Direct GABAergic, no disinhibition subtlety; matches the transmitter fallback (-1), now cited (Numan)."
     },
     {
       "source_circuit": "IN-INTERO:contact_loss",
@@ -6169,6 +6194,63 @@
       "dominant_receptor": "GABA-A",
       "dominant_receptor_basis": "GABA-A INHIBITORY -- PV/SST feedback inhibition holds dlPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner).",
       "source": "v12c cortical E/I interneuron. GABA-A INHIBITORY -- PV/SST feedback inhibition holds dlPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner)."
+    },
+    {
+      "source_circuit": "PVN-OT",
+      "target_circuit": "CeA-GABA",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "OT",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "OTR",
+      "dominant_receptor_basis": "OTR (Gq) EXCITATORY -- oxytocin excites CeA-lateral (CeL) GABAergic interneurons (Knobloch et al. 2012 Neuron 73:553). Weight 'strong' (# SCAFFOLD): OT strongly recruits CeL so the disynaptic inhibition dominates the direct edge -> net OT->CeA dampening (Knobloch 2012); silence-tested.",
+      "source": "v14 Phase 1.1 -- OT->CeL excitation (Knobloch 2012)."
+    },
+    {
+      "source_circuit": "CeA-GABA",
+      "target_circuit": "CeA",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY -- CeL GABAergic interneurons inhibit CeA (CeM) output; makes the NET OT effect on CeA output inhibitory (Knobloch et al. 2012). Weight 'strong' (# SCAFFOLD): set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge -> net OT->CeA inhibitory; silence CeA-GABA and it flips net-excitatory (the red-if-broken proof it is anatomy, not a tuned sign). Parallel to DRN-GABA->DRN.",
+      "source": "v14 Phase 1.1 -- CeL->CeM feed-forward inhibition (Knobloch 2012)."
+    },
+    {
+      "source_circuit": "PVN-OT",
+      "target_circuit": "VTA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "OT",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "da_system_high_adolescent_peak",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "OTR",
+      "dominant_receptor_basis": "OTR (Gq) EXCITATORY -- oxytocin excites VTA-DA neurons directly (OTR on DA neurons); social cues gain incentive salience via the DA teaching signal -> completes the OT->reward gating (OT reaches both the NAc hedonic target AND the DA teaching signal). Direct on DA, NOT via VTA-GABA (Hung et al. 2017 Science 357:1406; Xiao et al. 2017 Neuron).",
+      "source": "v14 Phase 1.1 -- OT->VTA-DA direct social-reward gating (Hung 2017)."
     }
   ]
 }
