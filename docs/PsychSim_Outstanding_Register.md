@@ -89,14 +89,36 @@ candidate, not a settled fact — revisit if MeApd-vs-MeA projection-specificity
   aggression-regulation conclusions provisional` in its provenance — the sign upgrade changes the
   aggression circuit's dynamics too, so both are prerequisites for non-provisional aggression findings.
 - **FIRST STEP before build:** answer the four open questions in its §9. (The spec itself is
-  already on origin/main — `86f53b5`; the earlier "local-only sync gap" is closed.)
+  already on origin/main — `86f53b5`; the earlier "local-only sync gap" is closed.) A decision-brief
+  laying out the four with recommended defaults for the researcher to confirm is at
+  `PsychSim_CU_Section9_Decision_Brief.md` — the calls remain the researcher's; the brief does not make them.
 
 ### 2.3 — UI redundant-artifact removal (the cleanup you asked for; §3 below is the concrete list)
 - Small, bounded, no new features. Remove what the redesign superseded and the deprecated study
   interface. Do this as its own commit so it's legible.
-- **IN PROGRESS:** the deprecated temperament presets + `respawn` `fearless_frac` server path are
-  DONE (395e813, its own commit). Remaining §3 items (dead `neuraldesigner` route, stale
-  Panksepp-as-current docstrings, orphaned components) still to audit.
+- **DONE:** the deprecated temperament presets + `respawn` `fearless_frac` server path removed
+  (395e813); the full repo audit + fixes P1–P4 landed (P1 provenance model-derived `d4f7c43`; P2
+  version-drift comments `0dddd11`; P3 stale docs `36d992b`; P4 dead-file removal `8af7405`). The §3
+  items are resolved or accounted for (dead `neuraldesigner` route: retained-but-unwired offline
+  tooling, kept; Panksepp-as-current docstrings: the false pointer was struck and the named files had
+  none; orphaned components: `Controls`/`MatrixEditor`/`NeuralEditor` confirmed deleted).
+
+### 2.4 — Arena UI — DONE (promoted from parking-lot by researcher decision; design-session specced)
+- **Built (2026-07-12):** the ARENA tab — the fine-detail lens (a few agents in a confined micro-env,
+  developed + watched). Server seam `core/arena_view.py` + `GET /arena/environments|sources|relationships`
+  + `POST arena_run` (`b159036`); the ARENA tab UI reusing the Town shell (`7677483`). Spec:
+  `PsychSim_Arena_UI.md` (`61fa0b4`). Wires the already-built `core/arena.py`; does NOT touch the frozen
+  organism.
+- **Honesty held:** only DEFINED `MICRO_ENVS` (structural escape, no stressful tag); temperament =
+  gain-dim PARAMETERS (no outcome presets); relationships emerge (no per-slot dropdown, honest empty);
+  roster 2–5 UI-enforced (matching `run_arena`'s guard); deterministic. Gates: tsc 0 / vitest 50 /
+  test_arena_view 11 / live HTTP `arena_run` verified. A tuple-strain-key serialisation bug was caught by
+  the live end-to-end test and regression-guarded.
+- **Flagged for design-session review (spec-vs-code gaps surfaced during build):** `run_arena` returns
+  only the `ArenaTrace` and discards the agents, so full Town-style mind/memory/standing inspection +
+  sampled sex/physical display are NOT available without extending the trace to capture per-agent
+  snapshots — a reviewed CORE change, deferred (see §4). v1 renders the rich per-agent TRAJECTORIES the
+  trace provides (emergent act, max-activation/saturation curve, drift, per-pair strain, viability).
 
 ## 3. UI redundant artifacts to remove (concrete, bounded — no new UI)
 
@@ -131,6 +153,12 @@ Promoting any of them is an explicit, separate decision — not a drift.
 - **Development peer-perception pathway** — who a developing agent encounters (peer-sampling model).
   Physical perception currently fires Arena-only; extending it to development needs the sampling model
   specced and reviewed (it could encode who-meets-whom). Deferred.
+- **Arena trace extension — per-agent snapshots (for deep inspection)** — `run_arena` returns only the
+  `ArenaTrace` (per-episode acts/max_act/drift/strain) and discards the agents, so the Arena UI cannot yet
+  offer full Town-style mind/memory/standing inspection or display sampled sex/physical. Extending
+  `ArenaTrace` to capture per-episode per-agent mind snapshots (and the agents' sampled endowment) would
+  enable it — a reviewed change to the tested regression harness (must preserve `signature()`/determinism).
+  Surfaced during the Arena-UI build (§2.4); deferred, promote for review when deep inspection is needed.
 - **Connection-level throttling** (S4.1) — the throttle module manipulates nodes; edge-level was
   deferred. `manipulation_scope: "nodes only"` travels on scan results until/unless built.
 - **PH-AGILITY / PH-SENSORY as bearer capacities** — ruled out of the social channel; may enter later
