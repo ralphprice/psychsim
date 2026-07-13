@@ -3098,6 +3098,23 @@
       "source": "PR-CONTACT (catalogue, cited); C-tactile -> calming/appetitive"
     },
     {
+      "source_circuit": "IN-SOMATO:affective_touch",
+      "target_circuit": "PVN-OT",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "affiliation_early",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "PR-CONTACT (catalogue, cited); C-tactile affective touch -> oxytocin release. ADDED (v14 Phase-2 build, FINISHING Phase-1's unafferented PVN-OT): social/affective touch drives PVN oxytocin neurons via the ascending CT -> l/vlPAG Tac1+ -> PVH-OT excitatory pathway (Yu et al. 2022, Neuron 110:1051-1067; Walker et al. 2017, C-tactile afferents->OT), collapsed into the sensory input drive exactly as the sibling IN-SOMATO:affective_touch->NAc-shell edge does. innate_reinforcer basis to match that sibling and because affective touch is a primary-reinforcer-class INNATE driver of oxytocin (a newborn's OT responds to touch from birth) -- NOT an experience-grown associative site. This makes the OT bonding hub drivable by a social percept (it was signed but unafferented)."
+    },
+    {
       "source_circuit": "IN-INTERO:thermal_warmth",
       "target_circuit": "NAc-shell",
       "default_weight": "moderate",
@@ -5229,6 +5246,23 @@
       "developmental_online_age": 0.0,
       "confidence": "E",
       "source": "baroreflex sympathetic arc (NTS->CVLM->RVLM, simplified); anatomy"
+    },
+    {
+      "source_circuit": "NTS",
+      "target_circuit": "PVN-OT",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "interoceptive_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "A2 noradrenergic NTS -> PVH oxytocin (and CRF) excitatory drive (Sawchenko & Swanson 1982) -- the canonical brainstem visceral driver of PVN neuroendocrine cells (OT release during suckling/visceral signals). ADDED (v14 Phase-2 build, finishing Phase-1's unafferented PVN-OT): completes the afferent set so PVN-OT is not misrepresented as touch-driven only. Sign +1 (excitatory: A2 alpha1 / glutamatergic), consistent with the NTS node. anatomy."
     },
     {
       "source_circuit": "PVN",
