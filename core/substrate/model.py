@@ -18,7 +18,20 @@ pathway (kinship/attachment Phase 1): the 6 unambiguous PVN-OT projections (->NA
 MPOA/BNST/PAG-PANIC) receptor-signed OTR/V1a (Gq -> +1), cited -- BEHAVIOUR-NEUTRAL (sign unchanged
 from the transmitter fallback +1, making the existing OT/VP scaffold receptor-honest). CeA (target-
 cell subtlety), the 3 MPOA efferents (sign determination), and the OT->reward gating completion are
-FLAGGED in gaps_register for reviewer ruling, NOT forced/added (instructions 1.2/1.3). v12 = v11 +
+FLAGGED in gaps_register for reviewer ruling, NOT forced/added (instructions 1.2/1.3).
+v14 Phase-1.1 (HSO shelved permanently): the design's SS2.11 three-way weight distinction is carried by
+the seed's OWN `default_weight` bands (no starting-value override) -- (1) primary-reinforcer links
+(innate_reinforcer) at cited strength; (2) hardwired-backbone anatomy (anatomy/literature) at grounded
+strength; (3) associative sites (assumption) at their small low/low-moderate band, grown by use-dependent
+plasticity. The learning failure was diagnosed to TWO real connectome gaps, corrected here (both grounded
+anatomy, previously missing/mislabelled): +1 input edge IN-VIS->RET (retinogeniculostriate visual input,
+routing the cue INTO the cortical stream) and VTA->OFC + VTA->vmPFC re-marked assumption->anatomy
+(mesocortical DOPAMINE projection = backbone teaching-signal delivery, like every other DA projection;
+weight UNCHANGED at band) -- plus 22 structural-regulatory edges likewise re-marked assumption->anatomy
+(provenance only). NO associative starting-value was invented: an earlier near-zero (0.05) override was
+tried and REMOVED -- it solved a connectome problem that had a connectome solution and starved functional
+pathways; the original bands were the three categories all along. Learning now forms through experience at
+the ORIGINAL bands, carried by the connectome corrections. v12 = v11 +
 the sign-convention upgrade (2.1a); v11 = v10 + 4 Allen afferents; v10 = v9 + physical endowment.
 Topology byte-identical across versions (additions / sign-only); v1-v12 archived (v13 retained at
 root pending v14 Phase-1 clearance). This module
@@ -215,6 +228,19 @@ def load_substrate(path: Optional[str] = None) -> SubstrateModel:
         if tgt not in circuits:
             warnings.append(f"edge {src}->{tgt}: unknown target circuit (connectome gap); skipped.")
             continue
+        # Design §2.11 three-way weight distinction: the seed's `default_weight` BAND already encodes it,
+        # so the newborn weight is JUST the band -- no override. (1) primary-reinforcer links
+        # (innate_reinforcer) carry their cited value; (2) hardwired-backbone anatomy (anatomy/literature,
+        # incl. the 24 structural-regulatory + mesocortical-DA edges re-marked from assumption -- provenance
+        # corrections) carry their grounded strength; (3) associative sites (assumption) carry their small
+        # `low`/`low-moderate` band -- a "near-zero site that experience grows" (§2.4): the low band IS a
+        # small start, then grown by the existing use-dependent plasticity. Existence + sign stay grounded.
+        # (History, both REMOVED as errors: "uniform-everything = 0.5" flattened cats 1+2; a separate
+        # near-zero (0.05) OVERRIDE of the associative bands solved a connectome problem that had a
+        # connectome solution and starved functional pathways. The original bands were the three categories
+        # all along. The session's only substrate changes are two grounded CONNECTOME corrections --
+        # +IN-VIS->RET retinogeniculate input, and VTA->OFC/vmPFC re-marked to mesocortical-DA backbone --
+        # plus provenance-only basis re-marks; no starting-value was invented.)
         w0 = _num_weight(k.get("default_weight", "moderate"))
         online = float(k.get("developmental_online_age", 0.0) or 0.0)
         active = bool(k.get("calibration_active_default", True))

@@ -3173,7 +3173,7 @@
       "source_circuit": "VTA",
       "target_circuit": "OFC",
       "default_weight": "low-moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -3184,7 +3184,7 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 3.0,
       "confidence": "E",
-      "source": "mesocortical DA; value; late; strength assumed | v12a sign: dominant_receptor=D1. MODERATE -- D1-dominant DA modulation of PFC persistent activity (Arnsten inverted-U). D2 minor.",
+      "source": "mesocortical DA; value; late; strength assumed | v12a sign: dominant_receptor=D1. MODERATE -- D1-dominant DA modulation of PFC persistent activity (Arnsten inverted-U). D2 minor. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design 2.11): mesocortical DOPAMINE projection (VTA->PFC) -- backbone anatomy like every other DA projection in the substrate (mesolimbic VTA->NAc-core/shell, nigrostriatal SNc->DStr, and the SIBLING mesocortical VTA->dlPFC -- all anatomy). The assumption marker reflected a SCAFFOLD WEIGHT, not an assumed edge; the weight is UNCHANGED at its own band. This edge DELIVERS the DA teaching signal to the cortex (it GATES cortical associative plasticity), it is NOT itself an associative site. Grounds are anatomy (mesocortical DA is one of the four classical DA systems; OFC/vmPFC are among the most densely DA-innervated frontal regions) + internal consistency (matches VTA->dlPFC, same system, identical low-moderate band, already anatomy); INDEPENDENT of the learning test, which corroborates but is not the basis.",
       "dominant_receptor": "D1",
       "dominant_receptor_basis": "MODERATE -- D1-dominant DA modulation of PFC persistent activity (Arnsten inverted-U). D2 minor."
     },
@@ -3192,7 +3192,7 @@
       "source_circuit": "VTA",
       "target_circuit": "vmPFC",
       "default_weight": "low",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -3203,7 +3203,7 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 3.0,
       "confidence": "E",
-      "source": "mesocortical DA reaches vmPFC (SHARED node: value/regulation); strength assumed | v12a sign: dominant_receptor=D1. MODERATE -- as VTA->OFC.",
+      "source": "mesocortical DA reaches vmPFC (SHARED node: value/regulation); strength assumed | v12a sign: dominant_receptor=D1. MODERATE -- as VTA->OFC. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design 2.11): mesocortical DOPAMINE projection (VTA->PFC) -- backbone anatomy like every other DA projection in the substrate (mesolimbic VTA->NAc-core/shell, nigrostriatal SNc->DStr, and the SIBLING mesocortical VTA->dlPFC -- all anatomy). The assumption marker reflected a SCAFFOLD WEIGHT, not an assumed edge; the weight is UNCHANGED at its own band. This edge DELIVERS the DA teaching signal to the cortex (it GATES cortical associative plasticity), it is NOT itself an associative site. Grounds are anatomy (mesocortical DA is one of the four classical DA systems; OFC/vmPFC are among the most densely DA-innervated frontal regions) + internal consistency (matches VTA->dlPFC, same system, identical low-moderate band, already anatomy); INDEPENDENT of the learning test, which corroborates but is not the basis.",
       "dominant_receptor": "D1",
       "dominant_receptor_basis": "MODERATE -- as VTA->OFC."
     },
@@ -3569,6 +3569,23 @@
       "developmental_online_age": 0.0,
       "confidence": "E",
       "source": "PB-BIOMOTION (catalogue, cited); innate orienting bias to self-propelled/biological motion"
+    },
+    {
+      "source_circuit": "IN-VIS",
+      "target_circuit": "RET",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "visual_cp_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "retinogeniculostriate / primary visual pathway: general visual input is transduced at the retina (RET) and relayed RET->LGN->V1->V-ventral (cortical ventral stream). Textbook anatomy -- retina->LGN->V1 is the primary visual pathway in every neuroanatomy text (Hubel & Wiesel established V1's geniculate input). ADDED (HSO-shelved restoration, design 2.11): the connectome carried the cortical visual stream (RET->LGN->V1->V-ventral->OFC) PRESENT BUT STARVED -- no visual input reached RET; the visual cue entered only at SC-Pv (subcortical retinotectal, threat/orienting). This edge routes general visual input to the retina so a visual cue can reach the cortex, where the plastic V-ventral->OFC associative site can grow a cue->reward association THROUGH EXPERIENCE. It does NOT encode cue->reward -- it routes sensory input; the association emerges via use-dependent plasticity at the associative site from near-zero. anatomy basis."
     },
     {
       "source_circuit": "COCH",
@@ -5763,7 +5780,7 @@
       "source_circuit": "LH",
       "target_circuit": "LHb",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -5774,7 +5791,7 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 0.0,
       "confidence": "Em",
-      "source": "v11 Allen audit C2. Existence: LHA->LHb is the major glutamatergic aversion/escape input to the habenula (Lecca 2017 eLife 30697; 'innervates almost-entirely the LHb'). SCAFFOLD weight. Sign emerges EXCITATORY (LH glutamate-leading). Revives LHb, previously an afferent-less (dead) node. | v12a sign: dominant_receptor=AMPA. HIGH -- glutamatergic aversion/escape input (Lecca 2017 eLife 30697).",
+      "source": "v11 Allen audit C2. Existence: LHA->LHb is the major glutamatergic aversion/escape input to the habenula (Lecca 2017 eLife 30697; 'innervates almost-entirely the LHb'). SCAFFOLD weight. Sign emerges EXCITATORY (LH glutamate-leading). Revives LHb, previously an afferent-less (dead) node. | v12a sign: dominant_receptor=AMPA. HIGH -- glutamatergic aversion/escape input (Lecca 2017 eLife 30697). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone.",
       "dominant_receptor": "AMPA",
       "dominant_receptor_basis": "HIGH -- glutamatergic aversion/escape input (Lecca 2017 eLife 30697)."
     },
@@ -5782,7 +5799,7 @@
       "source_circuit": "VP",
       "target_circuit": "LHb",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -5793,7 +5810,7 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 0.0,
       "confidence": "Em",
-      "source": "v11 Allen audit C3. Existence: VP->LHb (Knowland 2020, PubMed 32009492; Stephenson-Jones 2016 Nature 539:289). SCAFFOLD weight. Sign emerges INHIBITORY (VP GABA-leading). SIGN-FIDELITY LIMITATION: the LHb-projecting VP population is glutamatergic/aversive in the literature, which the nucleus-level _sign() cannot represent; signed inhibitory here (reward arm). Documented in gaps_register; resolve only by a convention-wide upgrade, never a per-edge override. | v12a sign: dominant_receptor=AMPA. HIGH -- the LHb-projecting VP population is glutamatergic/aversive (Knowland 2020 PubMed 32009492; Faget 2018; Stephenson-Jones 2016 Nature 539:289). Resolves the v11 nucleus-level sign-fidelity gap via the receptor, not an override.",
+      "source": "v11 Allen audit C3. Existence: VP->LHb (Knowland 2020, PubMed 32009492; Stephenson-Jones 2016 Nature 539:289). SCAFFOLD weight. Sign emerges INHIBITORY (VP GABA-leading). SIGN-FIDELITY LIMITATION: the LHb-projecting VP population is glutamatergic/aversive in the literature, which the nucleus-level _sign() cannot represent; signed inhibitory here (reward arm). Documented in gaps_register; resolve only by a convention-wide upgrade, never a per-edge override. | v12a sign: dominant_receptor=AMPA. HIGH -- the LHb-projecting VP population is glutamatergic/aversive (Knowland 2020 PubMed 32009492; Faget 2018; Stephenson-Jones 2016 Nature 539:289). Resolves the v11 nucleus-level sign-fidelity gap via the receptor, not an override. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone.",
       "dominant_receptor": "AMPA",
       "dominant_receptor_basis": "HIGH -- the LHb-projecting VP population is glutamatergic/aversive (Knowland 2020 PubMed 32009492; Faget 2018; Stephenson-Jones 2016 Nature 539:289). Resolves the v11 nucleus-level sign-fidelity gap via the receptor, not an override."
     },
@@ -5801,7 +5818,7 @@
       "source_circuit": "BNST",
       "target_circuit": "VMHvl",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -5812,7 +5829,7 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 0.0,
       "confidence": "Em",
-      "source": "v11 Allen audit C4 (secondary). Existence: BNST->VMHvl extended-amygdala modulation of the attack area (Lebow & Chen 2016; Nordman 2020). SCAFFOLD weight. Sign emerges EXCITATORY (BNST CRF-leading). | v12a sign: dominant_receptor=GABA-A. MODERATE-HIGH -- BNST principal projection neurons are predominantly GABAergic (Daniel & Rainnie 2016); the BNST->hypothalamus output is GABAergic. CRF/glutamate minority noted.",
+      "source": "v11 Allen audit C4 (secondary). Existence: BNST->VMHvl extended-amygdala modulation of the attack area (Lebow & Chen 2016; Nordman 2020). SCAFFOLD weight. Sign emerges EXCITATORY (BNST CRF-leading). | v12a sign: dominant_receptor=GABA-A. MODERATE-HIGH -- BNST principal projection neurons are predominantly GABAergic (Daniel & Rainnie 2016); the BNST->hypothalamus output is GABAergic. CRF/glutamate minority noted. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone.",
       "dominant_receptor": "GABA-A",
       "dominant_receptor_basis": "MODERATE-HIGH -- BNST principal projection neurons are predominantly GABAergic (Daniel & Rainnie 2016); the BNST->hypothalamus output is GABAergic. CRF/glutamate minority noted."
     },
@@ -5820,7 +5837,7 @@
       "source_circuit": "DRN",
       "target_circuit": "VMHvl",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -5833,13 +5850,13 @@
       "confidence": "Em",
       "dominant_receptor": "5-HT1A",
       "dominant_receptor_basis": "5-HT1A (Gi) INHIBITORY -- 5-HT in AH/VMH dampens aggression (Nelson&Trainor 2007; hamster AH 5-HT1A). The direct dampening of the attack area.",
-      "source": "v12b DRN 5-HT node. 5-HT1A (Gi) INHIBITORY -- 5-HT in AH/VMH dampens aggression (Nelson&Trainor 2007; hamster AH 5-HT1A). The direct dampening of the attack area."
+      "source": "v12b DRN 5-HT node. 5-HT1A (Gi) INHIBITORY -- 5-HT in AH/VMH dampens aggression (Nelson&Trainor 2007; hamster AH 5-HT1A). The direct dampening of the attack area. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "DRN",
       "target_circuit": "CeA",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -5852,13 +5869,13 @@
       "confidence": "Em",
       "dominant_receptor": "5-HT1A",
       "dominant_receptor_basis": "5-HT1A (Gi) INHIBITORY -- dampens central-amygdala threat/aggression output.",
-      "source": "v12b DRN 5-HT node. 5-HT1A (Gi) INHIBITORY -- dampens central-amygdala threat/aggression output."
+      "source": "v12b DRN 5-HT node. 5-HT1A (Gi) INHIBITORY -- dampens central-amygdala threat/aggression output. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "DRN",
       "target_circuit": "OFC",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -5871,13 +5888,13 @@
       "confidence": "Em",
       "dominant_receptor": "5-HT2A",
       "dominant_receptor_basis": "5-HT2A (Gq) EXCITATORY -- 5-HT facilitates orbitofrontal inhibitory control over aggression (Neurobiology of Aggression review, 5-HT2).",
-      "source": "v12b DRN 5-HT node. 5-HT2A (Gq) EXCITATORY -- 5-HT facilitates orbitofrontal inhibitory control over aggression (Neurobiology of Aggression review, 5-HT2)."
+      "source": "v12b DRN 5-HT node. 5-HT2A (Gq) EXCITATORY -- 5-HT facilitates orbitofrontal inhibitory control over aggression (Neurobiology of Aggression review, 5-HT2). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "DRN",
       "target_circuit": "vmPFC",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -5890,13 +5907,13 @@
       "confidence": "Em",
       "dominant_receptor": "5-HT2A",
       "dominant_receptor_basis": "5-HT2A (Gq) EXCITATORY -- facilitates ventromedial-PFC regulation.",
-      "source": "v12b DRN 5-HT node. 5-HT2A (Gq) EXCITATORY -- facilitates ventromedial-PFC regulation."
+      "source": "v12b DRN 5-HT node. 5-HT2A (Gq) EXCITATORY -- facilitates ventromedial-PFC regulation. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "DRN",
       "target_circuit": "dACC",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -5909,13 +5926,13 @@
       "confidence": "Em",
       "dominant_receptor": "5-HT2A",
       "dominant_receptor_basis": "5-HT2A (Gq) EXCITATORY -- facilitates anterior-cingulate conflict/again-control.",
-      "source": "v12b DRN 5-HT node. 5-HT2A (Gq) EXCITATORY -- facilitates anterior-cingulate conflict/again-control."
+      "source": "v12b DRN 5-HT node. 5-HT2A (Gq) EXCITATORY -- facilitates anterior-cingulate conflict/again-control. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "DRN",
       "target_circuit": "HPCv",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -5928,13 +5945,13 @@
       "confidence": "Em",
       "dominant_receptor": "5-HT1B",
       "dominant_receptor_basis": "5-HT1B (Gi) INHIBITORY -- the DRN->ventral-hippocampus reactive-aggression pathway (2024, PubMed 39159717).",
-      "source": "v12b DRN 5-HT node. 5-HT1B (Gi) INHIBITORY -- the DRN->ventral-hippocampus reactive-aggression pathway (2024, PubMed 39159717)."
+      "source": "v12b DRN 5-HT node. 5-HT1B (Gi) INHIBITORY -- the DRN->ventral-hippocampus reactive-aggression pathway (2024, PubMed 39159717). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "DRN",
       "target_circuit": "BA",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -5947,13 +5964,13 @@
       "confidence": "Em",
       "dominant_receptor": "5-HT1A",
       "dominant_receptor_basis": "5-HT1A (Gi) INHIBITORY (FLAGGED: BLA 5-HT is mixed 1A/2A; 1A on principal neurons taken as dominant) -- modulates amygdala reactivity.",
-      "source": "v12b DRN 5-HT node. 5-HT1A (Gi) INHIBITORY (FLAGGED: BLA 5-HT is mixed 1A/2A; 1A on principal neurons taken as dominant) -- modulates amygdala reactivity."
+      "source": "v12b DRN 5-HT node. 5-HT1A (Gi) INHIBITORY (FLAGGED: BLA 5-HT is mixed 1A/2A; 1A on principal neurons taken as dominant) -- modulates amygdala reactivity. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "DRN",
       "target_circuit": "NAc-shell",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -5966,13 +5983,13 @@
       "confidence": "Em",
       "dominant_receptor": "5-HT1B",
       "dominant_receptor_basis": "5-HT1B (Gi) INHIBITORY (FLAGGED: NAc 5-HT is heterogeneous 1B/2C/4) -- dampens impulsive reward-seeking.",
-      "source": "v12b DRN 5-HT node. 5-HT1B (Gi) INHIBITORY (FLAGGED: NAc 5-HT is heterogeneous 1B/2C/4) -- dampens impulsive reward-seeking."
+      "source": "v12b DRN 5-HT node. 5-HT1B (Gi) INHIBITORY (FLAGGED: NAc 5-HT is heterogeneous 1B/2C/4) -- dampens impulsive reward-seeking. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "DRN",
       "target_circuit": "PAG",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -5985,13 +6002,13 @@
       "confidence": "Em",
       "dominant_receptor": "5-HT1A",
       "dominant_receptor_basis": "5-HT1A (Gi) INHIBITORY (FLAGGED: PAG 5-HT 1A/2A mixed; 1A anxiolytic dampening taken) -- modulates defensive panic.",
-      "source": "v12b DRN 5-HT node. 5-HT1A (Gi) INHIBITORY (FLAGGED: PAG 5-HT 1A/2A mixed; 1A anxiolytic dampening taken) -- modulates defensive panic."
+      "source": "v12b DRN 5-HT node. 5-HT1A (Gi) INHIBITORY (FLAGGED: PAG 5-HT 1A/2A mixed; 1A anxiolytic dampening taken) -- modulates defensive panic. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "LHb",
       "target_circuit": "DRN",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -6004,13 +6021,13 @@
       "confidence": "Em",
       "dominant_receptor": "AMPA",
       "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- the habenula->raphe aversion/disappointment input (LHb is glutamatergic).",
-      "source": "v12b DRN 5-HT node. AMPA (glutamatergic) EXCITATORY -- the habenula->raphe aversion/disappointment input (LHb is glutamatergic)."
+      "source": "v12b DRN 5-HT node. AMPA (glutamatergic) EXCITATORY -- the habenula->raphe aversion/disappointment input (LHb is glutamatergic). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "vmPFC",
       "target_circuit": "DRN",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -6023,13 +6040,13 @@
       "confidence": "Em",
       "dominant_receptor": "AMPA",
       "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- mPFC direct excitation of 5-HT neurons (Celada 2001).",
-      "source": "v12b DRN 5-HT node microcircuit. AMPA (glutamatergic) EXCITATORY -- mPFC direct excitation of 5-HT neurons (Celada 2001)."
+      "source": "v12b DRN 5-HT node microcircuit. AMPA (glutamatergic) EXCITATORY -- mPFC direct excitation of 5-HT neurons (Celada 2001). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "OFC",
       "target_circuit": "DRN",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -6042,13 +6059,13 @@
       "confidence": "Em",
       "dominant_receptor": "AMPA",
       "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- OFC direct excitation of 5-HT neurons.",
-      "source": "v12b DRN 5-HT node microcircuit. AMPA (glutamatergic) EXCITATORY -- OFC direct excitation of 5-HT neurons."
+      "source": "v12b DRN 5-HT node microcircuit. AMPA (glutamatergic) EXCITATORY -- OFC direct excitation of 5-HT neurons. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "vmPFC",
       "target_circuit": "DRN-GABA",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -6061,13 +6078,13 @@
       "confidence": "Em",
       "dominant_receptor": "AMPA",
       "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- mPFC excites the DRN GAD2+ interneuron (Challis 2013; Celada 2001 feed-forward).",
-      "source": "v12b DRN 5-HT node microcircuit. AMPA (glutamatergic) EXCITATORY -- mPFC excites the DRN GAD2+ interneuron (Challis 2013; Celada 2001 feed-forward)."
+      "source": "v12b DRN 5-HT node microcircuit. AMPA (glutamatergic) EXCITATORY -- mPFC excites the DRN GAD2+ interneuron (Challis 2013; Celada 2001 feed-forward). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "OFC",
       "target_circuit": "DRN-GABA",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -6080,13 +6097,13 @@
       "confidence": "Em",
       "dominant_receptor": "AMPA",
       "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- OFC excites the DRN GAD2+ interneuron.",
-      "source": "v12b DRN 5-HT node microcircuit. AMPA (glutamatergic) EXCITATORY -- OFC excites the DRN GAD2+ interneuron."
+      "source": "v12b DRN 5-HT node microcircuit. AMPA (glutamatergic) EXCITATORY -- OFC excites the DRN GAD2+ interneuron. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "DRN-GABA",
       "target_circuit": "DRN",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -6099,7 +6116,7 @@
       "confidence": "Em",
       "dominant_receptor": "GABA-A",
       "dominant_receptor_basis": "GABA-A INHIBITORY -- GAD2+ interneuron monosynaptic feed-forward inhibition of 5-HT neurons; the loop's self-limiting cap (Challis 2013). Weight 'moderate' (scaffold): gives DRN a tonically-active level (~0.25, capped from runaway by the interneuron -- silence test) rather than near-silent; the pre-existing vmPFC saturation (0.98, from v12, NOT the DRN node) drives this loop arm, so DRN tonic is sensitive to it -- FLAGGED as a pre-existing issue affecting 5-HT regulation strength.",
-      "source": "v12b DRN 5-HT node microcircuit. GABA-A INHIBITORY -- GAD2+ interneuron monosynaptic feed-forward inhibition of 5-HT neurons; the loop's self-limiting cap (Challis 2013)."
+      "source": "v12b DRN 5-HT node microcircuit. GABA-A INHIBITORY -- GAD2+ interneuron monosynaptic feed-forward inhibition of 5-HT neurons; the loop's self-limiting cap (Challis 2013). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "DRN",
@@ -6124,7 +6141,7 @@
       "source_circuit": "vmPFC",
       "target_circuit": "vmPFC-GABA",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -6137,13 +6154,13 @@
       "confidence": "E",
       "dominant_receptor": "AMPA",
       "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- vmPFC pyramidal cells excite their local interneuron (feedforward/feedback drive).",
-      "source": "v12c cortical E/I interneuron. AMPA (glutamatergic) EXCITATORY -- vmPFC pyramidal cells excite their local interneuron (feedforward/feedback drive)."
+      "source": "v12c cortical E/I interneuron. AMPA (glutamatergic) EXCITATORY -- vmPFC pyramidal cells excite their local interneuron (feedforward/feedback drive). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "vmPFC-GABA",
       "target_circuit": "vmPFC",
       "default_weight": "moderate-strong",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -6156,13 +6173,13 @@
       "confidence": "E",
       "dominant_receptor": "GABA-A",
       "dominant_receptor_basis": "GABA-A INHIBITORY -- PV/SST feedback inhibition holds vmPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner).",
-      "source": "v12c cortical E/I interneuron. GABA-A INHIBITORY -- PV/SST feedback inhibition holds vmPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner)."
+      "source": "v12c cortical E/I interneuron. GABA-A INHIBITORY -- PV/SST feedback inhibition holds vmPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "dlPFC",
       "target_circuit": "dlPFC-GABA",
       "default_weight": "moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -6175,13 +6192,13 @@
       "confidence": "E",
       "dominant_receptor": "AMPA",
       "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- dlPFC pyramidal cells excite their local interneuron (feedforward/feedback drive).",
-      "source": "v12c cortical E/I interneuron. AMPA (glutamatergic) EXCITATORY -- dlPFC pyramidal cells excite their local interneuron (feedforward/feedback drive)."
+      "source": "v12c cortical E/I interneuron. AMPA (glutamatergic) EXCITATORY -- dlPFC pyramidal cells excite their local interneuron (feedforward/feedback drive). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "dlPFC-GABA",
       "target_circuit": "dlPFC",
       "default_weight": "moderate-strong",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -6194,7 +6211,7 @@
       "confidence": "E",
       "dominant_receptor": "GABA-A",
       "dominant_receptor_basis": "GABA-A INHIBITORY -- PV/SST feedback inhibition holds dlPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner).",
-      "source": "v12c cortical E/I interneuron. GABA-A INHIBITORY -- PV/SST feedback inhibition holds dlPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner)."
+      "source": "v12c cortical E/I interneuron. GABA-A INHIBITORY -- PV/SST feedback inhibition holds dlPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
       "source_circuit": "PVN-OT",
