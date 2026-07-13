@@ -139,6 +139,12 @@ _TRIGGER_CHANNELS = {
     # (IN-CONSPEC:attractive_face->NAc-shell/OFC; IN-CONSPEC:formidability_cue->CeA) carry it to circuits.
     "attractive_face": [("IN-CONSPEC:attractive_face", 1.0)],
     "formidability_cue": [("IN-CONSPEC:formidability_cue", 1.0)],
+    # v14 kinship (Phase 2): the self-referent kin-recognition cue -- how similar this conspecific's
+    # signature is to the perceiver's OWN (signature_match). Enters the IN-CONSPEC social stream and
+    # drives oxytocin (IN-CONSPEC:kin_signature->PVN-OT), the social-recognition/bonding signal; the
+    # affiliation (nepotism) then EMERGES from OT driving the Phase-1 bonding circuits. The cue is
+    # self-similarity, NOT relatedness (relatedness only set the shared loci at spawn) -- the keystone.
+    "kin_signature": [("IN-CONSPEC:kin_signature", 1.0)],
 }
 
 

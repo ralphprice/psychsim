@@ -15,11 +15,12 @@ read-out), and the episodic memory.
 from __future__ import annotations
 import random
 from dataclasses import dataclass, field
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 from .core import TraitSeed
 from .memory import MemoryStream
 from .physical import sample_physical, vmhvl_reactivity
+from .signature import random_signature
 
 from substrate.engine import SubstrateEngine
 from substrate.model import load_substrate
@@ -51,6 +52,13 @@ class AffectiveAgent:
     # edited. Empty/None for a physical-neutral (seedless) agent. A bearer property, not an outcome.
     physical: Dict[str, float] = field(init=False, default_factory=dict)
     sex: Optional[str] = field(init=False, default=None)
+    # v14 kinship (Phase 2): this agent's innate genetic-fingerprint SIGNATURE -- an MHC-analogue
+    # locus vector, a pure BEARER property like `physical`, sampled for a seeded agent and RELOADED
+    # verbatim for a banked adult (restored-never-edited). Sex-neutral, identical regardless of who
+    # perceives it. Empty for a seedless (signature-neutral) agent. Its ONLY causal role: relatedness
+    # sets which loci two agents share AT SPAWN; after spawn nothing reads relatedness -- the vector
+    # carries everything, and a perceiver detects kin by SELF-REFERENT matching (`self_signature`).
+    signature: List[int] = field(init=False, default_factory=list)
     # display slot only: the last emergent ACTION the agent took (a substrate behaviour like
     # "approach"/"aggress"), set by the world loop for inspection. NOT an outcome category.
     dominant: Optional[str] = field(init=False, default=None)
@@ -65,6 +73,11 @@ class AffectiveAgent:
             phys = sample_physical(random.Random(self.temperament_seed))
             self.sex = phys.pop("sex")
             self.physical = phys
+            # v14: this agent's genetic-fingerprint signature, from a DISTINCT sub-seed (independent
+            # of the physical draw, both reproducible from the world seed). A fresh agent is UNRELATED
+            # (random loci); relatedness -> shared loci is set at spawn where offspring are born
+            # (child_signature), which no current spawn path does -> every spawned agent is unrelated.
+            self.signature = random_signature(random.Random(self.temperament_seed + 1_000_003))
         # E5/E6: own strength + sex bias this agent's VMHvl reactivity (its response to provocation),
         # before the resting baseline is captured. A calibration on the attack circuit's competition;
         # it cannot fire aggression unprovoked (VMHvl's only input is provocation -- neutral-floor
@@ -90,6 +103,7 @@ class AffectiveAgent:
         the adult restores physical-neutral (never fabricated) until the cache is regrown under v10."""
         self.physical = dict(getattr(dev, "physical", {}) or {})
         self.sex = getattr(dev, "sex", None)
+        self.signature = list(getattr(dev, "signature", []) or [])   # v14: reloaded, never re-sampled
         self.adopt_engine(dev.engine)
         # re-derive the E5/E6 VMHvl calibration from the RELOADED physical (a pure function of it, so
         # this reproduces the gain the adult grew with -- not a re-sample). The rest baseline is a
@@ -100,6 +114,13 @@ class AffectiveAgent:
         """Bias the OWN engine's VMHvl reactivity from this agent's physical endowment (E5/E6). Pure
         function of (physical, sex); a physical-neutral agent -> gain 1.0 (no-op)."""
         self.engine.set_reactivity("VMHvl", vmhvl_reactivity(self.physical, self.sex))
+
+    @property
+    def self_signature(self) -> List[int]:
+        """This agent's OWN signature, in its role as a PERCEIVER: the self-referent template it
+        matches others against (`signature_match(bearer.signature, perceiver.self_signature)`). One
+        vector, two roles -- `.signature` when it is the bearer, `.self_signature` when it perceives."""
+        return self.signature
 
     def social_act(self, appraisal, age_years: Optional[float] = None):
         """The agent's emergent SOCIAL ACT on the substrate: the situation's perturbation pattern

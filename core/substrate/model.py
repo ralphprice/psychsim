@@ -3,7 +3,7 @@ model.py (substrate) -- load the v14 substrate seed into a runtime model.
 
 The v14 seed (docs/neuralnetworks/psychsim_substrate_seed_v14.json) is the SINGLE SOURCE OF
 TRUTH for substrate structure and parameters (Part 2 S1.3; Part 3 S3): 83 circuits (nucleus-
-level rate units), 211 directed edges, a 25-entry innate-wiring catalogue, 9 input channels
+level rate units), 212 directed edges, a 25-entry innate-wiring catalogue, 9 input channels
 (IN-CONSPEC), a physical-endowment table, the 8 plasticity rules, and a gaps register. v13 =
 v12 + the DRN (5-HT) NODE + missing local INHIBITORY INTERNEURONS (2.1b): (1) the dorsal raphe
 with receptor-signed edges -- opposite signs across targets (DRN->VMHvl/CeA 5-HT1A INHIBITORY
@@ -40,7 +40,14 @@ IN-SOMATO:affective_touch->PVN-OT (the social-touch->oxytocin drive: CT->l/vlPAG
 2022 Neuron; Walker et al. 2017 -- innate_reinforcer, matching the sibling affective_touch->NAc-shell) and
 NTS->PVN-OT (A2 noradrenergic brainstem drive, Sawchenko & Swanson 1982 -- anatomy). No interneuron/sign
 change was needed (the amygdala<->OT link is the efferent PVN-OT->MeA, already present; the afferents are
-excitatory). Oxytocin is now releasable by social touch and cascades through the bonding scaffold. v12 = v11 +
+excitatory). Oxytocin is now releasable by social touch and cascades through the bonding scaffold.
+v14 Phase-2 (kinship) then routed the kin cue onto that now-working bonding system: +1 input edge
+IN-CONSPEC:kin_signature->PVN-OT (the self-referent kin-recognition cue signature_match drives oxytocin, the
+social-recognition/bonding signal; Oettl 2016 / Dolen 2013 / Hung 2017 -- innate_reinforcer). NEPOTISM EMERGES
+(higher self-similarity -> more OT -> more affiliation) and the keystone holds -- the cue is signature_match
+(self-referent, signature-only); relatedness enters ONLY at spawn (child_signature, unwired until reproduction)
+and NEVER downstream (grep-gated). Recognition stays a perceptual match in signature_match; representing it as
+explicit circuitry (MeA->aIns/dmPFC) is flagged-deferred in gaps_register. v12 = v11 +
 the sign-convention upgrade (2.1a); v11 = v10 + 4 Allen afferents; v10 = v9 + physical endowment.
 Topology byte-identical across versions (additions / sign-only); v1-v12 archived (v13 retained at
 root pending v14 Phase-1 clearance). This module

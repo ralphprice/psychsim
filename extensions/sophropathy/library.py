@@ -191,6 +191,7 @@ class CharacterLibrary:
         # its real traits (restored-never-edited), not a fresh sample (v10 E1).
         dev = DevelopedAgent(engine=agent.engine,
                              physical=dict(agent.physical), sex=agent.sex,
+                             signature=list(agent.signature),   # v14: carry the given kin signature
                              provenance={"temperament": temperament_key, "rearing": rearing_key,
                                          "seed": seed})
         entry = LibraryEntry(name=name, temperament=temperament_key, rearing=rearing_key,

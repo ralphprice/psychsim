@@ -57,6 +57,10 @@ class DevelopedAgent:
     # than being re-sampled. Empty/None for a physical-neutral adult or a pre-v10 (legacy) snapshot.
     physical: Dict[str, float] = field(default_factory=dict)
     sex: Optional[str] = None
+    # v14 kinship: the GIVEN genetic-fingerprint signature this adult grew with, banked verbatim so a
+    # restored adult RELOADS it (restored-never-edited) rather than being re-sampled. Empty for a
+    # signature-neutral adult or a pre-v14 (legacy) snapshot.
+    signature: List[int] = field(default_factory=list)
 
     @property
     def age_years(self) -> float:
@@ -185,6 +189,7 @@ def snapshot(agent: DevelopedAgent) -> Dict:
         "provenance": dict(agent.provenance),
         "physical": dict(agent.physical),   # v10: the given endowment, banked verbatim (E1)
         "sex": agent.sex,
+        "signature": list(agent.signature),  # v14: the given kin signature, banked verbatim
     }
 
 
@@ -204,6 +209,9 @@ def restore(state: Dict, model: Optional[SubstrateModel] = None) -> DevelopedAge
         # -> physical-neutral (never fabricated) until the cache is regrown under v10.
         physical=dict(state.get("physical", {}) or {}),
         sex=state.get("sex", None),
+        # v14: RELOAD the banked kin signature verbatim. A pre-v14 snapshot has no "signature" key
+        # -> signature-neutral (never fabricated) until the cache is regrown under v14.
+        signature=list(state.get("signature", []) or []),
     )
 
 

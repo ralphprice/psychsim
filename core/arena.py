@@ -43,6 +43,7 @@ import random
 from affective_engine import AffectiveAgent, TraitSeed
 from affective_engine.development import live_stimulus
 from affective_engine.physical import physical_stimulus, sex_weight
+from affective_engine.signature import signature_match
 from affective_engine.activities import sample_activity
 from substrate.social import is_cohesive_act, is_aggressive_act, felt_response
 from sim_world.environment_matrix import Thing, default_things, birth_matrix, encounter
@@ -270,6 +271,26 @@ def _add_physical_percept(percept: Dict[str, float], perceiver: AffectiveAgent,
         percept[cue] = percept.get(cue, 0.0) + mag * sex_weight(perceiver_sex, bearer_sex, cue)  # E4
 
 
+def _add_signature_percept(percept: Dict[str, float], perceiver: AffectiveAgent,
+                           bearer: AffectiveAgent) -> None:
+    """v14 Phase-2 (kinship): the bearer's genetic-fingerprint signature presents as a kin-recognition
+    cue -- `signature_match(bearer.signature, perceiver.self_signature)`, a SELF-REFERENT similarity in
+    [0,1] the PERCEIVER computes ("does this conspecific smell like me?", the armpit effect / Mateo &
+    Johnston 2000). Merged into the same percept dict fed to felt_response, which routes it via the
+    IN-CONSPEC:kin_signature edge into the perceiver's OWN oxytocin system (-> the Phase-1 bonding
+    scaffold). The KEYSTONE: the cue is self-similarity -- a function of the two signature vectors ONLY
+    -- NOT relatedness (relatedness set the shared loci at spawn and never appears here). Nepotism
+    EMERGES from the perceiver's circuits valuing self-similarity (OT -> bonding), never a coded
+    similarity->affiliation coefficient. A signature-neutral bearer or perceiver presents nothing."""
+    bearer_sig = getattr(bearer, "signature", None)
+    perceiver_sig = getattr(perceiver, "self_signature", None)
+    if not bearer_sig or not perceiver_sig:
+        return
+    match = signature_match(bearer_sig, perceiver_sig)                   # self-referent, signature-only
+    if match > 0.0:
+        percept["kin_signature"] = percept.get("kin_signature", 0.0) + match
+
+
 @dataclass
 class _Tie:
     affect: float = 0.0
@@ -284,6 +305,7 @@ def _social_episode(agent: AffectiveAgent, other_agent: AffectiveAgent, other_la
     (where the two booleans belong)."""
     percept = _perceive(other_last_act)
     _add_physical_percept(percept, agent, other_agent)   # E2/E4: the other's endowment, sex-valued
+    _add_signature_percept(percept, agent, other_agent)  # v14: the other's kin signature, self-matched
     fr = felt_response(agent.engine, percept, age_years,
                        getattr(agent, "_rest_baseline", None))
     if is_aggressive_act(fr.behaviour):
