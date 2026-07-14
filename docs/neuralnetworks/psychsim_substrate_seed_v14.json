@@ -4236,7 +4236,7 @@
     },
     {
       "source_circuit": "vlPFC",
-      "target_circuit": "LA",
+      "target_circuit": "ITC",
       "default_weight": "low-moderate",
       "default_weight_basis": "assumption",
       "weight_bounds": [
@@ -4249,7 +4249,7 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 5.0,
       "confidence": "E",
-      "source": "lateral-PFC down-regulation of threat (reappraisal); weak in childhood; strength assumed"
+      "source": "lateral-PFC down-regulation of threat (reappraisal). RE-TARGETED LA->ITC (PFC-Loop close-out): vlPFC is glutamatergic and CANNOT directly inhibit LA (glutamate is excitatory), so its NET regulatory/inhibitory effect on the amygdala is via the GABAergic intercalated cells (ITC) -- exactly the vmPFC->ITC extinction route (Milad & Quirk 2002; reappraisal engages lateral-PFC->amygdala down-regulation indirectly). vlPFC->ITC (excites the gate) -> ITC->CeA (inhibits the amygdala output) = down-regulation of threat. The prior direct vlPFC->LA edge was fallback-EXCITATORY -- a regulatory region raising threat, backwards; routing via ITC completes the marked connection faithfully (the edge always intended 'down-regulation of threat'). Marked-connection completion, NOT a value change; band unchanged. strength assumed."
     },
     {
       "source_circuit": "dlPFC",
