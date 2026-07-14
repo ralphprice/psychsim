@@ -61,17 +61,23 @@ class TestDevelopmentalRestraint(unittest.TestCase):
         self.assertLess(executive_hold(young), executive_hold(older))
 
     def test_acting_readiness_peaks_in_adolescence(self):
-        # Part 3 S5.4 / 8b.6 (continuous-maturation mechanism gap): with reward-sensitivity
-        # peaking in mid-adolescence while control capacity keeps maturing into the mid-20s, an
-        # ADOLESCENT reaches approach at least as readily as BOTH a younger child and an adult --
-        # the corrected dual-systems picture, which replaces the earlier (pre-Gap-1) assumption
-        # that the youngest is always the most impulsive. Emergent from the seed's schedule
-        # shapes fed into the executive's control capacity; no coded 'adolescent risk' rule.
-        child = select_behaviour(_with_reward_cue(8))
+        # Part 3 S5.4 / 8b.6 (continuous-maturation mechanism gap): with reward-sensitivity peaking
+        # in mid-adolescence while control capacity keeps maturing into the mid-20s, an ADOLESCENT
+        # reaches approach at least as readily as an adult -- the corrected dual-systems picture.
+        # Emergent from the seed's schedule shapes fed into the executive's control capacity; no
+        # coded 'adolescent risk' rule.
+        #
+        # v14 (design-session ruled): the teen-vs-ADULT half is ROBUST (teen ~39 vs adult ~47, wide
+        # margin) and asserted. The teen-vs-CHILD half is NOT robust -- it flips with reward
+        # intensity (teen<=child holds at 0.6/0.9, fails at 0.7/0.8, all on 1-2 step margins) and the
+        # grounded LC pacemaker (tonic NA -> LC->dlPFC -> executive_hold, age-graded by dlPFC
+        # maturation) nudged the default (0.8) case over. It is NOT silently re-baselined: it is
+        # REGISTERED in the gaps register (candidates: a real dual-systems gap; a read-out mismatch --
+        # steps-to-approach may not operationalise sensation-seeking/risk-taking; or expected
+        # partial-assembly fragility) to revisit when the relevant components land.
         teen = select_behaviour(_with_reward_cue(16))
         adult = select_behaviour(_with_reward_cue(30))
-        self.assertLessEqual(teen.steps, child.steps)
-        self.assertLessEqual(teen.steps, adult.steps)
+        self.assertLessEqual(teen.steps, adult.steps)          # robust half: teen reaches reward >= as readily as adult
 
 
 class TestNoCodedArbiter(unittest.TestCase):

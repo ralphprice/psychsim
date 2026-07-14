@@ -46,6 +46,7 @@ RECEPTOR_SIGN = {
     "alpha1": +1, "beta": +1, "beta1": +1, "beta2": +1,
     "M1": +1, "M3": +1, "M5": +1, "mGluR1": +1, "mGluR5": +1,
     "H1": +1, "OX": +1, "OX1": +1, "OX2": +1, "V1a": +1, "OTR": +1,   # orexin, vasopressin, oxytocin
+    "CRF-R1": +1,   # corticotropin-releasing factor R1: Gs-coupled -> excitatory (standard CRF-R1 pharmacology)
     # metabotropic Gi/Go -> inhibitory
     "D2": -1, "D3": -1, "D4": -1,
     "5-HT1A": -1, "5-HT1B": -1, "5-HT1D": -1, "5-HT5": -1,

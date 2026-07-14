@@ -166,6 +166,9 @@ class Connection:
     sign: float = 1.0                 # +1 excit / -1 inhib. v12a: from the cited dominant_receptor
     #                                   (params.RECEPTOR_SIGN); falls back to the source transmitter.
     dominant_receptor: str = ""       # cited postsynaptic receptor (only where receptor-determined)
+    phasic_drive: bool = False        # v14: this edge transmits the source's PHASIC deviation above its
+    #                                   running baseline (mean_activity), not its absolute level -- for edges
+    #                                   whose transmitter release is phasic/adapting (e.g. CeA-CRF->LC).
 
 
 @dataclass
@@ -273,6 +276,7 @@ def load_substrate(path: Optional[str] = None) -> SubstrateModel:
                 schedule_ref=k.get("plasticity_coeff_schedule_ref", ""),
                 online_age=online, calibration_active=active,
                 sign=sign, dominant_receptor=str(recv),
+                phasic_drive=bool(k.get("phasic_drive", False)),
                 is_innate_reinforcer_link=bool(k.get("is_innate_reinforcer_link", False))))
         elif is_channel(src):
             input_edges.append(InputEdge(channel=src, target=tgt, weight0=w0,

@@ -24,41 +24,43 @@ _MODEL = load_substrate()
 
 class TestPunishmentLearning(unittest.TestCase):
     def test_normal_newborn_acquires_some_aversion(self):
-        # an ordinary substrate acquires a (small) defensive response to a punished cue
+        # An ordinary substrate acquires a defensive response to a punished cue. Measured with the
+        # v14 YOKED-CONTROL read-out (paired-vs-unpaired on identical copies) -- tone-invariant, so
+        # this is now a CLEAR positive, not a marginal one (multi-seed min +0.054 at throttle 0.0).
         learned = punishment_learning(throttled_newborn(0.0, model=_MODEL))
-        self.assertGreater(learned, -0.05)
+        self.assertGreater(learned, 0.0)                       # associative aversion IS learned
 
     def test_punishment_deficit_is_weak_not_a_failure(self):
-        # HONEST FINDING (Part 5), UPDATED FOR v9 -- FLAGGED FOR DESIGN-SESSION REVIEW.
-        # The graded punishment-learning deficit is not robust. In v8 it was non-monotonic in the
-        # throttle; in v9 it is weakly MONOTONE (~[0.018, 0.012, 0.008]) because the new VMHvl->PAG
-        # edge perturbs the DEFENSIVE_OUTPUT baseline (PAG is a member). But the magnitudes are
-        # NEGLIGIBLE and every throttle still acquires a small POSITIVE aversion -- there is no
-        # punishment-learning FAILURE (no inversion to ~0/negative). So the robust claim holds:
-        # throttling affective empathy weakens punishment learning only slightly; it does NOT
-        # produce a CU-style failure-to-learn. (The robust CU signature is the reads-but-doesn't-
-        # feel dissociation below, not this.) Assertions are direction/magnitude-only, no target.
-        # NOTE for review: the v8 test asserted non-monotonicity; v9 flips it to weakly-monotone
-        # but negligible -- reframed to the robust "weak, not a failure" claim, not the brittle
-        # monotonicity check. If you want the monotone shift treated as a finding, say so.
-        # v14 FINDING (Phase-2 build, design-session ruled): finishing the PVN-OT afferent completion
-        # (the OT bonding hub gaining its affective_touch + NTS drives, so oxytocin can finally be
-        # released) slightly widened this already-brittle spread at the UN-THROTTLED baseline --
-        # 0.0427 -> 0.0526 -- via PVN-OT baseline -> PVN-OT->CeA (a DEFENSIVE_OUTPUT member) -> the
-        # read-out; the throttle=0.0 value moved -0.0093, the 0.5/1.0 values barely. The spread is
-        # STILL negligible (~5%) and the substantive claim is UNCHANGED (no inversion; the > -0.02
-        # assertion below still passes on its own). Threshold re-baselined 0.05 -> 0.06: still
-        # "negligible", still a LIVE check -- a genuinely large graded deficit (e.g. >= 0.1, a real
-        # CU-style graded failure) still fires. This is a re-baseline of a flagged scaffold threshold
-        # tied to a legitimate structural improvement, recorded as a finding -- NOT a convenience fit
-        # (only the "negligible-spread" operationalisation moved, to a slightly larger still-negligible
-        # value; the substantive > -0.02 assertion is untouched).
+        # v14 CU RE-EXAMINATION (design-session ruled) -- read on the CLEANED mechanism (phasic
+        # teaching signal + phasic CeA->LC + grounded LC pacemaker) with a CORRECTED, tone-invariant
+        # read-out, then multi-seed-validated. This RETIRES the old confounded framing.
+        #
+        # WHY the read-out was corrected: DEFENSIVE_OUTPUT = (CeA, PAG, BA) and LC projects DIRECTLY
+        # into CeA and BA, so the old `after - before` metric summed LC's own tonic output -- it was
+        # confounded BY CONSTRUCTION by tonic NA tone, and only ever "worked" while LC was
+        # structurally dead (unafferented, NA flat at 0.05). Giving LC its correct afferents +
+        # pacemaker exposed this: the naive metric inverted the profile (normal newborn read -0.094)
+        # not from a learning failure but from an NA-inflated baseline. `punishment_learning` is now
+        # a yoked unpaired control (tonic tone + non-associative sensitization cancel; only the CS->US
+        # pairing differs), VALIDATED to read exactly 0.0 when nothing associative is learned at every
+        # LC tone.
+        #
+        # THE ANSWER, multi-seed (12 temperaments) on the corrected read-out:
+        #   * NO FAILURE-TO-LEARN is SEED-ROBUST: every value > -0.02 across all seeds/throttles
+        #     (min -0.003). Throttling affective empathy does NOT produce a CU-style failure to learn
+        #     punishment. "Weak, not a failure" HOLDS -- now on a trustworthy read-out.
+        #   * The graded throttle->learning relation is ROBUSTLY NON-MONOTONE (U-shaped: 0.5 is the
+        #     dip, 1.0 recovers) in 12/12 seeds -- a real feature, not noise (registered as a finding).
+        #     So there is NO clean monotone graded deficit; the old `spread < 0.06` assertion was
+        #     reading the confounded compression and is DROPPED.
+        # The robust CU signature is the reads-but-doesn't-feel dissociation (below), NOT the
+        # punishment deficit -- which is retired as a tonic-NA measurement+teaching artifact.
         vals = [punishment_learning(throttled_newborn(t, model=_MODEL))
                 for t in (0.0, 0.5, 1.0)]
-        self.assertTrue(all(v > -0.02 for v in vals),          # no throttle FAILS to learn (no inversion)
+        self.assertTrue(all(v > -0.02 for v in vals),          # no throttle FAILS to learn (seed-robust)
                         f"a throttle inverted punishment learning to failure: {vals}")
-        self.assertLess(max(vals) - min(vals), 0.06,           # the graded spread is negligible
-                        f"unexpectedly large graded deficit: {vals}")
+        self.assertGreater(vals[0], 0.0)                       # the un-throttled control clearly learns
+        self.assertGreater(vals[2], 0.0)                       # even full throttle still learns (no failure)
 
 
 class TestReadsButDoesntFeel(unittest.TestCase):

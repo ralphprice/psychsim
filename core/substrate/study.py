@@ -12,6 +12,7 @@ mentalizing network is left structurally intact -- the "reads but doesn't feel" 
 """
 
 from __future__ import annotations
+import copy as _copy
 from typing import Dict, Iterable, List, Optional, Tuple
 
 from .engine import SubstrateEngine
@@ -52,19 +53,46 @@ def _defensive_to_cue(eng: SubstrateEngine, ticks: int = 25) -> float:
     return val
 
 
-def punishment_learning(eng: SubstrateEngine, trials: int = 60) -> float:
-    """The passive-avoidance / punishment-learning probe (S4.2 -- the sharpest CU signature):
-    pair a neutral cue with a punishment (nociception), then measure how much the cue alone
-    now drives the defensive output. Positive = the aversion was learned; ~0 or negative = the
-    child fails to learn from punishment (the CU inversion). MUTATES the engine (it develops)."""
-    before = _defensive_to_cue(eng)
+def _condition(eng: SubstrateEngine, trials: int, paired: bool) -> None:
+    """Run the conditioning trials. PAIRED: cue+punishment co-active (the CS->US association forms).
+    UNPAIRED (the yoked control): the SAME cue and the SAME punishment, delivered SEPARATELY in time
+    -- identical exposure and non-associative load, but no CS->US contingency."""
     for _ in range(trials):
-        eng.clear_inputs()
-        for k, v in {**_CUE, **_PUNISH}.items():
-            eng.inject_channel(k, v)
-        eng.settle(12)
-    after = _defensive_to_cue(eng)
-    return after - before
+        if paired:
+            eng.clear_inputs()
+            for k, v in {**_CUE, **_PUNISH}.items():
+                eng.inject_channel(k, v)
+            eng.settle(12)
+        else:
+            eng.clear_inputs()
+            for k, v in _CUE.items():
+                eng.inject_channel(k, v)
+            eng.settle(6)
+            eng.clear_inputs()
+            for k, v in _PUNISH.items():
+                eng.inject_channel(k, v)
+            eng.settle(6)
+
+
+def punishment_learning(eng: SubstrateEngine, trials: int = 60) -> float:
+    """The passive-avoidance / punishment-learning probe (S4.2), as a YOKED-CONTROL associative
+    contrast: how much MORE the punished cue drives the defensive output than the SAME cue + SAME
+    punishment delivered UNPAIRED (a yoked control run on an identical copy of the agent). Positive
+    = the CS-specific aversion was learned; ~0 = no associative learning (the CU failure-to-learn).
+
+    Why the yoked control (v14): DEFENSIVE_OUTPUT = (CeA, PAG, BA), and LC projects DIRECTLY into
+    CeA and BA -- so the naive `after - before` was CONFOUNDED BY CONSTRUCTION by tonic NA tone (it
+    was only ever valid while LC was structurally dead). The conditioned and yoked arms share tonic
+    tone AND non-associative sensitization (same cue exposures, same punishments); only the CS->US
+    PAIRING differs, so the contrast cancels the tonic confound. VALIDATED tone-invariant: the
+    read-out is exactly 0.0 when nothing associative is learned, at every LC baseline. MUTATES eng
+    (the conditioned arm); builds the yoked arm from a deep copy taken before conditioning."""
+    yoked = _copy.deepcopy(eng)                       # identical agent, pre-conditioning
+    _condition(eng, trials, paired=True)
+    dc = _defensive_to_cue(eng)
+    _condition(yoked, trials, paired=False)
+    dy = _defensive_to_cue(yoked)
+    return dc - dy                                     # CS-specific learned aversion, tone-invariant
 
 
 def empathy_response(eng: SubstrateEngine, ticks: int = 35) -> Tuple[float, float]:

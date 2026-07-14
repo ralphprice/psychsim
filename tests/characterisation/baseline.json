@@ -3,91 +3,91 @@
     "psychopathic|harsh_inconsistent": {
       "classification": "social_cognition",
       "profile": {
-        "affiliation": 0.0725,
-        "defensive_threat": 0.2277,
-        "executive": 0.1955,
-        "reward_approach": 0.208,
-        "social_cognition": 0.2963
+        "affiliation": 0.0711,
+        "defensive_threat": 0.2371,
+        "executive": 0.1965,
+        "reward_approach": 0.1977,
+        "social_cognition": 0.2976
       }
     },
     "psychopathic|warm_firm": {
       "classification": "social_cognition",
       "profile": {
-        "affiliation": 0.0733,
-        "defensive_threat": 0.2292,
-        "executive": 0.1945,
-        "reward_approach": 0.2068,
-        "social_cognition": 0.2962
+        "affiliation": 0.0715,
+        "defensive_threat": 0.238,
+        "executive": 0.1959,
+        "reward_approach": 0.1973,
+        "social_cognition": 0.2972
       }
     },
     "shared_root|harsh_inconsistent": {
       "classification": "social_cognition",
       "profile": {
-        "affiliation": 0.1459,
-        "defensive_threat": 0.2187,
-        "executive": 0.208,
-        "reward_approach": 0.1795,
-        "social_cognition": 0.2479
+        "affiliation": 0.1423,
+        "defensive_threat": 0.2274,
+        "executive": 0.2086,
+        "reward_approach": 0.1719,
+        "social_cognition": 0.2498
       }
     },
     "shared_root|warm_firm": {
       "classification": "social_cognition",
       "profile": {
-        "affiliation": 0.1676,
-        "defensive_threat": 0.2134,
-        "executive": 0.2024,
-        "reward_approach": 0.1828,
-        "social_cognition": 0.2338
+        "affiliation": 0.1588,
+        "defensive_threat": 0.2225,
+        "executive": 0.2045,
+        "reward_approach": 0.1745,
+        "social_cognition": 0.2397
       }
     },
     "sophropathic|harsh_inconsistent": {
       "classification": "executive",
       "profile": {
-        "affiliation": 0.1362,
-        "defensive_threat": 0.1896,
-        "executive": 0.2812,
-        "reward_approach": 0.1688,
-        "social_cognition": 0.2241
+        "affiliation": 0.1338,
+        "defensive_threat": 0.1973,
+        "executive": 0.281,
+        "reward_approach": 0.1618,
+        "social_cognition": 0.2261
       }
     },
     "sophropathic|warm_firm": {
       "classification": "executive",
       "profile": {
-        "affiliation": 0.1547,
-        "defensive_threat": 0.1859,
-        "executive": 0.2767,
-        "reward_approach": 0.1718,
-        "social_cognition": 0.2109
+        "affiliation": 0.1477,
+        "defensive_threat": 0.1939,
+        "executive": 0.2781,
+        "reward_approach": 0.1638,
+        "social_cognition": 0.2165
       }
     },
     "typical_child|harsh_inconsistent": {
       "classification": "defensive_threat",
       "profile": {
-        "affiliation": 0.1257,
-        "defensive_threat": 0.3206,
-        "executive": 0.1693,
-        "reward_approach": 0.1409,
-        "social_cognition": 0.2436
+        "affiliation": 0.119,
+        "defensive_threat": 0.3302,
+        "executive": 0.1655,
+        "reward_approach": 0.1331,
+        "social_cognition": 0.2522
       }
     },
     "typical_child|warm_firm": {
       "classification": "defensive_threat",
       "profile": {
-        "affiliation": 0.1525,
-        "defensive_threat": 0.3031,
-        "executive": 0.1691,
-        "reward_approach": 0.143,
-        "social_cognition": 0.2323
+        "affiliation": 0.1353,
+        "defensive_threat": 0.326,
+        "executive": 0.1678,
+        "reward_approach": 0.1308,
+        "social_cognition": 0.2401
       }
     }
   },
   "environment": {
-    "attraction": 0.6373,
+    "attraction": 0.6174,
     "aversion": 0.0,
     "state": "sought"
   },
   "group": {
-    "belonging": 0.1126,
+    "belonging": 0.111,
     "encounters": 8,
     "standing": 0.2
   },

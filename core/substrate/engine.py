@@ -125,6 +125,24 @@ class SubstrateEngine:
             return 1.0                       # unresolved/offline source -> ungated (flagged)
         return sum(live) / len(live)
 
+    def neuromod_teaching(self, nmod: str) -> float:
+        """The PHASIC teaching signal that gates R5 consolidation: the neuromodulator SOURCE CIRCUIT(S)'
+        activation ABOVE their running baseline (`mean_activity`), floored at 0. A tonically-elevated
+        source (e.g. CeA holding LC up) yields NO tonic teaching signal -- a teaching signal is a
+        DEVIATION ('something salient happened NOW'), not a standing level, and it naturally habituates
+        as the baseline catches up to a sustained input. This is the same phasic principle behaviour
+        selection already uses (`_phasic_drive`: tonic cancels so hub circuits don't swamp). 'none'
+        (ungated) and unresolved/offline sources -> 1.0, exactly as `neuromod_output`."""
+        if not nmod or nmod == "none":
+            return 1.0
+        srcs = [s for s in self.model.neuromod_source.get(nmod, [])
+                if self.live_circuit.get(s, False)]
+        if not srcs:
+            return 1.0
+        dev = sum((self.activation[s] - self.mean_activity[s]) * self._gain(s)
+                  for s in srcs) / len(srcs)
+        return max(0.0, dev)
+
     # -- one integration + plasticity step (S2.2 / S2.4) ------------------
     def step(self, dt_ms: float = None) -> None:
         dt = params.DT_MS if dt_ms is None else dt_ms
@@ -141,9 +159,18 @@ class SubstrateEngine:
             # receptor; else the source nucleus's principal transmitter)
             for j in m.incoming.get(cid, ()):
                 if self.live_conn[j] and not self.pruned[j]:
-                    src = m.connections[j].source
-                    inp += (m.connections[j].sign * self.weight[j]
-                            * a[src] * self._gain(src))    # throttle: weak output drive
+                    k = m.connections[j]
+                    src = k.source
+                    # v14: a phasic/adapting edge transmits the source's DEVIATION above its running
+                    # baseline (mean_activity), floored at 0 -- for edges whose transmitter release is
+                    # phasic, not tonic (e.g. CeA-CRF->LC: CRF release fires on the event and adapts, it
+                    # does not clamp LC at CeA's plateau level). Same deviation the phasic teaching signal
+                    # uses. A tonic edge transmits the absolute level, as before.
+                    drive = (a[src] - self.mean_activity[src]) if k.phasic_drive else a[src]
+                    if drive < 0.0:
+                        drive = 0.0
+                    inp += (k.sign * self.weight[j]
+                            * drive * self._gain(src))    # throttle: weak output drive
             # sensory input edges (channel -> circuit), driven when the channel is injected
             for e in m.incoming_channel.get(cid, ()):
                 edge = m.input_edges[e]
@@ -175,7 +202,7 @@ class SubstrateEngine:
             corr = P.bcm_term(a_pre, a_post, self.theta[k.target])
             self.eligibility[j] = P.decay_eligibility(self.eligibility[j], dt,
                                                       k.eligibility_tau_ms) + corr
-            mod = self.neuromod_output(k.gating_neuromodulator)   # R5: circuit output
+            mod = self.neuromod_teaching(k.gating_neuromodulator)  # R5: PHASIC teaching signal (deviation above baseline)
             # S10.1: experience-decreasing plasticity. The nth relevant EXPERIENCE (episode, not
             # step -- committed once per settle()) of this connection carries ~1/n weight
             # (running average), so the developed weight naturally rigidifies -- no separate
