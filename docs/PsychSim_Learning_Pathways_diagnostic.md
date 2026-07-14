@@ -63,3 +63,46 @@ consequence, that's a finding to surface — not to force.
 
 **Nothing built.** Surfacing the diagnostic before any change, as ruled. Confirmed the three points (with the
 two clarifications); the build shape is above for your steer. How do you want to proceed?
+
+---
+
+## LOAD-BEARING CHECK (revised steer): does an NA teaching signal exist? — OUTCOME (ii)
+
+The revised steer (`PsychSim_Learning_Pathways_RevisedSteer.md`) corrected the build premise: the PFC→control
+edges are mostly **NA-gated** (`dmPFC→LA`, `vlPFC→ITC` = NA; `vmPFC→ITC` = DA; `vlPFC→STN` = none), so vicarious
+learning must route by **valence-matched neuromodulator** — DA for observed reward, **NA for observed
+punishment** — and NA is the only route that reaches the control edges. First task: verify an NA teaching
+signal exists. **Result: OUTCOME (ii) — the NA teaching-signal mechanism exists but its signal is INERT,
+because the NA source (LC) is unafferented. This is the same structural gap as the Part-1 PVN-OT hub.**
+
+**What exists (the mechanism is sound):**
+- `neuromod_source["NA"] = ["LC"]`; the R5-NMOD gate uses `neuromod_output("NA")` for NA-gated edges. Injecting
+  LC confirms the gate rises and **would reach the control edges**: LC 0→0.5→1.0 ⇒ `neuromod_output("NA")`
+  0.05→0.55→1.0 (which gates `dmPFC→LA` / `vlPFC→ITC` consolidation). So *if* LC rose with an aversive event,
+  the aversive teaching signal would tune the control edges — the mechanism is correct.
+- LC even has efferents (LC→LA/BA/CeA/dlPFC/IML — it distributes noradrenaline).
+
+**What's missing (the isolated gap):**
+- **`LC` has ZERO afferents** (no circuit, no channel). So it never rises: `neuromod_output("NA")` is flat at
+  0.050 under **every** aversive condition tested (nociception, CeA, provocation, CO2-acidosis). There is no
+  functional NA teaching signal.
+- Contrast — DA works: reward (sweet) drives VTA→0.71 and `neuromod_output("DA")` 0.049→0.382. DA is a valenced
+  reward teaching signal; NA is inert. **So aversive vicarious learning has nowhere to route** — the NA-gated
+  control edges are gated by a signal that never fires.
+- This is exactly the **PVN-OT unafferented-hub gap (Part 1)**: a neuromodulator hub wired to *distribute*
+  (efferents present) but not *driven* (afferents absent).
+
+**The upstream dependency (surfaced for a reviewer decision — NOT built, NOT forced):**
+Before aversive vicarious learning can be built (and the PFC loop unblocked), the substrate needs a functional
+NA teaching signal — i.e. **LC needs its grounded afferents: the aversive drivers of noradrenaline.** These are
+textbook and all present as circuits already: **`CeA→LC`** (central-amygdala threat-arousal drive of LC),
+**nociception / `PBN→LC`** (spino-parabrachial pain), **`NTS→LC`** (A2 visceral/autonomic). Completing them
+(cited, at band — the PVN-OT afferent-completion precedent) makes LC rise with aversive outcomes →
+`neuromod_output("NA")` becomes the aversive teaching signal → the NA-gated control edges tune toward inhibition
+→ the control-disposition forms → the loop unblocks.
+
+**Do NOT force:** re-gating the control edges to DA would be a false-mechanism dodge — they are NA-gated because
+threat-regulation learning is noradrenergic (correct anatomy). Per the steer, stop and report on outcome (ii):
+this phase surfaces a **further upstream dependency (the LC afferent completion)** that must be decided before
+the vicarious mechanism is built. The dependency chain: vicarious aversive learning → needs a functional NA
+teaching signal → needs LC to rise with aversive events → needs LC's (currently absent) afferents.
