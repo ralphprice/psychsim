@@ -78,28 +78,31 @@ class TestThrottleableSetIsSeedDerived(unittest.TestCase):
         # Both terms remain seed-derived and auto-extending; neither is an id list.
         tc = throttleable_circuits()
         self.assertGreater(len(tc), 20)                            # the affective/empathy net + PFC
-        for cid in tc:
-            c = _SUBSTRATE_MODEL.circuits[cid]
-            self.assertIn(c.domain, _THROTTLEABLE_DOMAINS)         # every member is in a queried domain
-            self.assertFalse(c.structural_element)                 # ...and is not a structural element
-        # derived, not curated: exactly the query over seed properties (domain AND structural_element)
+        for cid in tc:                                             # every member is in a queried domain
+            self.assertIn(_SUBSTRATE_MODEL.circuits[cid].domain, _THROTTLEABLE_DOMAINS)
+        # derived, not curated: exactly the query over the seed's domain tags
         expected = {cid for cid, c in _SUBSTRATE_MODEL.circuits.items()
-                    if c.domain in _THROTTLEABLE_DOMAINS and not c.structural_element}
+                    if c.domain in _THROTTLEABLE_DOMAINS}
         self.assertEqual(set(tc), expected)
 
-    def test_effectors_and_structural_elements_are_not_manipulation_surfaces(self):
-        # v14: the two exclusions, asserted as PROPERTIES of what they protect.
-        # (a) an EFFECTOR is not a reactivity dial -- and the expression display reads effectors precisely
-        #     BECAUSE the throttle must not contain them (otherwise the construct-validity tautology the
-        #     display exists to dissolve simply returns through the domain door).
-        # (b) a STRUCTURAL element is not a manipulation surface -- the alpha2 ruling one level up.
-        #     Throttling an inhibitory gate DISINHIBITS its target: a "less reactive" dial -> MORE output.
+    def test_effectors_are_not_a_scan_surface_but_structural_gates_remain_lesionable(self):
+        # v14 (ruled): THREE surfaces, and they are not the same act.
+        # (a) an EFFECTOR is excluded here -- the expression display reads effectors precisely BECAUSE the
+        #     throttle must not contain them; otherwise the construct-validity tautology the display exists
+        #     to dissolve simply returns through the domain door.
+        # (b) a STRUCTURAL gate REMAINS lesionable. The temperament throttle is a MODEL CLAIM (and a gate is
+        #     not a reactivity dial -- see test_temperament_does_not_throttle_structural_gates); the SCAN is
+        #     an EXPERIMENT, and silencing an interneuron is exactly the experiment that PROVED the dPAG gate
+        #     sets the escape threshold. Forbidding the manipulation we used as proof would be incoherent.
         tc = set(throttleable_circuits())
         for cid, c in _SUBSTRATE_MODEL.circuits.items():
             if c.domain == "motor_effector":
                 self.assertNotIn(cid, tc, f"{cid}: an effector is not a reactivity dial")
-            if c.structural_element:
-                self.assertNotIn(cid, tc, f"{cid}: a structural element is not a manipulation surface")
+        gates = [cid for cid, c in _SUBSTRATE_MODEL.circuits.items()
+                 if c.structural_element and c.domain in _THROTTLEABLE_DOMAINS]
+        self.assertTrue(gates)
+        for cid in gates:
+            self.assertIn(cid, tc, f"{cid}: a structural gate must stay LESIONABLE by the scan")
 
 
 class TestObjectiveIsPerSignatureNotBlended(unittest.TestCase):

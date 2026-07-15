@@ -149,8 +149,12 @@ class Circuit:
     calibration_active: bool = True
     sign: float = 1.0                 # +1 excitatory / -1 inhibitory (from transmitters)
     name: str = ""                    # descriptive only; never read by the dynamics
-    structural_element: bool = False  # v14: a STRUCTURAL element is NOT A MANIPULATION SURFACE -- it is
-    #                                   excluded from every throttle surface (temperament AND scan). The
+    structural_element: bool = False  # v14: a STRUCTURAL element is not a REACTIVITY DIAL. THREE surfaces,
+    #                                   and this property speaks to TWO: not a learned association
+    #                                   (plasticity -- pinned per-edge via weight_bounds), not a reactivity
+    #                                   dial (TEMPERAMENT -- seeding.seed_substrate skips these) -- but STILL
+    #                                   LESIONABLE (the scan is an experiment, not a claim; silencing a gate
+    #                                   is how its function was proven). The
     #                                   alpha2 ruling one level up: an autoreceptor/gate is a fixed regulatory
     #                                   element, not a learned association (so BCM must not depress it) and
     #                                   not a reactivity dial (so a throttle must not scale it). Throttling an

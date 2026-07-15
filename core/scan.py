@@ -111,8 +111,16 @@ def throttleable_circuits(model: Optional[SubstrateModel] = None) -> List[str]:
     affective/empathy network + PFC regulators. Not a curated list: adding a circuit to the seed in
     one of these domains automatically extends the set. Node-level (see MANIPULATION_SCOPE)."""
     m = model or load_substrate()
-    return sorted(cid for cid, c in m.circuits.items()
-                  if c.domain in _THROTTLEABLE_DOMAINS and not c.structural_element)
+    # v14 (ruled): `structural_element` circuits are DELIBERATELY NOT excluded here. The temperament
+    # throttle is a MODEL CLAIM (an assertion about what varies between individuals) and a gate is not a
+    # reactivity dial -- so seeding.seed_substrate excludes them. The SCAN is an EXPERIMENT (an assertion
+    # about nothing; a question), and LESIONING AN INTERNEURON IS EXACTLY THE EXPERIMENT THAT PROVED the
+    # dPAG gate sets the escape threshold (Stempel & Evans silenced VGAT+ dPAG optogenetically; we ran the
+    # same silence-the-element test ourselves). Forbidding here the very manipulation we used as proof would
+    # be incoherent -- and since every column has a gate, it would blind the scan to a whole class of
+    # phenotypes. Three surfaces, and the property speaks to two: not a learned association (plasticity),
+    # not a reactivity dial (temperament) -- but still lesionable.
+    return sorted(cid for cid, c in m.circuits.items() if c.domain in _THROTTLEABLE_DOMAINS)
 
 
 # ---------------------------------------------------------------------------

@@ -127,6 +127,34 @@ class TestPlasticity(unittest.TestCase):
             self.assertNotIn(banned, names, f"plasticity rule references '{banned}'")
 
 
+class TestTemperamentIsNotAGateDial(unittest.TestCase):
+    """v14 (ruled): the TEMPERAMENT throttle is a MODEL CLAIM about what varies between individuals -- and a
+    local inhibitory GATE is not a thing an individual is 'less of'. Throttling a gate DISINHIBITS its target,
+    so a 'less reactive' dial yields MORE output: directionally perverse. The alpha2 argument verbatim -- a
+    structural element is not a reactivity dial any more than it is a learned association. (The SCAN is a
+    different act -- an experiment, not a claim -- and gates stay lesionable there; see test_scan.)"""
+
+    def test_temperament_does_not_throttle_structural_gates(self):
+        from substrate.seeding import seed_substrate
+        low = {"THREAT": 0.1, "ANXIETY": 0.1, "SEEKING": 0.1, "FRUSTRATION": 0.1,
+               "CARE": 0.1, "SOCIAL_LOSS": 0.1, "CONTROL": 0.1, "INSTRUMENTAL_CONTROL": 0.1}
+        eng = SubstrateEngine(_MODEL, age_years=25.0)
+        seed_substrate(eng, low)                       # every dial at the floor
+        gates = [cid for cid, c in _MODEL.circuits.items() if c.structural_element]
+        self.assertTrue(gates)
+        for cid in gates:                              # no gate is touched by any dial...
+            self.assertEqual(eng.throttle.get(cid, 0.0), 0.0,
+                             f"{cid}: a structural gate must not be a reactivity dial")
+        # ...while the DRIVEN circuits of those same domains are throttled (the dial still works)
+        self.assertGreater(eng.throttle.get("CeA", 0.0), 0.0)
+
+    def test_the_gate_class_is_marked_in_the_seed_not_inferred_in_code(self):
+        # data, like dominant_receptor -- so the exclusion stays derived and never becomes an id list
+        gates = {cid for cid, c in _MODEL.circuits.items() if c.structural_element}
+        self.assertIn("ITC", gates)          # the extinction gate + the cell the PFC control route runs through
+        self.assertIn("dPAG-GABA", gates)    # the escape threshold
+
+
 class TestDevelopmentalGating(unittest.TestCase):
     def test_eta_high_early_low_adult(self):
         self.assertGreater(P.eta("amygdala_high_early", 2.0), P.eta("amygdala_high_early", 30.0))
