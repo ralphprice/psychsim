@@ -55,6 +55,10 @@ from agent_bank import AgentBank
 # the structural confinement boost. None is a valence or a rate of the plasticity schedule.
 _INITIAL_PRESENCE = "approach"     # co-presence, before anyone has acted -- a present, available other
 _TIE_STEP = 0.15                   # how fast the (descriptive) tie strain/affect accrues per act
+# v14: the bearer's own defensive population -- what an agent in distress DISPLAYS (CeA/PAG drive the
+# defensive display: freezing, vocalisation, body motion). Read BEARER-PURE and above the bearer's own
+# baseline; presented to a co-located perceiver as `vulnerable_other`. Anatomy, not a valuation.
+_DISTRESS_DISPLAY = ("CeA", "PAG", "BA")
 _CONFINE_REF = 3                   # below this many present affordances, forced proximity rises
 _CONFINE_BOOST = 0.12              # extra co-located FRACTION per missing affordance (structural)
 
@@ -291,6 +295,38 @@ def _add_signature_percept(percept: Dict[str, float], perceiver: AffectiveAgent,
         percept["kin_signature"] = percept.get("kin_signature", 0.0) + match
 
 
+def _add_consequence_percept(percept: Dict[str, float], perceiver: AffectiveAgent,
+                             bearer: AffectiveAgent) -> None:
+    """v14 (vicarious routing): the CONSEQUENCE that befell the other is presented to this agent the
+    same way the other's ACT and physical presentation already are -- as a PHYSICAL FACT through
+    channels that already exist. An agent in distress DISPLAYS it (body motion / face / voice); a
+    co-located perceiver's distal senses pick that display up. So: read the bearer's own EVOKED
+    distress -- its defensive population driven ABOVE its own running baseline, a BEARER-PURE fact
+    (the same phasic 'tonic cancels' logic the teaching signal uses: an agent at rest is not
+    displaying distress) -- and present it as the EXISTING `vulnerable_other` trigger, which routes
+    via IN-VIS:biological_motion -> SC-Pv -> CeA.
+
+    That route is the DISTAL/AFFECTIVE one only -- no sensory-discriminative component (direct pain
+    goes IN-SOMATO:nociception -> CeA AND VPL -> S1/S2; observing another's pain does not). That
+    structural dissociation is the faithful difference between vicarious and direct, and it is all
+    that is built here: NO vicarious<direct gain term and NO chosen cue intensity. The display
+    magnitude IS the bearer's evoked distress; whatever CeA drive results in the perceiver is what
+    results, and the vicarious/direct relationship is MEASURED, never assumed. The perceiver's
+    response emerges from its OWN circuits (felt_response -> CeA -> LC -> phasic NA), never a coded
+    other's-pain -> my-response coefficient. A bearer at rest displays nothing."""
+    eng = getattr(bearer, "engine", None)
+    if eng is None:
+        return
+    live = [c for c in _DISTRESS_DISPLAY if eng.live_circuit.get(c, False)]
+    if not live:
+        return
+    # bearer-pure: the bearer's defensive population ABOVE its own running baseline (evoked, not tonic)
+    evoked = sum(max(0.0, eng.activation.get(c, 0.0) - eng.mean_activity.get(c, 0.0))
+                 * eng._gain(c) for c in live) / len(live)
+    if evoked > 0.0:
+        percept["vulnerable_other"] = percept.get("vulnerable_other", 0.0) + min(1.0, evoked)
+
+
 @dataclass
 class _Tie:
     affect: float = 0.0
@@ -306,6 +342,7 @@ def _social_episode(agent: AffectiveAgent, other_agent: AffectiveAgent, other_la
     percept = _perceive(other_last_act)
     _add_physical_percept(percept, agent, other_agent)   # E2/E4: the other's endowment, sex-valued
     _add_signature_percept(percept, agent, other_agent)  # v14: the other's kin signature, self-matched
+    _add_consequence_percept(percept, agent, other_agent)  # v14: the other's DISPLAYED evoked distress
     fr = felt_response(agent.engine, percept, age_years,
                        getattr(agent, "_rest_baseline", None))
     if is_aggressive_act(fr.behaviour):
