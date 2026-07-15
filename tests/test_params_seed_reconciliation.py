@@ -40,7 +40,13 @@ _MODEL = load_substrate()
 # deviates from it must be individually GROUNDED + CITED and listed here, paired with its baseline.
 _SCAFFOLD_SETPOINT = 0.1
 _GROUNDED_SETPOINT_CIRCUITS = {
-    "LC",       # pacemaker rate 0.15 (Aston-Jones & Cohen 2005), paired with its grounded baseline
+    "LC",         # pacemaker rate 0.15 (Aston-Jones & Cohen 2005), paired with its grounded baseline
+    "dPAG-GABA",  # tonic escape-threshold gate: 0.19 = intrinsic 6.2 Hz (measured under SYNAPTIC BLOCKADE --
+                  # which is exactly what baseline_activation means) / 32.2 Hz dPAG strong-drive reference
+                  # (Stempel & Evans et al. 2024 Curr Biol, DOI 10.1016/j.cub.2024.05.068). Paired with its
+                  # baseline. Set from the electrophysiology BEFORE the floor was looked at -- not from what
+                  # restores it (the LC pacemaker ruling). It then restored the floor anyway, and independently
+                  # matched the paper's near-silent VGluT2+ output (0.11 Hz) at dPAG = 0.0000.
 }
 
 
@@ -116,7 +122,7 @@ class TestTwoSetPointsStaySeparate(unittest.TestCase):
         # setpoint change. That anti-tuning property is PRESERVED here -- a grounded fidelity correction
         # passes; "adjust a per-circuit setpoint until it works" FAILS.
         #
-        # LC (the first and currently only grounded deviation): its homeostatic_setpoint is its PACEMAKER
+        # LC (the FIRST grounded deviation; dPAG-GABA is the second -- see the list above): its setpoint is its PACEMAKER
         # RATE (0.15), grounded in the same electrophysiology as its baseline (Aston-Jones & Cohen 2005)
         # and PAIRED with it -- baseline_activation and homeostatic_setpoint describe ONE quantity (the
         # circuit's intrinsic target firing rate). At the default 0.1 the R4 homeostat fought the

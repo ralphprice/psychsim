@@ -861,7 +861,13 @@
     [
       "EMOTIONAL-CONTAGION LOOP -- stable ONLY because the display is phasic (v14, registered; do not act now). The vicarious routing creates a genuine CROSS-AGENT POSITIVE FEEDBACK loop: A's distress -> display -> B's CeA -> B's distress -> display -> A's CeA -> ... This is emotional contagion, a real phenomenon, and it is good that it exists. It does NOT run away (verified: arena viable 0.904, settled) because the display is PHASIC -- max(0, activation - mean_activity) adapts, so sustained distress stops being displayed and the loop gain falls to ZERO. That is the SAME phasic property that dissolved the CeA<->LC latch. CONSEQUENCE: the contagion loop's stability currently DEPENDS on the display's phasic adaptation, and whether the display SHOULD be phasic is itself an OPEN QUESTION (see the per-edge phasic-character entry). *** IF THE DISPLAY'S PHASIC CHARACTER IS EVER REVISED, THE CONTAGION LOOP MUST BE RE-CHECKED IN THE SAME CHANGE. *** A future non-adapting display removes the only thing currently damping this loop."
     ],
-    "CHRONIC DISTRESS BECOMES INVISIBLE -- the per-edge-phasic question applied to the DISPLAY (v14, registered; study-relevant; do not act now). Because the display is the bearer's evoked distress above its own RUNNING AVERAGE baseline, an agent in SUSTAINED distress ADAPTS and stops displaying -- so observers stop learning vicariously from it. MEASURED (bearer held at nociception 0.9): tick 18 CeA=1.000 display=0.474; tick 100 display=0.248; tick 200 display=0.043; tick 800+ CeA STILL 1.000 (maximum distress) but display=0.000 -- COMPLETELY invisible, not merely reduced. Display habituation is real, but people in sustained pain do not stop showing it ENTIRELY. Whether our display should adapt TO ZERO is the per-edge phasic-character question applied to the display. This bears DIRECTLY on the CHRONIC-ADVERSITY conditions the studies care about: a chronically distressed child that becomes invisible to observers -- and from whom others therefore stop learning -- is either a REAL phenomenon or an ARTIFACT of the adaptive baseline, and we do not currently know which. Resolve with the per-edge phasic-character question; re-check the contagion loop in the same change."
+    "CHRONIC DISTRESS BECOMES INVISIBLE -- the per-edge-phasic question applied to the DISPLAY (v14, registered; study-relevant; do not act now). Because the display is the bearer's evoked distress above its own RUNNING AVERAGE baseline, an agent in SUSTAINED distress ADAPTS and stops displaying -- so observers stop learning vicariously from it. MEASURED (bearer held at nociception 0.9): tick 18 CeA=1.000 display=0.474; tick 100 display=0.248; tick 200 display=0.043; tick 800+ CeA STILL 1.000 (maximum distress) but display=0.000 -- COMPLETELY invisible, not merely reduced. Display habituation is real, but people in sustained pain do not stop showing it ENTIRELY. Whether our display should adapt TO ZERO is the per-edge phasic-character question applied to the display. This bears DIRECTLY on the CHRONIC-ADVERSITY conditions the studies care about: a chronically distressed child that becomes invisible to observers -- and from whom others therefore stop learning -- is either a REAL phenomenon or an ARTIFACT of the adaptive baseline, and we do not currently know which. Resolve with the per-edge phasic-character question; re-check the contagion loop in the same change.",
+    "PRINCIPLE (v14 Expression Phase A -- record it): A PASSING KEYSTONE CERTIFIES THE OUTCOME, NOT THE MECHANISM THAT PRODUCED IT. An artifact can hold a keystone, and then the keystone certifies nothing. ALWAYS ASK WHAT IS HOLDING IT. Instance: the v9 NEUTRAL FLOOR (no provocation -> no aggression) -- of which the master says 'that last check is the load-bearing one... the floor holding is how the substrate proves it did not smuggle the answer in; this is the pattern every later keystone copies' -- was PASSING FOR THE WRONG REASON. It held because CeA->PAG(-,0.70) tonically suppressed a LUMPED node, while CeA's own citation (Tovote 2016) puts it on the FREEZING column: CeA does not project to dPAG at all. The floor's LOGIC was right; its MECHANISM was luck. It did NOT mean aggression was coded (the CeA->HYPdm half stands, untouched) -- it meant the check that would have caught it was not checking. The pattern every later keystone copies was itself resting on a lumped node.",
+    "PRINCIPLE 6 EXTENDED (v14, ruled): no grounded values into a partial assembly -- AND NO BEHAVIOURAL CHARACTERISATION FROM ONE EITHER. A known-incomplete assembly is expected to misbehave; characterising a flip it produces would be inventing a finding out of a gap. Instance: the adult provocation flip (restrain->aggress) was NOT a second result -- it had ONE cause with the floor flip (dPAG had lost an inhibitory input it should never have had, and nothing real had replaced it; the adult PFC brake's sufficiency was resting on the same artifact). Both resolved when the real element landed at its grounded rate. Neither was characterised.",
+    "DOMAIN IS A THROTTLE SURFACE (v14 -- standing hazard; joins the throttle-set audit as the same class of check). circuit.domain is not taxonomy: seed_substrate throttles BY DOMAIN, so every circuit's domain silently defines what a temperament dial reaches, and scan's _THROTTLEABLE_DOMAINS + the domain-mean read-outs key on it too. DOMAIN ASSIGNMENT IS A CONSTRUCT-VALIDITY DECISION. Caught in build: NuAmb-vocal/NuFac initially inherited `defensive_threat` from the PAG template -- a low-THREAT temperament would have throttled the FACIAL MOTOR NUCLEUS, making 'low-threat agents show less facial expression' TRUE BY CONSTRUCTION (the second construct-validity bug of the AFFECTIVE_EMPATHY class caught in this arc, both before they became findings). Fixed to interoception_autonomic (the effector limb). BUT branchiomotor nuclei have NO honest home in the seven domains: NuFac, NuAmb-vocal and the Phase-D cortical motor nodes need an EIGHTH domain -- motor/effector -- and IT MUST NOT BE REACHABLE BY A TEMPERAMENT DIAL. PHASE D PREREQUISITE; not built now.",
+    "A+B FALSIFICATION -- NARROWED, not re-opened (v14 Phase A). The falsification of the ruled A+B latch fix ran through BOTH CeA->PAG and CeA->HYPdm ('damping CeA disinhibits attack'). The HYPdm half SURVIVES; the PAG half DISSOLVES (CeA's cited projection is to the freezing column). So the CONCLUSION (B breaks the keystone) STANDS, on a NARROWER basis than recorded. BUT it was measured against a floor we now know was artifact-held, so the TEST should be re-run now the floor is restored honestly. Registered; B is NOT re-opened (not on this path).",
+    "PAG-PANIC LIKELY NEEDS ITS OWN GATE (v14 -- register for Phase B, do not build now). Stempel & Evans 2024 state the general architecture: 'Disinhibition of the PAG has been suggested as a mechanism for initiating other instinctive behaviours, such as VOCALISATIONS and freezing, with inhibitory long-range projections from forebrain regions inhibiting local GABAergic circuits within the PAG.' That is CeA->vlPAG-GABA arrived at independently from a different literature, and stated as the RULE: one architecture, every column -- a tonically-active local GABA gate, disinhibited by long-range forebrain inhibitory projections. Since the same sentence names VOCALISATION as disinhibition-initiated, PAG-PANIC (the model's self-declared vocalisation column) very likely needs its own gate. Belongs with the vocal limb (Phase B).",
+    "dPAG-GABA IN-NETWORK RATE RUNS ~2x THE OBSERVED (v14 Phase A -- reported, NOT tuned). Grounded baseline 0.19 (intrinsic 6.2 Hz under synaptic blockade / 32.2 Hz strong-drive reference). In the PAPER, synaptic input pushes the gate DOWN: intrinsic 6.2 Hz -> in-network spontaneous 4.7 Hz (= 0.146 normalised). In the MODEL it pushes UP: 0.19 -> settles 0.289 (~9.3 Hz), 2.0x the observed in-network rate -- because DRN->dPAG-GABA (5-HT2A, excitatory) is currently its ONLY input. DIRECTIONALLY WRONG: the real network dampens this cell; ours excites it. CANDIDATE: a missing inhibitory/other input to the gate. The floor holds regardless (dPAG=0.0000, matching the paper's near-silent VGluT2+ output at 0.11 Hz). Reported for the audit; NOT tuned."
   ],
   "circuits": [
     {
@@ -970,25 +976,88 @@
       "sources": "Davis et al. 2010; Walker & Davis 2008"
     },
     {
-      "id": "PAG",
-      "name": "Periaqueductal grey",
-      "domain": "defensive_threat",
-      "function": "Defensive output: freeze (vlPAG) / flight (dPAG)",
-      "nodes": "dorsal PAG / ventrolateral PAG",
-      "transmitters": "glutamate/GABA; opioids",
-      "baseline_activation": 0.05,
       "activation_bounds": [
         0.0,
         1.0
       ],
-      "time_constant_tau_ms": 200,
+      "baseline_activation": 0.05,
       "homeostatic_setpoint": 0.1,
       "developmental_online_age": 0.0,
-      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
       "calibration_active_default": true,
-      "confidence": "E",
+      "time_constant_tau_ms": 200,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "domain": "defensive_threat",
+      "transmitters": "glutamate/GABA; opioids",
       "evidence_base": "human+animal",
-      "sources": "Fanselow 1994; Tovote et al. 2016"
+      "confidence": "E",
+      "id": "vlPAG",
+      "name": "Periaqueductal grey, ventrolateral column",
+      "nodes": "ventrolateral PAG (vlPAG)",
+      "function": "PASSIVE-coping defensive output: freezing / quiescence / hyporeactivity. v14 Phase A: split out of the lumped `PAG`, whose own function field read \"Defensive output: freeze (vlPAG) / flight (dPAG)\" and whose nodes field read \"dorsal PAG / ventrolateral PAG\" -- two FUNCTIONALLY OPPOSITE columns carried as one node (the amygdala-subnuclei rule, self-declared). vlPAG and dPAG oppose: vlPAG = passive coping, dPAG = active coping.",
+      "sources": "Bandler & Shipley 1994; Tovote et al. 2016 (l/vlPAG -> freezing)"
+    },
+    {
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "baseline_activation": 0.05,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "calibration_active_default": true,
+      "time_constant_tau_ms": 200,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "domain": "defensive_threat",
+      "transmitters": "glutamate/GABA; opioids",
+      "evidence_base": "human+animal",
+      "confidence": "E",
+      "id": "dPAG",
+      "name": "Periaqueductal grey, dorsal/dorsolateral column",
+      "nodes": "dorsal / dorsolateral PAG (dl-lPAG)",
+      "function": "ACTIVE-coping defensive output: flight / escape / fight motor output. v14 Phase A: split out of the lumped `PAG` (see vlPAG). Opposes vlPAG: active vs passive coping.",
+      "sources": "Bandler & Shipley 1994; Tovote et al. 2016 (dlPAG activation -> flight); Wang et al. 2015; Falkner & Lin 2014"
+    },
+    {
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "developmental_online_age": 0.0,
+      "calibration_active_default": true,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "domain": "defensive_threat",
+      "evidence_base": "human+animal",
+      "id": "dPAG-GABA",
+      "name": "dPAG tonically-active GABAergic neurons",
+      "time_constant_tau_ms": 100,
+      "confidence": "E",
+      "transmitters": "GABAergic (VGAT+ dPAG local, tonically active)",
+      "nodes": "dorsal PAG VGAT+ neurons",
+      "baseline_activation": 0.19,
+      "homeostatic_setpoint": 0.19,
+      "function": "The tonically-active local GABAergic gate on dPAG output -- THE ESCAPE THRESHOLD. VGAT+ dPAG neurons fire action potentials TONICALLY IN THE ABSENCE OF SYNAPTIC INPUT (autonomous, like the LC pacemaker) and are the MAJOR SOURCE of inhibition to the VGluT2+ (glutamatergic, output) dPAG neurons; their activity SETS THE THRESHOLD for escape initiation (it dips at escape onset, rises during escape, peaks at termination). v14 Expression Phase A+: ADDED as the MISSING INHIBITORY ELEMENT (principle 1). The v9 neutral floor had been held by CeA->PAG(-) tonically suppressing a LUMPED node -- but CeA's own citation (Tovote 2016) puts it on the FREEZING column, and CeA does not project to dPAG at all. The floor was resting on the lumping; this is what actually restrains dPAG at rest. BASELINE GROUNDED IN THE ELECTROPHYSIOLOGY, NOT in what restores the floor: baseline_activation is the no-synaptic-input relaxation target, and the intrinsic rate measured UNDER SYNAPTIC BLOCKADE is 6.2 +/- 0.84 Hz; against the dPAG strong-drive reference (silicon-probe high-firing population, mean 32.2 +/- 7.0 Hz) that is 6.2/32.2 ~= 0.19. Its homeostatic_setpoint is PAIRED to that baseline (principle 10: baseline_activation and homeostatic_setpoint are ONE quantity -- a circuit's intrinsic target firing rate -- and are set together from the same citation; the generic 0.05/0.1 default pair breaks the moment one half is grounded). The relational fact holds: the GABAergic rate is far above the excitatory population, which is essentially SILENT at rest (VGluT2+ 0.11 +/- 0.068 Hz; 92.8% below 0.04 Hz). PROVISIONAL, like every baseline. ARCHITECTURE: the same source states the general rule -- \"Disinhibition of the PAG has been suggested as a mechanism for initiating other instinctive behaviours, such as vocalisations and freezing, with inhibitory long-range projections from forebrain regions inhibiting local GABAergic circuits within the PAG\" -- which is CeA->vlPAG-GABA arrived at independently. One architecture, every column: a tonically-active local GABA gate, disinhibited by long-range forebrain inhibitory projections.",
+      "sources": "Stempel & Evans et al. 2024 Curr Biol (DOI 10.1016/j.cub.2024.05.068) -- \"Tonically active GABAergic neurons in the dorsal periaqueductal gray control instinctive escape in mice\""
+    },
+    {
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "baseline_activation": 0.05,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "calibration_active_default": true,
+      "time_constant_tau_ms": 100,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "domain": "defensive_threat",
+      "transmitters": "GABAergic (vlPAG local interneuron)",
+      "evidence_base": "animal_dominant",
+      "confidence": "Em",
+      "id": "vlPAG-GABA",
+      "name": "vlPAG GABAergic interneurons",
+      "nodes": "ventrolateral PAG local GABAergic neurons",
+      "function": "vlPAG GABAergic interneuron population: it INHIBITS the vlPAG glutamatergic output, and the GABAergic long-projections from CeA (Tovote 2016) and BNST (Hao 2019) INHIBIT IT -- so those inputs DISINHIBIT vlPAG output. This is the target cell the CeA->PAG edge ALREADY CITED (Tovote et al. 2016) and did not implement: it resolves the standing tension that CeA->PAG is inhibitory AS A SYNAPSE (CeA is GABAergic) while the amygdala is among PAG's EXCITATORY controls AS A NET EFFECT ON OUTPUT. Both are true; they only contradicted while the target cell was unrepresented. Same motif as CeA-GABA (v14 Phase 1.1) and DRN-GABA (v13) -- the third instance; the recurring failure mode is LUMPING, not wrong signs.",
+      "sources": "Tovote et al. 2016 Nature 534:206 (CeA GABAergic -> vlPAG GABAergic interneurons -> disinhibits output -> freezing); Hao et al. 2019 Cell Rep 28:616 (BNST/LH GABAergic -> anterior vlPAG GABAergic cells)"
     },
     {
       "id": "HYPdm",
@@ -2335,11 +2404,11 @@
       "sources": "Saper & Stornetta 2015"
     },
     {
-      "id": "NuAmb",
-      "name": "Nucleus ambiguus",
+      "id": "NuAmb-cardiac",
+      "name": "Nucleus ambiguus, loose/external formation",
       "domain": "interoception_autonomic",
-      "function": "Parasympathetic CARDIAC outflow (rapid vagal brake on heart rate)",
-      "nodes": "nucleus ambiguus",
+      "function": "Parasympathetic CARDIAC outflow (rapid vagal brake on heart rate). v14 Phase A: RE-MARKED from `NuAmb` -- this node is correctly built but was mis-scoped, carrying the whole nucleus's name while its function, citation and both afferents (PVN, NTS) are purely cardiac. It is the loose/external formation. The laryngeal/vocal formation is now `NuAmb-vocal` (added). Nothing about this node moved. DOMAIN FLAG (v14 Phase A): carried in `interoception_autonomic` because that is where the effector limb lives (IML/SympOut/DMV/NuAmb) and Phase A adds NO NEW DOMAIN -- but this is a BRANCHIOMOTOR nucleus, not autonomic. The model has no motor/effector domain. CONSTRUCT-VALIDITY HAZARD: `interoception_autonomic` is in scan's _THROTTLEABLE_DOMAINS and feeds domain-mean read-outs, so a 'throttle interoception' manipulation would also throttle the face/voice. Registered for the audit; not acted on here.",
+      "nodes": "nucleus ambiguus, loose & external formations",
       "transmitters": "acetylcholine",
       "baseline_activation": 0.05,
       "activation_bounds": [
@@ -2601,6 +2670,48 @@
       "function": "CeA-lateral (CeL) GABAergic interneuron population: oxytocin EXCITES it (OTR), and it INHIBITS CeA (CeM) output -- so the NET OT effect on CeA output is inhibitory via an excitatory synapse onto an inhibitory cell (v14 Phase 1.1). Resolves the PVN-OT->CeA target-cell subtlety the honest way -- the missing inhibitory element -- rather than asserting OT excites CeA output. Parallel to the v13 DRN-GABA interneuron.",
       "nodes": "central amygdala lateral division (CeL) GABAergic neurons",
       "sources": "Knobloch et al. 2012 Neuron 73:553 (OT->CeL->CeM microcircuit gating fear output)"
+    },
+    {
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "baseline_activation": 0.05,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "calibration_active_default": true,
+      "time_constant_tau_ms": 200,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "domain": "interoception_autonomic",
+      "transmitters": "acetylcholine (branchiomotor)",
+      "evidence_base": "human+animal",
+      "confidence": "E",
+      "id": "NuAmb-vocal",
+      "name": "Nucleus ambiguus, compact/semicompact formation",
+      "nodes": "nucleus ambiguus, compact & semicompact formations",
+      "function": "LARYNGEAL/PHARYNGEAL branchiomotor outflow -- the common final effector for vocalisation, used by BOTH the involuntary/emotional and the voluntary pathways. v14 Phase A: ADDED (rename-and-add, not a split). The existing `NuAmb` was correctly built but MIS-SCOPED: its function, its citation (Saper & Stornetta 2015) and both its afferents (PVN, NTS) are purely CARDIAC -- it is the loose/external formation wearing the whole nucleus's name. There was nothing vocal inside it to divide. The vocal formation had NO existence in the model. DOMAIN FLAG (v14 Phase A): carried in `interoception_autonomic` because that is where the effector limb lives (IML/SympOut/DMV/NuAmb) and Phase A adds NO NEW DOMAIN -- but this is a BRANCHIOMOTOR nucleus, not autonomic. The model has no motor/effector domain. CONSTRUCT-VALIDITY HAZARD: `interoception_autonomic` is in scan's _THROTTLEABLE_DOMAINS and feeds domain-mean read-outs, so a 'throttle interoception' manipulation would also throttle the face/voice. Registered for the audit; not acted on here.",
+      "sources": "Holstege 2014; Jurgens 2002 (PAG -> NuAmb vocalisation); Saper & Stornetta 2015 (formations)"
+    },
+    {
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "baseline_activation": 0.05,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "calibration_active_default": true,
+      "time_constant_tau_ms": 200,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "domain": "interoception_autonomic",
+      "transmitters": "acetylcholine (branchiomotor)",
+      "evidence_base": "human+animal",
+      "confidence": "E",
+      "id": "NuFac",
+      "name": "Facial motor nucleus (VII)",
+      "nodes": "facial nucleus (CN VII)",
+      "function": "Facial branchiomotor outflow -- the CONVERGENCE POINT of the two descending expression pathways: the involuntary/emotional (extrapyramidal, limbic-driven) and the voluntary/volitional (pyramidal, corticobulbar) routes both terminate here. v14 Phase A: ADDED -- absent from the model entirely. It must exist before either pathway can reach it. Wired in Phases B (involuntary) and D (volitional). DOMAIN FLAG (v14 Phase A): carried in `interoception_autonomic` because that is where the effector limb lives (IML/SympOut/DMV/NuAmb) and Phase A adds NO NEW DOMAIN -- but this is a BRANCHIOMOTOR nucleus, not autonomic. The model has no motor/effector domain. CONSTRUCT-VALIDITY HAZARD: `interoception_autonomic` is in scan's _THROTTLEABLE_DOMAINS and feeds domain-mean read-outs, so a 'throttle interoception' manipulation would also throttle the face/voice. Registered for the audit; not acted on here.",
+      "sources": "Kuypers 1958; Rinn 1984; Morecraft et al. 2004"
     }
   ],
   "connections": [
@@ -2691,7 +2802,7 @@
     },
     {
       "source_circuit": "CeA",
-      "target_circuit": "PAG",
+      "target_circuit": "vlPAG-GABA",
       "default_weight": "moderate-strong",
       "default_weight_basis": "anatomy",
       "weight_bounds": [
@@ -2704,7 +2815,26 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 0.0,
       "confidence": "E",
-      "source": "innate defensive backbone; Tovote et al. 2016"
+      "source": "innate defensive backbone; Tovote et al. 2016. v14 Phase A -- TARGET CELL now explicit: CeA's GABAergic projection targets vlPAG GABAergic INTERNEURONS, which disinhibit the vlPAG glutamatergic output -> freezing. This is the mechanism the edge already cited and did not implement. The synapse is still INHIBITORY (GABA-A, now CITED rather than transmitter-fallback) and still 0.70 -- nothing about CeA's drive changed; only the target became explicit. Resolves the tension: inhibitory AS A SYNAPSE, excitatory AS A NET EFFECT ON OUTPUT.",
+      "dominant_receptor": "GABA-A"
+    },
+    {
+      "source_circuit": "vlPAG-GABA",
+      "target_circuit": "vlPAG",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "dominant_receptor": "GABA-A",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "source": "vlPAG local GABAergic interneurons INHIBIT the vlPAG glutamatergic output (GABA-A). This is the cell the CeA (Tovote et al. 2016) and BNST (Hao et al. 2019) GABAergic long-projections target -- inhibiting IT disinhibits vlPAG output. Band follows the closest structural precedent, CeA-GABA->CeA (strong): the same motif -- a local GABAergic interneuron gating its output nucleus. SCAFFOLD band, not tuned."
     },
     {
       "source_circuit": "CeA",
@@ -2759,7 +2889,7 @@
     },
     {
       "source_circuit": "BNST",
-      "target_circuit": "PAG",
+      "target_circuit": "vlPAG-GABA",
       "default_weight": "moderate",
       "default_weight_basis": "anatomy",
       "weight_bounds": [
@@ -2772,7 +2902,8 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 6.0,
       "confidence": "E",
-      "source": "anatomy"
+      "source": "BSTdm -> vlPAG (Gray & Magnuson 1992, retrograde). v14 Phase A -- TARGET CELL grounded, NOT taken off the transmitter fallback: the BNST -> anterior-vlPAG projection is GABAergic and targets vlPAG GABAergic CELLS (Hao et al. 2019 Cell Rep 28:616 -- suppressing anterior-vlPAG GABAergic cells, directly OR via the long-projection GABAergic input from BNST/LH, induces feeding). Same target-cell class as CeA (Tovote 2016) -> also DISINHIBITS vlPAG output. Sign -1 via CITED GABA-A. DISCLOSED: Hao establishes the projection + target cell in a FEEDING context (anterior vlPAG); this edge's function here is generic defensive \"anatomy\" -- the target cell is grounded, the functional context differs. FURTHER LUMPING (audit): \"anterior vlPAG\" is a sub-grain our single vlPAG node does not carry.",
+      "dominant_receptor": "GABA-A"
     },
     {
       "source_circuit": "BNST",
@@ -3020,7 +3151,7 @@
     },
     {
       "source_circuit": "SC-Pv",
-      "target_circuit": "PAG",
+      "target_circuit": "dPAG",
       "default_weight": "moderate",
       "default_weight_basis": "innate_reinforcer",
       "weight_bounds": [
@@ -3033,7 +3164,7 @@
       "is_innate_reinforcer_link": true,
       "developmental_online_age": 0.0,
       "confidence": "E",
-      "source": "PB-LOOMING (catalogue, cited)"
+      "source": "PB-LOOMING (catalogue, cited) | v14 Phase A -> dPAG: SC excitatory input mostly targets the DORSAL PAG, and vlPAG does not participate in UNCONDITIONED defence -- which is what a looming innate reinforcer is. *** POINT-1 FINDING, REPORTED NOT ACTED ON: threat reaches dPAG from deep medial SC via WEAK, UNRELIABLE synapses, so that only very salient/imminent threats fire dPAG -- the threat-imminence THRESHOLD lives in the synapse's weakness. This edge is 0.50 (moderate). That is a grounded QUALITATIVE weight statement (Point-1 class), not a tune -- but it is an innate-reinforcer link and moving it changes the looming response. CANDIDATE FOR ITS OWN REVIEWED PASS. ***"
     },
     {
       "source_circuit": "StN",
@@ -4811,7 +4942,7 @@
     },
     {
       "source_circuit": "VMH",
-      "target_circuit": "PAG",
+      "target_circuit": "vlPAG",
       "default_weight": "low-moderate",
       "default_weight_basis": "anatomy",
       "weight_bounds": [
@@ -4824,7 +4955,7 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 0.0,
       "confidence": "Em",
-      "source": "sexual-behaviour motor output via PAG; animal-dominant"
+      "source": "sexual-behaviour motor output via PAG; animal-dominant | v14 Phase A -> vlPAG: routed BY ITS CITED FUNCTION (the lordosis/sexual-behaviour motor output runs through the vlPAG column)."
     },
     {
       "source_circuit": "IN-INTERO",
@@ -5258,7 +5389,7 @@
     },
     {
       "source_circuit": "PVN",
-      "target_circuit": "NuAmb",
+      "target_circuit": "NuAmb-cardiac",
       "default_weight": "moderate",
       "default_weight_basis": "anatomy",
       "weight_bounds": [
@@ -5275,7 +5406,7 @@
     },
     {
       "source_circuit": "NTS",
-      "target_circuit": "NuAmb",
+      "target_circuit": "NuAmb-cardiac",
       "default_weight": "moderate",
       "default_weight_basis": "anatomy",
       "weight_bounds": [
@@ -5768,7 +5899,7 @@
     },
     {
       "source_circuit": "VMHvl",
-      "target_circuit": "PAG",
+      "target_circuit": "dPAG",
       "default_weight": "strong",
       "default_weight_basis": "anatomy",
       "weight_bounds": [
@@ -5781,7 +5912,7 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 0.0,
       "confidence": "Em",
-      "source": "SCAFFOLD weight; VMHvl->dPAG attack motor output (Wang et al. 2015; Falkner & Lin 2014)"
+      "source": "SCAFFOLD weight; VMHvl->dPAG attack motor output (Wang et al. 2015; Falkner & Lin 2014) | v14 Phase A -> dPAG: the edge's OWN source already named the column (\"VMHvl->dPAG attack motor output\"). Attack pathway UNTOUCHED -- same sign, same 0.85 band."
     },
     {
       "source_circuit": "VMHvl",
@@ -6098,7 +6229,7 @@
     },
     {
       "source_circuit": "DRN",
-      "target_circuit": "PAG",
+      "target_circuit": "vlPAG",
       "default_weight": "moderate",
       "default_weight_basis": "anatomy",
       "weight_bounds": [
@@ -6113,7 +6244,26 @@
       "confidence": "Em",
       "dominant_receptor": "5-HT1A",
       "dominant_receptor_basis": "5-HT1A (Gi) INHIBITORY (FLAGGED: PAG 5-HT 1A/2A mixed; 1A anxiolytic dampening taken) -- modulates defensive panic.",
-      "source": "v12b DRN 5-HT node. 5-HT1A (Gi) INHIBITORY (FLAGGED: PAG 5-HT 1A/2A mixed; 1A anxiolytic dampening taken) -- modulates defensive panic. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
+      "source": "v12b DRN 5-HT node. 5-HT1A (Gi) INHIBITORY (FLAGGED: PAG 5-HT 1A/2A mixed; 1A anxiolytic dampening taken) -- modulates defensive panic. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone. | v14 Phase A -> BOTH COLUMNS: a diffuse raphe modulator reaching both vlPAG and dPAG IS the documented character -- not a hedge. The 5-HT1A/2A RECEPTOR FLAG above is CARRIED ONTO BOTH. This edge now holds TWO disclosed ambiguities (receptor + column); both honest, both registered for the audit. # SCAFFOLD band (A3: no conservation -- the lumped 0.50 was a placeholder, not a measurement)"
+    },
+    {
+      "source_circuit": "DRN",
+      "target_circuit": "dPAG",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "5-HT1A",
+      "dominant_receptor_basis": "5-HT1A (Gi) INHIBITORY (FLAGGED: PAG 5-HT 1A/2A mixed; 1A anxiolytic dampening taken) -- modulates defensive panic.",
+      "source": "v12b DRN 5-HT node. 5-HT1A (Gi) INHIBITORY (FLAGGED: PAG 5-HT 1A/2A mixed; 1A anxiolytic dampening taken) -- modulates defensive panic. | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone. | v14 Phase A -> BOTH COLUMNS: a diffuse raphe modulator reaching both vlPAG and dPAG IS the documented character -- not a hedge. The 5-HT1A/2A RECEPTOR FLAG above is CARRIED ONTO BOTH. This edge now holds TWO disclosed ambiguities (receptor + column); both honest, both registered for the audit. # SCAFFOLD band (A3: no conservation -- the lumped 0.50 was a placeholder, not a measurement) || v14 FLAG RETIRED for this arm: the 1A/2A ambiguity is RESOLVED by the target cell -- 5-HT1A (Gi) acts DIRECTLY on the dPAG output (this edge, inhibitory), while 5-HT2A (Gq) acts on dPAG-GABA (the separate edge, excitatory onto the gate). Both inhibit escape. The column ambiguity for the vlPAG arm is unaffected and still flagged there."
     },
     {
       "source_circuit": "LHb",
@@ -6361,6 +6511,42 @@
       "dominant_receptor": "GABA-A",
       "dominant_receptor_basis": "GABA-A INHIBITORY -- CeL GABAergic interneurons inhibit CeA (CeM) output; makes the NET OT effect on CeA output inhibitory (Knobloch et al. 2012). Weight 'strong' (# SCAFFOLD): set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge -> net OT->CeA inhibitory; silence CeA-GABA and it flips net-excitatory (the red-if-broken proof it is anatomy, not a tuned sign). Parallel to DRN-GABA->DRN.",
       "source": "v14 Phase 1.1 -- CeL->CeM feed-forward inhibition (Knobloch 2012)."
+    },
+    {
+      "source_circuit": "dPAG-GABA",
+      "target_circuit": "dPAG",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "dominant_receptor": "GABA-A",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "The tonically-active VGAT+ dPAG population is the MAJOR SOURCE of synaptic inhibition to the VGluT2+ (glutamatergic, output) dPAG neurons -- this is the escape threshold itself. Local GABA_A antagonism in PAG makes a previously sub-threshold stimulus suprathreshold, i.e. this inhibitory tone is what holds the floor. SCAFFOLD band. Stempel & Evans et al. 2024 Curr Biol (DOI 10.1016/j.cub.2024.05.068) -- \"Tonically active GABAergic neurons in the dorsal periaqueductal gray control instinctive escape in mice\""
+    },
+    {
+      "source_circuit": "DRN",
+      "target_circuit": "dPAG-GABA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "dominant_receptor": "5-HT2A",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "v14: RESOLVES the standing \"PAG 5-HT 1A/2A mixed\" flag -- the resolution is the TARGET CELL, not the receptor. 5-HT2A agonists inhibit escape BY ACTIVATING THE GABAergic INTERNEURONS LOCATED IN THE dPAG (bicuculline blocks the anti-escape effect, proving the route). So 5-HT2A (Gq, EXCITATORY) onto the GATE -> NET INHIBITION of escape. Paired with DRN->dPAG on 5-HT1A (Gi, inhibitory) direct onto the output -> ALSO inhibition of escape. TWO RECEPTORS, OPPOSITE SIGNS, SAME BEHAVIOURAL OUTCOME -- because they land on DIFFERENT CELLS. The receptor-derived-sign convention is vindicated, not strained. SCAFFOLD band."
     }
   ]
 }

@@ -24,7 +24,12 @@ _MODEL = load_substrate()
 class TestInstantiation(unittest.TestCase):
     def test_loads_the_v9_substrate(self):
         m = _MODEL
-        self.assertEqual(len(m.circuits), 83)           # v14 P1.1: 82 (v13) + CeA-GABA (CeL) interneuron
+        # v14 Expression Phase A -- the DELTA, named (a pin that records a number is a speed bump; a pin
+        # that records WHY is a guard). 83 -> 88:  -PAG (lumped; its own function field named two opposite
+        # columns)  +vlPAG  +dPAG  +vlPAG-GABA (CeA's cited Tovote-2016 target cell)  +dPAG-GABA (the
+        # tonically-active escape-threshold gate, Stempel & Evans 2024)  +NuAmb-vocal  +NuFac.
+        # NuAmb -> NuAmb-cardiac is a RENAME (mis-scoped, not mixed) -- no count change.
+        self.assertEqual(len(m.circuits), 88)
         self.assertGreater(len(m.connections), 130)     # circuit->circuit edges
         self.assertGreater(len(m.input_edges), 15)      # sensory channel entry edges
         # inhibitory nuclei derived from principal transmitter (GABAergic)
@@ -41,7 +46,7 @@ class TestInstantiation(unittest.TestCase):
         young = SubstrateEngine(_MODEL, age_years=0.0)
         adult = SubstrateEngine(_MODEL, age_years=25.0)
         self.assertLess(len(young.live_circuits()), len(adult.live_circuits()))
-        self.assertEqual(len(adult.live_circuits()), 83)   # v14 P1.1: all 83 online by adulthood (+ CeA-GABA)
+        self.assertEqual(len(adult.live_circuits()), 88)   # v14 Phase A: all 88 online by adulthood (see the named delta above)
 
 
 class TestLeakyIntegrator(unittest.TestCase):

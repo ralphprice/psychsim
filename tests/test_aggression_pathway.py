@@ -81,17 +81,40 @@ class TestAggressionPathwayClosesOBS3(unittest.TestCase):
 
 
 class TestCeAInhibitionUntouched(unittest.TestCase):
-    """Guardrail proof: v9 does NOT dis-inhibit the attack effectors by hand -- the CeA->PAG and
-    CeA->HYPdm inhibitory edges are byte-identical to v8 (weight and inhibitory sign)."""
+    """Guardrail proof: v9 does NOT dis-inhibit the attack effectors by hand -- CeA is GABAergic and
+    its drive onto the defensive effectors is unaltered (inhibitory synapse, weight untouched).
+
+    v14 Phase A -- RE-EXPRESSED to what this guard PROTECTS, not what it literally asserted. It
+    previously pinned `CeA->PAG` byte-exactly; `PAG` has since been SPLIT (its own function field read
+    "Defensive output: freeze (vlPAG) / flight (dPAG)" -- two functionally opposite columns in one
+    node), and CeA's target cell is now explicit: CeA's GABAergic projection targets vlPAG GABAergic
+    INTERNEURONS (Tovote et al. 2016 -- the paper the edge already cited), which disinhibit the vlPAG
+    output. What the guard protected is UNCHANGED and still asserted here: (a) CeA is GABAergic, and
+    (b) the CeA->defensive-effector drive is byte-identical -- same inhibitory sign, same 0.70. Only
+    the target cell became explicit. A state pin is not a design guard (principle 11)."""
 
     def test_cea_to_attack_effectors_still_inhibitory_and_unchanged(self):
         conns = {(c.source, c.target): c for c in _MODEL.connections}
         self.assertEqual(_MODEL.circuits["CeA"].sign, -1.0)     # CeA is GABAergic (inhibitory)
-        for tgt in ("PAG", "HYPdm"):
+        # the defensive-effector drive: target now explicit (vlPAG-GABA), drive untouched
+        for tgt in ("vlPAG-GABA", "HYPdm"):
             edge = conns.get(("CeA", tgt))
             self.assertIsNotNone(edge, f"CeA->{tgt} missing")
+            self.assertLess(edge.sign, 0.0, f"CeA->{tgt} must stay an INHIBITORY synapse")
             # moderate-strong == 0.70 (params.WEIGHT_QUALITATIVE); the v8 value, untouched
             self.assertAlmostEqual(edge.weight0, 0.70, places=6)
+
+    def test_cea_reaches_the_vlpag_output_only_through_its_cited_target_cell(self):
+        # v14 Phase A: the Tovote 2016 mechanism is IMPLEMENTED, not merely cited -- CeA does not
+        # synapse on the vlPAG output directly; it acts through the interneuron, which inhibits vlPAG.
+        conns = {(c.source, c.target): c for c in _MODEL.connections}
+        self.assertIsNone(conns.get(("CeA", "vlPAG")), "CeA must reach vlPAG via vlPAG-GABA, not directly")
+        gate = conns.get(("vlPAG-GABA", "vlPAG"))
+        self.assertIsNotNone(gate, "the vlPAG-GABA -> vlPAG inhibitory gate must exist")
+        self.assertLess(gate.sign, 0.0)                        # interneuron inhibits the output
+        # net effect on vlPAG OUTPUT is DISINHIBITORY: (-1 onto the cell) x (-1 cell->output) = +1.
+        # Inhibitory as a synapse, excitatory as a net effect on output -- both true, no contradiction.
+        self.assertGreater(conns[("CeA", "vlPAG-GABA")].sign * gate.sign, 0.0)
 
 
 if __name__ == "__main__":

@@ -39,7 +39,7 @@ SOCIAL_LATERAL = 0.20
 SOCIAL_AFFORDANCES: Dict[str, tuple] = {
     "nurture":      ("PVN-OT", "MPOA", "SEPT"),           # affiliation / bonding
     "approach":     ("VTA", "NAc-core", "NAc-shell"),     # appetitive approach
-    "aggress":      ("VMHvl", "PAG", "HYPdm"),            # provocation->attack (reactive aggression): the
+    "aggress":      ("VMHvl", "dPAG", "HYPdm"),            # provocation->attack (reactive aggression): the
                                                           # hypothalamic attack area + effectors. NOT CeA --
                                                           # CeA is GABAergic and SUPPRESSES PAG/HYPdm, so its
                                                           # activation misread as attack-drive (v9 re-grounding)

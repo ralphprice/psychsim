@@ -58,7 +58,7 @@ _TIE_STEP = 0.15                   # how fast the (descriptive) tie strain/affec
 # v14: the bearer's own defensive population -- what an agent in distress DISPLAYS (CeA/PAG drive the
 # defensive display: freezing, vocalisation, body motion). Read BEARER-PURE and above the bearer's own
 # baseline; presented to a co-located perceiver as `vulnerable_other`. Anatomy, not a valuation.
-_DISTRESS_DISPLAY = ("CeA", "PAG", "BA")
+_DISTRESS_DISPLAY = ("CeA", "vlPAG", "BA")
 _CONFINE_REF = 3                   # below this many present affordances, forced proximity rises
 _CONFINE_BOOST = 0.12              # extra co-located FRACTION per missing affordance (structural)
 
