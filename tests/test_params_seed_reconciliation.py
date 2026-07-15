@@ -35,6 +35,14 @@ _SEED_PATH = os.path.join(_ROOT, "docs", "neuralnetworks", "psychsim_substrate_s
 _SEED = json.load(open(_SEED_PATH, encoding="utf-8"))
 _MODEL = load_substrate()
 
+# S2.5 firing-rate homeostasis: the SCAFFOLD default every circuit carries until its own physiology is
+# grounded (uniform-0.1 is a placeholder, NOT a grounding -- see the gaps register). Any circuit that
+# deviates from it must be individually GROUNDED + CITED and listed here, paired with its baseline.
+_SCAFFOLD_SETPOINT = 0.1
+_GROUNDED_SETPOINT_CIRCUITS = {
+    "LC",       # pacemaker rate 0.15 (Aston-Jones & Cohen 2005), paired with its grounded baseline
+}
+
 
 class TestSubstrateReadsFromSeed(unittest.TestCase):
     """The substrate is populated FROM the seed -- one source of truth (S1.3)."""
@@ -86,15 +94,57 @@ class TestTwoSetPointsStaySeparate(unittest.TestCase):
     """S2.5: the seed's firing-rate homeostatic_setpoint is a DIFFERENT quantity from the
     interoceptive body-variable set-points; the latter stay scaffold, never read from the seed."""
 
-    def test_seed_homeostatic_setpoint_is_uniform_firing_rate(self):
+    def test_seed_setpoints_are_per_circuit_firing_rates_not_body_variables(self):
+        # (a) THE SUBSTANTIVE S2.5 CLAIM: the seed's homeostatic_setpoint is PER-CIRCUIT firing-rate
+        # homeostasis -- "the target mean activity of a nucleus" (MASTER Part2 S2.5) -- consumed by
+        # R4-HOMEO. It is a DIFFERENT quantity from the interoceptive body-variable set-points, which
+        # stay scaffold in params and are never read from the seed.
         sps = {c.homeostatic_setpoint for c in _MODEL.circuits.values()}
-        self.assertEqual(len(sps), 1, "homeostatic_setpoint is firing-rate homeostasis (uniform)")
+        self.assertTrue(all(0.0 < s <= 1.0 for s in sps))          # firing-rate targets, per-circuit
+        body = {v["set_point"] for v in ae_params.STATE_VARIABLES.values()}
+        self.assertNotEqual(body, sps, "body set-points are a distinct quantity from the seed's firing rates")
+
+    def test_setpoint_deviations_from_the_scaffold_are_grounded_and_cited(self):
+        # (b) THE ANTI-TUNING GUARD (v14, design-session ruled).
+        # The old assertion was `len(setpoints) == 1` ("uniform"). That PINNED CURRENT STATE while
+        # wearing a design guard's name: S2.5 defines the setpoint as PER-CIRCUIT ("the target mean
+        # activity of a nucleus"), and uniformity held only because every circuit still carried the
+        # ungrounded scaffold default. Uniformity cannot be a design principle -- different nuclei have
+        # materially different intrinsic rates (LC pacemakers ~1-3 Hz tonic; DA neurons burst; cortical
+        # pyramidals far lower) -- and the uniform 0.1 default demonstrably produced an artifact (see
+        # LC, below). BUT the old guard had a real protective property: it caught ANY per-circuit
+        # setpoint change. That anti-tuning property is PRESERVED here -- a grounded fidelity correction
+        # passes; "adjust a per-circuit setpoint until it works" FAILS.
+        #
+        # LC (the first and currently only grounded deviation): its homeostatic_setpoint is its PACEMAKER
+        # RATE (0.15), grounded in the same electrophysiology as its baseline (Aston-Jones & Cohen 2005)
+        # and PAIRED with it -- baseline_activation and homeostatic_setpoint describe ONE quantity (the
+        # circuit's intrinsic target firing rate). At the default 0.1 the R4 homeostat fought the
+        # pacemaker: LC fires on aversive events -> mean_activity rises above 0.1 -> homeo eroded LC's
+        # afferents, so CeA->LC decayed IN PROPORTION TO THREAT EXPERIENCED (-7.4%/60k with events; 0.0%
+        # at 0.15). That would have silently biased the core warm-vs-harsh rearing comparison.
+        deviants = {cid for cid, c in _MODEL.circuits.items()
+                    if c.homeostatic_setpoint != _SCAFFOLD_SETPOINT}
+        self.assertEqual(deviants, _GROUNDED_SETPOINT_CIRCUITS,
+                         "a per-circuit setpoint deviating from the scaffold default must be explicitly "
+                         "GROUNDED + CITED and listed in _GROUNDED_SETPOINT_CIRCUITS; an unlisted "
+                         "deviation is a tune, not a grounding")
+        seed_circuits = {c["id"]: c for c in _SEED["circuits"]}
+        for cid in deviants:
+            self.assertIn("homeostatic_setpoint", seed_circuits[cid].get("function", ""),
+                          f"{cid}: a grounded setpoint must carry its grounding + citation in the seed")
+            # the paired-value rule: setpoint and baseline are the same quantity -> set together
+            self.assertEqual(_MODEL.circuits[cid].homeostatic_setpoint, _MODEL.circuits[cid].baseline,
+                             f"{cid}: a grounded setpoint must be PAIRED with its baseline")
 
     def test_interoceptive_setpoints_are_varied_and_not_the_seed_value(self):
         body = {v["set_point"] for v in ae_params.STATE_VARIABLES.values()}
         self.assertGreater(len(body), 1, "body-variable set-points are varied, not a single value")
-        seed_sp = next(iter({c.homeostatic_setpoint for c in _MODEL.circuits.values()}))
-        self.assertNotEqual(body, {seed_sp}, "body set-points must not be the seed's firing-rate value")
+        # v14: was `next(iter(seed_sps))` -- an arbitrary pick over a SET, non-deterministic the moment
+        # more than one setpoint exists (exposed by grounding LC's). Compare against the whole set.
+        seed_sps = {c.homeostatic_setpoint for c in _MODEL.circuits.values()}
+        self.assertTrue(body.isdisjoint(seed_sps),
+                        "body set-points must not be the seed's firing-rate values")
 
 
 class TestStateVectorGroundedInSubstrate(unittest.TestCase):
