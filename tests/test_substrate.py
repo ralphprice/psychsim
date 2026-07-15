@@ -29,7 +29,10 @@ class TestInstantiation(unittest.TestCase):
         # columns)  +vlPAG  +dPAG  +vlPAG-GABA (CeA's cited Tovote-2016 target cell)  +dPAG-GABA (the
         # tonically-active escape-threshold gate, Stempel & Evans 2024)  +NuAmb-vocal  +NuFac.
         # NuAmb -> NuAmb-cardiac is a RENAME (mis-scoped, not mixed) -- no count change.
-        self.assertEqual(len(m.circuits), 88)
+        # v14 Expression Phase B, 88 -> 89:  +NRA (nucleus retroambiguus) -- the PAG's premotor relay to the
+        # vocal motoneurons. The spec had wired PAG -> NuAmb-vocal DIRECTLY; that projection does not exist
+        # (Holstege: the PAG uses the NRA as a relay; kainic acid into NRA ABOLISHES PAG-induced vocalisation).
+        self.assertEqual(len(m.circuits), 89)
         self.assertGreater(len(m.connections), 130)     # circuit->circuit edges
         self.assertGreater(len(m.input_edges), 15)      # sensory channel entry edges
         # inhibitory nuclei derived from principal transmitter (GABAergic)
@@ -46,7 +49,7 @@ class TestInstantiation(unittest.TestCase):
         young = SubstrateEngine(_MODEL, age_years=0.0)
         adult = SubstrateEngine(_MODEL, age_years=25.0)
         self.assertLess(len(young.live_circuits()), len(adult.live_circuits()))
-        self.assertEqual(len(adult.live_circuits()), 88)   # v14 Phase A: all 88 online by adulthood (see the named delta above)
+        self.assertEqual(len(adult.live_circuits()), 89)   # v14 Phase B: all 89 online by adulthood (see the named delta above)
 
 
 class TestLeakyIntegrator(unittest.TestCase):

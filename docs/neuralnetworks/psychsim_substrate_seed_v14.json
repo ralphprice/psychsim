@@ -872,7 +872,15 @@
     "DERIVED SETS AUTO-EXTEND AND WILL SWALLOW WHAT IS ADDED AFTER THEM (v14 -- standing hazard, second instance of the domain-is-a-throttle-surface class). scan.throttleable_circuits() is DERIVED from domain tags and auto-extends -- a GOOD design (it prevents curation drift) and EXACTLY why it bit silently: Expression Phase A added NuFac/NuAmb-vocal into `interoception_autonomic` and they were enrolled into the throttleable set automatically, making 'low-interoception agents show less facial expression' TRUE BY CONSTRUCTION -- the same bug as AFFECTIVE_EMPATHY, one domain over. It would also have COLLAPSED the expression display's whole justification (Phase C reads effectors precisely BECAUSE the throttle does not contain them; the tautology would have returned through the domain door). RESOLVED for this instance by the `motor_effector` domain (excluded from _THROTTLEABLE_DOMAINS, unmapped by _TEMPERAMENT_DOMAIN) and the `structural_element` property (excluded from BOTH throttle surfaces -- temperament seeding AND scan search). GENERAL RULE: when adding a circuit, ask which derived sets will silently absorb it. Joins the throttle-set audit.",
     "THROTTLING AN INHIBITORY GATE IS DIRECTIONALLY PERVERSE -- SCOPE QUESTION OPEN (v14; dPAG-GABA RULED + fixed, the other five NOT actioned). Throttling a local inhibitory gate DISINHIBITS its target, so a 'less reactive' temperament dial yields MORE output. Measured, live: a low-THREAT/low-CONTROL temperament currently throttles CeA-GABA, DRN-GABA, vlPAG-GABA, dlPFC-GABA and vmPFC-GABA at 0.60 each -- i.e. a low-threat agent gets a DISINHIBITED CeA (more fear output) and a low-control agent a disinhibited PFC. dPAG-GABA is now pinned (structural_element); THE OTHER FIVE ARE NOT, pending a scope ruling: the alpha2 argument ('a structural element is not a manipulation surface') applies to the whole gate class, but the ruling named only dPAG-GABA (whose case is strongest -- an autonomous pacemaker with a grounded rate). NOTE a real distinction the ruling may want: the TEMPERAMENT throttle is a REACTIVITY DIAL (perverse on any gate) whereas the SCAN is a LESION SEARCH (lesioning an interneuron is a legitimate experiment) -- these may not warrant the same exclusion.",
     "*** THE TEMPERAMENT MODEL FUSES REACTIVITY AND REGULATION -- and the thesis's central construct is a dissociation between them (v14, ruled: REGISTER FOR ITS OWN PASS, do NOT act on it here; it is not on the expression path and must not balloon this level). WHY the temperament dial is perverse on gates at all: Rothbart's temperament construct has TWO components -- REACTIVITY and SELF-REGULATION -- and in this substrate the DRIVEN circuits ARE the reactivity while the GATES ARE the regulation. seed_substrate scales a whole DOMAIN uniformly, so it hits both: 'low THREAT' comes out as 'less reactive AND less regulated', which is not what it names and not what temperament is. THESIS-CRITICAL, not housekeeping: effortful control is itself a temperament construct in the CU literature; and more directly -- SOPHROSYNE (self-command) IS regulation while psychopathic disposition IS reactivity, so a high-functioning, adaptively-expressed disposition IS PRECISELY A REACTIVITY/REGULATION DISSOCIATION: low reactivity, HIGH self-command. THE CURRENT DIAL CANNOT EXPRESS THAT PHENOTYPE AT ALL, because one knob moves both. The model's central construct is a dissociation the temperament model fuses BY CONSTRUCTION. NEEDS: reactivity and regulation as SEPARATE surfaces. Belongs in the return-path register ABOVE the CU study. The expression work touches it from the other side -- the volitional suppressor is a regulation element too. INTERIM: the gate class is excluded from the temperament surface (structural_element), which stops the perversity but does NOT give regulation its own dial -- that is the pass this entry is for.",
-    "GATE CLASS -- the temperament exclusion, scoped (v14, ruled). structural_element now marks the whole class: ITC, CeA-GABA, vlPAG-GABA, dPAG-GABA, DRN-GABA, vmPFC-GABA, dlPFC-GABA. Per-circuit in the SEED with a reason each (data, like dominant_receptor) so the query stays DERIVED and never becomes a curated list. THREE SURFACES, and the property speaks to TWO: not a learned association (PLASTICITY -- pinned per-edge via weight_bounds), not a reactivity dial (TEMPERAMENT -- seed_substrate skips them) -- but STILL LESIONABLE (the SCAN is an experiment, not a claim; silencing VGAT+ dPAG is exactly the experiment that PROVED the gate sets the escape threshold, and we ran the same silence-the-element test ourselves; forbidding it would blind the scan to a whole class of phenotypes, since every column has a gate). NOTE the ITC case is the consequential one and was missed on the first sweep: it is the extinction gate AND the cell the entire prefrontal control route runs through (vmPFC->ITC / vlPFC->ITC exist because glutamatergic PFC cannot inhibit the amygdala directly), so throttling it made 'low-threat agents show impaired extinction' true by construction. (SC-Pv matched the pattern spuriously -- a sensory relay, not a gate. Not in scope.)"
+    "GATE CLASS -- the temperament exclusion, scoped (v14, ruled). structural_element now marks the whole class: ITC, CeA-GABA, vlPAG-GABA, dPAG-GABA, DRN-GABA, vmPFC-GABA, dlPFC-GABA. Per-circuit in the SEED with a reason each (data, like dominant_receptor) so the query stays DERIVED and never becomes a curated list. THREE SURFACES, and the property speaks to TWO: not a learned association (PLASTICITY -- pinned per-edge via weight_bounds), not a reactivity dial (TEMPERAMENT -- seed_substrate skips them) -- but STILL LESIONABLE (the SCAN is an experiment, not a claim; silencing VGAT+ dPAG is exactly the experiment that PROVED the gate sets the escape threshold, and we ran the same silence-the-element test ourselves; forbidding it would blind the scan to a whole class of phenotypes, since every column has a gate). NOTE the ITC case is the consequential one and was missed on the first sweep: it is the extinction gate AND the cell the entire prefrontal control route runs through (vmPFC->ITC / vlPFC->ITC exist because glutamatergic PFC cannot inhibit the amygdala directly), so throttling it made 'low-threat agents show impaired extinction' true by construction. (SC-Pv matched the pattern spuriously -- a sensory relay, not a gate. Not in scope.)",
+    "DOMAIN AGGREGATES ARE NOT OUTPUT MEASURES -- and they degrade on their own (v14, ruled: register, nothing to fix now). Demonstrated concretely by the gate-class golden shift: un-throttling the gates makes them MORE active -> MORE inhibition -> LESS defensive output -- yet the `defensive_threat` domain aggregate went UP (+0.010). THE AGGREGATE MOVED OPPOSITE TO THE THING IT IS NAMED AFTER. Cause: a mean-of-activation over a domain is not a measure of that domain's OUTPUT once the domain contains both the DRIVERS and their BRAKES -- a set whose members have OPPOSING SIGNS, summed as though commensurate. Same class as the AFFECTIVE_EMPATHY overlap and the domain-is-a-throttle-surface hazard: A SET WHOSE MEMBERS ARE NOT COMMENSURATE. NOT blocking today: the golden is a REGRESSION PIN (it must be stable and honestly regenerated, not semantically interpretable -- it is both); the study read-outs use CIRCUIT LISTS, not domain aggregates; and _domain_throttle takes a max over THROTTLE values, not activations. BUT IT GETS WORSE ON ITS OWN: the architecture is 'every column has a gate', so EVERY GATE ADDED MAKES EVERY DOMAIN AGGREGATE LESS INTERPRETABLE -- silently, and in the direction that FLATTERS. STANDING RULE: never read a domain mean as 'how much X is this agent'. If a per-domain OUTPUT measure is ever wanted it must be the DRIVEN MEMBERS ONLY, or drivers-minus-gates -- stated, not summed. Joins the throttle-set audit.",
+    "RESPIRATORY RHYTHM IS ITS OWN PASS -- vocalisation is currently UN-BREATH-GATED (v14 Phase B, ruled: register, do not build). preBotC is absent. It inhibits the NRA's vocal premotor population (RAmVOC) so that 'inspiration-needs OVERRIDE RAmVOC-mediated vocal-cord closure'; ablating that inhibition 'compromised inspiration gating of laryngeal adduction, resulting in DISCOORDINATION of vocalization with respiration'. *** NOT the third instance of the local-gate architecture -- that was an over-generalisation and is CORRECTED: vlPAG-GABA/dPAG-GABA are LOCAL, TONIC, AUTONOMOUS populations that set a THRESHOLD released by disinhibition; preBotC->RAmVOC is a REMOTE RHYTHM GENERATOR imposing a PRIORITY between incompatible motor acts (you cannot inhale and close the cords at once). Both are inhibition; one is a threshold, the other is a TRAFFIC RULE. A fourth inhibitory thing is not automatically the third instance of a pattern. *** SCOPE: preBotC is a rhythm generator (an autonomous pacemaker, the LC/dPAG-GABA class) and building it means building respiratory rhythm -- a SYSTEM, not a node. NOT load-bearing for Phase C (NRA is driven-only, nothing leaks; the display tracks PAG->NRA->NuAmb-vocal). What is lost is the breath rhythm: FIDELITY, NOT FLOOR. Also unmodelled: the INSPIRATORY PAG route -- 'PAG-induced inspiratory excitation remained even after the [NRA] injections... an additional pathway from the PAG to respiratory motoneurons other than through the NRA' -- so NRA carries the EXPIRATORY/vocal drive only.",
+    "PAG-PANIC STILL NEEDS ITS OWN LOCAL GATE -- the item STANDS (v14 Phase B, ruled). preBotC does NOT close it: preBotC gates the PREMOTOR (a traffic rule); the escape source names vocalisation explicitly among the behaviours 'initiated by DISINHIBITION... of local GABAergic circuits WITHIN THE PAG'. TWO MECHANISMS, TWO PLACES, BOTH REAL: PAG-PANIC should have a local tonic gate of its own AND preBotC should gate the NRA premotor. Do not treat either as the other.",
+    "dPAG LUMPS DORSOLATERAL + LATERAL -- the next split (v14 Phase B: register, do NOT act). The dl/l dissociation meets the grain test: different afferents, different outputs, different analgesia, and now a DIFFERENT PROJECTION TO NRA -- stimulation of the LATERAL and ventrolateral PAG generates vocalisation while the DORSOLATERAL produces hyperpneic tachypnea and does NOT project to NRA. Our dPAG is seeded 'dorsal PAG / flight' (Bandler's dl) yet carries VMHvl->dPAG for ATTACK, which is the LATERAL column's function -- so it is the dl-l COMPLEX, and dPAG->NRA is grounded via its lateral component only. THE MODEL CANNOT EXPRESS THAT THE DORSOLATERAL HALF DOES NOT PROJECT. NOT NOW: the split would re-open the aggression keystone (VMHvl->attack lands in the lateral column) -- bigger than expression needs. Same class as 'anterior vlPAG'. THE DORSOMEDIAL COLUMN IS UNREPRESENTED ENTIRELY -- register that too. TENSION RECORDED, NOT RESOLVED: a mouse separation-call literature puts the DORSOLATERAL PAG in the vocal route (dlPAG -> neurotensin+ NRA neurons), against the cat/monkey stimulation result -- species/paradigm difference.",
+    "THE DUAL PATHWAY IS EXPLICIT IN THE VOCAL DOMAIN -- Phase D wires to the MOTONEURONS, not into the PAG limb (v14 Phase B: register, do not build). 'They generate vocalization by activating the PREFRONTAL-PAG-NRA-MOTONEURONAL pathway, and, at the same time, they modulate this vocalization into words and sentences by activating the CORTICO-BULBAR FIBERS to the face, mouth, tongue, larynx and pharynx motoneurons.' TWO ROUTES TO THE SAME MOTONEURONS, stated in one sentence. The volitional route BYPASSES PAG AND NRA ENTIRELY and lands on the motoneuron pools directly -- consistent with NRA's afferent set being CLOSED above the pons (PAG only; 'not from any other suprapontine brain structure'), i.e. NO CORTICAL ROUTE REACHES NRA. So NuAmb-vocal and NuFac are BOTH convergence points, and Phase D's M1-face/PMC-l wire to them, never into the PAG limb.",
+    "THE CINGULATE MOTOR SPLIT + THE MISSING AMYGDALO-CINGULATE LINK (v14 Phase B: disclosed, registered, not acted on). The midcingulate contains TWO premotor FACE areas -- M3 (rostral) and M4 (caudal) (Morecraft et al. 2004) -- and Morecraft's cited emotional route is 'from the face-perception system THROUGH THE AMYGDALA to cingulate area M3, and from there, DIRECTLY TO THE FACIAL NUCLEUS', with 'a robust projection... from the lateral basal nucleus of the amygdala to... M3'. TWO GAPS: (1) our `dACC` node is nodes='dorsal ACC / mid-cingulate' but function='Conflict/error monitoring; effort; expected value of control' -- it LUMPS the COGNITIVE anterior cingulate with the MIDCINGULATE MOTOR areas M3/M4, so dACC->NuFac is grounded only via its midcingulate-motor component (same class as the PAG lump); (2) BA->dACC DOES NOT EXIST -- the cited amygdalo-cingulate link is absent, so the model's affective drive to dACC currently arrives via aIns->dACC instead of the cited BA->M3. The emotional route to the face is therefore built but its cited AFFERENT is not.",
+    "'UNEFFERENTED' NEEDS A SECOND QUESTION: HUB OR TERMINAL? (v14 Phase B -- corrects the Phase A dead-end table, which was mine.) A TERMINAL node SHOULD be unefferented: the body is not modelled as circuits. PAG was a HUB with no output -- a real gap. SympOut IS the output ('Sympathetic effector: cardiac, vascular, metabolic, adrenal'), like NuAmb-cardiac and DMV (both 0-out), and now like NuAmb-vocal/NuFac (their target is muscle). AdrenalCortex is the exception that PROVES the test -- it has efferents because CORTISOL RE-ENTERS THE BRAIN. THE TEST: does the node's product return to the modelled system? If yes it needs efferents; if no it is terminal and complete. The 'complete SympOut's efferent' item is STRUCK: Gross's suppression cost reads from SympOut's ACTIVATION, exactly as Phase C reads the expression effectors. The effector layer is READ, not traversed.",
+    "SCAN MANIPULATION SET vs SIGNATURE SET MUST BE DISJOINT -- becomes live at Phase C (v14: register, do not act; NOT ruled). `motor_effector` is currently excluded from the SCAN as well as from temperament. By the gate-class logic that looks WRONG -- lesioning is an experiment, and kainic acid into NRA is EXACTLY the experiment that proved the relay. But it does not turn on the domain: IT TURNS ON THE SIGNATURE SET. A SEARCH MUST NOT RANGE OVER THE NODES ITS OWN SIGNATURE READS. Once Phase C makes the display a read-out over NuFac/NuAmb-vocal, a scan free to lesion them would be searching for 'what reduces the display' by lesioning the display -- the construct-validity tautology in its purest form. THE RULE TO TEST THEN: a scan's manipulation set and its signature set must be DISJOINT. Joins the throttle-set audit -- same class."
   ],
   "circuits": [
     {
@@ -2695,13 +2703,34 @@
       "time_constant_tau_ms": 200,
       "plasticity_coeff_schedule_ref": "brainstem_low_flat",
       "domain": "motor_effector",
+      "evidence_base": "human+animal",
+      "id": "NRA",
+      "name": "Nucleus retroambiguus",
+      "confidence": "E",
+      "transmitters": "glutamate (premotor interneurons)",
+      "nodes": "nucleus retroambiguus (caudal medulla)",
+      "function": "The PAG's PREMOTOR RELAY to the vocal/expiratory motoneurons -- the missing link. THE PAG DOES NOT PROJECT DIRECTLY TO NUCLEUS AMBIGUUS: \"the PAG uses the NRA as a relay to excite the vocalization muscle motoneurons\" (Boers/Holstege 2002), and \"the NRA projects directly to the laryngeal and pharyngeal motoneurons in the nucleus ambiguus\" (Holstege 1989). NECESSARY BY LESION: bilateral kainic acid into NRA ABOLISHED PAG-induced vocalisation. Contains the vocalisation-specific laryngeal premotor population (RAmVOC), necessary and sufficient for vocal-cord closure, AND predominantly expiration-related neurons driving the intercostal/abdominal motoneurons -- the expiratory half of faciorespiratory coordination. AFFERENT SET IS CLOSED ABOVE THE PONS: the NRA \"receives strong projections from the lateral, ventrolateral, and to a lesser extent the dorsomedial part of the caudal midbrain PAG (Holstege 1989), BUT NOT FROM ANY OTHER SUPRAPONTINE BRAIN STRUCTURE (Holstege 1991)\" -- so PAG is its only forebrain input, and NO CORTICAL ROUTE REACHES IT (the volitional pathway bypasses PAG and NRA entirely and lands on the motoneuron pools direct -- Phase D wires there, not here). NOT a structural_element: a DRIVEN premotor relay, not a tonic gate. DISCLOSED -- NRA does NOT carry inspiration: \"PAG-induced inspiratory excitation remained even after the injections... an additional pathway from the PAG to respiratory motoneurons other than through the NRA is important for mediating PAG-induced inspiratory activation.\" That inspiratory route is UNMODELLED, and preBotC (which inhibits RAmVOC so inspiration overrides vocal-cord closure) is absent -- so VOCALISATION IS CURRENTLY UN-BREATH-GATED (fidelity, not floor: NRA is driven-only, nothing leaks). FORWARD (noted, NOT built): NRA is a COMBINATORIAL pool -- the PAG selects which premotor population fires, giving vocalisation, vomiting, coughing, sneezing, MATING POSTURE or childbirth. So v14 Phase 5's reproduction wiring already has its premotor node here, and VMH->vlPAG (the lordosis edge routed in Phase A) is the other half of that circuit. DOMAIN `motor_effector` = THE MOTOR LIMB -- PREMOTOR pools AND motoneuron pools, not merely \"terminal effectors\" (v14 Phase B, ruled). The domain exists so the DISPLAY IS NOT REACHABLE BY A TEMPERAMENT DIAL; a premotor node UPSTREAM of a motoneuron pool is dial-reachable-through, so leaving it in a throttleable domain would collapse the display's construct validity one synapse earlier -- the same failure, further back. Excluded from _THROTTLEABLE_DOMAINS and unmapped by _TEMPERAMENT_DOMAIN.",
+      "sources": "Holstege 1989 J Comp Neurol; Holstege 1991; VanderHorst & Holstege 2000 J Comp Neurol 424:251; Boers & Holstege 2002; Subramanian & Holstege; Science 2024 (RAmVOC)"
+    },
+    {
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "baseline_activation": 0.05,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "calibration_active_default": true,
+      "time_constant_tau_ms": 200,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "domain": "motor_effector",
       "transmitters": "acetylcholine (branchiomotor)",
       "evidence_base": "human+animal",
       "confidence": "E",
       "id": "NuAmb-vocal",
       "name": "Nucleus ambiguus, compact/semicompact formation",
       "nodes": "nucleus ambiguus, compact & semicompact formations",
-      "function": "LARYNGEAL/PHARYNGEAL branchiomotor outflow -- the common final effector for vocalisation, used by BOTH the involuntary/emotional and the voluntary pathways. v14 Phase A: ADDED (rename-and-add, not a split). The existing `NuAmb` was correctly built but MIS-SCOPED: its function, its citation (Saper & Stornetta 2015) and both its afferents (PVN, NTS) are purely CARDIAC -- it is the loose/external formation wearing the whole nucleus's name. There was nothing vocal inside it to divide. The vocal formation had NO existence in the model. DOMAIN (v14 Phase B step 0, ruled): `motor_effector` -- the EIGHTH domain, added because branchiomotor nuclei have no honest home in the other seven and, critically, because DOMAIN IS A THROTTLE SURFACE. scan.throttleable_circuits() is DERIVED from domain tags and AUTO-EXTENDS, so Phase A silently enrolled this node into the throttleable set via `interoception_autonomic` -- which would have made \"low-interoception agents show less facial expression\" TRUE BY CONSTRUCTION (the same construct-validity bug as AFFECTIVE_EMPATHY, one domain over). It would also have collapsed Phase C's justification: the display reads effectors precisely BECAUSE the throttle does not contain them. `motor_effector` is DELIBERATELY EXCLUDED from _THROTTLEABLE_DOMAINS and is not mapped by _TEMPERAMENT_DOMAIN -- an effector is not a reactivity dial. NuAmb-cardiac stays `interoception_autonomic`: it genuinely IS autonomic, and splitting the node is what made that distinction expressible.",
+      "function": "LARYNGEAL/PHARYNGEAL branchiomotor outflow -- the common final effector for vocalisation, used by BOTH the involuntary/emotional and the voluntary pathways. v14 Phase A: ADDED (rename-and-add, not a split). The existing `NuAmb` was correctly built but MIS-SCOPED: its function, its citation (Saper & Stornetta 2015) and both its afferents (PVN, NTS) are purely CARDIAC -- it is the loose/external formation wearing the whole nucleus's name. There was nothing vocal inside it to divide. The vocal formation had NO existence in the model. DOMAIN (v14 Phase B step 0, ruled): `motor_effector` -- the EIGHTH domain, added because branchiomotor nuclei have no honest home in the other seven and, critically, because DOMAIN IS A THROTTLE SURFACE. scan.throttleable_circuits() is DERIVED from domain tags and AUTO-EXTENDS, so Phase A silently enrolled this node into the throttleable set via `interoception_autonomic` -- which would have made \"low-interoception agents show less facial expression\" TRUE BY CONSTRUCTION (the same construct-validity bug as AFFECTIVE_EMPATHY, one domain over). It would also have collapsed Phase C's justification: the display reads effectors precisely BECAUSE the throttle does not contain them. `motor_effector` is DELIBERATELY EXCLUDED from _THROTTLEABLE_DOMAINS and is not mapped by _TEMPERAMENT_DOMAIN -- an effector is not a reactivity dial. NuAmb-cardiac stays `interoception_autonomic`: it genuinely IS autonomic, and splitting the node is what made that distinction expressible. DOMAIN `motor_effector` = THE MOTOR LIMB -- PREMOTOR pools AND motoneuron pools, not merely \"terminal effectors\" (v14 Phase B, ruled). The domain exists so the DISPLAY IS NOT REACHABLE BY A TEMPERAMENT DIAL; a premotor node UPSTREAM of a motoneuron pool is dial-reachable-through, so leaving it in a throttleable domain would collapse the display's construct validity one synapse earlier -- the same failure, further back. Excluded from _THROTTLEABLE_DOMAINS and unmapped by _TEMPERAMENT_DOMAIN.",
       "sources": "Holstege 2014; Jurgens 2002 (PAG -> NuAmb vocalisation); Saper & Stornetta 2015 (formations)"
     },
     {
@@ -2722,7 +2751,7 @@
       "id": "NuFac",
       "name": "Facial motor nucleus (VII)",
       "nodes": "facial nucleus (CN VII)",
-      "function": "Facial branchiomotor outflow -- the CONVERGENCE POINT of the two descending expression pathways: the involuntary/emotional (extrapyramidal, limbic-driven) and the voluntary/volitional (pyramidal, corticobulbar) routes both terminate here. v14 Phase A: ADDED -- absent from the model entirely. It must exist before either pathway can reach it. Wired in Phases B (involuntary) and D (volitional). DOMAIN (v14 Phase B step 0, ruled): `motor_effector` -- the EIGHTH domain, added because branchiomotor nuclei have no honest home in the other seven and, critically, because DOMAIN IS A THROTTLE SURFACE. scan.throttleable_circuits() is DERIVED from domain tags and AUTO-EXTENDS, so Phase A silently enrolled this node into the throttleable set via `interoception_autonomic` -- which would have made \"low-interoception agents show less facial expression\" TRUE BY CONSTRUCTION (the same construct-validity bug as AFFECTIVE_EMPATHY, one domain over). It would also have collapsed Phase C's justification: the display reads effectors precisely BECAUSE the throttle does not contain them. `motor_effector` is DELIBERATELY EXCLUDED from _THROTTLEABLE_DOMAINS and is not mapped by _TEMPERAMENT_DOMAIN -- an effector is not a reactivity dial. NuAmb-cardiac stays `interoception_autonomic`: it genuinely IS autonomic, and splitting the node is what made that distinction expressible.",
+      "function": "Facial branchiomotor outflow -- the CONVERGENCE POINT of the two descending expression pathways: the involuntary/emotional (extrapyramidal, limbic-driven) and the voluntary/volitional (pyramidal, corticobulbar) routes both terminate here. v14 Phase A: ADDED -- absent from the model entirely. It must exist before either pathway can reach it. Wired in Phases B (involuntary) and D (volitional). DOMAIN (v14 Phase B step 0, ruled): `motor_effector` -- the EIGHTH domain, added because branchiomotor nuclei have no honest home in the other seven and, critically, because DOMAIN IS A THROTTLE SURFACE. scan.throttleable_circuits() is DERIVED from domain tags and AUTO-EXTENDS, so Phase A silently enrolled this node into the throttleable set via `interoception_autonomic` -- which would have made \"low-interoception agents show less facial expression\" TRUE BY CONSTRUCTION (the same construct-validity bug as AFFECTIVE_EMPATHY, one domain over). It would also have collapsed Phase C's justification: the display reads effectors precisely BECAUSE the throttle does not contain them. `motor_effector` is DELIBERATELY EXCLUDED from _THROTTLEABLE_DOMAINS and is not mapped by _TEMPERAMENT_DOMAIN -- an effector is not a reactivity dial. NuAmb-cardiac stays `interoception_autonomic`: it genuinely IS autonomic, and splitting the node is what made that distinction expressible. DOMAIN `motor_effector` = THE MOTOR LIMB -- PREMOTOR pools AND motoneuron pools, not merely \"terminal effectors\" (v14 Phase B, ruled). The domain exists so the DISPLAY IS NOT REACHABLE BY A TEMPERAMENT DIAL; a premotor node UPSTREAM of a motoneuron pool is dial-reachable-through, so leaving it in a throttleable domain would collapse the display's construct validity one synapse earlier -- the same failure, further back. Excluded from _THROTTLEABLE_DOMAINS and unmapped by _TEMPERAMENT_DOMAIN.",
       "sources": "Kuypers 1958; Rinn 1984; Morecraft et al. 2004"
     }
   ],
@@ -4835,7 +4864,7 @@
       "source_circuit": "dACC",
       "target_circuit": "PAG-PANIC",
       "default_weight": "low-moderate",
-      "default_weight_basis": "assumption",
+      "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
         1.0
@@ -4846,7 +4875,7 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 5.0,
       "confidence": "Em",
-      "source": "'social pain': ACC drives distress on social loss (overlaps physical-pain ACC); contested interpretation; strength assumed"
+      "source": "'social pain': ACC drives distress on social loss (overlaps physical-pain ACC); contested interpretation; strength assumed || v14 Phase B -- RE-MARKED assumption -> anatomy. The marker had conflated \"the SOCIAL-PAIN INTERPRETATION is contested\" with \"the EDGE is assumed\". The EDGE is established backbone: the cingulo-periaqueductal vocalisation pathway -- \"one pathway runs from the anterior cingulate cortex via the periaqueductal gray into the reticular formation of pons and medulla, and from there to the phonatory motoneurons\"; the ACC \"plays a role in voluntary INITIATION of vocal behavior, while the PAG is involved in vocal GATING at a more elementary level\"; Jurgens placed the ACC \"at the apex of a hierarchical cingulo-periaqueductal pathway\", established over decades by tracing, stimulation, lesion and inactivation (Jurgens 1994/2002). Same shape as the v13 DRN re-mark. The SOCIAL-PAIN reading of this edge REMAINS contested and stays flagged; the weight remains SCAFFOLD. What changed is provenance, not the number."
     },
     {
       "source_circuit": "SEPT",
@@ -6559,6 +6588,96 @@
       "developmental_online_age": 0.0,
       "confidence": "E",
       "source": "v14: RESOLVES the standing \"PAG 5-HT 1A/2A mixed\" flag -- the resolution is the TARGET CELL, not the receptor. 5-HT2A agonists inhibit escape BY ACTIVATING THE GABAergic INTERNEURONS LOCATED IN THE dPAG (bicuculline blocks the anti-escape effect, proving the route). So 5-HT2A (Gq, EXCITATORY) onto the GATE -> NET INHIBITION of escape. Paired with DRN->dPAG on 5-HT1A (Gi, inhibitory) direct onto the output -> ALSO inhibition of escape. TWO RECEPTORS, OPPOSITE SIGNS, SAME BEHAVIOURAL OUTCOME -- because they land on DIFFERENT CELLS. The receptor-derived-sign convention is vindicated, not strained. SCAFFOLD band."
+    },
+    {
+      "source_circuit": "vlPAG",
+      "target_circuit": "NRA",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "dominant_receptor": "AMPA",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "The vocal limb, unambiguous arm: the NRA \"receives STRONG projections from the LATERAL, VENTROLATERAL... part of the caudal midbrain PAG\" and \"stimulatory activation of the lateral and ventrolateral PAG generates vocalization\" (Holstege 1989; VanderHorst & Holstege 2000). vlPAG IS the ventrolateral column. SCAFFOLD band."
+    },
+    {
+      "source_circuit": "dPAG",
+      "target_circuit": "NRA",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "dominant_receptor": "AMPA",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "The vocal limb, LATERAL arm -- DISCLOSED LUMP: NRA's input is from the LATERAL column, and the literature is specific that the DORSOLATERAL column produces hyperpneic tachypnea, NOT vocalisation. Our `dPAG` is seeded \"dorsal PAG / flight\" (Bandler's dl) but carries VMHvl->dPAG for ATTACK, which is the LATERAL column's function -- so dPAG is in fact the dl-l COMPLEX, and this edge is grounded via its LATERAL component. THE MODEL CANNOT CURRENTLY EXPRESS THAT THE DORSOLATERAL HALF DOES NOT PROJECT. Registered: the dl/l dissociation meets the grain test (different afferents, outputs, analgesia, and now a different NRA projection) -- dPAG is the next split, NOT now (it would re-open the aggression keystone). TENSION DISCLOSED: a mouse separation-call literature puts the DORSOLATERAL PAG in the vocal route (dlPAG -> neurotensin+ NRA neurons), against the cat/monkey stimulation result -- species/paradigm difference, recorded not resolved. SCAFFOLD band."
+    },
+    {
+      "source_circuit": "PAG-PANIC",
+      "target_circuit": "NRA",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "dominant_receptor": "AMPA",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "The cry finally OUTPUTS. VERIFIED, NOT INFERRED: \"separation-induced low-frequency vocalizations are produced by a neural circuit encompassing neurons in the PAG projecting to neurotensin-positive neurons in nucleus retroambiguus\", and \"the NRA is a hindbrain premotor region that regulates the production of BOTH ultrasonic vocalizations AND DISTRESS CALLS (squeaks)\". So the separation-distress call routes through the same common vocal premotor. Band `moderate` rather than `strong`: PAG-PANIC is our periventricular/ dorsomedial separation-distress column, and Holstege has NRA receiving from the dorsomedial PAG \"TO A LESSER EXTENT\" than the l/vl. SCAFFOLD band; the column mapping is disclosed, not measured."
+    },
+    {
+      "source_circuit": "NRA",
+      "target_circuit": "NuAmb-vocal",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "dominant_receptor": "AMPA",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "\"The NRA projects DIRECTLY to the laryngeal and pharyngeal motoneurons in the nucleus ambiguus in the lateral medulla\" (Holstege 1989; Boers 2002). NECESSARY BY LESION: bilateral kainic acid into NRA ABOLISHED PAG-induced vocalisation -- the same shape of proof as silencing the dPAG gate. This edge is what makes the emotional motor system EFFERENT for the first time. SCAFFOLD band."
+    },
+    {
+      "source_circuit": "dACC",
+      "target_circuit": "NuFac",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "dominant_receptor": "AMPA",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "THE EMOTIONAL ROUTE TO THE FACE. The midcingulate contains two premotor FACE areas -- M3 (rostral) and M4 (caudal) (Morecraft et al. 2004). \"A candidate pathway with strong anatomical support proceeds from the face-perception system through the AMYGDALA to cingulate area M3, and FROM THERE, DIRECTLY TO THE FACIAL NUCLEUS\"; M4 \"targets the lateral regions of the facial nucleus\". DISCLOSED LUMP (same class as PAG): our `dACC` node is seeded nodes=\"dorsal ACC / mid-cingulate\" but function=\"Conflict/error monitoring; effort; expected value of control\" -- i.e. it LUMPS the COGNITIVE anterior cingulate with the MIDCINGULATE MOTOR areas M3/M4. This edge is grounded via its midcingulate-motor component. Registered: the cingulate motor split, and the MISSING amygdalo-cingulate link -- Morecraft's cited route is BA -> M3 -> NuFac, and BA->dACC does NOT exist in the model (dACC's affective drive currently arrives via aIns->dACC instead). SCAFFOLD band."
     }
   ]
 }
