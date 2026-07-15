@@ -45,6 +45,8 @@ def seed_substrate(engine: SubstrateEngine, gains: Dict[str, float]) -> None:
         if deficit > dom_throttle.get(domain, 0.0):
             dom_throttle[domain] = deficit
     for cid, c in engine.model.circuits.items():
+        if c.structural_element:      # v14: a structural element is not a reactivity dial -- see Circuit
+            continue                  # (throttling a gate DISINHIBITS its target: directionally perverse)
         frac = dom_throttle.get(c.domain, 0.0)
         if frac > 0.0:
             engine.set_throttle(cid, frac)

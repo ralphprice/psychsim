@@ -38,6 +38,15 @@ from substrate.study import (punishment_learning, empathy_response,
 
 
 # The affective/empathy network + PFC regulators, as a STATED QUERY over the seed's domain tags.
+# v14 (ruled): `motor_effector` and `sensory` are DELIBERATELY ABSENT from this tuple -- the exclusion is
+# stated here so a later edit cannot re-add them by accident. THE DOMAIN IS A THROTTLE SURFACE: this set is
+# DERIVED from domain tags and AUTO-EXTENDS (see throttleable_circuits below), which is the right design --
+# it prevents curation drift -- but it means every circuit added to a listed domain silently becomes a
+# manipulation surface. Expression Phase A enrolled NuFac/NuAmb-vocal that way, which would have made "low-
+# interoception agents show less facial expression" TRUE BY CONSTRUCTION, and would have collapsed the
+# expression display's justification (it reads effectors precisely BECAUSE the throttle does not contain
+# them). An EFFECTOR is not a reactivity dial; a SENSOR is not either. Domain assignment is therefore a
+# CONSTRUCT-VALIDITY decision, not a taxonomy one.
 _THROTTLEABLE_DOMAINS = ("defensive_threat", "affiliation", "interoception_autonomic",
                          "social_cognition", "executive")
 
@@ -102,7 +111,8 @@ def throttleable_circuits(model: Optional[SubstrateModel] = None) -> List[str]:
     affective/empathy network + PFC regulators. Not a curated list: adding a circuit to the seed in
     one of these domains automatically extends the set. Node-level (see MANIPULATION_SCOPE)."""
     m = model or load_substrate()
-    return sorted(cid for cid, c in m.circuits.items() if c.domain in _THROTTLEABLE_DOMAINS)
+    return sorted(cid for cid, c in m.circuits.items()
+                  if c.domain in _THROTTLEABLE_DOMAINS and not c.structural_element)
 
 
 # ---------------------------------------------------------------------------

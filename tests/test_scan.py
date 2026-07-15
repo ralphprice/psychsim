@@ -67,15 +67,39 @@ class TestFoundNotFittedIsArchitectural(unittest.TestCase):
 
 
 class TestThrottleableSetIsSeedDerived(unittest.TestCase):
-    def test_set_is_a_query_over_seed_domains_not_a_literal_list(self):
+    def test_set_is_a_query_over_seed_properties_not_a_literal_list(self):
+        # v14 (Expression Phase B step 0, ruled) -- RE-EXPRESSED to what this guard PROTECTS: the set is
+        # DERIVED FROM SEED PROPERTIES, never a curated literal list (which is what would let it drift).
+        # The query gained a SECOND seed-read term. The old form queried `domain` alone -- and the domain
+        # query AUTO-EXTENDS, which is the right design (no curation drift) and is exactly why it bit
+        # silently: Expression Phase A added NuFac/NuAmb-vocal and they were enrolled automatically, making
+        # "low-interoception agents show less facial expression" true by construction. THE DOMAIN IS A
+        # THROTTLE SURFACE, so domain assignment is a construct-validity decision, not a taxonomy one.
+        # Both terms remain seed-derived and auto-extending; neither is an id list.
         tc = throttleable_circuits()
-        self.assertGreater(len(tc), 20)                            # ~48 (the affective/empathy net + PFC)
-        for cid in tc:                                            # every member is IN one of the queried domains
-            self.assertIn(_SUBSTRATE_MODEL.circuits[cid].domain, _THROTTLEABLE_DOMAINS)
-        # and every seed circuit in those domains is INCLUDED (derived, not curated)
+        self.assertGreater(len(tc), 20)                            # the affective/empathy net + PFC
+        for cid in tc:
+            c = _SUBSTRATE_MODEL.circuits[cid]
+            self.assertIn(c.domain, _THROTTLEABLE_DOMAINS)         # every member is in a queried domain
+            self.assertFalse(c.structural_element)                 # ...and is not a structural element
+        # derived, not curated: exactly the query over seed properties (domain AND structural_element)
         expected = {cid for cid, c in _SUBSTRATE_MODEL.circuits.items()
-                    if c.domain in _THROTTLEABLE_DOMAINS}
+                    if c.domain in _THROTTLEABLE_DOMAINS and not c.structural_element}
         self.assertEqual(set(tc), expected)
+
+    def test_effectors_and_structural_elements_are_not_manipulation_surfaces(self):
+        # v14: the two exclusions, asserted as PROPERTIES of what they protect.
+        # (a) an EFFECTOR is not a reactivity dial -- and the expression display reads effectors precisely
+        #     BECAUSE the throttle must not contain them (otherwise the construct-validity tautology the
+        #     display exists to dissolve simply returns through the domain door).
+        # (b) a STRUCTURAL element is not a manipulation surface -- the alpha2 ruling one level up.
+        #     Throttling an inhibitory gate DISINHIBITS its target: a "less reactive" dial -> MORE output.
+        tc = set(throttleable_circuits())
+        for cid, c in _SUBSTRATE_MODEL.circuits.items():
+            if c.domain == "motor_effector":
+                self.assertNotIn(cid, tc, f"{cid}: an effector is not a reactivity dial")
+            if c.structural_element:
+                self.assertNotIn(cid, tc, f"{cid}: a structural element is not a manipulation surface")
 
 
 class TestObjectiveIsPerSignatureNotBlended(unittest.TestCase):

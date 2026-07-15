@@ -149,6 +149,16 @@ class Circuit:
     calibration_active: bool = True
     sign: float = 1.0                 # +1 excitatory / -1 inhibitory (from transmitters)
     name: str = ""                    # descriptive only; never read by the dynamics
+    structural_element: bool = False  # v14: a STRUCTURAL element is NOT A MANIPULATION SURFACE -- it is
+    #                                   excluded from every throttle surface (temperament AND scan). The
+    #                                   alpha2 ruling one level up: an autoreceptor/gate is a fixed regulatory
+    #                                   element, not a learned association (so BCM must not depress it) and
+    #                                   not a reactivity dial (so a throttle must not scale it). Throttling an
+    #                                   inhibitory gate is DIRECTIONALLY PERVERSE: it DISINHIBITS the target,
+    #                                   so a "less reactive" dial yields MORE output. Read from the seed --
+    #                                   a PROPERTY, so the exclusion stays derived and auto-extends, never a
+    #                                   curated id list (which would reintroduce the curation drift the
+    #                                   domain query exists to prevent).
 
 
 @dataclass
@@ -232,6 +242,7 @@ def load_substrate(path: Optional[str] = None) -> SubstrateModel:
             schedule_ref=c.get("plasticity_coeff_schedule_ref", ""),
             calibration_active=bool(c.get("calibration_active_default", True)),
             sign=_sign(c.get("transmitters", "")),
+            structural_element=bool(c.get("structural_element", False)),
         )
 
     channel_ids = {ch.get("id") for ch in d.get("input_channels", [])}
