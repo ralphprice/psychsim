@@ -32,7 +32,12 @@ class TestInstantiation(unittest.TestCase):
         # v14 Expression Phase B, 88 -> 89:  +NRA (nucleus retroambiguus) -- the PAG's premotor relay to the
         # vocal motoneurons. The spec had wired PAG -> NuAmb-vocal DIRECTLY; that projection does not exist
         # (Holstege: the PAG uses the NRA as a relay; kainic acid into NRA ABOLISHES PAG-induced vocalisation).
-        self.assertEqual(len(m.circuits), 89)
+        # v14 Expression Phase B+, 89 -> 90:  +dACC-GABA -- the missing cortical feedback interneuron (principle
+        # 1). Grounding BA->dACC gave dACC real drive and it SATURATED (no local inhibition; 3 excitatory
+        # afferents), driving dlPFC to ceiling and manufacturing a 'divergence emerges' artifact. dACC-GABA is
+        # the cortical E/I brake (mirrors dlPFC-GABA; Ferguson & Gao 2018) -- FIRST of a systemic gap (the
+        # cortical brake layer is 2-of-11; gaps-register S18), not the last closed.
+        self.assertEqual(len(m.circuits), 90)
         self.assertGreater(len(m.connections), 130)     # circuit->circuit edges
         self.assertGreater(len(m.input_edges), 15)      # sensory channel entry edges
         # inhibitory nuclei derived from principal transmitter (GABAergic)
@@ -49,7 +54,7 @@ class TestInstantiation(unittest.TestCase):
         young = SubstrateEngine(_MODEL, age_years=0.0)
         adult = SubstrateEngine(_MODEL, age_years=25.0)
         self.assertLess(len(young.live_circuits()), len(adult.live_circuits()))
-        self.assertEqual(len(adult.live_circuits()), 89)   # v14 Phase B: all 89 online by adulthood (see the named delta above)
+        self.assertEqual(len(adult.live_circuits()), 90)   # v14 Phase B+: all 90 online by adulthood (+dACC-GABA online 5.0; see the named delta above)
 
 
 class TestLeakyIntegrator(unittest.TestCase):

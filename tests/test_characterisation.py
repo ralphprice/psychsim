@@ -20,6 +20,13 @@ DELIBERATE PHASE-0 BASELINE REFRAME ("8b.4", honesty migration #2): the legacy c
 SCORER and its `probe()` were removed. The baseline is now the EMERGENT read-out (develop ->
 classify over the Panksepp substrate), not the legacy category arbitration; the golden was
 regenerated to reflect this intended change.
+
+REGEN (v14 Expression Phase B+): the golden was regenerated because dACC-GABA -- the missing
+cortical feedback interneuron (principle 1) -- changed real cortical dynamics: its recurrent E-I
+loop pulls dlPFC OFF THE CEILING (silence-the-element test demonstrated the mechanism; lesion the
+gate and dlPFC runs hot to 1.000), and dACC->PAG-PANIC feeds the change back into development. The
+snapshot moved for a grounded, demonstrated reason -- not a tune. The pin did its job: it caught a
+real dynamics change and forced this deliberate regen.
 """
 
 import json
