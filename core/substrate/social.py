@@ -104,6 +104,32 @@ def resting_baseline(model, age_years: float = 25.0,
     return out
 
 
+_REST_CIRCUIT_CACHE: Dict[tuple, Dict[str, float]] = {}
+
+
+def rest_activation(model, age_years: float = 25.0,
+                    throttle: Optional[Dict[str, float]] = None) -> Dict[str, float]:
+    """The per-CIRCUIT tonic activation of an agent at rest (a fresh engine settled with no input) --
+    a FIXED neutral reference, unlike the engine's running mean_activity which ADAPTS to whatever the
+    agent has recently been doing. The v14 Expression Phase C displayed-distress effectors are read
+    above THIS: a face at rest displays nothing, and a chronically distressed face is still a
+    DISPLACED face -- whereas the running mean drifts up to the chronic level and hides it (the v14
+    'chronic distress goes invisible' flag, closed here at source). Memoised by (model, age,
+    throttle) exactly like resting_baseline -- deterministic, read-only, no behaviour change."""
+    key = (id(model), round(age_years, 3), frozenset((throttle or {}).items()))
+    cached = _REST_CIRCUIT_CACHE.get(key)
+    if cached is not None:
+        return dict(cached)
+    e = SubstrateEngine(model, age_years=age_years)
+    for cid, f in (throttle or {}).items():
+        e.set_throttle(cid, f)
+    e.clear_inputs()
+    e.settle(30)
+    out = {cid: e.activation.get(cid, 0.0) for cid in model.circuits}
+    _REST_CIRCUIT_CACHE[key] = dict(out)
+    return out
+
+
 def _phasic_drive(engine: SubstrateEngine, act: str, circuits: tuple,
                   baseline: Dict[str, float]) -> float:
     """How much the current situation moved this affordance's population ABOVE the agent's own
@@ -145,6 +171,16 @@ _TRIGGER_CHANNELS = {
     # affiliation (nepotism) then EMERGES from OT driving the Phase-1 bonding circuits. The cue is
     # self-similarity, NOT relatedness (relatedness only set the shared loci at spawn) -- the keystone.
     "kin_signature": [("IN-CONSPEC:kin_signature", 1.0)],
+    # v14 Expression Phase C: the bearer's DISPLAYED distress -- its facial (NuFac) and vocal
+    # (NuAmb-vocal) EFFECTOR output, read above rest -- presented on the senses that actually pick a
+    # face and a voice up. The face is SEEN (IN-VIS:face_like -> SC-Pv), the cry is HEARD
+    # (IN-AUD:voice -> A1-belt). TWO SEPARATE limbs, no crosstalk: the modality dissociation is
+    # architectural, so the perceiver's route differs by modality (the face's short subcortical
+    # SC-Pv->CeA road vs the cry's longer A1-belt->LA->CeA cortical one) -- emergent, not coded.
+    # (The ruling named IN-CONSPEC:face_like; that channel has no edges -- the real distress-face
+    # channel is IN-VIS:face_like -> SC-Pv, the same one the appraisal path and observer probe use.)
+    "displayed_distress_face": [("IN-VIS:face_like", 1.0)],
+    "displayed_distress_cry":  [("IN-AUD:voice", 1.0)],
 }
 
 

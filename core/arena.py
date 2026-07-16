@@ -45,7 +45,7 @@ from affective_engine.development import live_stimulus
 from affective_engine.physical import physical_stimulus, sex_weight
 from affective_engine.signature import signature_match
 from affective_engine.activities import sample_activity
-from substrate.social import is_cohesive_act, is_aggressive_act, felt_response
+from substrate.social import is_cohesive_act, is_aggressive_act, felt_response, rest_activation
 from sim_world.environment_matrix import Thing, default_things, birth_matrix, encounter
 from sim_world.group_matrix import (GroupMatrix, default_groups, group_encounter,
                                     sample_encounter_type)
@@ -55,10 +55,17 @@ from agent_bank import AgentBank
 # the structural confinement boost. None is a valence or a rate of the plasticity schedule.
 _INITIAL_PRESENCE = "approach"     # co-presence, before anyone has acted -- a present, available other
 _TIE_STEP = 0.15                   # how fast the (descriptive) tie strain/affect accrues per act
-# v14: the bearer's own defensive population -- what an agent in distress DISPLAYS (CeA/PAG drive the
-# defensive display: freezing, vocalisation, body motion). Read BEARER-PURE and above the bearer's own
-# baseline; presented to a co-located perceiver as `vulnerable_other`. Anatomy, not a valuation.
-_DISTRESS_DISPLAY = ("CeA", "vlPAG", "BA")
+# v14 Expression Phase C: what an agent in distress DISPLAYS is its EFFERENT motor output -- the FACE
+# (NuFac) and the VOICE (NuAmb-vocal), the emotional-expression effectors -- NOT its internal affective
+# circuits (a co-located perceiver cannot see a CeA; the old (CeA, vlPAG, BA) display was reading the
+# drive, not the expression). Each effector is presented on the sense that picks it up: the face is
+# SEEN, the cry is HEARD. Read above the bearer's FIXED rest activation (rest_activation), never the
+# running mean_activity -- so a CHRONICALLY distressed face stays visible (the running mean adapts to
+# sustained distress and hides it: the v14 'chronic distress goes invisible' flag, closed here at
+# source). Efferent + terminal + perceived-through-the-right-sense = the honest display. Each entry is
+# (effector circuit, the perception-channel trigger it presents on). Anatomy, not a valuation.
+_DISTRESS_DISPLAY = (("NuFac", "displayed_distress_face"),
+                     ("NuAmb-vocal", "displayed_distress_cry"))
 _CONFINE_REF = 3                   # below this many present affordances, forced proximity rises
 _CONFINE_BOOST = 0.12              # extra co-located FRACTION per missing affordance (structural)
 
@@ -297,34 +304,41 @@ def _add_signature_percept(percept: Dict[str, float], perceiver: AffectiveAgent,
 
 def _add_consequence_percept(percept: Dict[str, float], perceiver: AffectiveAgent,
                              bearer: AffectiveAgent) -> None:
-    """v14 (vicarious routing): the CONSEQUENCE that befell the other is presented to this agent the
-    same way the other's ACT and physical presentation already are -- as a PHYSICAL FACT through
-    channels that already exist. An agent in distress DISPLAYS it (body motion / face / voice); a
-    co-located perceiver's distal senses pick that display up. So: read the bearer's own EVOKED
-    distress -- its defensive population driven ABOVE its own running baseline, a BEARER-PURE fact
-    (the same phasic 'tonic cancels' logic the teaching signal uses: an agent at rest is not
-    displaying distress) -- and present it as the EXISTING `vulnerable_other` trigger, which routes
-    via IN-VIS:biological_motion -> SC-Pv -> CeA.
+    """v14 (vicarious routing) + Phase C (the display is the EFFECTOR output): the CONSEQUENCE that
+    befell the other is presented to this agent as a PHYSICAL FACT through channels that already
+    exist. An agent in distress DISPLAYS it on its emotional-expression EFFECTORS -- the FACE
+    (`NuFac`) and the VOICE (`NuAmb-vocal`), the efferent motor output a perceiver can actually
+    sense, NOT the internal affective circuits (a co-located perceiver cannot see a CeA). The
+    perceiver's distal senses pick that display up on SEPARATE limbs: the face is SEEN
+    (`displayed_distress_face` -> IN-VIS:face_like -> SC-Pv -> CeA), the cry is HEARD
+    (`displayed_distress_cry` -> IN-AUD:voice -> A1-belt -> LA -> CeA). The two routes DIFFER by
+    modality (a short subcortical road for the face, a longer cortical one for the cry) -- emergent,
+    not coded; and the bearer-side dissociation (pain drives the face, separation drives the voice)
+    means each consequence tends to present on its own limb.
 
-    That route is the DISTAL/AFFECTIVE one only -- no sensory-discriminative component (direct pain
-    goes IN-SOMATO:nociception -> CeA AND VPL -> S1/S2; observing another's pain does not). That
-    structural dissociation is the faithful difference between vicarious and direct, and it is all
-    that is built here: NO vicarious<direct gain term and NO chosen cue intensity. The display
-    magnitude IS the bearer's evoked distress; whatever CeA drive results in the perceiver is what
-    results, and the vicarious/direct relationship is MEASURED, never assumed. The perceiver's
-    response emerges from its OWN circuits (felt_response -> CeA -> LC -> phasic NA), never a coded
-    other's-pain -> my-response coefficient. A bearer at rest displays nothing."""
+    Read each effector's output ABOVE THE BEARER'S FIXED REST activation (`rest_activation`), never
+    the running mean_activity: a face at rest displays nothing (activation ~= rest), and a
+    displaced face displays its displacement ACUTE OR CHRONIC. The fixed reference is what keeps a
+    CHRONICALLY distressed face visible -- the running mean adapts to sustained distress and would
+    hide it (the v14 'chronic distress goes invisible' flag, closed here at source).
+
+    NO vicarious<direct gain term and NO chosen cue intensity: the display magnitude IS the bearer's
+    evoked effector output; whatever response results in the perceiver is what results, MEASURED not
+    assumed. The perceiver's response emerges from its OWN circuits (felt_response). The route is the
+    DISTAL/AFFECTIVE one only -- neither the seen face nor the heard cry carries the
+    sensory-discriminative component direct pain has (IN-SOMATO:nociception -> VPL -> S1/S2), which
+    is the structural whole of the vicarious/direct difference. A bearer at rest displays nothing."""
     eng = getattr(bearer, "engine", None)
     if eng is None:
         return
-    live = [c for c in _DISTRESS_DISPLAY if eng.live_circuit.get(c, False)]
-    if not live:
-        return
-    # bearer-pure: the bearer's defensive population ABOVE its own running baseline (evoked, not tonic)
-    evoked = sum(max(0.0, eng.activation.get(c, 0.0) - eng.mean_activity.get(c, 0.0))
-                 * eng._gain(c) for c in live) / len(live)
-    if evoked > 0.0:
-        percept["vulnerable_other"] = percept.get("vulnerable_other", 0.0) + min(1.0, evoked)
+    rest = rest_activation(eng.model, eng.age_years, eng.throttle)
+    for effector, trigger in _DISTRESS_DISPLAY:
+        if not eng.live_circuit.get(effector, False):
+            continue
+        # the effector's output above the bearer's FIXED rest -- the face/voice displaced from neutral
+        displayed = (eng.activation.get(effector, 0.0) - rest.get(effector, 0.0)) * eng._gain(effector)
+        if displayed > 0.0:
+            percept[trigger] = percept.get(trigger, 0.0) + min(1.0, displayed)
 
 
 @dataclass
