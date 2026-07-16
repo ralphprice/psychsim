@@ -27,6 +27,14 @@ loop pulls dlPFC OFF THE CEILING (silence-the-element test demonstrated the mech
 gate and dlPFC runs hot to 1.000), and dACC->PAG-PANIC feeds the change back into development. The
 snapshot moved for a grounded, demonstrated reason -- not a tune. The pin did its job: it caught a
 real dynamics change and forced this deliberate regen.
+
+REGEN (v14 Expression Phase D): regenerated again because PAG-PANIC-GABA -- the vocal suppressor's
+interneuron, forced by the receptor-sign convention (a cortical glutamatergic suppressor cannot
+inhibit directly) -- adds tonic inhibition to PAG-PANIC from birth (PAG-PANIC-GABA -| PAG-PANIC,
+online 0.0), lowering PAG-PANIC's resting activation 0.141 -> 0.053 (demonstrated: remove the 3
+Phase-D circuits and it returns to 0.141). ONLY the `develop` section moved (relations/group/
+environment unchanged). A grounded, demonstrated dynamics change -- not a tune; the gate's band was
+inherited byte-for-byte from the vlPAG-GABA twin.
 """
 
 import json

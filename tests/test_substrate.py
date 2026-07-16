@@ -37,7 +37,11 @@ class TestInstantiation(unittest.TestCase):
         # afferents), driving dlPFC to ceiling and manufacturing a 'divergence emerges' artifact. dACC-GABA is
         # the cortical E/I brake (mirrors dlPFC-GABA; Ferguson & Gao 2018) -- FIRST of a systemic gap (the
         # cortical brake layer is 2-of-11; gaps-register S18), not the last closed.
-        self.assertEqual(len(m.circuits), 90)
+        # v14 Expression Phase D, 90 -> 93:  +M1-face +PMC-l (the VOLITIONAL/pyramidal route -- the model's first
+        # motor output; M1-face->NuFac/NuAmb-vocal corticobulbar = the posed expression + the crosstalk that
+        # tests S22) and +PAG-PANIC-GABA (the vocal suppressor's interneuron; PMC-l -> PAG-PANIC-GABA -| PAG-PANIC
+        # -- forced by the receptor-sign convention, a cortical glutamatergic suppressor cannot inhibit directly).
+        self.assertEqual(len(m.circuits), 93)
         self.assertGreater(len(m.connections), 130)     # circuit->circuit edges
         self.assertGreater(len(m.input_edges), 15)      # sensory channel entry edges
         # inhibitory nuclei derived from principal transmitter (GABAergic)
@@ -54,7 +58,7 @@ class TestInstantiation(unittest.TestCase):
         young = SubstrateEngine(_MODEL, age_years=0.0)
         adult = SubstrateEngine(_MODEL, age_years=25.0)
         self.assertLess(len(young.live_circuits()), len(adult.live_circuits()))
-        self.assertEqual(len(adult.live_circuits()), 90)   # v14 Phase B+: all 90 online by adulthood (+dACC-GABA online 5.0; see the named delta above)
+        self.assertEqual(len(adult.live_circuits()), 93)   # v14 Phase D: all 93 online by adulthood (+M1-face/PMC-l online 5.0, +PAG-PANIC-GABA online 0.0; see the named delta above)
 
 
 class TestLeakyIntegrator(unittest.TestCase):

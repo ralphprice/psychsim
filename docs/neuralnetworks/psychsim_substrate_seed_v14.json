@@ -894,7 +894,12 @@
     "METHOD NOTE -- REACHABILITY IS TRIVIALLY TRUE IN A RECURRENT GRAPH (v14 Expression Phase C, the implementer's 4th self-correction this arc, recorded). A depth-first 'can source X reach effector Y' probe in a 226-edge recurrent connectome returns whatever branch it tried first (e.g. BA -> ... -> AdrenalCortex -> HPCv -> LA -> ... -> NuFac). The question worth asking is NEVER 'is there a path' -- it is 'is there a SHORT FUNCTIONAL one.' Absences, however, survive a bad probe: vlPAG/dPAG/PAG-PANIC -> NuFac genuinely have NO path (S22). Use shortest-path + weight, not reachability, for functional-route claims.",
     "BUILD-DISCIPLINE PATTERN -- WHEN A NEW ELEMENT HAS A STRUCTURAL TWIN, INHERIT ITS BANDS BYTE-FOR-BYTE AND SAY SO (v14 Expression Phase B+/dACC-GABA, RULED: record the pattern). dACC-GABA's loop bands (dACC->dACC-GABA moderate/AMPA; dACC-GABA->dACC moderate-strong/GABA-A) are BYTE-IDENTICAL to dlPFC-GABA's. That is not tidiness -- it is why the result (the brake reducing the divergence 0.0755->0.0534) is trustworthy: the obvious objection is 'you chose a strength that made the number fall', and the answer is now STRUCTURAL not rhetorical -- the bands were INHERITED from the twin, not selected, so there was NO DEGREE OF FREEDOM in which to tune. The strongest form of the anti-tuning discipline: not 'we didn't tune it' but 'there was no knob to tune.' Applies to any new element with an established structural twin.",
     "S23 -- IN-PROPRIO IS DECLARED AND UNWIRED (v14 Phase C, found while checking the face-channel; RULED register, do NOT build). The proprioceptive input channel exists as an id but has ZERO edges. Master S3.2: proprioception supplies 'the efference-copy comparison behind AGENCY' -- so THAT MECHANISM DOES NOT EXIST; the channel is a name. FIFTH instance of the unafferented/unefferented pattern and the FIRST on the INPUT side (PVN-OT unafferented; LC unafferented; the emotional motor system unefferented; the defensive columns wired for permission not drive; now a sense with nothing downstream). PHASE-D-RELEVANT: the model's first motor output (Phase D) would have NO proprioceptive return -- an OPEN LOOP. Phase D's suppressor is FEEDFORWARD and does not need it, so build proceeds; BUT no claim about agency, effort, or self-generated movement is available until IN-PROPRIO lands, and Phase D is the phase that makes someone want to make one.",
-    "S24 -- THE CONTAGION LOOP IS DAMPED, NOT SATURATED (v14 Phase C, the 4th and last per-edge-phasic item, RESOLVED). The registered worry (0aa9285) was that the loop was damped ONLY by the display's phasic adaptation -- now correctly gone (S-display, effector output above FIXED rest). NAMED: the peak 0.952 is a MOMENTARY transient; the tail (later-portion) MEAN max-activation settles to 0.67-0.72, well below the 0.95 saturation reference -- so it is a BOUND touched once, not a loop pinned at its bound. The damping is LOOP-GAIN < 1, and strongly so: the honest effector display is weak (face ~0.067), the perception-channel weights are < 1 (face_like->SC-Pv moderate; A1-belt->LA low), and the perceiver's own homeostasis attenuates -- so a bearer's display of 0.067 returns a perceiver display of ~0 (perceiver CeA moves only +0.029). Loop gain << 1 -> converges. THE 4th PHASIC ITEM IS SETTLED: contagion is damped by real dynamics (loop attenuation), NOT the phasic trick and NOT saturation. Per-edge-phasic register now 4 of 4: teaching PHASIC (bursts teach), CeA->LC PHASIC/adapting (CRF adapts), display NOT phasic (effector output is its activation), contagion DAMPED-BY-LOOP-GAIN (not phasic). Caveat: measured in a nurture-dominant Arena; the loop is weakly EXERCISED there, but the loop GAIN < 1 holds independently of how hard it is driven."
+    "S24 -- THE CONTAGION LOOP IS DAMPED, NOT SATURATED (v14 Phase C, the 4th and last per-edge-phasic item, RESOLVED). The registered worry (0aa9285) was that the loop was damped ONLY by the display's phasic adaptation -- now correctly gone (S-display, effector output above FIXED rest). NAMED: the peak 0.952 is a MOMENTARY transient; the tail (later-portion) MEAN max-activation settles to 0.67-0.72, well below the 0.95 saturation reference -- so it is a BOUND touched once, not a loop pinned at its bound. The damping is LOOP-GAIN < 1, and strongly so: the honest effector display is weak (face ~0.067), the perception-channel weights are < 1 (face_like->SC-Pv moderate; A1-belt->LA low), and the perceiver's own homeostasis attenuates -- so a bearer's display of 0.067 returns a perceiver display of ~0 (perceiver CeA moves only +0.029). Loop gain << 1 -> converges. THE 4th PHASIC ITEM IS SETTLED: contagion is damped by real dynamics (loop attenuation), NOT the phasic trick and NOT saturation. Per-edge-phasic register now 4 of 4: teaching PHASIC (bursts teach), CeA->LC PHASIC/adapting (CRF adapts), display NOT phasic (effector output is its activation), contagion DAMPED-BY-LOOP-GAIN (not phasic). Caveat: measured in a nurture-dominant Arena; the loop is weakly EXERCISED there, but the loop GAIN < 1 holds independently of how hard it is driven.",
+    "S25 -- NuFac UPPER/LOWER SPLIT: the highest-value split for the thesis (v14 Phase D, RULED register, do not act; queue behind dPAG dl/l and dACC cognitive/motor, but FLAG as the most valuable of the three). Gross's suppression signature is VISIBLE DISPLAY down while MUSCLE ACTIVITY and autonomic cost go UP -- and with ONE NuFac scalar, 'visible display' and 'muscle activity' are the SAME number, so that signature cannot be represented. The grain is named by the literature: orbicularis oculi (UPPER face) is LESS subject to voluntary control and is the DUCHENNE marker -- which is why a posed smile is detectable. 'Displays without feeling' is, anatomically, a LOWER-face-without-upper-face signature. Splitting NuFac -> NuFac-upper / NuFac-lower is what would make the facial psychopathy signature EXPRESSIBLE at all.",
+    "S26 -- THE SUBCORTICAL INVOLUNTARY FACIAL ROUTE IS ABSENT (v14 Phase D, RULED register + DISCLOSE against any dual-pathway claim). The clinical account: a SECOND supranuclear pathway to the facial nucleus -- the limbic/extrapyramidal route via basal ganglia, thalamus and brainstem -- controls involuntary facial movement; its selective damage leaves volitional movement intact while ABOLISHING emotional expression (Parkinson's damages it -> the masked face). That is the lesion proof. We have ONLY the CORTICAL involuntary route (BA->dACC/M3->NuFac). So our 'involuntary' pathway is the cortical HALF of a two-part system. The dual-pathway dissociation measured in Phase D (involuntary blunted under AFFECTIVE_EMPATHY throttle, volitional spared) rides on the cortical half only -- DISCLOSE this against the result.",
+    "S27 -- REAPPRAISAL vs EXPRESSIVE SUPPRESSION EMERGED, UNCODED (v14 Phase D, ★ HEADLINE FINDING, not a bonus (RULED)). The model spontaneously distinguishes Gross's two regulation strategies, because they run on two different grounded pathways: (1) REAPPRAISAL = vlPFC -> ITC (intercalated cells) -| amygdala -> reduces the FEELING (driving vlPFC drops CeA 0.491->0.228); (2) EXPRESSIVE SUPPRESSION = PMC-l -> PAG-PANIC-GABA -| PAG-PANIC -> reduces the DISPLAY with FEELING UNCHANGED (driving PMC-l drops the cry 53% while CeA holds at 0.491). This is Gross S3 exactly (antecedent-focused reappraisal changes the emotion; response-focused suppression acts on the response, feeling unchanged) -- fallen out of the two pathways, never built. NB engaging the full executive goal (vlPFC) does BOTH (vlPFC drives PMC-l AND ITC); isolating pure expressive suppression means driving PMC-l, the suppression hub, directly. ★ WHY THIS IS THE HEADLINE: Gross's process model -- antecedent-focused (reappraisal) vs response-focused (suppression) regulation -- FELL OUT OF WHERE TWO GROUNDED ROUTES LAND. Nobody coded 'reappraisal changes the emotion, suppression changes only the display.' It fell out of one route reaching the amygdala's inhibitory gate (vlPFC->ITC) and the other reaching the expression column's (PMC-l->PAG-PANIC-GABA). THE DISTINCTION IS THE ANATOMY. A PSYCHOLOGICAL THEORY EMERGED FROM A CONNECTOME -- the strongest demonstration to date that the substrate is a REPRESENTATION, not a restatement. This is what six levels of descent were for.",
+    "S28 -- THE AUTONOMIC COST OF SUPPRESSION DOES NOT EMERGE (v14 Phase D, honest gap; register). Gross's third sub-signature is that suppression EFFORT raises sympathetic arousal (HR/SCR rise). Measured: SympOut is UNCHANGED under expressive suppression (0.137->0.137). No mechanism links the suppression effort (PMC-l engagement) to SympOut, so the cost cannot emerge. NOT built (a cost coded at an invented rate is exactly what the discipline forbids); register as the missing arm of the suppression signature. Candidate: an effort/conflict -> autonomic pathway (dACC monitors regulation success, Master S3) -- its own grounded pass. ▲ PRINCIPLE 1 (RULED): a finding that does not emerge is a MISSING PATHWAY. The question is not 'why is the cost absent' but 'WHAT ROUTE CARRIES the autonomic cost of effortful suppression?' Candidate class: effort/cognitive-load -> sympathetic drive (dACC monitors regulation success, Master S3; SympOut EXISTS and is the correct terminal). Its OWN grounding pass -- do NOT build it into Phase D and do NOT claim the cost until the route is grounded.",
+    "S29 -- M1-face's OPEN AFFERENT IS A SOCKET, NOT A GAP -- the first hook of the climb back (v14 Phase D, RULED: confirm the PMC-l->M1-face omission, but NOT for the reason I first gave). ⚠️ THE REASON I FIRST GAVE WAS WRONG: 'including PMC-l->M1-face masks voice-down' is omitting REAL anatomy because it changes a result we like -- the BA->dACC-to-'low' failure shape, one step removed. It was surfaced, not acted on, hence a ruling. The omission stands on THREE reasons that survive the result going either way: (1) PMC-l IS LUMPED -- it both SUPPRESSES (lateral premotor -> the faciorespiratory column) and PLANS VOLITIONAL PRODUCTION (premotor->M1); one node, two functions, so driving the suppressor necessarily drives production. In real cortex these are different populations (you can hold your voice without speaking). PMC-l is a SPLIT CANDIDATE (the fourth: dPAG dl/l, dACC cognitive/motor, NuFac upper/lower, now PMC-l). (2) NuAmb-vocal IS LUMPED and the DISPLAY cannot cope -- cry and speech genuinely share the laryngeal motoneurons (that lumping is anatomically CORRECT), but the display reads the motoneuron POOL's activation, so it cannot tell a cry from a sentence. So 'the cry goes up' when PMC-l drives M1-face is the display MISREADING volitional vocalisation as distress -- a read-out limitation of the NuFac-upper/lower class (in reality a cry and a sentence are distinguished ACOUSTICALLY, not by which motoneurons fire). Register. (3) ★ M1-face BEING AFFERENT-LESS IS CORRECT, and it is the real reason. Its afferent is a LEARNED DISPLAY RULE ('smile at the boss', 'don't cry in front of strangers') -- learned by modelling, correction and reinforcement, and living in the REPRESENTATIONAL-MEMORY-EXECUTIVE layer (S2.16: beliefs, attitudes, and the rules that control behaviour through the executive). THAT LAYER IS D3 -- the level we descended FROM. It is not built. So 'posing is a capacity with no spontaneous trigger' is EXACTLY right: the model CAN pose and has no reason to, because the reason is learned one level up. Wiring a trigger now would make posing a coded disposition -- a coded display rule, which the standing rule forbids. An unafferented node nobody noticed is a defect; an unafferented node whose afferent is a NAMED, REGISTERED dependency one level up is a SOCKET. RESOLUTION: M1-face's afferent lands when the representational layer's display rules exist. THE EXPRESSION SYSTEM IS NOW COMPLETE EXCEPT FOR ITS LEARNED TRIGGER -- and the trigger is the thing we descended to get."
   ],
   "circuits": [
     {
@@ -2787,6 +2792,70 @@
       "function": "Local cortical GABAergic (PV/SST) interneuron for dACC: FEEDBACK inhibition holding the pyramidal circuit at an E/I set-point (prevents runaway excitation). v14 Expression Phase B+: ADDED as THE MISSING INHIBITORY ELEMENT (principle 1). dACC had THREE excitatory afferents (aIns +, DRN 5-HT2A Gq +, BA AMPA +) and NO local inhibition; it only stayed quiet because those afferents were inert. Grounding BA->dACC (Morecraft, cited) gave it real drive and it SATURATED -- BA=1.000 -> dACC=0.894 (no brake) -> dlPFC=1.000 (ceiling) -- which manufactured a 'divergence emerges' artifact in the executive-development arm (an unbraked node drives the outcome measure into its ceiling; a ceiling looks like a large effect). The fix is NOT lowering the cited BA->dACC edge (that is rebalancing real anatomy to hide missing anatomy -- the DRN-GABA error); it is the absent element. RATE GROUNDED FROM CORTICAL FS/PV ELECTROPHYSIOLOGY, BEFORE looking at what restores the tests -- and the electrophysiology gives a DIFFERENT answer from dPAG-GABA on purpose: neocortical PV+ fast-spiking interneurons are NOT autonomous pacemakers. Under synaptic blockade they are largely SILENT (they lack the persistent-Na/HCN pacemaker conductances that make LC-NA and dPAG-VGAT cells fire tonically without input, the citation dPAG-GABA rests on); their high IN-VIVO rate is synaptically DRIVEN feedback, not an intrinsic tone. So baseline_activation (the no-synaptic-input relaxation target) is ~0 -> the SCAFFOLD default (0.05) stands, and this circuit is CORRECTLY NOT a grounded-setpoint deviant (unlike LC/dPAG-GABA). The grounded content is the RECURRENT E-I LOOP, not a tonic rate: the brake engages IN PROPORTION to dACC's own activity, so it damps exactly the saturation it must and does nothing at rest. This mirrors dlPFC-GABA (Ferguson & Gao 2018, cortical E/I feedback) -- the model's own already-correct cortical interneuron. If the grounded loop does not restore the tests, THAT IS A FINDING (the LC / dPAG-GABA ruling, third application) -- the loop weights are the cited cortical-E/I bands, not tuned to the tests. tau=100 (fast-spiking; dACC pyramidal is 200). Comes online WITH dACC (5.0); the adolescent E/I-maturation trajectory is a deliberate future pass, NOT wired here (same deferral as dlPFC-GABA). STRUCTURAL ELEMENT -- NOT A REACTIVITY DIAL (v14 gate class, ruled): excluded from seed_substrate; it stays LESIONABLE by the scan (an experiment, not a claim). Throttling it DISINHIBITS dACC -- directionally perverse. PROVISIONAL, like every baseline. SYSTEMIC: dACC-GABA is the FIRST landmine of a systemic gap, not the last one closed -- the cortical inhibitory-interneuron layer is 2 of 11 (only dlPFC and vmPFC were braked). See gaps-register S18.",
       "nodes": "dACC/midcingulate local GABAergic interneurons (PV basket / SST Martinotti)",
       "sources": "Ferguson & Gao 2018 Front Neural Circuits 12:37 (PV/E-I in PFC); Isaacson & Scanziani 2011 Neuron 72:231; Markram et al. 2004 Nat Rev Neurosci 5:793",
+      "structural_element": true
+    },
+    {
+      "id": "M1-face",
+      "name": "Primary motor cortex, face area (M1-face)",
+      "domain": "motor_effector",
+      "function": "v14 Expression Phase D: THE VOLITIONAL (pyramidal) route to the expression effectors -- the origin of the corticobulbar tract. Drives the POSED expression (the 'pyramidal smile'), by EXCITATION, at the convergence point NuFac where it meets the involuntary/emotional route (BA->dACC/M3->NuFac). Reaches BOTH the face (NuFac) and the larynx/pharynx (NuAmb-vocal), bypassing the PAG and NRA entirely. KEY: it can MASK (pose a different expression over the felt one) but CANNOT hold a neutral face -- M1-face is excitatory, so it cannot reduce NuFac below the emotional drive. That is NOT a limitation, it is the PHENOMENON: micro-expression leakage is the two pathways co-activating and neither winning cleanly (Fridlund: trying to inhibit an amused face raises cheek EMG -- counter-activation, and it fails). A model that could hold a perfect neutral face would be WRONG (it would forbid the leakage that makes a concealed emotion detectable). Domain motor_effector (the motor limb, temperament- and scan-excluded). Comes online school-age on the EXISTING pfc_low_early_high_late schedule -- NO curve authored. LUMP: conflates the distinct human laryngeal motor cortex (LMC) into the face-motor node for M1-face->NuAmb-vocal -- registered sub-grain.",
+      "nodes": "M1 face representation (precentral gyrus, lateral)",
+      "transmitters": "glutamate (corticofugal/pyramidal)",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 5.0,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Aron et al. 2014"
+    },
+    {
+      "id": "PMC-l",
+      "name": "Lateral premotor cortex (PMC-l)",
+      "domain": "motor_effector",
+      "function": "v14 Expression Phase D: THE VOLITIONAL SYSTEM'S HUB -- production AND suppression. (1) PRODUCTION: drives M1-face (premotor->motor), so the executive can pose an expression. (2) SUPPRESSION: the volitional suppressor of emotional VOCALISATION -- lateral premotor cortices 'can suppress laughter or crying' (pathological laughing/crying is this suppressor LOST; Master ref S2.1). It suppresses via PAG-PANIC-GABA (see there). Driven by vlPFC (the regulation goal / response selection, Master S3) -- INDEPENDENTLY of the affective circuits (vlPFC is NOT in AFFECTIVE_EMPATHY), which is the ONLY reason the dual-pathway dissociation is measurable: were the volitional route drawn from the affective network, throttling affect would throttle BOTH pathways and the dissociation would be unmeasurable by construction. Domain motor_effector. Online school-age on the existing pfc schedule -- NO curve authored.",
+      "nodes": "lateral premotor cortex (PMv/PMd)",
+      "transmitters": "glutamate (corticofugal/pyramidal)",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 5.0,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Aron et al. 2014"
+    },
+    {
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "baseline_activation": 0.05,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "calibration_active_default": true,
+      "time_constant_tau_ms": 100,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "domain": "affiliation",
+      "transmitters": "GABAergic (vlPAG local interneuron)",
+      "evidence_base": "animal_dominant",
+      "confidence": "Em",
+      "id": "PAG-PANIC-GABA",
+      "name": "PAG-PANIC local GABAergic interneuron",
+      "nodes": "periaqueductal PANIC/vocalisation-column VGAT+ interneurons",
+      "function": "The local GABAergic gate on PAG-PANIC (the vocalisation/separation-distress column) -- ADDED v14 Expression Phase D as THE INTERNEURON THE VOLITIONAL VOCAL SUPPRESSOR ROUTES THROUGH. This answers the long-registered 'does PAG-PANIC need its own gate?' -- YES, and not by argument but because the RECEPTOR-SIGN CONVENTION would not let the suppressor be written any other way: PMC-l is cortical (glutamatergic), so a direct PMC-l->PAG-PANIC edge comes out EXCITATORY (+), and a suppressor that excites is not a suppressor. The honest route is PMC-l -> PAG-PANIC-GABA (excited) -> PAG-PANIC (inhibited) -- vlPFC->ITC exactly (glutamatergic PFC cannot inhibit the amygdala directly; it routes through the GABAergic intercalated cells). ★ THE GATE CLASS, TWO OPPOSITE FUNCTIONS SET BY THE SOURCE'S TRANSMITTER: CeA (GABAergic) -> vlPAG-GABA disinhibits vlPAG = RELEASE; PMC-l (glutamatergic) -> PAG-PANIC-GABA inhibits PAG-PANIC = SUPPRESSION. One local-interneuron architecture; who reaches it decides. SCAFFOLD baseline (recurrent-E-I class, no cited pacemaker rate -- the vlPAG-GABA precedent, NOT dPAG-GABA). STRUCTURAL ELEMENT -- temperament-excluded, scan-lesionable. DEVELOPMENTAL STORY (emergent, not coded): the gate is present early but its cortical suppressor drive (PMC-l) arrives school-age, so the newborn's crying is weakly gated by volition and school-age control emerges -- Thompson 1991 / Master S5, fallen out of the maturation schedule.",
+      "sources": "Tovote et al. 2016 Nature 534:206 (CeA GABAergic -> vlPAG GABAergic interneurons -> disinhibits output -> freezing); Hao et al. 2019 Cell Rep 28:616 (BNST/LH GABAergic -> anterior vlPAG GABAergic cells)",
       "structural_element": true
     }
   ],
@@ -6769,6 +6838,96 @@
       "dominant_receptor": "GABA-A",
       "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- dlPFC pyramidal cells excite their local interneuron (feedforward/feedback drive).",
       "source": "v14 Expression Phase B+ cortical E/I interneuron. GABA-A INHIBITORY -- PV/SST feedback inhibition holds dACC at an E/I set-point off ceiling (Ferguson & Gao 2018, the corticolimbic E/I precedent dlPFC-GABA rests on). THE MISSING BRAKE that the BA->dACC drive exposed (principle 1). Band = the cited 'moderate-strong', mirroring dlPFC-GABA->dlPFC, NOT chosen to restore the tests."
+    },
+    {
+      "source_circuit": "M1-face",
+      "target_circuit": "NuFac",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 5.0,
+      "confidence": "E",
+      "source": "v14 Phase D THE POSED FACE: corticobulbar (pyramidal) direct to the facial nucleus (Kuypers; Morecraft). Band = moderate, BALANCED with the emotional route dACC->NuFac (moderate) so the volitional/emotional competition at NuFac emerges from dynamics, NOT a band choice. Excitatory -> it MASKS, cannot silence.",
+      "dominant_receptor": "AMPA"
+    },
+    {
+      "source_circuit": "M1-face",
+      "target_circuit": "NuAmb-vocal",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 5.0,
+      "confidence": "E",
+      "source": "v14 Phase D THE POSED VOICE: corticobulbar to the laryngeal/pharyngeal motoneurons, BYPASSING PAG and NRA (the cortico-bulbar route reaches both effectors). THIS IS THE CROSSTALK THAT TESTS S22: a single volitional source now reaches both the face and the voice, so the modality dissociation (pain->face, sep->voice) is no longer guaranteed by an absence. LUMP: M1-face here stands in for the distinct laryngeal motor cortex (LMC) -- registered. SCAFFOLD band.",
+      "dominant_receptor": "AMPA"
+    },
+    {
+      "source_circuit": "vlPFC",
+      "target_circuit": "PMC-l",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 5.0,
+      "confidence": "E",
+      "source": "v14 Phase D THE INDEPENDENCE EDGE (load-bearing): vlPFC (response selection/inhibition, Master S3) drives the volitional motor hub -- the regulation goal reaches the motor system. vlPFC is NOT in AFFECTIVE_EMPATHY, so the volitional route's drive is INDEPENDENT of the affective circuits; this is the only reason the dual-pathway dissociation (throttle affect, is the volitional route spared?) is measurable rather than unmeasurable by construction. SCAFFOLD band.",
+      "dominant_receptor": "AMPA"
+    },
+    {
+      "source_circuit": "PMC-l",
+      "target_circuit": "PAG-PANIC-GABA",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 5.0,
+      "confidence": "E",
+      "source": "v14 Phase D THE VOCAL SUPPRESSOR: lateral premotor -> PAG-PANIC's local GABA gate (excitatory) -> net INHIBITION of PAG-PANIC's vocal output. The volitional suppressor of laughter/crying (Master S2.1; its loss = pathological laughing/crying). Band INHERITED byte-for-byte from the forebrain->PAG-GABA twin CeA->vlPAG-GABA (moderate-strong) -- not selected, so there is no degree of freedom to tune the suppression in. Matures school-age (online 5.0), so volitional cry-suppression emerges on schedule.",
+      "dominant_receptor": "AMPA"
+    },
+    {
+      "source_circuit": "PAG-PANIC-GABA",
+      "target_circuit": "PAG-PANIC",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "v14 Phase D the gate's inhibition of its column. Band INHERITED byte-for-byte from the twin vlPAG-GABA->vlPAG (strong, GABA-A). Present early (online 0.0, a subcortical gate); before the cortical suppressor matures it provides only weak tonic inhibition -- so the newborn cry is weakly volition-gated.",
+      "dominant_receptor": "GABA-A"
     }
   ]
 }
