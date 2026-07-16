@@ -8,11 +8,14 @@ SELF-SEARCHING · UNRESOLVED`. The audit is **not clean** — as expected.
 ## ★ Headline — three live, one of them study-critical
 
 1. **`AFFECTIVE_EMPATHY` contains `CeA`, and `CeA` is `LC`'s SOLE afferent** (`LC ← CeA` verified; LC's only
-   other "afferent" is its own pacemaker self-term). `LC` is the teaching signal for **all** DA-gated
-   learning. **So "low affective empathy impairs vicarious learning" is `ENTAILED` — true by construction:**
-   the study's primary instrument throttles the learning mechanism's sole afferent. *This is case #2, and it is
-   the one that decides whether the CU study can answer its central question.* **The manipulation cannot
-   answer it, because the manipulation is the mechanism.**
+   other "afferent" is its own pacemaker self-term). **So "low affective empathy impairs vicarious learning" is
+   `ENTAILED` — true by construction:** the study's primary instrument throttles the learning mechanism's sole
+   afferent. *This is case #2, and it decides whether the CU study can answer its central question.* **The
+   manipulation cannot answer it, because the manipulation is the mechanism.**
+   **⟳ SCOPE CORRECTED (reconciliation): `LC` is NORADRENERGIC — the DA gate is `VTA`.** So the entailment
+   covers the **NA-gated** learning (17 edges — `dmPFC→LA`, `vlPFC→ITC`, the amygdala-control/vicarious route),
+   **not** the DA-gated one (`vmPFC→ITC`, verified DA-gated, is untouched). The verdict stands; I had
+   overstated the scope ("all DA-gated learning"), and an audit that overstates its finding mis-scopes the fix.
 2. **`AFFECTIVE_EMPATHY` is itself `HOLLOW` (3 of 5).** Under the distress cue it is read with, `MeA` and `aIns`
    are inert (Δ<0.02); the instrument rests on `LA`/`BA`/`CeA`. **The study's primary instrument measures on 3
    of its 5 terms.**
@@ -76,9 +79,60 @@ real yield — and two are new verdicts, not repeats.
 the golden and the UI; the interoceptive read-out is degenerate; and the scan's own search target is the
 entailed claim.**
 
-## Reconciliation note
-This is the build-session pass. **Nothing was edited** — per the ruling, a set edited to remove an overlap
-hides the defect (Phase C is the precedent: the overlap dissolved because the *display* was fixed, not the
-set). Each verdict is a **separate future ruling**. The one that gates the study is **`AFFECTIVE_EMPATHY` ⇒
-ENTAILED "impairs vicarious learning"** — until it is resolved, that claim is true by construction, and the CU
-study cannot make it.
+## RECONCILED — both halves (reviewer + build session)
+
+**Enumeration closed: `throttleable_circuits()` = 58** (the reviewer's 49 was computed with a
+`not structural_element` filter that his own §1b ruling had *removed*; 49 + the 9 gates = 58). Meta-rule
+recorded: **when a dual audit disagrees on a COUNT, the prior is that the REVIEWER is stale** — the build
+session runs the code, the reviewer remembers it, and this codebase changes every commit (often at the
+reviewer's own instruction), so his recollection drifts *in proportion to how effective his rulings are*.
+Reconcile by reading the file, mechanically — never from memory.
+
+**★ The #2 entailment has THREE DOORS — one defect, three entrances; a fix that closes one closes none:**
+1. the **manipulation** contains `CeA` → `LC`'s sole afferent (NA-gated learning);
+2. the **scan search target** `dissociation_index` maximises exactly that throttle;
+3. the **temperament dial** `THREAT → defensive_threat` reaches `LC` **directly, at seed time, on every
+   agent**. And **low threat *is* the CU temperament** — so **every CU agent is born with a throttled teaching
+   signal**: the dial resurrects, through the SEED before the first tick, the punishment "signature" the LC arc
+   killed in the read-out. Whatever resolves #2 must be tested against all three doors.
+
+**The temperament dial is a DOMAIN-UNIFORM SCALAR over a FUNCTIONALLY HETEROGENEOUS domain.** `LC` is two
+things — arousal/gain (a legitimate temperament dimension) *and* the teaching signal (not a temperament
+dimension) — and one domain-uniform scalar cannot separate them. So the registered "reactivity/regulation
+fusion" is **not an item, it is an instance**; the item is: **the temperament model must be per-function, not
+per-domain.**
+
+**`DEFENSIVE_OUTPUT`: the split CREATED the hollow in the read-out, it did not reveal it.** Before Phase A it
+read the lumped `PAG` — *alive, but conflating freezing with flight*; after, it reads `vlPAG` — *correctly
+named, and dead*. So the defensive read-out has **never** measured conditioned freezing (a lump, then a
+corpse); defensive results **across the split are not comparable**; and the fix is **give `vlPAG` its drive**
+(a substrate fix that resolves `DEFENSIVE_OUTPUT`, `_OBS_THREAT`, `_SELF_THREAT` at once), **never re-point the
+set to a live node**.
+
+**★ `DEGENERATE` is a distinct verdict class, and it is a LUMPING artifact — the substrate's characteristic
+defect, now found from the READ-OUT direction.** `energy ≡ hydration` (both `NTS`), `respiratory ≡ −thermal`
+(both `PBN`) are not two constructs in one set — **two names for one number**, because `NTS`/`PBN` each lump a
+nucleus that genuinely carries both variables. **Count the lumps: `PAG` · `NuAmb` · `dPAG` (dl+l) · `dACC`
+(cog+motor) · `NuFac` (upper+lower) · `PMC-l` (suppress+produce) · `NuAmb-vocal` (cry+speech) · `NTS`
+(energy+hydration) · `PBN` (respiratory+thermal) — NINE.** Independent confirmation of what the 209-edge audit
+will show: its WRONG-TARGET / MISSING-ELEMENT categories will be dominated by lumped nodes — now evidence, not
+prediction.
+
+**The reward triplicate is a LIVE HAZARD, not a DRY smell.** `_OBS_REWARD` / `_SELF_REWARD` / `REWARD_READOUT`
+are three *curated* lists where the project has already ruled (making `structural_element` derived-not-curated)
+that "a curated list drifts." `CLEAN` today; the divergence hazard is registered.
+
+**Propagation is a rule, not an observation:** *a construct is only as valid as the set it reads.* Every
+verdict propagates upward through every derived construct — so this table is **a list of ROOTS**, and
+`aggression_profile` (HOLLOW+CONFLATED via `_OBS_AGGRESS`) is the first demonstration. **And the
+`INCOMMENSURATE` domain mean feeds the golden AND the UI — the number that moves against its name is on
+screen.**
+
+## The ruling order (reconciled) — fixes await their own specs
+1. ~~Enumeration~~ — **closed (58).**
+2. **The #2 entailment**, scoped to NA-gated learning, **tested against all three doors.**
+3. **`vlPAG`'s drive** — resolves `DEFENSIVE_OUTPUT`/`_OBS_THREAT`/`_SELF_THREAT` at once; a substrate fix.
+4. **The temperament model** — per-function, not per-domain.
+5. The rest of the table, verdict by verdict.
+
+**Nothing edited. Fix the mechanism, not the measure.** Each fix is a separate ruling; awaiting the spec for #2.
