@@ -35,6 +35,10 @@ online 0.0), lowering PAG-PANIC's resting activation 0.141 -> 0.053 (demonstrate
 Phase-D circuits and it returns to 0.141). ONLY the `develop` section moved (relations/group/
 environment unchanged). A grounded, demonstrated dynamics change -- not a tune; the gate's band was
 inherited byte-for-byte from the vlPAG-GABA twin.
+
+REGEN (v14 D6 fix #2): regenerated because PGi -- LC's major excitatory afferent -- adds tonic
+drive to LC (PGi->LC strong, online 0.0), shifting the developed snapshot. A grounded, demonstrated
+dynamics change (remove PGi and it returns); CeA->LC untouched.
 """
 
 import json

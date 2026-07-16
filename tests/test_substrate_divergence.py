@@ -119,25 +119,33 @@ class TestDivergenceWellPosedAndNear_Zero(unittest.TestCase):
         self.assertEqual(len(signs), 1, f"expected a stable sign (well-posed); got {vals}")
         self.assertLess(max(vals.values()) - min(vals.values()), 0.05)
 
-    @unittest.expectedFailure
     def test_divergence_does_not_robustly_emerge(self):
-        # THE EARNED NEGATIVE -- HELD, NOT RETIRED (v14 Expression Phase B+, ruled). It reads
-        # 0.0534 (was 0.0755 before dACC-GABA; the grounded brake removed 29%). The margin over the
-        # 0.05 near-zero line is 7%. That 7% sits INSIDE two unquantified sources of error, BOTH of
-        # which point UPWARD (gaps-register S18): (1) EIGHT more cortical brakes are still absent --
-        # the layer is 3 of 11; (2) THIS brake's own strength is SCAFFOLD (baseline 0.05 / setpoint
-        # 0.1, unpaired, like its E-I twins), so the 29% it removed is itself a scaffold quantity.
-        # ONE brake removed FOUR TIMES the current margin. We therefore CANNOT yet tell whether the
-        # divergence emerges, and the direction of the unknown is known (downward, as brakes land).
-        # Do NOT move the threshold. Do NOT retire the finding by attrition. What this now IS: a
-        # small, stable, well-posed structural value (0.0534) that emerged from a grounded edge and
-        # survived a grounded brake -- test_interaction_is_stable_across_durations passes, so it is
-        # NOT a saturation artifact. It may be real; it is not yet a finding.
+        # THE EARNED NEGATIVE -- NOW HELD ON A GROUNDED SUBSTRATE (v14 D6 fix #2, un-xfailed by ruling).
+        # It reads |interaction_at(500)| = 0.0335, stable/well-posed (durations 350/500/600:
+        # 0.0321/0.0335/0.0336, spread 0.0015). THE ARC IS A MEASURED LAW, NOT AN ANECDOTE:
+        #   0.0755 (saturation artifact) -> 0.0534 (dACC-GABA brake) -> 0.0335 (PGi afferent completion).
+        # Three grounded completions, three monotone shrinkages on ONE quantity -- predicted before
+        # observed (S18: artifacts inflate; completing a mechanism removes constraints' absence and the
+        # number falls).
         #
-        # RESOLUTION CONDITION (xfail clears -> unexpected success -> suite RED -> re-measure): when
-        # the cortical brake layer is COMPLETE (all 11 nodes braked; S18), re-run this. If it then
-        # sits below 0.05 the earned negative holds on a grounded substrate; if it stays above, the
-        # divergence is a real finding earned honestly. Not before.
+        # WHY UN-XFAILED (and why that is NOT "accepting a result because it went our way"): S18's bias
+        # is DIRECTIONAL. On an INFLATING substrate every effect size is an OVER-estimate -- so an earned
+        # NEGATIVE holds A FORTIORI: the true value is even lower than 0.0335. The same caution that kept
+        # this finding open while it read 0.0755 (above the line) now CONFIRMS it at 0.0335 (below). S18
+        # asymmetrically protects negative findings. Un-xfailing asserts the finding; it is the opposite
+        # of retiring by attrition.
+        #
+        # ★ THIS TEST NOW CARRIES A PREDICTION, and it fails loudly if the substrate disagrees:
+        # the remaining grounded completions -- the 8 absent cortical brakes (S18), vlPAG's drive (S20),
+        # PGi's exteroceptive/salience arm (S30b) -- should shrink this FURTHER. If any grounded
+        # completion makes it GROW back toward/over 0.05, THAT is the surprise S18 says to stop for, and
+        # this test going RED is the signal. (Threshold stays 0.05; never moved to fit.)
+        #
+        # RESOLUTION-CONDITION LESSON (why the xfail fired "early"): the old condition named a GUESS about
+        # WHICH change would answer the question ("when the brake layer is complete") instead of the
+        # QUESTION. The real mechanism was general -- ANY grounded completion -- which is S18 itself. The
+        # strict self-clearing mechanism caught the bad condition: it fired for PGi, at the right value,
+        # for the right reason. A resolution condition names the question, not the mechanism.
         self.assertLess(abs(interaction_at(_MODEL, 500)), 0.05)
 
 
