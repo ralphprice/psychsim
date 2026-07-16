@@ -1,5 +1,16 @@
 # D6 #2 door 1 — `dPAG → PGi` built (the cited edge); the entailment did not move, and the anatomy said why
 
+> **⟳ CORRECTED (reviewer withdrew the verdict; I refined the mechanism).** The visual channel is **`UNRESOLVED
+> — blocked on the defensive-drive gap`**, NOT "amygdala-obligate / true by anatomy." `dPAG → PGi` is a DORMANT
+> edge (the `vlPAG → NRA` class), blocked on our own incompleteness — so no characterisation from a partial
+> assembly (principle 6). **And `dPAG` is NOT inoperable, as I first implied:** its ATTACK function fires
+> (`provocation → VMHvl → dPAG` at 0.85 crosses the gate; `dPAG`=0.365, and `dPAG → PGi` then carries it). Only
+> the FLIGHT drive is blocked (`SC-Pv → dPAG` at 0.50, the weak Point-1 synapse, cannot cross the unrelieved
+> `dPAG-GABA` gate; the gate's release is the registered gap). The vicarious *visual* route rides the flight
+> drive, so it is blocked — the `dPAG` dl/l lump. **The defensive-drive pass (`dPAG-GABA` release + `vlPAG`
+> drive) is now door 1's blocker.** See gaps-register S37 (rewritten). The rest of this doc records the build
+> and stands.
+
 The paper named the real edge, the refusal was vindicated, and building it produced an honest number rather
 than a convenient one. **`dPAG → PGi` is in. The vicarious entailment is unchanged at 64% — because the cited
 route is functionally gated, which is anatomy, not failure.** Held the verdict flip; the number spoke.

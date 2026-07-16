@@ -40,10 +40,13 @@ REGEN (v14 D6 fix #2): regenerated because PGi -- LC's major excitatory afferent
 drive to LC (PGi->LC strong, online 0.0), shifting the developed snapshot. A grounded, demonstrated
 dynamics change (remove PGi and it returns); CeA->LC untouched.
 
-REGEN (v14 D6 fix #2, dPAG->PGi): regenerated because the cited edge dPAG->PGi (Van Bockstaele
-1993) carries a little of dPAG's escape activity into PGi->LC during development, shifting only the
-develop section (relations/group/environment unchanged). dPAG is gated near-shut, so the edge is
-near-silent at rest; the develop-time shift is small and grounded, not a tune.
+REGEN (v14 D6 fix #2, dPAG->PGi): the MECHANISM is named (not "carries a little"). dPAG is NOT
+uniformly silent: its ATTACK function fires when VMHvl->dPAG (0.85) crosses the gate, and the
+developmental curriculum includes PROVOCATION (CHILDHOOD_CYCLE), which drives exactly that. So during
+develop() the provocation episodes fire dPAG, and the cited dPAG->PGi carries that attack-arousal into
+PGi->LC -- shifting ONLY the develop section (relations/group/environment unchanged). The FLIGHT drive
+(SC-Pv->dPAG, weak, gated) does NOT cross, so the shift is provocation-driven, not visual. Grounded and
+demonstrated, not a tune; CeA->LC untouched.
 """
 
 import json
