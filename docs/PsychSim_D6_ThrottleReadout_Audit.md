@@ -58,6 +58,24 @@ SELF-SEARCHING · UNRESOLVED`. The audit is **not clean** — as expected.
 - `_OBS_EXEC` "carrying" — it is read at rest (for `restraint`), not under a cue; my probe used threat. Its carrying needs a rest/executive-load assessment, not this one. **`UNRESOLVED` pending the right probe.**
 - `PCun-PCC` / `MeA` / `aIns` inertness — whether these are *dead* (never carry) or *cue-specific* (carry under a different empathy/self cue than the one tested) is **`UNRESOLVED`**; the audit tested the cue each is *read with*, but a fuller probe set would settle dead-vs-cue-specific.
 
+## ⚠️ Strict-completeness sweep — the first pass was NOT strict enough
+A systematic grep for *every* named circuit-set and *every* computed signature found **six more surfaces** the
+first pass missed. Per the ruling ("if it returns all clean, it was not strict enough"), these are the audit's
+real yield — and two are new verdicts, not repeats.
+
+| set / signature | type | members / source | verdict | evidence |
+|---|---|---|---|---|
+| `REWARD_READOUT` (`agent.py`) | read-out | OFC, NAc-core, NAc-shell, VTA | **`CLEAN`** | 4/4 carry under reward; one construct. (a third copy of the reward set — `_OBS_REWARD`, `_SELF_REWARD`, `REWARD_READOUT` are triplicated — a DRY smell, not a defect.) |
+| **`substrate_profile` / `dominant_profile`** (domain means, `_READOUT_DOMAINS`) | read-out (feeds **golden per-domain + UI**) | mean of every circuit in a domain | **`INCOMMENSURATE`** | `_domain_activity` averages **drivers WITH their gates**: `defensive_threat` mean includes ITC, dPAG-GABA, vlPAG-GABA, DRN-GABA, vmPFC-GABA, CeA-GABA (6 gates in 21); `executive` includes dlPFC-GABA, dACC-GABA. When threat rises the gates rise too — the mean moves against its name. This is the concrete locus of case #8. |
+| **`SUBSTRATE_READOUT`** (interocept state-vector) | read-out | 10 body variables → circuits | **`CONFLATED` (degenerate)** | `energy` and `hydration` are the **same number** (both = `NTS` level); `respiratory` = −`PBN`, `thermal` = +`PBN` → **`respiratory ≡ −thermal` by construction**; `PBN` alone serves 3 variables. 6 of 10 vars are single-circuit ("coarse", disclosed in-code). A study distinguishing energy from hydration would measure nothing. |
+| **`measure_signatures` → `dissociation_index`** (`scan.py`) | scan search target | `cog − aff` | **`SELF-SEARCHING` / `ENTAILED`** | the scan maximises this by throttling; `AFFECTIVE_EMPATHY` (the `aff` set) ⊂ `throttleable_circuits()`, so "maximise dissociation" **is** "throttle affective empathy" — the search target and the entailed claim (#2) are the same act. Concrete, not latent. `punishment_learning` as a scan target: mitigated by the yoked control. |
+| `risk_index` (`phenomena.py`) | signature | `go_drive / (thr + gain·executive_hold)` | **`UNRESOLVED`** | `go_drive` reads `DA`; `executive_hold` computes via helpers not traced here — go/hold *look* disjoint (approach vs restraint) but disjointness is **not confirmed** in this pass. |
+| derived constructs (`aggression_profile`, `callous_unemotional`, `passive_avoidance_deficit`, `triarchic`) | computed from `BehaviourProfile` | inherit their `_OBS_*` sets | **INHERIT** | `aggression_profile` inherits `_OBS_AGGRESS` → **`HOLLOW`+`CONFLATED`** (reactive aggression read via the defense hub); `callous_unemotional` inherits `_OBS_EMPATHY`; etc. A construct is only as valid as the set it reads. |
+
+**So the audit's live verdicts are broader than the first pass showed: the `INCOMMENSURATE` domain means feed
+the golden and the UI; the interoceptive read-out is degenerate; and the scan's own search target is the
+entailed claim.**
+
 ## Reconciliation note
 This is the build-session pass. **Nothing was edited** — per the ruling, a set edited to remove an overlap
 hides the defect (Phase C is the precedent: the overlap dissolved because the *display* was fixed, not the
