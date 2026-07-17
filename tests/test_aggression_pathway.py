@@ -42,13 +42,19 @@ class TestFreezingFloor(unittest.TestCase):
     (PIR, V-ventral). So the concern the ruling named: a NEUTRAL or CONSPECIFIC encounter must not
     produce freezing.
 
-    ⚠️ HONESTY FLAG (S45): this currently passes TRIVIALLY, and passing is NOT reassurance yet. The
-    sign flip revived VMH (0.000 -> 0.116) but vlPAG STILL barely fires (~0.008) -- VMH->vlPAG is too
-    weak (Q2, its own pass). So 'no freezing' holds because the OUTPUT is dead, NOT because a floor
-    mechanism restrains it. That is the v9 lesson verbatim ('a floor that has never existed is not a
-    floor that has held' -- the aggression floor once held on a lumping artifact). This becomes a REAL
-    floor -- one that could actually be violated -- only when Q2 gives vlPAG its drive; until then the
-    guard is a placeholder that documents the requirement and will start to bite when the column lives."""
+    ★ ASSERTS BOTH HALVES (defensive-drive ruling): "no threat -> no freezing" AND "threat -> freezing."
+    A floor that asserts only the NEGATIVE half is PASSED BY A CORPSE -- vlPAG cannot fire, so it cannot
+    fire at rest, so the negative half is green and proves nothing (the v9 lesson: a passing guard can
+    certify an absence, not a mechanism). So the positive half is asserted too, and it is CURRENTLY RED
+    -- correctly: the MeA->VMH sign flip revived VMH (0.000->0.205 under a defensive cue) and CeA
+    disinhibits vlPAG (crushes vlPAG-GABA to 0), but vlPAG STILL reads ~0.001 because VMH->vlPAG is too
+    weak (Q2, its own pass). THE RED IS THE Q2 GAP. This is strictly better than an xfail: the test
+    states the WHOLE claim, the substrate disagrees with half of it, and it SELF-CLEARS with no
+    resolution condition -- when Q2 gives vlPAG its drive, the positive half passes and the floor becomes
+    real (the aggression keystone is the model: provocation->0.725->attack AND neutral->0, both halves,
+    which is why it means something). NB the positive cue uses a predator-type olfactory threat as a
+    proxy -- the true predator-odor channel is itself a registered gap (S45), so the green may also wait
+    on it; either way the assertion is honest about what freezing requires."""
 
     def _vlpag(self, **channels):
         e = SubstrateEngine(_MODEL, age_years=25.0)
@@ -59,10 +65,20 @@ class TestFreezingFloor(unittest.TestCase):
         return e.activity("vlPAG")
 
     def test_neutral_and_conspecific_do_not_produce_freezing(self):
-        # NO THREAT -> NO FREEZING. Neutral and a plain conspecific-odour encounter must leave the
-        # freezing column low. (Trivially held until Q2 -- see the class docstring.)
+        # NEGATIVE half -- NO THREAT -> NO FREEZING. Neutral and a plain conspecific-odour encounter
+        # must leave the freezing column low. (Currently trivially held; becomes load-bearing once the
+        # positive half below can pass -- see the class docstring.)
         self.assertLess(self._vlpag(), 0.10)                                    # neutral
         self.assertLess(self._vlpag(**{"IN_DASH_OLF__conspecific": 0.9}), 0.10)  # conspecific odour
+
+    def test_defensive_threat_produces_freezing(self):
+        # POSITIVE half -- THREAT -> FREEZING. A predator-type defensive threat (nociception disinhibits
+        # vlPAG via CeA; olfactory drives VMH, the freezing driver) must raise the freezing column.
+        # CURRENTLY RED: vlPAG stays ~0.001 -- CeA crushes vlPAG-GABA to 0 (disinhibited) and VMH is
+        # driven (0.205), so the ONLY thing blocking is the weak VMH->vlPAG band (Q2). The red IS the
+        # gap; it self-clears when Q2 gives vlPAG its drive. Do NOT make this pass by lowering the
+        # threshold -- fix the mechanism (Q2), not the measure.
+        self.assertGreater(self._vlpag(**{"IN_DASH_SOMATO__nociception": 0.9, "IN_DASH_OLF": 0.9}), 0.10)
 
 
 class TestAggressionPathwayClosesOBS3(unittest.TestCase):
