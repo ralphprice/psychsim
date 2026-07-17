@@ -47,6 +47,11 @@ develop() the provocation episodes fire dPAG, and the cited dPAG->PGi carries th
 PGi->LC -- shifting ONLY the develop section (relations/group/environment unchanged). The FLIGHT drive
 (SC-Pv->dPAG, weak, gated) does NOT cross, so the shift is provocation-driven, not visual. Grounded and
 demonstrated, not a tune; CeA->LC untouched.
+
+REGEN (v14 defensive-drive (A)): the MeA->VMH sign flip (glutamatergic, MePV -- was -1 by
+transmitter-field TYPING ORDER) REVIVES VMH (0.000 -> 0.116), which feeds development; only the
+develop section moved (relations/group/environment unchanged). Grounded, demonstrated (flip the
+sign back and VMH dies); the aggression keystone holds on the new disinhibition mechanism.
 """
 
 import json
