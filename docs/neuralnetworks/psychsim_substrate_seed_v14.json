@@ -7099,6 +7099,23 @@
       "confidence": "E",
       "source": "v14 defensive-drive (A): the VMHvl shell inhibits its glutamatergic core. Band inherited byte-for-byte from the twin vlPAG-GABA->vlPAG (strong).",
       "dominant_receptor": "GABA-A"
+    },
+    {
+      "source_circuit": "IN-AUD",
+      "target_circuit": "COCH",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "interoceptive_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "The RAW AUDITORY CHANNEL -- the analogue of IN-VIS->RET, added v14 (its own pass). Audition was the ONLY modality in the seed WITHOUT a raw input channel: vision has IN-VIS->RET, olfaction IN-OLF->OB, vestibular IN-VESTIB->VN, interoception IN-INTERO->NTS, but the only auditory input was IN-AUD:voice->A1-belt (a FEATURE channel landing in CORTEX), so COCH (the cochlear-nucleus brainstem entry) was completely unafferented and the whole subcortical pathway COCH->AUD-brainstem(IC)->SC-Pv/MGN + COCH->StN (startle) was dead (S42, the catalogue-vs-channels audit predicted it). This one edge lights the ascending auditory relay and lets STARTLE (PB-STARTLE: sound->COCH->StN->CeA) fire for the FIRST TIME in the model's existence, and carries auditory-THREAT salience to SC-Pv (which the escape paper says receives visual AND auditory threat). Textbook: cochlear nerve -> cochlear nuclei is the first central auditory relay. Band `moderate-strong`/anatomy, inherited from the IN-VIS->RET raw-channel template. NB the CRY specifically is still injected as IN-AUD:voice->A1-belt (cortex), so it BYPASSES this -- so door 1's auditory half needs the cry to also enter subcortically (a separate injection-depth fix); this edge fixes startle + generic auditory salience, not the cry's route. NEW BEHAVIOUR from one edge -- so if a startle test passes, ask what holds it (the freezing-floor lesson)."
     }
   ]
 }
