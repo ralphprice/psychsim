@@ -43,42 +43,52 @@ class TestFreezingFloor(unittest.TestCase):
     produce freezing.
 
     ★ ASSERTS BOTH HALVES (defensive-drive ruling): "no threat -> no freezing" AND "threat -> freezing."
-    A floor that asserts only the NEGATIVE half is PASSED BY A CORPSE -- vlPAG cannot fire, so it cannot
+    A floor that asserts only the NEGATIVE half is PASSED BY A CORPSE -- Mc cannot fire, so it cannot
     fire at rest, so the negative half is green and proves nothing (the v9 lesson: a passing guard can
-    certify an absence, not a mechanism). So the positive half is asserted too, and it is CURRENTLY RED
-    -- correctly: the MeA->VMH sign flip revived VMH (0.000->0.205 under a defensive cue) and CeA
-    disinhibits vlPAG (crushes vlPAG-GABA to 0), but vlPAG STILL reads ~0.001 because VMH->vlPAG is too
-    weak (Q2, its own pass). THE RED IS THE Q2 GAP. This is strictly better than an xfail: the test
-    states the WHOLE claim, the substrate disagrees with half of it, and it SELF-CLEARS with no
-    resolution condition -- when Q2 gives vlPAG its drive, the positive half passes and the floor becomes
-    real (the aggression keystone is the model: provocation->0.725->attack AND neutral->0, both halves,
-    which is why it means something). NB the positive cue uses a predator-type olfactory threat as a
-    proxy -- the true predator-odor channel is itself a registered gap (S45), so the green may also wait
-    on it; either way the assertion is honest about what freezing requires."""
+    certify an absence, not a mechanism). So the positive half is asserted too, and it is CURRENTLY RED.
 
-    def _vlpag(self, **channels):
+    ★ READS THE EFFECTOR, NOT THE COLUMN (v14 freezing OUTPUT). Earlier this measured `vlPAG` -- but
+    freezing is a BEHAVIOUR, and a behaviour is READ at its effector, not at the felt-state column
+    (exactly the defect _DISTRESS_DISPLAY had, which Phase C fixed by pointing the display at the
+    effectors). vlPAG's only prior efferent was NRA (the VOCAL relay): the freezing column had a driver
+    and a felt state but NO FREEZING EFFECTOR -- the premotor target `Mc` (magnocellular medulla) named
+    in the SECOND CLAUSE of the very Tovote 2016 sentence we cite on CeA->vlPAG-GABA was never built
+    (partial-completion, 4th instance). `Mc` is now built (motor_effector terminal), and this floor
+    reads `Mc` -- freezing, where it gets read.
+
+    Why the positive half is STILL red, now measured honestly: building the output revealed the drive
+    gap it was hiding. Under threat CeA disinhibits the selector (vlPAG-GABA -> 0) and VMH is driven
+    (0.205), yet vlPAG-glut reads ~0.001 -- it actually DROPS under threat, because the CORRECT
+    DRN->vlPAG anxiolytic suppressor (Deakin & Graeff; ruled correct) is threat-driven and OVERPOWERS the
+    weak VMH->vlPAG drive. So Mc stays at baseline. THE RED IS THE DRIVE GAP: the driver is still unfound
+    (VMH does NOT suffice; PBN/SC-Pv are the candidates, and the driver must overcome DRN). It self-clears
+    with no resolution condition when the grounded driver lands. NB the positive cue uses a predator-type
+    olfactory threat as a proxy -- the true predator-odor channel is a registered gap (S45)."""
+
+    def _mc(self, **channels):
+        # freezing is read at the EFFECTOR (Mc), not the vlPAG column (v14 freezing OUTPUT).
         e = SubstrateEngine(_MODEL, age_years=25.0)
         e.clear_inputs()
         for ch, v in channels.items():
             e.inject_channel(ch.replace("__", ":").replace("_DASH_", "-"), v)
         e.settle(35)
-        return e.activity("vlPAG")
+        return e.activity("Mc")
 
     def test_neutral_and_conspecific_do_not_produce_freezing(self):
-        # NEGATIVE half -- NO THREAT -> NO FREEZING. Neutral and a plain conspecific-odour encounter
-        # must leave the freezing column low. (Currently trivially held; becomes load-bearing once the
-        # positive half below can pass -- see the class docstring.)
-        self.assertLess(self._vlpag(), 0.10)                                    # neutral
-        self.assertLess(self._vlpag(**{"IN_DASH_OLF__conspecific": 0.9}), 0.10)  # conspecific odour
+        # NEGATIVE half -- NO THREAT -> NO FREEZING at the effector. Neutral and a plain conspecific-odour
+        # encounter must leave Mc low. (Currently trivially held; becomes load-bearing once the positive
+        # half below can pass -- see the class docstring.)
+        self.assertLess(self._mc(), 0.10)                                    # neutral
+        self.assertLess(self._mc(**{"IN_DASH_OLF__conspecific": 0.9}), 0.10)  # conspecific odour
 
     def test_defensive_threat_produces_freezing(self):
-        # POSITIVE half -- THREAT -> FREEZING. A predator-type defensive threat (nociception disinhibits
-        # vlPAG via CeA; olfactory drives VMH, the freezing driver) must raise the freezing column.
-        # CURRENTLY RED: vlPAG stays ~0.001 -- CeA crushes vlPAG-GABA to 0 (disinhibited) and VMH is
-        # driven (0.205), so the ONLY thing blocking is the weak VMH->vlPAG band (Q2). The red IS the
-        # gap; it self-clears when Q2 gives vlPAG its drive. Do NOT make this pass by lowering the
-        # threshold -- fix the mechanism (Q2), not the measure.
-        self.assertGreater(self._vlpag(**{"IN_DASH_SOMATO__nociception": 0.9, "IN_DASH_OLF": 0.9}), 0.10)
+        # POSITIVE half -- THREAT -> FREEZING at the effector. A predator-type defensive threat must raise
+        # Mc, the freezing premotor. CURRENTLY RED: the output gap is closed (Mc exists) but the DRIVE gap
+        # remains -- vlPAG-glut reads ~0.001 (VMH is too weak and is overpowered by the threat-driven
+        # DRN->vlPAG suppressor), so Mc stays at baseline ~0.057. The red IS the drive gap; it self-clears
+        # when the grounded driver (PBN/SC-Pv, overcoming DRN) lands. Do NOT make this pass by lowering the
+        # threshold -- fix the mechanism (the driver), not the measure.
+        self.assertGreater(self._mc(**{"IN_DASH_SOMATO__nociception": 0.9, "IN_DASH_OLF": 0.9}), 0.10)
 
 
 class TestAggressionPathwayClosesOBS3(unittest.TestCase):

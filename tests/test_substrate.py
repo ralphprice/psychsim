@@ -41,7 +41,7 @@ class TestInstantiation(unittest.TestCase):
         # motor output; M1-face->NuFac/NuAmb-vocal corticobulbar = the posed expression + the crosstalk that
         # tests S22) and +PAG-PANIC-GABA (the vocal suppressor's interneuron; PMC-l -> PAG-PANIC-GABA -| PAG-PANIC
         # -- forced by the receptor-sign convention, a cortical glutamatergic suppressor cannot inhibit directly).
-        self.assertEqual(len(m.circuits), 95)  # v14 defensive-drive (A): +VMHvl-GABA (the VMHvl shell interneuron; MeA-MePD disinhibition)
+        self.assertEqual(len(m.circuits), 96)  # v14 freezing OUTPUT: +Mc (the freezing premotor effector, Tovote's 2nd clause; motor_effector terminal)
         self.assertGreater(len(m.connections), 130)     # circuit->circuit edges
         self.assertGreater(len(m.input_edges), 15)      # sensory channel entry edges
         # inhibitory nuclei derived from principal transmitter (GABAergic)
@@ -58,7 +58,7 @@ class TestInstantiation(unittest.TestCase):
         young = SubstrateEngine(_MODEL, age_years=0.0)
         adult = SubstrateEngine(_MODEL, age_years=25.0)
         self.assertLess(len(young.live_circuits()), len(adult.live_circuits()))
-        self.assertEqual(len(adult.live_circuits()), 95)   # v14 defensive-drive (A): all 95 online by adulthood (+VMHvl-GABA online 0.0, the VMHvl shell interneuron)
+        self.assertEqual(len(adult.live_circuits()), 96)   # v14 freezing OUTPUT: all 96 online by adulthood (+Mc online 0.0, the freezing premotor effector)
 
 
 class TestLeakyIntegrator(unittest.TestCase):
