@@ -35,6 +35,36 @@ def _act(appr, age=25.0):
     return respond_to_substrate(e, appr)
 
 
+class TestFreezingFloor(unittest.TestCase):
+    """v14 defensive-drive (A): the analogue of the aggression floor, for the FREEZING column. The
+    MeA->VMH sign flip (glutamatergic, MePV predator-defence -- was -1 by transmitter-field TYPING
+    ORDER, S44) makes MeA DRIVE the defensive column, and MeA fires on any olfactory/conspecific cue
+    (PIR, V-ventral). So the concern the ruling named: a NEUTRAL or CONSPECIFIC encounter must not
+    produce freezing.
+
+    ⚠️ HONESTY FLAG (S45): this currently passes TRIVIALLY, and passing is NOT reassurance yet. The
+    sign flip revived VMH (0.000 -> 0.116) but vlPAG STILL barely fires (~0.008) -- VMH->vlPAG is too
+    weak (Q2, its own pass). So 'no freezing' holds because the OUTPUT is dead, NOT because a floor
+    mechanism restrains it. That is the v9 lesson verbatim ('a floor that has never existed is not a
+    floor that has held' -- the aggression floor once held on a lumping artifact). This becomes a REAL
+    floor -- one that could actually be violated -- only when Q2 gives vlPAG its drive; until then the
+    guard is a placeholder that documents the requirement and will start to bite when the column lives."""
+
+    def _vlpag(self, **channels):
+        e = SubstrateEngine(_MODEL, age_years=25.0)
+        e.clear_inputs()
+        for ch, v in channels.items():
+            e.inject_channel(ch.replace("__", ":").replace("_DASH_", "-"), v)
+        e.settle(35)
+        return e.activity("vlPAG")
+
+    def test_neutral_and_conspecific_do_not_produce_freezing(self):
+        # NO THREAT -> NO FREEZING. Neutral and a plain conspecific-odour encounter must leave the
+        # freezing column low. (Trivially held until Q2 -- see the class docstring.)
+        self.assertLess(self._vlpag(), 0.10)                                    # neutral
+        self.assertLess(self._vlpag(**{"IN_DASH_OLF__conspecific": 0.9}), 0.10)  # conspecific odour
+
+
 class TestAggressionPathwayClosesOBS3(unittest.TestCase):
     def test_provocation_drives_the_attack_area(self):
         # OBS-3 fix: under provocation, aggression is now the DOMINANT drive (in v8 it was 0 --

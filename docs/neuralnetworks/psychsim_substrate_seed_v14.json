@@ -915,7 +915,8 @@
     "S41 -- MeA is the TENTH lump and VMH the ELEVENTH, and both MeA->VMH edges need re-grounding as ONE keystone-bound pass (v14 defensive-drive, Half 1; RULED diagnose-do-not-build). Grounded: MeApv (GLUTAMATERGIC) -> VMHdm (our VMH, predator-defence) vs MePD (GABAergic) -> VMHvl (reproduction/aggression) -- opposite transmitters, opposite targets, opposite functions, one node; the seed's transmitter field 'GABA/glutamate' IS the lump, and the fallback resolved it by coin-flip (picked GABA -> killed VMH's drive -> vlPAG dead). VMH is also lumped: core (glutamatergic, projecting) + shell (GABAergic, inhibits core). CONSEQUENCES: (1) MeA->VMH should be GLUTAMATERGIC (+) -- the grounded fix for vlPAG's missing drive, available. (2) MeA->VMHvl (currently AMPA, and it FEEDS THE AGGRESSION KEYSTONE) is probably WRONG: MePD->VMH is GABAergic and the shell inhibits the core, so the aggression route is very likely MePD(GABA)->VMH shell(GABA)->disinhibits the core -- the CeA->vlPAG-GABA disinhibition architecture. Our AMPA = right OUTCOME by the wrong MECHANISM, the v9 keystone-flip story on a keystone edge. Fixing one sign inside a lump is how the CeA->PAG artifact happened -- bring the split + both edges together. Q2 (what drives vlPAG once disinhibited) waits: the VMH=0.116 counterfactual was measured on the wrong (lumped) node.",
     "S42 -- THE INPUT SURFACE HAS GAPS (catalogue-vs-channels audit; mechanical, report-only). 14 cited innate reinforcers vs 23 wired channels; a missing channel is a NULL not an error, so each gap is a mechanism the model cites and CANNOT exercise: PB-LOOMING (no IN-VIS:looming -- the escape TRIGGER; SC-Pv->dPAG cites it; the escape circuit has never seen a real escape cue); PB-STARTLE (COCH is COMPLETELY unafferented + the only IN-AUD is voice->A1-belt/cortex -> startle dead at the input); PR-SALT (no IN-GUST:salt); PR-HOMEOSTATIC (thirst missing; hunger/satiety/CO2 wired); + IN-PROPRIO (S23). ★★ THE AUDITORY INPUT SURFACE IS BROKEN: COCH (brainstem auditory entry) has NO afferents at all and there is no bare IN-AUD -- the whole subcortical pathway COCH->AUD-brainstem(IC)->SC-Pv/MGN is unafferented. ONE gap explains THREE findings: startle can't fire, the cry can't reach SC-Pv, the cry can't reach the IC (Phase C injection-depth generalised: not 'the cry enters too high' but 'the subcortical auditory input does not exist'). THE RULE: every cited innate reinforcer must have a working input channel; run this audit before each build.",
     "S43 -- THE LUMP CENSUS (mechanical, report-only; the lump-detector at scale). Detector: dominant_receptor None AND a source whose transmitter field names TWO transmitters (the two-transmitter filter is what makes it a detector -- the fallback is CORRECT for a homogeneous source; the raw 161/236=68% fallback count is not the finding). 16 lump-declaring sources found BY QUERY. DANGEROUS subset (subpopulation-lumps, projection sign flips by subpopulation -- the coin-flip can be backwards as MeA->VMH was): MeA, VMH, MPOA, BNST, HYPdm, PVN (hypothalamic/amygdala). Lower-risk (cortical/relay: glut projection + local GABA, fallback probably + but sign is silently ORDER-DEPENDENT on the transmitter field -- 'glutamate/GABA'->+, 'GABA/glutamate'->-): A1-belt, AUD-brainstem, S1, V1, VN, pIns, dlPFC, RET, NAc-shell, PPTg. 11 lumps were found by accident one at a time; this detector finds them by query -- a mechanical pre-computation of the 209-edge audit's wrong-target/missing-element categories. Report, fix nothing.",
-    "S44 -- ★ THE FALLBACK SIGN IS SET BY TYPING ORDER -- an accident WITH a sign (v14 defensive-drive, RULED register with the census S43; the most alarming thing in the pass). For a two-transmitter source on the receptor fallback, the sign is the source's PRINCIPAL-transmitter default -- which for 'glutamate/GABA' resolves + and for 'GABA/glutamate' resolves - . So the sign of every fallback edge from a heterogeneous source is determined by WHICH TRANSMITTER THE AUTHOR WROTE FIRST. MeA->VMH's wrong sign (-1, killing vlPAG's drive) was not a coin-flip -- it was TYPING ORDER. 161/236 edges run on the fallback; for the 16 two-transmitter sources (S43), the transmitter field is not a description, it is a SIGN hidden in a string in an order nobody chose deliberately. A default announces itself; this does not. This makes the lump census URGENT not merely useful: the 6 dangerous sources (MeA/VMH/MPOA/BNST/HYPdm/PVN) are 6 signs currently set by punctuation. Report; the fix travels with each source's grain pass."
+    "S44 -- ★ THE FALLBACK SIGN IS SET BY TYPING ORDER -- an accident WITH a sign (v14 defensive-drive, RULED register with the census S43; the most alarming thing in the pass). For a two-transmitter source on the receptor fallback, the sign is the source's PRINCIPAL-transmitter default -- which for 'glutamate/GABA' resolves + and for 'GABA/glutamate' resolves - . So the sign of every fallback edge from a heterogeneous source is determined by WHICH TRANSMITTER THE AUTHOR WROTE FIRST. MeA->VMH's wrong sign (-1, killing vlPAG's drive) was not a coin-flip -- it was TYPING ORDER. 161/236 edges run on the fallback; for the 16 two-transmitter sources (S43), the transmitter field is not a description, it is a SIGN hidden in a string in an order nobody chose deliberately. A default announces itself; this does not. This makes the lump census URGENT not merely useful: the 6 dangerous sources (MeA/VMH/MPOA/BNST/HYPdm/PVN) are 6 signs currently set by punctuation. Report; the fix travels with each source's grain pass.",
+    "S45 -- PREDATOR-ODOR CHANNEL GAP + the freezing floor is TRIVIALLY held (v14 defensive-drive (A), built + honest). (i) CHANNEL GAP: MePV (the MeA defensive arm) is defined by its response to PREDATOR ODOR (cat odor), but MeA's afferents are PIR + V-ventral only -- no predator channel (IN-OLF is generic; IN-CONSPEC is attractive_face/formidability/kin). So MeA cannot be split (MePV/MePD would be undrivable-apart -- the PrH block, the 3rd recursion), and the (A) fix leaves the LUMP FUNCTIONAL BUT UNRESOLVED: MePV and MePD fire TOGETHER (one activation), so a predator cue and a conspecific cue drive BOTH routes. Joins PB-LOOMING/ PB-STARTLE/PR-SALT/PR-HOMEOSTATIC/IN-PROPRIO (S42). Predicted by the input-surface audit before it was needed. (ii) THE FREEZING FLOOR IS TRIVIALLY HELD: the MeA->VMH sign flip revived VMH (0.000->0.116) but vlPAG STILL barely fires (0.008) -- VMH->vlPAG (low-moderate) is too weak. So 'neutral/conspecific -> no freezing' passes, but it passes BECAUSE vlPAG is dead (Q2), NOT because a floor mechanism restrains it -- the v9 lesson exactly ('a floor that has never existed is not a floor that has held'). The floor becomes a REAL test when Q2 (vlPAG's driver / the VMH->vlPAG band) lands. Guard placed, flagged trivial."
   ],
   "circuits": [
     {
@@ -2894,6 +2895,28 @@
       "confidence": "E",
       "evidence_base": "human+animal",
       "sources": "Craig 2002; Saper 2002"
+    },
+    {
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "baseline_activation": 0.05,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "calibration_active_default": true,
+      "time_constant_tau_ms": 100,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "domain": "defensive_threat",
+      "transmitters": "GABAergic (vlPAG local interneuron)",
+      "evidence_base": "animal_dominant",
+      "confidence": "Em",
+      "id": "VMHvl-GABA",
+      "name": "VMHvl shell GABAergic interneuron",
+      "nodes": "ventrolateral VMH shell (GABAergic cells inhibiting the glutamatergic core)",
+      "function": "The GABAergic SHELL of VMHvl, inhibiting its glutamatergic CORE -- v14 defensive-drive (A) ADDED. VMH has a cell-poor shell of GABAergic cells that inhibit the core projection neurons; the aggression route from MeA is MePD (GABAergic) -> this shell -> DISINHIBITS the core, the SAME disinhibition architecture as CeA -> vlPAG-GABA (a forebrain projection made net-excitatory-onto-output through the column's own gate). Replaces the old MeA->VMHvl AMPA-DIRECT edge, which gave the right OUTCOME by the wrong MECHANISM (the v9 keystone-flip shape on a keystone edge). RECURRENT-E-I CLASS: scaffold baseline (no cited tonic rate for the VMH shell; ground the loop, not a rate -- the gate taxonomy default; forcing a pacemaker rate would invent one). STRUCTURAL ELEMENT (temperament-excluded, scan-lesionable). Bands inherited byte-for-byte from the twin vlPAG-GABA. Provisional, like every baseline.",
+      "sources": "Tovote et al. 2016 Nature 534:206 (CeA GABAergic -> vlPAG GABAergic interneurons -> disinhibits output -> freezing); Hao et al. 2019 Cell Rep 28:616 (BNST/LH GABAergic -> anterior vlPAG GABAergic cells)",
+      "structural_element": true
     }
   ],
   "connections": [
@@ -5120,7 +5143,8 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 0.0,
       "confidence": "Em",
-      "source": "social/chemosensory -> sexual behaviour (VMH); gonadal-steroid gated at puberty; animal-dominant"
+      "source": "v14 defensive-drive (A): MeA -> VMH SIGN RE-GROUNDED to glutamatergic (+). MePV cells that project to VMHdm (our VMH, the predator-defence node) are GLUTAMATERGIC and fire to CAT ODOR (Choi et al.; the MeA/MePV predator-defence arm). The fallback had picked GABA (-1) purely by transmitter-field TYPING ORDER ('GABA/glutamate' -> GABA; S44), silently suppressing the defensive column and leaving vlPAG dead. This gives VMH -> vlPAG its excitatory drive (necessary-not-sufficient: Q2, the VMH->vlPAG band, re-runs after). ★ LUMP COST DISCLOSED (S45): MeA is the tenth lump (MePV glut/predator vs MePD GABA/reproduction) and cannot be split -- MePV's defining afferent is PREDATOR ODOR, which has no input channel (MeA <- PIR, V-ventral only), so a split would make MePV/MePD undrivable-apart (the PrH block). So this edge is glutamatergic and MeA->VMHvl-GABA is GABAergic (sign is per-EDGE), and both are right -- BUT MePV and MePD still fire TOGETHER (one activation), so a predator cue and a conspecific cue drive BOTH routes. That cost stays until the input surface can tell a predator from a conspecific (S45 predator-odor channel gap).",
+      "dominant_receptor": "AMPA"
     },
     {
       "source_circuit": "VMH",
@@ -6182,25 +6206,6 @@
       "source": "v14 Phase-2 kinship: the self-referent kin-recognition signal (signature_match) drives oxytocin. OT mediates BOTH social recognition (Oettl et al. 2016, Neuron -- OT modulates conspecific-odour recognition) and social reward (Dolen et al. 2013, Nature; Hung et al. 2017, Science -- OT is the social-reinforcement signal in NAc/VTA, signalling the salience of a FAMILIAR partner), so a kin-recognition cue reaching affiliation runs THROUGH oxytocin -> the now-drivable PVN-OT -> the Phase-1 bonding scaffold (PVN-OT->NAc-shell/MeA/SEPT/MPOA). Collapses the chemosignal-detection->OT relay into the sensory drive, mirroring the affective_touch->PVN-OT edge. innate_reinforcer: favouring self-similar kin is an innate primary social bias. NEPOTISM EMERGES from OT driving bonding -- NOT a coded similarity->affiliation coefficient; the cue is self-similarity (signature_match: self-referent, signature-only), relatedness never downstream of spawn."
     },
     {
-      "source_circuit": "MeA",
-      "target_circuit": "VMHvl",
-      "default_weight": 0.1,
-      "default_weight_basis": "assumption",
-      "weight_bounds": [
-        0.0,
-        1.0
-      ],
-      "gating_neuromodulator": "none",
-      "eligibility_trace_tau_ms": 1000,
-      "plasticity_coeff_schedule_ref": "hypothalamic_low_flat",
-      "is_innate_reinforcer_link": false,
-      "developmental_online_age": 0.0,
-      "confidence": "Em",
-      "source": "v11 Allen audit C1. Existence: MeApd->VMHvl is a canonical dense aggression-circuit projection (Lin 2011 Nature 470:221; Hashikawa 2017 Nat Neurosci 20:1580; Nordman 2020 J Neurosci 40(25):4858). SCAFFOLD weight. Sign emerges INHIBITORY from MeA's principal transmitter (GABA-leading) -- a conspecific-cue brake on the attack area; effect measured, not a coded drive. NOT cherry-picked by sign. | v12a sign: dominant_receptor=AMPA. MODERATE (mixed-projection AMBIGUITY, flagged) -- MeApd->VMHvl is a genuinely mixed GABA/glutamate projection; the aggression-relevant drive is taken as glutamatergic (Lin 2011 Nature 470:221; Hashikawa 2017 Nat Neurosci 20:1580; Nordman 2020 J Neurosci 40(25):4858). This RETIRES v11's inhibitory 'conspecific-cue brake', which was an artifact of the GABA-leading nucleus rule. The mixed nature is documented, not resolved by preference. | v12a WEIGHT RECALIBRATION (scaffold magnitude; sign stays receptor-derived +): lowered moderate(0.5)->0.1 so MeA->VMHvl PRIMES the attack area sub-threshold (conspecific cue alone VMHvl~0.17, no attack; rest~baseline) rather than DRIVES it (0.5 gave cue-alone 0.99 = unprovoked attack-on-sight). Preserves the grounded provocation-specific-aggression property (provocation still fires attack) and matches the design-session C1 intent (MeA presents a cue, provocation tips the race). Sign from receptor; only the magnitude tuned; property re-proven.",
-      "dominant_receptor": "AMPA",
-      "dominant_receptor_basis": "MODERATE (mixed-projection AMBIGUITY, flagged) -- MeApd->VMHvl is a genuinely mixed GABA/glutamate projection; the aggression-relevant drive is taken as glutamatergic (Lin 2011 Nature 470:221; Hashikawa 2017 Nat Neurosci 20:1580; Nordman 2020 J Neurosci 40(25):4858). This RETIRES v11's inhibitory 'conspecific-cue brake', which was an artifact of the GABA-leading nucleus rule. The mixed nature is documented, not resolved by preference."
-    },
-    {
       "source_circuit": "LH",
       "target_circuit": "LHb",
       "default_weight": "moderate",
@@ -7058,6 +7063,42 @@
       "confidence": "E",
       "source": "v14 D6 fix #2 door 1 -- PGi's EXTEROCEPTIVE arm, the CITED edge (Van Bockstaele, Akaoka & Aston-Jones 1993, Brain Res 603:1-18; topographic companion). Dorsal PAG projects to the ROSTRAL/juxtafacial PGi 'medial to the facial nucleus' -- the LC-PROJECTING pole (l/vlPAG label the retrofacial pole instead, so the topography is real and the DORSAL column reaches the LC-projecting one). Creates a NON-AMYGDALA route from visual distress to the teaching signal: IN-VIS:biological_motion -> SC-Pv -> dPAG -> PGi -> LC (SC-Pv-> dPAG and PGi->LC already exist). Band `moderate` = the anatomical default, grounded FROM THE SOURCE, NOT chosen to dissolve the entailment. NB found by asking what the paper says is there, NOT what would dissolve the entailment -- the opposite epistemics from the refused SC-Pv->PGi (which the paper confirms is NOT a PGi afferent: the cited set is somatosensory/auditory/autonomic, no visual/collicular input).",
       "phasic_drive": true
+    },
+    {
+      "source_circuit": "MeA",
+      "target_circuit": "VMHvl-GABA",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "v14 defensive-drive (A): MePD (GABAergic) -> the VMHvl shell -> DISINHIBITS the core. Replaces the AMPA-direct MeA->VMHvl (right outcome, wrong mechanism). Band inherited byte-for-byte from the twin CeA->vlPAG-GABA (moderate-strong). Net effect: MeA promotes aggression by disinhibition (MeA -| shell -| core).",
+      "dominant_receptor": "GABA-A"
+    },
+    {
+      "source_circuit": "VMHvl-GABA",
+      "target_circuit": "VMHvl",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "v14 defensive-drive (A): the VMHvl shell inhibits its glutamatergic core. Band inherited byte-for-byte from the twin vlPAG-GABA->vlPAG (strong).",
+      "dominant_receptor": "GABA-A"
     }
   ]
 }
