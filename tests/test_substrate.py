@@ -214,3 +214,42 @@ class TestNeuromodulatorDiscipline(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestS57BaselineMaturation(unittest.TestCase):
+    """S57 -- the developmental trajectory for neuromodulator baselines (the four-pacemaker table).
+    The substrate had developmental_online_age (circuit ONSET) and maturation curves for a circuit's
+    CONTRIBUTION, but no maturing BASELINE -- so a neuromodulator whose tonic rate develops (DRN, VTA,
+    SNc, BF-ACh, LC; all mature postnatally) could not be represented, and DRN's scaffold-low 0.05 was
+    accidentally standing in for exactly that immaturity (it broke the aggression keystone when frozen as
+    an adult constant). This is the MECHANISM: baseline_activation is the ADULT target; a
+    baseline_schedule_ref matures it from onset to adult, parallel to plasticity_coeff_schedule_ref.
+    Step 1 (mechanism) only -- no circuit carries a baseline_schedule_ref yet (that is step 2, and the
+    per-node human-age maturation curves are the reviewer's grounding). So the mechanism must be DORMANT
+    (byte-identical) on the shipped seed, and CORRECT when exercised."""
+
+    def test_mechanism_is_dormant_on_the_seed(self):
+        # step 1: nothing uses it yet -> the substrate is byte-identical to pre-S57.
+        m = load_substrate()
+        self.assertEqual([c.id for c in m.circuits.values() if c.baseline_schedule_ref], [])
+
+    def test_no_schedule_uses_the_static_baseline(self):
+        m = load_substrate()
+        e = SubstrateEngine(m, age_years=25.0)
+        c = m.circuits["CeA"]                       # a normal circuit, no baseline schedule
+        self.assertEqual(e._baseline_at_age(c), c.baseline)
+
+    def test_a_maturing_baseline_rises_from_immature_to_adult(self):
+        # exercise the mechanism in memory (a circuit given an adult target + a childhood curve):
+        # the effective baseline must be LOW in early childhood and reach the adult target by maturity.
+        m = load_substrate()
+        c = m.circuits["DRN"]
+        c.baseline = 0.30                            # adult target
+        c.baseline_schedule_ref = "subcortical_juvenile"
+        young = SubstrateEngine(m, age_years=2.0)._baseline_at_age(c)
+        mid = SubstrateEngine(m, age_years=5.0)._baseline_at_age(c)
+        adult = SubstrateEngine(m, age_years=25.0)._baseline_at_age(c)
+        self.assertLess(young, mid)                  # monotone rise
+        self.assertLess(mid, adult + 1e-9)
+        self.assertAlmostEqual(adult, 0.30, places=6)  # reaches the adult target
+        self.assertLess(young, 0.15)                 # immature value is BELOW the keystone-break threshold

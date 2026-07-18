@@ -25,10 +25,10 @@ class SubstrateEngine:
         self.model = model or load_substrate()
         self.age_years = age_years
         m = self.model
-        # dynamical state
-        self.activation: Dict[str, float] = {cid: c.baseline for cid, c in m.circuits.items()}
-        self.theta: Dict[str, float] = {cid: c.baseline for cid, c in m.circuits.items()}
-        self.mean_activity: Dict[str, float] = {cid: c.baseline for cid, c in m.circuits.items()}
+        # dynamical state (initialised at the age-appropriate baseline -- S57)
+        self.activation: Dict[str, float] = {cid: self._baseline_at_age(c) for cid, c in m.circuits.items()}
+        self.theta: Dict[str, float] = {cid: self._baseline_at_age(c) for cid, c in m.circuits.items()}
+        self.mean_activity: Dict[str, float] = {cid: self._baseline_at_age(c) for cid, c in m.circuits.items()}
         self.weight: List[float] = [c.weight0 for c in m.connections]
         self.eligibility: List[float] = [0.0] * len(m.connections)
         self.external: Dict[str, float] = {}
@@ -52,6 +52,23 @@ class SubstrateEngine:
         self.pruned: List[bool] = [False] * len(m.connections)
         self._step_i = 0
         self._refresh_live()
+
+    def _baseline_at_age(self, c) -> float:
+        """S57 -- the age-appropriate baseline. `c.baseline` is the ADULT/mature target; a
+        circuit whose tonic rate MATURES postnatally (the neuromodulator pacemakers -- the
+        four-pacemaker table) carries a `baseline_schedule_ref`, and its effective baseline is
+        the adult value scaled by the SAME maturation curve that matures a circuit's functional
+        contribution (immature -> adult, from onset). Exactly parallel to how a schedule_ref
+        gives an edge a maturing WEIGHT (pfc_low_early_high_late). No schedule -> the static
+        baseline, unchanged. This is the missing field: the substrate had developmental_online_age
+        (onset) and plasticity/maturation curves, but no maturing BASELINE -- so a neuromodulator
+        whose tonic rate develops (DRN's scaffold-low was standing in for exactly this) could not
+        be represented. Direction note: for DRN the model baseline is the FUNCTIONAL 5-HT output
+        (matures UP: low child brake -> high adult), NOT the raw firing rate (immature
+        hyperexcitability is a separate cellular feature)."""
+        if c.baseline_schedule_ref:
+            return c.baseline * P.maturation(c.baseline_schedule_ref, self.age_years, c.online_age)
+        return c.baseline
 
     # -- the two-switch live set (S2.3) -----------------------------------
     def set_age(self, age_years: float) -> None:
@@ -182,7 +199,7 @@ class SubstrateEngine:
             r = self.reactivity.get(cid)
             if r is not None and r != 1.0:
                 inp *= r
-            da = (dt / c.tau_ms) * (-(a[cid] - c.baseline) + inp)
+            da = (dt / c.tau_ms) * (-(a[cid] - self._baseline_at_age(c)) + inp)
             lo, hi = c.bounds
             new_a[cid] = P.clamp_weight(a[cid] + da, lo, hi)
         self.activation = new_a

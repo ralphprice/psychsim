@@ -146,6 +146,7 @@ class Circuit:
     homeostatic_setpoint: float = 0.1
     online_age: float = 0.0
     schedule_ref: str = ""
+    baseline_schedule_ref: str = ""      # S57: if set, baseline is the ADULT target and MATURES to it on this curve
     calibration_active: bool = True
     sign: float = 1.0                 # +1 excitatory / -1 inhibitory (from transmitters)
     name: str = ""                    # descriptive only; never read by the dynamics
@@ -244,6 +245,7 @@ def load_substrate(path: Optional[str] = None) -> SubstrateModel:
             homeostatic_setpoint=float(c.get("homeostatic_setpoint", 0.1)),
             online_age=float(c.get("developmental_online_age", 0.0) or 0.0),
             schedule_ref=c.get("plasticity_coeff_schedule_ref", ""),
+            baseline_schedule_ref=c.get("baseline_schedule_ref", ""),
             calibration_active=bool(c.get("calibration_active_default", True)),
             sign=_sign(c.get("transmitters", "")),
             structural_element=bool(c.get("structural_element", False)),
