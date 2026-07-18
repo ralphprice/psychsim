@@ -86,6 +86,12 @@ class SpeechAct:
     articulacy: float = 0.6             # rendering knob only, 0..1
     topic: str = "it"
     tick: int = 0
+    displayed_affect: float = 0.0       # A's net DISPLAYED affective valence, read from A's
+                                        # expression effectors (face+voice above rest, masking baked
+                                        # in by the two L7 pathways). < 0 = visible distress/hostility;
+                                        # 0 = a neutral face. The substrate has no warmth effector, so
+                                        # this is <= 0. Crosses to the receiver via a SEPARATE vigilance
+                                        # roll (perceive_affect) -- dissociable from the act's deception.
 
     def __post_init__(self) -> None:
         if self.intent not in ACT_TYPES:
@@ -107,15 +113,17 @@ class SpeechAct:
 def act_from_behaviour(behaviour: str, speaker_id: str, target_id: str,
                        intensity: float = 0.5, register: str = "adult",
                        articulacy: float = 0.6, topic: str = "it",
-                       tick: int = 0) -> SpeechAct:
+                       tick: int = 0, displayed_affect: float = 0.0) -> SpeechAct:
     """The substrate has produced an emergent action (a Panksepp behaviour); produce the
     speech-act that action characteristically makes. Unknown actions fall back to a neutral
-    ASSERT so extensions with extra behaviours still speak."""
+    ASSERT so extensions with extra behaviours still speak. `displayed_affect` (<= 0) is A's
+    visible affective display read from its expression effectors -- it rides the act but crosses
+    on its OWN vigilance roll (see perceive_affect / exchange)."""
     spec = BEHAVIOUR_ACT.get(behaviour, {"intent": "ASSERT"})
     return SpeechAct(speaker_id, target_id, spec["intent"],
                      surface=spec.get("surface"), intensity=intensity,
                      register=register, articulacy=articulacy,
-                     topic=topic, tick=tick)
+                     topic=topic, tick=tick, displayed_affect=displayed_affect)
 
 
 # ---------------------------------------------------------------------------
@@ -153,12 +161,35 @@ def perceive_act(act: SpeechAct, receiver_vigilance: float,
     return act.intent if rng.random() < p_detect else act.surface
 
 
+def perceive_affect(act: SpeechAct, receiver_vigilance: float,
+                    rng: random.Random) -> bool:
+    """Whether the receiver CATCHES the speaker's displayed affect -- a SEPARATE perception from
+    the act's own deception roll (perceive_act). The display is a faint non-verbal band: the
+    effector leakage the two L7 pathways could not fully mask. A vigilant perceiver reads it, an
+    inattentive one misses it; a larger display is easier to catch (mirrors perceive_act's shape).
+    The two rolls are dissociable ON PURPOSE -- a lie's words may be believed while its leaked
+    coldness is felt, or vice versa, which is exactly the masked-affect signal. Seeded RNG only, so
+    the dissociation is reproducible and EMERGENT, never scripted."""
+    if act.displayed_affect == 0.0:
+        return False                                   # a neutral face shows nothing to catch
+    p_catch = clamp(0.15 + 0.55 * receiver_vigilance + 0.15 * abs(act.displayed_affect))
+    return rng.random() < p_catch
+
+
 def appraisal_from_act(act: SpeechAct, perceived_as: Optional[str] = None,
+                       affect_seen: bool = False,
                        label: Optional[str] = None) -> Appraisal:
     """Build the Appraisal a received act imposes. If a deception has been
     detected, the receiver appraises a detected THREAT-adjacent betrayal:
     hostile valence and provocation, scaled up, because discovered manipulation
-    reads as an attack on the relationship."""
+    reads as an attack on the relationship.
+
+    The ACT band and the AFFECT band are folded together here, onto the SAME appraisal dimensions
+    (the two cross at the same seam). If the receiver caught A's displayed affect (`affect_seen`),
+    A's visible valence adds to the read: displayed negative affect raises `other_distress` and
+    `threat` and lowers `social_valence` (A looks distressed/hostile). The positive branch (warmth
+    raising `social_valence`) is present but latent -- the substrate produces no positive-display
+    effector, so `displayed_affect` is <= 0. Gains are SCAFFOLD."""
     perceived = perceived_as or act.surface
     if act.deceptive and perceived == act.intent:
         # detected deception: betrayal reading
@@ -170,6 +201,15 @@ def appraisal_from_act(act: SpeechAct, perceived_as: Optional[str] = None,
         current = getattr(a, dim)
         setattr(a, dim, clamp(current + w * (0.5 + 0.5 * act.intensity),
                               -1.0 if dim == "social_valence" else 0.0, 1.0))
+    # the affect band -- folded only if the receiver's vigilance caught the display
+    if affect_seen and act.displayed_affect != 0.0:
+        v = act.displayed_affect                       # signed: < 0 = visible distress/hostility
+        if v < 0.0:
+            a.other_distress = clamp(a.other_distress + (-v) * 0.5)
+            a.threat = clamp(a.threat + (-v) * 0.3)
+            a.social_valence = clamp(a.social_valence + v * 0.4, -1.0, 1.0)
+        else:                                          # latent positive branch (no effector yet)
+            a.social_valence = clamp(a.social_valence + v * 0.5, -1.0, 1.0)
     return a
 
 
@@ -188,7 +228,11 @@ class SpeechChannel:
     def exchange(self, act: SpeechAct, receiver_vigilance: float,
                  rng: random.Random) -> Appraisal:
         """Deliver an act: log it, resolve perception, return the appraisal
-        the receiver should now be run on."""
+        the receiver should now be run on. Two SEPARATE seeded rolls resolve the
+        two bands: the act (seen or its deception missed) and the displayed affect
+        (leakage caught or missed) -- dissociable, so a believed lie can still leak
+        its coldness to a vigilant hearer."""
         perceived = perceive_act(act, receiver_vigilance, rng)
+        affect_seen = perceive_affect(act, receiver_vigilance, rng)
         self.acts.append((act, perceived))
-        return appraisal_from_act(act, perceived)
+        return appraisal_from_act(act, perceived, affect_seen=affect_seen)

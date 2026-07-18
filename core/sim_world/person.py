@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
 from affective_engine import AffectiveAgent, TraitSeed
-from affective_engine.core import Appraisal
+from affective_engine.core import Appraisal, clamp
 
 from .world import World, LifeStage, stage_for_age
 
@@ -61,10 +61,18 @@ class Person:
         return stage_for_age(self.age_years(world))
 
     # -- perception --------------------------------------------------------
-    def perceive(self, world: World, event: Optional["SocialEvent"] = None) -> Appraisal:
+    def perceive(self, world: World, event: Optional["SocialEvent"] = None,
+                 partner_rel: Optional[object] = None) -> Appraisal:
         """Build the appraisal of the current situation from the local world
         state and any social event directed at this person. The affective engine
-        then activates circuits and selects a behavioural network from this."""
+        then activates circuits and selects a behavioural network from this.
+
+        `partner_rel` (duck-typed: `.familiarity`/`.affect`/`.trust`, a
+        GameMaster Relationship or None) is the RECORD of this person's history
+        with the specific other in the encounter. When present it COLOURS the
+        read -- the same situation is appraised differently by someone who
+        remembers the other -- but only colours: a directed event still
+        dominates. Gains are SCAFFOLD."""
         here = world.location_of(self.agent_id)
         inst = world.governing_institution(self.agent_id)
         others = world.co_present(self.agent_id)
@@ -80,6 +88,16 @@ class Person:
         a.reward = max(a.reward, self.body.needs.get("reward", 0.0))
         a.threat = max(a.threat, self.body.needs.get("safety", 0.0))
         a.exclusion = max(a.exclusion, self.body.needs.get("belonging", 0.0))
+
+        # the RECORD colours the read: history with THIS other shifts the appraisal, ADDING to (not
+        # overwriting) the institutional social read. Remembered warmth raises social_valence; low
+        # trust raises threat (reusing GameMaster._vigilance_of's own (1 - trust) convention).
+        # FAMILIARITY gates the whole read -- a barely-known other colours weakly, so a stranger
+        # (familiarity 0) is NOT appraised as a low-trust threat. Gains SCAFFOLD.
+        if partner_rel is not None:
+            w = clamp(partner_rel.familiarity)
+            a.social_valence = clamp(a.social_valence + partner_rel.affect * 0.5 * w, -1.0, 1.0)
+            a.threat = clamp(a.threat + (1.0 - partner_rel.trust) * 0.3 * w)
 
         # a directed social event dominates the appraisal
         if event is not None:

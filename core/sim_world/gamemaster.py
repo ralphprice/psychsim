@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 
 from affective_engine.core import clamp
-from substrate.social import is_cohesive_act, is_aggressive_act
+from substrate.social import is_cohesive_act, is_aggressive_act, displayed_distress
 from affective_engine.development import Environment, develop  # reuse the learning rule
 from speech.acts import act_from_behaviour, SpeechChannel, SpeechAct
 from speech.render import TemplateRenderer
@@ -201,12 +201,17 @@ class GameMaster:
         resp = speaker.social_act(appr, speaker.age_years(self.world))   # the substrate's emergent act
         intensity = clamp(0.35 + 0.5 * max(appr.provocation, appr.threat,
                                            appr.reward, appr.other_distress))
+        # the affect band: read the speaker's DISPLAYED valence off its now-settled expression
+        # effectors (masking baked in by L7). Signed <= 0 -- only distress is an effector. It rides
+        # the act but crosses on its own vigilance roll in the channel.
+        displayed = -displayed_distress(speaker.engine)
         act = act_from_behaviour(resp.behaviour, speaker.agent_id, hearer.agent_id,
                                  intensity=intensity,
                                  register=self._register_for(speaker),
                                  articulacy=self._articulacy_for(speaker),
                                  topic=topic,
-                                 tick=self.world.clock.interaction_step)
+                                 tick=self.world.clock.interaction_step,
+                                 displayed_affect=displayed)
         heard_appr = chan.exchange(act, self._vigilance_of(hearer, speaker.agent_id),
                                    self._rng)
         perceived = chan.acts[-1][1]
@@ -236,8 +241,9 @@ class GameMaster:
         place = world.location_of(actor.agent_id) or "?"
         chan = SpeechChannel()
 
-        # actor opens from its reading of the situation
-        a_appr = actor.perceive(world, event)
+        # actor opens from its reading of the situation -- coloured by its history with THIS target
+        a_appr = actor.perceive(world, event,
+                                partner_rel=self.rel(actor.agent_id, target.agent_id))
         opener, heard = self._one_turn(chan, actor, target, a_appr, topic)
 
         # target replies to what it actually heard (the perceived act)

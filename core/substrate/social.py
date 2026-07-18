@@ -130,6 +130,38 @@ def rest_activation(model, age_years: float = 25.0,
     return out
 
 
+# The emotional-expression EFFECTORS: the efferent motor output a co-present other can actually
+# sense -- the FACE (NuFac) and the VOICE (NuAmb-vocal). Reading these ABOVE fixed rest is what the
+# arena's vicarious-distress percept does per-modality (arena._add_consequence_percept, the sibling
+# read that splits face->IN-VIS and cry->IN-AUD); displayed_distress() below sums them into the ONE
+# net scalar the conversational affect band carries. Same L7 fact, two aggregations.
+_EXPRESSION_EFFECTORS = ("NuFac", "NuAmb-vocal")
+
+
+def displayed_distress(eng) -> float:
+    """A's net VISIBLE distress: its expression effectors (face + voice) above the FIXED rest
+    activation, so chronic distress stays visible (the running mean would adapt it away). This is
+    the DISPLAYED affect a co-present other can sense -- the efferent motor output, with the two L7
+    pathways' masking ALREADY baked into the effector activation -- NOT the internal affective
+    circuits (a co-located perceiver cannot see a CeA). Returns a magnitude in [0, 1]; 0 means a
+    face/voice at rest, displaying nothing.
+
+    ONE-SIDED BY CONSTRUCTION: the substrate has NO positive-affect (warmth/smile) effector -- the
+    motor set is distress-face, distress-cry, freezing, and the two volitional routes. So this reads
+    negative valence only; the smile is not a dimension the model produces, and inventing one is out
+    of scope. The signed valence the receiver folds is therefore <= 0."""
+    rest = rest_activation(eng.model, eng.age_years, eng.throttle)
+    total = 0.0
+    for effector in _EXPRESSION_EFFECTORS:
+        if not eng.live_circuit.get(effector, False):
+            continue
+        # the effector's output above the agent's FIXED rest -- the face/voice displaced from neutral
+        d = (eng.activation.get(effector, 0.0) - rest.get(effector, 0.0)) * eng._gain(effector)
+        if d > 0.0:
+            total += min(1.0, d)
+    return min(1.0, total)
+
+
 def _phasic_drive(engine: SubstrateEngine, act: str, circuits: tuple,
                   baseline: Dict[str, float]) -> float:
     """How much the current situation moved this affordance's population ABOVE the agent's own
