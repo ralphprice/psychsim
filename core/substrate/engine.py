@@ -63,9 +63,15 @@ class SubstrateEngine:
         baseline, unchanged. This is the missing field: the substrate had developmental_online_age
         (onset) and plasticity/maturation curves, but no maturing BASELINE -- so a neuromodulator
         whose tonic rate develops (DRN's scaffold-low was standing in for exactly this) could not
-        be represented. Direction note: for DRN the model baseline is the FUNCTIONAL 5-HT output
-        (matures UP: low child brake -> high adult), NOT the raw firing rate (immature
-        hyperexcitability is a separate cellular feature)."""
+        be represented. ★ DRN SEMANTICS (counterintuitive -- record correctly or the next person
+        inverts the curve): the DRN baseline here is the FUNCTIONAL INHIBITORY EFFICACY of the
+        5-HT system on the aggression circuit, which matures UP across childhood -- NOT tissue 5-HT
+        (which PEAKS in the first two postnatal years and DECLINES to adult; Hohmann 1988), and NOT
+        raw firing. It matures up because the RECEPTOR-AND-CIRCUIT machinery matures up: 5-HT1A
+        autoreceptor response + 5-HT innervation of frontal cortex (top-down inhibitory control)
+        both develop late, while transmitter level falls. That is why DRN maps to
+        pfc_low_early_high_late -- the frontal inhibitory-control maturation curve -- a GROUNDED
+        identification (same curve, same reason as the PFC), not a convenient pick."""
         if c.baseline_schedule_ref:
             return c.baseline * P.maturation(c.baseline_schedule_ref, self.age_years, c.online_age)
         return c.baseline
