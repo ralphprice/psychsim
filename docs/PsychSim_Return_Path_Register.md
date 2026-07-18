@@ -141,7 +141,16 @@ Q1 rank-as-emergent-circuit-tuning? · Q2 override phasing? · dmPFC→LA still 
 ### D4 — Learning pathways
 🔴 modeling/imitation NOT STARTED · 🔴 life-course accumulation (blocked on CeA operating point)
 
-### D6 — Vicarious
+### D6 — ✅ CLOSED (v14 D6 closeout; seed gaps-register S68)
+**Closes by the testable-claims rule (S35): the freezing mechanism is now TESTED.** The freezing column is
+GROUNDED-CORRECT (VMH→vlPAG strong + DRN on its S57 maturation curve balance); the floor is held RED **solely
+by S56** (the dlPFC cortical over-drive), whose **twin** is the divergence xfail — TWO expected reds, ONE
+cause, ONE fix (grounding S56 returns both green). **Three emergent findings** (from grounded curves, not
+coded): Gross reappraisal/suppression, Tremblay aggression trajectory, **Buckholtz 2010 reward-driven
+psychopathy**. Read-out boundary confirmed (core=domains, study=outcomes). **All remaining substrate work →
+`substrate_hardening_backlog` (S56 first — it gates the only two reds).** Next: **D4 → D3 (the purpose).**
+Older D6-vicarious items below → re-homed to D7 (display/contagion) or the backlog (CeA operating point,
+throttle-set/construct-validity audit).
 🔴 CeA operating point (0.550 vs 0.1; re-homed to self-regulation) · 🔴 throttle-set audit +
 construct-validity check · 🔶 contagion loop · 🔶 display phasic character → **is D7**
 

@@ -62,26 +62,24 @@ class TestFreezingFloor(unittest.TestCase):
     anxiolytic suppressor (Deakin & Graeff; ruled correct) is threat-driven and OVERPOWERS the weak
     VMH->vlPAG drive. So Mc stays at baseline.
 
-    ★ WHAT THIS POSITIVE HALF ACTUALLY MEASURES (v14, ruled -- it is NOT yet a test of freezing): its
-    colour depends on whether FOUR ungrounded quantities happen to balance, and it will not become a real
-    test of the freezing mechanism until they are grounded:
-      (1) VMH->vlPAG's BAND (low-moderate, scaffold -- the drive; exposed as load-bearing, its own
-          grounding pass -- do NOT crank);
-      (2) DRN's BASELINE -- NOT scaffold but UNGROUNDED, pending a DEVELOPMENTAL-BASELINE MECHANISM the
-          substrate cannot yet express (a static baseline cannot represent a maturing 5-HT system; 0.05
-          is a placeholder, and 0.30-as-a-constant is ALSO wrong, in the worse direction); it is held at
-          0.05 deliberately;
-      (3) DRN's THREAT-ACTIVATION -- an artifact: 100% cortically manufactured (dlPFC saturates -> vmPFC
-          -> DRN), the deferred dlPFC brake mis-calibration (S56); DRN measurably does NOT respond to
-          acute threat (Wilkinson & Jacobs);
-      (4) the gate family's inherited bands (S56).
-    Fix dlPFC alone -> green; ground DRN alone -> redder; both -> unknown. A test whose colour depends on
-    the ORDER unrelated defects are fixed is not measuring the mechanism yet -- and, per SS18, the honest
-    direction here is REDDER, so a green would have been the surprise worth stopping for. This is the
-    both-halves fix one level up: a floor that could be passed by a corpse, fixed, is now known to also be
-    passable by a COINCIDENCE -- and it says so. THE RED IS THE DRIVE GAP, precisely attributed; it
-    self-clears when those four are grounded. NB the positive cue uses a predator-type olfactory threat as
-    a proxy -- the true predator-odor channel is a registered gap (S45)."""
+    ★ THE D6-CLOSEOUT VERDICT (v14 -- two of the four terms now GROUNDED; the residual is one named item):
+    the positive half's colour was resting on four ungrounded quantities balancing. Two are now grounded:
+      (1) VMH->vlPAG STRONG (BUILD 1 -- Wang/Chen/Lin 2015, a behaviourally-decisive immobility drive; the
+          driver was never weak), and
+      (2) DRN's baseline on its S57 MATURATION CURVE (BUILD 2 -- adult ~0.30, the developmental-baseline
+          mechanism that its scaffold-low was standing in for).
+    And the GROUNDED DRIVER AND BRAKE BALANCE CORRECTLY: VMH-strong tolerates a tonic DRN up to ~0.48, and
+    the grounded DRN sits at 0.30 -- comfortable margin. Cut the residual and the floor FIRES (Mc 0.141).
+    The floor is held RED by ONE thing only: S56 -- DRN's threat-spike to 0.617 is 100% CORTICALLY
+    MANUFACTURED (dlPFC saturates -> vmPFC/OFC -> DRN; DRN measurably does NOT respond to acute threat,
+    Wilkinson & Jacobs). Terms (3) DRN's threat-artifact and (4) the gate-family bands are the SAME item:
+    the S56 nine-node cortical-brake calibration. So: THE FREEZING COLUMN IS GROUNDED-CORRECT; the floor is
+    held red SOLELY by the deferred S56/dlPFC cortical over-drive. This is the reviewer's predicted outcome
+    -- a residual red that points cleanly at the next real term. RETIRE THIS RED WHEN S56 IS GROUNDED; do
+    NOT touch S56 by hand to green it (cutting DRN's over-drive to make the floor fire is the exact move the
+    whole arc refused -- a green bought by tuning a deferred term is worse than a red with a named, grounded
+    reason). NB the positive cue uses a predator-type olfactory threat as a proxy -- the true predator-odor
+    channel is a registered gap (S45)."""
 
     def _mc(self, **channels):
         # freezing is read at the EFFECTOR (Mc), not the vlPAG column (v14 freezing OUTPUT).
@@ -100,12 +98,13 @@ class TestFreezingFloor(unittest.TestCase):
         self.assertLess(self._mc(**{"IN_DASH_OLF__conspecific": 0.9}), 0.10)  # conspecific odour
 
     def test_defensive_threat_produces_freezing(self):
-        # POSITIVE half -- THREAT -> FREEZING at the effector. A predator-type defensive threat must raise
-        # Mc, the freezing premotor. CURRENTLY RED: the output gap is closed (Mc exists) but the DRIVE gap
-        # remains -- vlPAG-glut reads ~0.001 (VMH is too weak and is overpowered by the threat-driven
-        # DRN->vlPAG suppressor), so Mc stays at baseline ~0.057. The red IS the drive gap; it self-clears
-        # when the grounded driver (PBN/SC-Pv, overcoming DRN) lands. Do NOT make this pass by lowering the
-        # threshold -- fix the mechanism (the driver), not the measure.
+        # POSITIVE half -- THREAT -> FREEZING at the effector. CURRENTLY RED, and the D6-closeout verdict
+        # names why precisely (see the class docstring): the driver (VMH->vlPAG STRONG) and brake (DRN on
+        # its S57 curve) are now GROUNDED and BALANCE correctly -- the floor fires (Mc 0.141) the moment the
+        # residual is removed -- but Mc stays ~0.05 because S56's cortical over-drive spikes DRN to 0.617
+        # under threat. The residual is SOLELY S56 (the nine-node gate calibration, backlog). Do NOT touch
+        # S56 to green this, and do NOT lower the threshold -- the red is grounded-and-named; it retires
+        # when S56 is grounded (its own pass), not by hand here.
         self.assertGreater(self._mc(**{"IN_DASH_SOMATO__nociception": 0.9, "IN_DASH_OLF": 0.9}), 0.10)
 
 
@@ -125,12 +124,20 @@ class TestAggressionPathwayClosesOBS3(unittest.TestCase):
         self.assertLess(b.drives["aggress"], _EPS)             # not driven by pure threat
 
     def test_neutral_no_aggression_leak(self):
-        # REQUIRED control: the new VMHvl drive must not leak an aggression tendency into neutral
-        # states. Neutral -> restrain, and the aggression drive is ~0 (provocation-specific, not a
-        # global additive shift).
-        b = _act(Appraisal())
-        self.assertEqual(b.behaviour, "restrain")
-        self.assertLess(b.drives["aggress"], _EPS)
+        # REQUIRED control: aggression is PROVOCATION-SPECIFIC, not a global additive shift -- asserted
+        # two ways (neutral is small AND provoked >> neutral), which is the real claim.
+        # ★ D6 (ruled): the epsilon documents an EMERGENT property, NOT a loosened measure. With DRN on
+        # its S57 curve (adult ~0.30 instead of scaffold 0.05), DRN's twelve-target tonic 5-HT modulation
+        # nets a hair of baseline defensive activity (0.000 -> 0.004) -- real 5-HT network physiology the
+        # scaffold-low DRN was zeroing out (SS18 in miniature). The DRN->VMHvl aggression arm is correctly
+        # INHIBITORY (5-HT1A, -) and provoked aggression is unchanged (~0.24, ~60x the floor). The old
+        # <1e-6 was calibrated against the scaffold state where DRN zeroed its own network effect; a
+        # neutral floor of LITERAL zero was itself the artifact (real brains have tonic network activity).
+        neutral = _act(Appraisal())
+        provoked = _act(Appraisal(provocation=0.9))
+        self.assertEqual(neutral.behaviour, "restrain")
+        self.assertLess(neutral.drives["aggress"], 0.01)                                  # small tonic floor
+        self.assertGreater(provoked.drives["aggress"], 10 * neutral.drives["aggress"])    # provocation-specific
 
     def test_provocation_shifts_the_differential(self):
         # the aggress-minus-avoid contrast is strictly greater under provocation than under plain

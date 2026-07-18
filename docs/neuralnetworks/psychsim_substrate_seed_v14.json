@@ -938,7 +938,8 @@
     "S64 -- ★ FIRST CONNECTOME DELETION: MeA->ATL-TP REMOVED (240->239), into the gap register (RULED; Ralph cleared). WHAT: the MeA->ATL-TP connection (was moderate, GABA-A/-1, calibration_active_default True, plasticity_coeff_schedule_ref social_cortex_late). WHY: (a) INERT on measurement -- silencing left ALL FOUR classification labels byte-identical (soph|warm/harsh=executive, psy|warm/harsh=social_cognition); the label holds entirely on BA->ATL-TP; (b) UNGROUNDED in provenance -- basis:ASSUMPTION, the only assumption-based MeA efferent; (c) anatomically SUPERSEDED -- in primates the TP-amygdala relation runs through the BASOLATERAL complex, not the medial nucleus, and BA->ATL-TP (basal, grounded) is the correct social-semantic source. REINSTATEMENT CONDITION: reinstate MeA->ATL-TP if a direct MEDIAL-amygdala -> anterior-temporal projection is ever grounded in the literature. NOT weight-0-and-kept: a zeroed connection with calibration_active_default True + social_cortex_late plasticity can RELEARN a nonzero weight in a run (silent reanimation) -- worse than either honest state; removal-into-gap-register is the stable off-state. Both endpoints (MeA, ATL-TP) RETAINED; only the projection removed, its claim preserved here. ★ THE LOCKED PRECEDENT (every future deletion inherits this form): a connection earns deletion ONLY by being INERT on measurement AND UNGROUNDED in provenance -- BOTH required (inert-alone STAYS: absence of current effect != absence of anatomy; assumed-alone is ESCALATED not deleted; only the intersection is removed); AND deletion = removal from `connections` PAIRED WITH a gaps_register reinstatement entry, NEVER bare erasure -- the claim a connection encoded survives its removal from the live graph.",
     "S65 -- QUEUED (do NOT run this pass): the `basis: assumption` census -- the PROVENANCE SIBLING of the fallback-sign census (S62). MeA->ATL-TP surfaced only because it was ALSO fallback-signed and load-bearing; an assumption-based edge that is correctly signed AND inert would NOT have surfaced. The one-line seed query -- how many edges are basis:assumption at all? -- is mechanical and the 209-edge audit will need it; it may reframe 'grounded connectome' the way Q1 reframed 'grounded baselines'. Register now, run on the reviewer's call.",
     "S66 -- S57 STEP 2 SPECIFIED + PREVIEWED (curves waiting; DO NOT BUILD until the machine is up -- a five-node developmental change needs the FULL SUITE + deliberate golden regen, not a partial gate; the deletion taught that). THE FIVE CURVES (adult target + scaffold family; direction+mature-age grounded, curve shapes scaffold): DRN 0.30 -> pfc_low_early_high_late (FIRM -- frontal inhibitory-control maturation, the grounded identification, S57-semantics above); LC 0.15 -> late family (0.15 = mature endpoint, S58 closed); SNc 0.18 -> early-plateau (motor DA consolidates early); VTA -> adolescent family: 0.18 is the ADOLESCENT PEAK @16y (relabelled from 'adult'; my table erred), adult settle ~0.136@25y; BF-ACh 0.25 -> childhood steady-rise. ★ PREVIEW (in-memory, ungated): THE TREMBLAY CURVE EMERGES -- provocation-aggression peaks at age 2 (0.261), declines monotonically through childhood (0.238/0.198/0.133), crosses aggress->restrain at adolescence (~16y), adult restraint (0.116); neutral->restrain, no leak, every age. A real developmental phenomenon from a grounded maturation curve -- the finding S57 exists to test (pending the full-suite-gated build). DRN/LC/SNc/BF-ACh reach their adult targets; freezing floor stays the authorised red (DRN adult 0.30 -> deeper drive gap, a different defect). ⚠️ VTA ISSUE (reviewer's call): the adolescent family PEAKS at adolescence (0.180@16y) then DECLINES to 0.136@25y -- it never settles at the 0.18 ADULT target (a bump-then-decline curve can't also be a matures-to-adult baseline). Choose: VTA monotonic to 0.18 (late/early family, no bump) OR keep the bump with the adult value = the post-peak settle (then 0.18 is the adolescent PEAK, not adult). BUILD ORDER when machine up: apply 5 curves -> keystone across the WHOLE trajectory (not a point) -> full suite + deliberate regen. ▲ VTA RESOLVED (mechanism-check, ruled): keep the bump -- the adolescent DA overshoot is directly measured (VTA fires faster in adolescence than adult; GABA/inhibitory feedback matures late and brings it down -- Jn 2012, PMC4560964). ★ THE S57 MECHANISM SUPPORTS NON-MONOTONIC: maturation()'s 'adolescent' family is a Gaussian bump (peak REWARD_CAP_PEAK_AGE=16, FLOOR=0.7) -- rises to a peak then SETTLES STABLY at the floor (0.18*0.7=0.126 at 35y/50y; does NOT decline indefinitely). VTA verified: 0.127 childhood -> 0.180 peak@16y -> 0.136@25y. So NO step-1 gap (S57 handles adolescent overshoot -- the same shape as DA/synaptic/receptor pruning); VTA is the first peak-and-settle BASELINE node and it PASSES. The other four stay monotonic. ★ SECOND PREDICTED EMERGENT FINDING (check once the build runs, like the Tremblay curve): does adolescent reward-seeking/risk-taking RISE AND FALL with the VTA curve? -- the neural substrate of adolescent risk, squarely in the CU/sophropathy study's territory. S57 STEP-2 GATES NOW: (1) VTA mechanism-check = RESOLVED; (2) the machine (full suite) = still the only blocker. All five curves specified + mechanism-verified; apply on a confirmed machine.",
-    "S67 -- VMH->vlPAG IS A COLUMN ARTIFACT, not a weak weight (v14, RULED option b; weight change HELD for the machine). Literature (Wang/Chen/Lin 2015): VMHdm/c->dlPAG drives inflexible immobility; VMH->AHN promotes avoidance. Our edge is VMH->vlPAG (passive freeze) -- WRONG COLUMN. It lands there because the dorsolateral column is fused into dPAG (the dl/l lump). Grounding the weight in isolation = putting a precise number on a mis-routed edge (the MeA->ATL-TP error shape). RULING: do NOT pin low-moderate; the grounded value is STRONG (behaviourally-decisive immobility drive), basis literature -- but the change is BEHAVIOURALLY LIVE so it is HELD for the full suite + keystone on a confirmed machine (weight stays at the low-moderate scaffold until then). Option (a) [split dPAG dl/l, route VMH->dlPAG] deferred to its own substrate-shape pass (S-dl/l below). ★ TESTABLE once built: does freezing fire with VMH->vlPAG at STRONG AND DRN on its S57 curve? -- the freezing floor's resolution now depends on BOTH (both machine-gated). The driver was never weak."
+    "S67 -- VMH->vlPAG IS A COLUMN ARTIFACT, not a weak weight (v14, RULED option b; weight change HELD for the machine). Literature (Wang/Chen/Lin 2015): VMHdm/c->dlPAG drives inflexible immobility; VMH->AHN promotes avoidance. Our edge is VMH->vlPAG (passive freeze) -- WRONG COLUMN. It lands there because the dorsolateral column is fused into dPAG (the dl/l lump). Grounding the weight in isolation = putting a precise number on a mis-routed edge (the MeA->ATL-TP error shape). RULING: do NOT pin low-moderate; the grounded value is STRONG (behaviourally-decisive immobility drive), basis literature -- but the change is BEHAVIOURALLY LIVE so it is HELD for the full suite + keystone on a confirmed machine (weight stays at the low-moderate scaffold until then). Option (a) [split dPAG dl/l, route VMH->dlPAG] deferred to its own substrate-shape pass (S-dl/l below). ★ TESTABLE once built: does freezing fire with VMH->vlPAG at STRONG AND DRN on its S57 curve? -- the freezing floor's resolution now depends on BOTH (both machine-gated). The driver was never weak.",
+    "S68 -- ★★ D6 CLOSED (v14 D6 CLOSEOUT). D6 closes by the testable-claims rule (S35): the freezing mechanism is now TESTED, which is the exit condition. STATE: the freezing column is GROUNDED-CORRECT -- VMH->vlPAG STRONG (BUILD 1, Wang/Chen/Lin 2015) and DRN on its S57 maturation curve (BUILD 2) balance correctly (VMH-strong tolerates DRN to ~0.48 tonic, grounded DRN 0.30) -- and the floor FIRES (Mc 0.141) the moment the residual is removed. THE FLOOR IS HELD RED SOLELY BY S56 (the dlPFC cortical over-drive spikes DRN to 0.617 under threat). ★ S56 gates TWO expected reds, not one: test_defensive_threat_produces_freezing (floor) AND test_divergence_does_not_robustly_emerge (the earned-negative dissociation grew 0.0486->0.0585, ~0.008 of it the same S56 over-drive; xfailed with resolution=S56). TWO reds, ONE cause, ONE fix -- a clean closeout, not a messy one; grounding S56 is PREDICTED to return both green. THREE EMERGENT FINDINGS (from grounded curves, not coded) -- the branch's payoff: (1) GROSS reappraisal/suppression (fell out of where two routes land); (2) TREMBLAY aggression trajectory (peaks age 2, declines through childhood, restraint by adolescence -- from DRN->pfc_low_early_high_late); (3) ★ BUCKHOLTZ 2010 mesolimbic reward-hypersensitivity in psychopathy's impulsive-antisocial factor (psychopathic seed reads reward_approach from the grounded VTA reward-DA adolescent bump; margin ~0.005) -- the most study-relevant, the substrate independently recovering a replicated clinical neurobiology. CAVEAT (study limitations): the striatal-hypersensitivity account is ONE of two (vs Glenn&Yang/Hosking cortico-striatal dysfunction); the model lands on hypersensitivity -- acknowledge, don't assert settled. READ-OUT BOUNDARY (confirmed in code, for the observer/psychometric spec): the CORE read-out speaks DOMAINS (reward_approach/executive/...); the STUDY layer speaks OUTCOMES (sophropathic/psychopathic/intermediate); the mapping lives in the study layer and STAYS there -- the core does not know what a psychopath is. classification is the bare dominant domain; the knife-edge is exposed by the margin FIELD (captured in the golden). TWO DOCUMENTED EMERGENT ARTIFACTS (grounded state revealing a knife-edge the scaffold sat on the other side of): the neutral-aggression floor (0.004, DRN's tonic 5-HT network modulation; provocation-specific at ~60x) and the full-throttle punishment ~0 (a retired tonic-NA artifact; +2e-05->-2.8e-04, reframed to non-inversion). NEXT (the climb): D4 (imitation) -> D3 (representation, the purpose). All remaining substrate work -> substrate_hardening_backlog."
   ],
   "circuits": [
     {
@@ -1173,7 +1174,8 @@
       "calibration_active_default": true,
       "confidence": "E",
       "evidence_base": "human+animal",
-      "sources": "Aston-Jones & Cohen 2005; McCall et al. 2015"
+      "sources": "Aston-Jones & Cohen 2005; McCall et al. 2015",
+      "baseline_schedule_ref": "lc_na_low_early_high_late"
     },
     {
       "id": "HPCv",
@@ -1284,10 +1286,10 @@
       "id": "VTA",
       "name": "Ventral tegmental area",
       "domain": "reward_approach",
-      "function": "Reward-prediction-error teaching signal; the approach plasticity gate (rule R5)",
+      "function": "Reward-prediction-error teaching signal; the approach plasticity gate (rule R5) | v14 S57 (RULED): baseline_activation=0.18 is the ADOLESCENT-PEAK reference, NOT the adult value -- the ONE case (the adolescent Gaussian family) where the field and the adult value DIVERGE. maturation() peaks at 1.0 @ age 16, so effective peak = 0.18*1.0 = 0.18 @16y; the adult value is the SETTLE = 0.18*floor(0.7) = ~0.136 @25y. For the monotonic families the field IS the adult value; for this bump family it is the peak. Do not 're-correct' 0.18 to 0.136 -- that would collapse the adolescent overshoot (the reward-seeking substrate).",
       "nodes": "VTA (A10 DA neurons; GABA/Glu subpopulations)",
       "transmitters": "dopamine (+ GABA/glutamate co-release)",
-      "baseline_activation": 0.05,
+      "baseline_activation": 0.18,
       "activation_bounds": [
         0.0,
         1.0
@@ -1299,7 +1301,8 @@
       "calibration_active_default": true,
       "confidence": "E",
       "evidence_base": "human+animal",
-      "sources": "Schultz 1997; Lammel et al. 2014"
+      "sources": "Schultz 1997; Lammel et al. 2014",
+      "baseline_schedule_ref": "vta_da_adolescent"
     },
     {
       "id": "SNc",
@@ -1308,7 +1311,7 @@
       "function": "Nigrostriatal dopamine to dorsal striatum (vigour, habit)",
       "nodes": "SNc (A9 dopamine neurons)",
       "transmitters": "dopamine",
-      "baseline_activation": 0.05,
+      "baseline_activation": 0.18,
       "activation_bounds": [
         0.0,
         1.0
@@ -1320,7 +1323,8 @@
       "calibration_active_default": true,
       "confidence": "E",
       "evidence_base": "human+animal",
-      "sources": "Wise 2004"
+      "sources": "Wise 2004",
+      "baseline_schedule_ref": "snc_da_motor_early"
     },
     {
       "id": "NAc-core",
@@ -2106,7 +2110,7 @@
       "function": "Cortical activation; attentional gain; gates cortical plasticity",
       "nodes": "nucleus basalis of Meynert / medial septum",
       "transmitters": "acetylcholine",
-      "baseline_activation": 0.05,
+      "baseline_activation": 0.25,
       "activation_bounds": [
         0.0,
         1.0
@@ -2118,7 +2122,8 @@
       "calibration_active_default": true,
       "confidence": "E",
       "evidence_base": "human+animal",
-      "sources": "Sarter et al. 2005"
+      "sources": "Sarter et al. 2005",
+      "baseline_schedule_ref": "bfach_childhood_steady_rise"
     },
     {
       "id": "PVN-OT",
@@ -2648,7 +2653,7 @@
     {
       "id": "DRN",
       "domain": "defensive_threat",
-      "baseline_activation": 0.05,
+      "baseline_activation": 0.3,
       "activation_bounds": [
         0.0,
         1.0
@@ -2663,7 +2668,8 @@
       "confidence": "E",
       "function": "Serotonergic tone; the principal aggression/impulsivity REGULATOR (2.1b). Signed per target receptor: dampens the attack area (5-HT1A) and facilitates PFC control (5-HT2A). Placed in defensive_threat (its regulatory home; LC-precedent neuromodulator placement). | v14 (RULED): baseline_activation held at 0.05 and marked UNGROUNDED -- PENDING THE DEVELOPMENTAL-BASELINE MECHANISM (S57), NOT scaffold. DRN is a pacemaker whose ADULT tonic rate normalises to ~0.25-0.40 (1.5-2 Hz clock-like / slow-5-HT max ~5-6 Hz; LC/dPAG-GABA precedent), but applying that as a CONSTANT is a category error: it gives a two-year-old an adult 5-HT brake and breaks the aggression keystone's young->aggress half (via DRN->VMHvl 5-HT1A). 0.05-as-a-constant and 0.30-as-a-constant are BOTH wrong; 0.05 is wrong in the direction that does not fabricate an adult brake on a child. The scaffold-low value was accidentally standing in for the serotonergic system's developmental immaturity. Held at 0.05 until the developmental-baseline mechanism exists. setpoint unchanged (0.1). | v14 S57 BASELINE-SEMANTICS (record correctly -- counterintuitive): when DRN's baseline is grounded (S57 step 2), it is the FUNCTIONAL INHIBITORY EFFICACY of the 5-HT system on the aggression circuit -- which matures UP across childhood -- NOT tissue 5-HT (which PEAKS in the first two postnatal years then DECLINES to adult; Hohmann 1988), and NOT raw firing (immature hyperexcitability is a separate cellular feature). It matures up because the RECEPTOR-AND-CIRCUIT machinery matures up: 5-HT1A autoreceptor response + 5-HT innervation of frontal cortex (top-down inhibitory control) develop late while transmitter level falls. -> DRN maps to pfc_low_early_high_late (the frontal inhibitory-control curve), a GROUNDED identification (Booij/Tremblay 2010 locate the aggression-relevant 5-HT deficit in orbitofrontal synthesis = reduced top-down control).",
       "nodes": "dorsal raphe nucleus (B7)",
-      "sources": "Nelson & Trainor 2007 Nat Rev Neurosci; Coccaro et al. 2021 Biol Psychiatry; Miczek et al. 2007"
+      "sources": "Nelson & Trainor 2007 Nat Rev Neurosci; Coccaro et al. 2021 Biol Psychiatry; Miczek et al. 2007",
+      "baseline_schedule_ref": "pfc_low_early_high_late"
     },
     {
       "id": "DRN-GABA",
@@ -5194,8 +5200,8 @@
     {
       "source_circuit": "VMH",
       "target_circuit": "vlPAG",
-      "default_weight": "low-moderate",
-      "default_weight_basis": "anatomy",
+      "default_weight": "strong",
+      "default_weight_basis": "literature",
       "weight_bounds": [
         0.0,
         1.0
@@ -5206,7 +5212,7 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 0.0,
       "confidence": "Em",
-      "source": "sexual-behaviour motor output via PAG; animal-dominant | v14 Phase A -> vlPAG: routed BY ITS CITED FUNCTION (the lordosis/sexual-behaviour motor output runs through the vlPAG column). v14 Q1 (RULED): receptor RE-GROUNDED None->AMPA. VMH's long-range PROJECTION cells are the glutamatergic CORE; the GABAergic population is the cell-poor SHELL, which is LOCAL (inhibits the core) and does NOT project -- so a long-range VMH projection cannot be GABAergic. The +1 sign is now CITED (glutamatergic core), not a typing-order fallback (S44). Sign UNCHANGED (+1), band UNTOUCHED (low-moderate). ★ S44's sharpest lesson: MeA->VMH's typing order gave the WRONG sign, VMH->vlPAG's gave the RIGHT one -- same mechanism, opposite outcomes; you cannot tell from the OUTCOME whether the sign is grounded. The census hunts UNGROUNDED signs, of which the wrong ones are a random subset. | v14 (RULED, option b): weight is NOT groundable in isolation -- it is a COLUMN question (principle 6). The literature (Wang, Chen & Lin, Neuron 2015) puts VMHdm/c's immobility drive on the DORSOLATERAL PAG (dlPAG -> inflexible/attentive immobility), NOT the vlPAG (passive/quiescent freeze, the CeA->vlPAG Tovote route). Our edge lands on vlPAG ONLY because the dorsolateral column is FUSED into our dPAG (the dl/l lump, already registered) -- so VMH's immobility drive had no correct target (dPAG=active/flight; vlPAG=passive). This edge STANDS IN FOR VMH->dlPAG pending the dl/l split (its correction condition). GROUNDED VALUE = STRONG, not low-moderate: optogenetic activation drives immobility outright -- a behaviourally-decisive driver, not a weak modulator. The change low-moderate->strong is HELD (behaviourally live -> needs the full suite + keystone on a confirmed machine; weight left at the low-moderate SCAFFOLD until then). ★ The freezing driver was never weak -- low-moderate under-weighted a decisive immobility drive, part of why freezing wouldn't fire.",
+      "source": "sexual-behaviour motor output via PAG; animal-dominant | v14 Phase A -> vlPAG: routed BY ITS CITED FUNCTION (the lordosis/sexual-behaviour motor output runs through the vlPAG column). v14 Q1 (RULED): receptor RE-GROUNDED None->AMPA. VMH's long-range PROJECTION cells are the glutamatergic CORE; the GABAergic population is the cell-poor SHELL, which is LOCAL (inhibits the core) and does NOT project -- so a long-range VMH projection cannot be GABAergic. The +1 sign is now CITED (glutamatergic core), not a typing-order fallback (S44). Sign UNCHANGED (+1), band UNTOUCHED (low-moderate). ★ S44's sharpest lesson: MeA->VMH's typing order gave the WRONG sign, VMH->vlPAG's gave the RIGHT one -- same mechanism, opposite outcomes; you cannot tell from the OUTCOME whether the sign is grounded. The census hunts UNGROUNDED signs, of which the wrong ones are a random subset. | v14 (RULED, option b): weight is NOT groundable in isolation -- it is a COLUMN question (principle 6). The literature (Wang, Chen & Lin, Neuron 2015) puts VMHdm/c's immobility drive on the DORSOLATERAL PAG (dlPAG -> inflexible/attentive immobility), NOT the vlPAG (passive/quiescent freeze, the CeA->vlPAG Tovote route). Our edge lands on vlPAG ONLY because the dorsolateral column is FUSED into our dPAG (the dl/l lump, already registered) -- so VMH's immobility drive had no correct target (dPAG=active/flight; vlPAG=passive). This edge STANDS IN FOR VMH->dlPAG pending the dl/l split (its correction condition). GROUNDED VALUE = STRONG, not low-moderate: optogenetic activation drives immobility outright -- a behaviourally-decisive driver, not a weak modulator. APPLIED (D6 BUILD 1): low-moderate->STRONG, basis anatomy->literature (Wang/Chen/Lin 2015). Column caveat stands: stands in for VMH->dlPAG; correction = the dl/l split (backlog). ★ The freezing driver was never weak -- low-moderate under-weighted a decisive immobility drive, part of why freezing wouldn't fire.",
       "dominant_receptor": "AMPA"
     },
     {
@@ -7181,5 +7187,15 @@
       "confidence": "E",
       "source": "Rozeske et al. 2018 (Neuron 97:898-910): a dmPFC subpopulation projecting to l/vlPAG controls contextual fear DISCRIMINATION -- optogenetic ACTIVATION -> discrimination (LESS freezing in the neutral context), INHIBITION -> generalisation (MORE freezing). SIGN FORCED BY THE BEHAVIOUR, not assumed: dmPFC is cortical -> glutamatergic -> excitatory; an excitatory source that produces LESS freezing CANNOT land on vlPAG-glut (that would drive freezing) -- it must EXCITE the GABAergic SELECTOR. So the synapse is EXCITATORY (AMPA) onto vlPAG-GABA, and the NET effect on the output is SUPPRESSION. The THIRD instance of the glutamatergic-source -> GABAergic-interneuron architecture (vlPFC->ITC, PMC-l->PAG-PANIC-GABA). It is the SELECTOR's third afferent, NOT the freezing driver -- the convenient candidate resolved into a different, correct thing (the dPAG->PGi pattern). A SECOND dmPFC->vlPAG arm exists (JCI 2022, rabies-transsynaptic): excitatory onto vlPAG-GLUT, descending ANALGESIA (vlPAG->RVM), NOT freezing -- BLOCKED: no RVM node exists; registered, not built. SCAFFOLD band."
     }
+  ],
+  "substrate_hardening_backlog": [
+    "S56 -- the nine-node gate-family calibration (DRN-GABA/vlPAG-GABA/dACC-GABA/dlPFC-GABA/vmPFC-GABA/CeA-GABA/ITC/PAG-PANIC-GABA/VMHvl-GABA share one brake band+baseline regardless of afferent load; dlPFC saturates to 1.0). ★ HIGHEST PRIORITY: the ONLY thing between the current state and a fully-green suite -- it gates BOTH the freezing-floor red AND the divergence xfail; grounding it is predicted to return both green. The question: should an E-I loop's inhibition scale with drive, and does ours? (mechanism-design, family-wide).",
+    "the dl/l dPAG SPLIT -- VMH->vlPAG's correction condition (VMHdm/c immobility belongs on the dorsolateral column, fused into dPAG); which VMH population, how dl vs l differ, whether VMHvl->dPAG re-points. On the split, ground VMH->vlPAG's band to STRONG at the right target (currently strong but on the wrong column).",
+    "the OPIOID system (4 circuits name opioids in prose, none exists; dense mu-opioid on vlPAG-GABA; shared with PAG-PANIC's soothing arm -- one circuit, two registers; system-scale diagnosis).",
+    "the LUMP census (12 known lumps incl. vlPAG 4-transmitter; MeA's SPLIT-BLOCKED edges MeA->MPOA/MeA->BNST; PBN subnuclei lateral/medial/Kolliker-Fuse). Feeds the 209-connection audit.",
+    "the S65 basis:assumption census (provenance sibling of the fallback-sign census; one-line query; may reframe 'grounded connectome' the way Q1 reframed 'grounded baselines').",
+    "the INPUT-SURFACE gaps: PB-LOOMING (the escape trigger the model cites and cannot fire), predator odor (blocks the MeA split), PB-STARTLE, PR-SALT, PR-HOMEOSTATIC, IN-PROPRIO (S23, no agency claim until it lands).",
+    "the SS18 systemic widening (master doc + thesis limitations): the one-number baseline layer (S61), the nine-node gate scaffold, effect-sizes-biased-upward (measured law), cortical brake layer, typing-order hazard (S44), Form-3-is-a-class. The 47 assumption-based connections + these feed the 209-connection audit (a later scoped STAGE, not backlog to chase).",
+    "REVISIT RULE: an item is opened ONLY when a later layer's testable claim requires it (the surfacing rule). Rabbit holes wait here."
   ]
 }

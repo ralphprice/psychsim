@@ -39,16 +39,46 @@ class _DomainLabel:
         return self.value
 
 
+# Below this normalised-profile margin, the top two domains are effectively a tie -- the point at
+# which a bare-argmax classification would flip on a perturbation. NOT used to alter the label (D6
+# ruling: the core read-out reports WHAT the substrate is -- a domain -- and the STUDY layer decides
+# what it MEANS; grading the label would push interpretation into the core, blurring that boundary).
+# It is the threshold at which `margin` is worth attending to.
+_BLEND_MARGIN = 0.05
+
+
 @dataclass
 class MindReadout:
-    """A neutral descriptive summary of an emergent mind: the dominant emergent domain and the
-    full domain profile. Whether any label applies is a separate interpretive question."""
+    """A neutral descriptive summary of an emergent mind: the dominant emergent domain, the full
+    domain profile, and the MARGIN to the runner-up. Whether any label applies is a separate
+    interpretive question -- owned by the study layer (which speaks outcomes: sophropathic/
+    psychopathic/intermediate), not by this core read-out (which speaks domains)."""
     dominant: _DomainLabel
     profile: Dict[str, float]
 
     @property
     def classification(self) -> str:
+        """The BARE dominant domain (a member of _READOUT_DOMAINS). The read-out audit's knife-edge
+        -- a 0.05 race rendered as a confident single label -- is exposed by the `margin` FIELD, not
+        by grading this label: the margin is the diagnostic (read it when you care / assert it is
+        recorded), the domain stays the label every consumer parses, and the study layer owns the
+        verdict. That is the correct three-way split (D6, reversing the earlier graded-label call)."""
         return self.dominant.value
+
+    @property
+    def runner_up(self) -> str:
+        """The second-strongest domain (empty if there is only one)."""
+        rest = {d: v for d, v in self.profile.items() if d != self.dominant.value}
+        return max(rest, key=rest.get) if rest else ""
+
+    @property
+    def margin(self) -> float:
+        """The normalised-profile gap dominant - runner-up. A near-tie (< _BLEND_MARGIN) means the
+        classification is a close race that would flip on a small perturbation -- captured here (and
+        in the golden) so a future flip is visible as a margin-shift, not a silent label change."""
+        ru = self.runner_up
+        top = self.profile.get(self.dominant.value, 0.0)
+        return round(top - self.profile.get(ru, 0.0), 6) if ru else round(top, 6)
 
 
 def _domain_activity(engine: SubstrateEngine, domain: str) -> float:

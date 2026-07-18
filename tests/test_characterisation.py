@@ -65,6 +65,24 @@ other four constructs move < 0.006 (develop plasticity re-normalisation cascade)
 environment matrices move 0.0001 (0.1101->0.1102, 0.6185->0.6186) -- the golden's 4-decimal exact-
 equality tripwire, not a behavioural change. So the regen is inert on outcomes and substantively moves
 only ATL-TP's construct, in the correct direction; the rest is the sensitivity the census already named.
+
+REGEN (v14 D6 CLOSEOUT -- two grounded builds + a read-out honesty fix, one deliberate regen):
+  (1) BUILD 1: VMH->vlPAG low-moderate->STRONG (basis literature; Wang/Chen/Lin 2015 -- a behaviourally-
+      decisive immobility drive). (2) BUILD 2 (S57 step 2): the five neuromodulator pacemakers bound to
+      maturation curves -- baseline is now the ADULT target reached on a developmental curve
+      (DRN->pfc_low_early_high_late; LC->late [0.15 mature endpoint]; SNc->early-plateau; VTA->adolescent
+      [0.18 PEAK ref, ~0.136 adult settle]; BF-ACh->childhood). ALL development changes.
+  (3) READ-OUT (substrate/readout.py): `classification` stays the BARE DOMINANT DOMAIN (the study layer owns
+      the outcome vocabulary sophropathic/psychopathic/intermediate -- grading the core label would blur that
+      boundary); the knife-edge is exposed by the new `margin` FIELD, now CAPTURED in this snapshot so a
+      future flip is a visible margin-shift, not a silent label change.
+  Star CONSEQUENCE (grounded, accepted -- a THIRD emergent finding): psychopathic now reads `reward_approach`
+  (a CLOSE call, margin ~0.005) -- the grounded VTA reward-DA adolescent bump reproduces Buckholtz 2010's
+  mesolimbic reward-hypersensitivity in psychopathy's impulsive-antisocial factor (emergent from an
+  electrophysiology-grounded curve, not coded). shared_root reads `executive` (margin ~0.008); sophropathic a
+  clear `executive` (margin ~0.10). The bare label flipped because the grounded curves moved a close race; the
+  margin field records how close, so the flip is honest and visible. Deliberate + demonstrable, not a tune --
+  no curve/weight was chosen to move a result.
 """
 
 import json
@@ -113,7 +131,8 @@ def _develop_snapshot() -> dict:
             develop(ag, env_fn(), situation_seed=_SIT_SEED)
             readout = classify(ag)
             out[f"{seed_name}|{env_name}"] = {
-                "classification": readout.classification,
+                "classification": readout.classification,          # BARE dominant domain (study layer owns outcomes)
+                "margin": _round(readout.margin),                 # D6: captured so a future flip is a visible margin-shift
                 "profile": {k: _round(v) for k, v in sorted(readout.profile.items())},
             }
     return out

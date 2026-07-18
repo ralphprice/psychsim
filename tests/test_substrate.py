@@ -224,14 +224,15 @@ class TestS57BaselineMaturation(unittest.TestCase):
     accidentally standing in for exactly that immaturity (it broke the aggression keystone when frozen as
     an adult constant). This is the MECHANISM: baseline_activation is the ADULT target; a
     baseline_schedule_ref matures it from onset to adult, parallel to plasticity_coeff_schedule_ref.
-    Step 1 (mechanism) only -- no circuit carries a baseline_schedule_ref yet (that is step 2, and the
-    per-node human-age maturation curves are the reviewer's grounding). So the mechanism must be DORMANT
-    (byte-identical) on the shipped seed, and CORRECT when exercised."""
+    Step 2 (D6 closeout) has now APPLIED the curves: the five neuromodulator pacemakers (DRN, LC, SNc,
+    VTA, BF-ACh) each carry a baseline_schedule_ref and mature to their adult target on it. The mechanism
+    is live for exactly those five and untouched for every other circuit."""
 
-    def test_mechanism_is_dormant_on_the_seed(self):
-        # step 1: nothing uses it yet -> the substrate is byte-identical to pre-S57.
+    def test_mechanism_is_applied_to_the_five_pacemakers(self):
+        # step 2: exactly the five neuromodulator pacemakers carry a maturation curve; nothing else does.
         m = load_substrate()
-        self.assertEqual([c.id for c in m.circuits.values() if c.baseline_schedule_ref], [])
+        self.assertEqual({c.id for c in m.circuits.values() if c.baseline_schedule_ref},
+                         {"DRN", "LC", "SNc", "VTA", "BF-ACh"})
 
     def test_no_schedule_uses_the_static_baseline(self):
         m = load_substrate()
@@ -253,3 +254,40 @@ class TestS57BaselineMaturation(unittest.TestCase):
         self.assertLess(mid, adult + 1e-9)
         self.assertAlmostEqual(adult, 0.30, places=6)  # reaches the adult target
         self.assertLess(young, 0.15)                 # immature value is BELOW the keystone-break threshold
+
+
+class TestMarginAwareReadout(unittest.TestCase):
+    """D6 read-out honesty fix (ruled): `classify` is a BARE ARGMAX over a normalised profile, so a ~0.05
+    margin renders a close race as a confident single label. Grounding the neuromodulator curves flipped
+    half the study labels -- the flip was GROUNDED (reward-driven psychopathy, Buckholtz 2010), the
+    fragility was the instrument. FIX (three-way split): the core `classification` stays the BARE DOMINANT
+    DOMAIN (the study layer owns outcomes: sophropathic/psychopathic/intermediate -- grading the core label
+    would push interpretation into the core and blur that boundary); the knife-edge is exposed by the
+    `margin` FIELD (read it when you care / assert it is recorded), so a future flip is a visible margin-shift
+    not a silent label change; the study layer decides the verdict. Read-only; touches no activation."""
+
+    def _ro(self, dom, prof):
+        from substrate.readout import MindReadout, _DomainLabel
+        return MindReadout(_DomainLabel(dom), prof)
+
+    def test_classification_stays_a_bare_domain(self):
+        # the label every consumer + the study mapping parses is a bare domain, NOT a graded blend.
+        from substrate.readout import _READOUT_DOMAINS
+        r = self._ro('reward_approach',
+                     {'reward_approach': 0.34, 'social_cognition': 0.31, 'executive': 0.20, 'x': 0.15})
+        self.assertIn(r.classification, _READOUT_DOMAINS)
+        self.assertNotIn('~', r.classification)
+
+    def test_margin_and_runner_up_make_the_knife_edge_visible(self):
+        # a near-tie is FLAGGABLE via the margin field -- the diagnostic the knife-edge needed.
+        r = self._ro('reward_approach',
+                     {'reward_approach': 0.34, 'social_cognition': 0.31, 'executive': 0.20, 'x': 0.15})
+        self.assertEqual(r.runner_up, 'social_cognition')
+        self.assertAlmostEqual(r.margin, 0.03, places=6)
+        self.assertLess(r.margin, 0.05)                                        # near-tie -> attend to the margin
+
+    def test_clear_winner_has_a_large_margin(self):
+        r = self._ro('reward_approach',
+                     {'reward_approach': 0.55, 'social_cognition': 0.20, 'executive': 0.15, 'x': 0.10})
+        self.assertEqual(r.classification, 'reward_approach')
+        self.assertGreaterEqual(r.margin, 0.05)
