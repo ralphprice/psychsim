@@ -52,6 +52,19 @@ REGEN (v14 defensive-drive (A)): the MeA->VMH sign flip (glutamatergic, MePV -- 
 transmitter-field TYPING ORDER) REVIVES VMH (0.000 -> 0.116), which feeds development; only the
 develop section moved (relations/group/environment unchanged). Grounded, demonstrated (flip the
 sign back and VMH dies); the aggression keystone holds on the new disinhibition mechanism.
+
+REGEN (v14 FIRST CONNECTOME DELETION -- MeA->ATL-TP removed, S64): the assumption-based, inert,
+anatomically-superseded MeA->ATL-TP edge was DELETED (into the gap register, reinstatement condition
+recorded); ATL-TP's afferent set drops to BA alone (basal, the grounded social-semantic source).
+DELIBERATE, DOCUMENTED regen with the blast radius stated precisely (NOT "only ATL-TP-adjacent" -- the
+honest picture): (1) ALL FOUR study classification LABELS are BYTE-IDENTICAL -- the removal changes no
+outcome (this is the existence test, now permanent). (2) The one SUBSTANTIVE move is `social_cognition`
+(ATL-TP's own construct): +0.013..+0.018, RISING -- the principled effect of removing an INHIBITORY (-1)
+edge onto ATL-TP (disinhibition raises the read-out). (3) Everything else is HAIR-TRIGGER (S62): the
+other four constructs move < 0.006 (develop plasticity re-normalisation cascade), and the group/
+environment matrices move 0.0001 (0.1101->0.1102, 0.6185->0.6186) -- the golden's 4-decimal exact-
+equality tripwire, not a behavioural change. So the regen is inert on outcomes and substantively moves
+only ATL-TP's construct, in the correct direction; the rest is the sensitivity the census already named.
 """
 
 import json
