@@ -58,12 +58,30 @@ class TestFreezingFloor(unittest.TestCase):
 
     Why the positive half is STILL red, now measured honestly: building the output revealed the drive
     gap it was hiding. Under threat CeA disinhibits the selector (vlPAG-GABA -> 0) and VMH is driven
-    (0.205), yet vlPAG-glut reads ~0.001 -- it actually DROPS under threat, because the CORRECT
-    DRN->vlPAG anxiolytic suppressor (Deakin & Graeff; ruled correct) is threat-driven and OVERPOWERS the
-    weak VMH->vlPAG drive. So Mc stays at baseline. THE RED IS THE DRIVE GAP: the driver is still unfound
-    (VMH does NOT suffice; PBN/SC-Pv are the candidates, and the driver must overcome DRN). It self-clears
-    with no resolution condition when the grounded driver lands. NB the positive cue uses a predator-type
-    olfactory threat as a proxy -- the true predator-odor channel is a registered gap (S45)."""
+    (0.205), yet vlPAG-glut reads ~0.001 -- it actually DROPS under threat, because the DRN->vlPAG
+    anxiolytic suppressor (Deakin & Graeff; ruled correct) is threat-driven and OVERPOWERS the weak
+    VMH->vlPAG drive. So Mc stays at baseline.
+
+    ★ WHAT THIS POSITIVE HALF ACTUALLY MEASURES (v14, ruled -- it is NOT yet a test of freezing): its
+    colour depends on whether FOUR ungrounded quantities happen to balance, and it will not become a real
+    test of the freezing mechanism until they are grounded:
+      (1) VMH->vlPAG's BAND (low-moderate, scaffold -- the drive; exposed as load-bearing, its own
+          grounding pass -- do NOT crank);
+      (2) DRN's BASELINE -- NOT scaffold but UNGROUNDED, pending a DEVELOPMENTAL-BASELINE MECHANISM the
+          substrate cannot yet express (a static baseline cannot represent a maturing 5-HT system; 0.05
+          is a placeholder, and 0.30-as-a-constant is ALSO wrong, in the worse direction); it is held at
+          0.05 deliberately;
+      (3) DRN's THREAT-ACTIVATION -- an artifact: 100% cortically manufactured (dlPFC saturates -> vmPFC
+          -> DRN), the deferred dlPFC brake mis-calibration (S56); DRN measurably does NOT respond to
+          acute threat (Wilkinson & Jacobs);
+      (4) the gate family's inherited bands (S56).
+    Fix dlPFC alone -> green; ground DRN alone -> redder; both -> unknown. A test whose colour depends on
+    the ORDER unrelated defects are fixed is not measuring the mechanism yet -- and, per SS18, the honest
+    direction here is REDDER, so a green would have been the surprise worth stopping for. This is the
+    both-halves fix one level up: a floor that could be passed by a corpse, fixed, is now known to also be
+    passable by a COINCIDENCE -- and it says so. THE RED IS THE DRIVE GAP, precisely attributed; it
+    self-clears when those four are grounded. NB the positive cue uses a predator-type olfactory threat as
+    a proxy -- the true predator-odor channel is a registered gap (S45)."""
 
     def _mc(self, **channels):
         # freezing is read at the EFFECTOR (Mc), not the vlPAG column (v14 freezing OUTPUT).
@@ -129,6 +147,19 @@ class TestAggressionPathwayClosesOBS3(unittest.TestCase):
         # is the dominant impulse but held below the act threshold by the maturing STN brake ->
         # restrain. Reactive aggression's real developmental course (early expression, progressive
         # restraint), EMERGENT from the v9 pathway meeting the existing maturation mechanism.
+        #
+        # ★ WHAT HOLDS THE young->aggress HALF (v14, ruled -- the v9 lesson: know what holds a green):
+        # it depends on DRN's baseline being LOW at age 2. That is CORRECT -- toddlers aggress (Tremblay:
+        # physical aggression peaks ~2-3 then declines, credited to maturing inhibitory control AND
+        # maturing SEROTONERGIC function) -- but it is correct for a reason the substrate CANNOT YET
+        # EXPRESS. DRN's baseline_activation is STATIC; there is no developmental trajectory for a
+        # neuromodulator's tonic rate (the substrate models circuit ONSET and PLASTICITY curves, not
+        # baselines). Grounding DRN to its ADULT pacemaker rate (~0.25-0.40) as a CONSTANT breaks this
+        # half (young->restrain) -- because it gives a two-year-old an adult 5-HT brake on the attack
+        # area (via DRN->VMHvl 5-HT1A). So DRN's 0.05 is NOT scaffold here; it is a PLACEHOLDER standing
+        # where a maturing-5-HT mechanism should be (registered: developmental-baseline mechanism). This
+        # half is not a coincidence to be filed away -- it is principle 1 (a missing mechanism) caught by
+        # a green test. Do NOT "fix" it by grounding DRN as a constant.
         young = _act(Appraisal(provocation=0.9), age=2.0)
         adult = _act(Appraisal(provocation=0.9), age=25.0)
         self.assertEqual(young.behaviour, "aggress")           # efficacious before restraint matures

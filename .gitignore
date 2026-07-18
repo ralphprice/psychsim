@@ -27,3 +27,6 @@ Thumbs.db
 /aged_town.svg
 /demo_town.svg
 /PIPELINE_OUTPUT.txt
+
+# binary bundle of design docs -- the docs are kept individually; the zip is redundant (v14)
+docs/files.zip
