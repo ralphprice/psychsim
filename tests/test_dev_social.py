@@ -99,5 +99,86 @@ class TestTheEmergenceKeystone(unittest.TestCase):
             self.assertTrue(set(p).issubset({"familiar_warm", "familiar_wary"}))
 
 
+class TestF4RelationalLifecourse(unittest.TestCase):
+    """F4 -- the relational childhood interleaved into run_life's moral-environment life course, so
+    the CU study's CLASSIFIED outcome can diverge by relational history. The subject develops under the
+    SAME moral environment in both arms; relational=True ADDS co-present relational episodes with a
+    developed-alongside cohort. Any classification divergence is attributable to the relationships alone,
+    because the moral-env development is byte-identical across arms."""
+
+    def _spec(self):
+        from sim_experiment.lifecourse import StageEnv, LifeCourseSpec
+        return LifeCourseSpec("t", [StageEnv("home", 0.6, 0.6, 0.6, 32),
+                                    StageEnv("school", 0.5, 0.7, 0.5, 32)])
+
+    def test_baseline_life_is_reproducible_and_default_off(self):
+        from sim_experiment.lifecourse import run_life
+        from affective_engine import shared_root_seed
+        S, spec = shared_root_seed(), self._spec()
+        a = run_life(S, spec, situation_seed=3102)                       # default relational=False
+        b = run_life(S, spec, situation_seed=3102, relational=False)
+        self.assertEqual(a.classification, b.classification)
+
+    def test_moral_env_appraisal_stream_is_byte_identical_across_arms(self):
+        # THE HONESTY GUARANTEE: the subject's moral-env situation/appraisal stream is IDENTICAL whether
+        # relational is off or on -- the relational episodes cannot perturb develop()'s rng. Verify the
+        # STREAM (not the weights: weights legitimately diverge -- that IS the phenomenon).
+        import affective_engine.development as D
+        from affective_engine import AffectiveAgent, shared_root_seed
+        from affective_engine.development import develop, Environment
+        from sim_experiment.lifecourse import _RelationalChildhood, StageEnv
+        S = shared_root_seed()
+        orig, rec = D.live_moment, {}
+        def cap(agent, appr, age_years):
+            rec.setdefault(id(agent), []).append(
+                (round(appr.threat, 6), round(appr.reward, 6), round(appr.social_valence, 6),
+                 round(appr.provocation, 6), round(appr.other_distress, 6)))
+            return orig(agent, appr, age_years=age_years)
+        D.live_moment = cap
+        try:
+            env = Environment("home", 0.6, 0.6, 0.6)
+            sa = AffectiveAgent(seed=S, temperament_seed=3102)
+            rec.clear(); develop(sa, env, n_episodes=32, situation_seed=3102); stream_off = list(rec[id(sa)])
+            sb = AffectiveAgent(seed=S, temperament_seed=3102)
+            ch = _RelationalChildhood(3102, 3, 0.6)
+            rec.clear()
+            develop(sb, env, n_episodes=32, situation_seed=3102,
+                    on_episode=ch.stage_hook(StageEnv("home", 0.6, 0.6, 0.6, 32)))
+            stream_on = list(rec[id(sb)])
+        finally:
+            D.live_moment = orig
+        self.assertEqual(stream_off, stream_on)                          # moral-env stream identical
+        self.assertNotEqual(list(sa.engine.weight), list(sb.engine.weight))  # substrate diverged (the point)
+
+    def test_relationships_accumulate_and_differentiate(self):
+        # over a childhood the subject forms DIFFERENTIATED, directed relationships with the cohort --
+        # warm/wary emerges from the mutual exchanges, never assigned; a stranger would have none
+        from affective_engine import AffectiveAgent, shared_root_seed
+        from affective_engine.development import develop, Environment
+        from sim_experiment.lifecourse import _RelationalChildhood, StageEnv
+        ch = _RelationalChildhood(3102, 3, 0.7)
+        subj = AffectiveAgent(seed=shared_root_seed(), temperament_seed=3102)
+        develop(subj, Environment("home", 0.6, 0.6, 0.6), n_episodes=48, situation_seed=3102,
+                on_episode=ch.stage_hook(StageEnv("home", 0.6, 0.6, 0.6, 48)))
+        subj_rels = [v for k, v in ch.rels.items() if k[0] == "subject"]
+        self.assertTrue(subj_rels)
+        self.assertTrue(all(r.familiarity > 0 for r in subj_rels))       # ties formed
+        affects = [round(r.affect, 3) for r in subj_rels]
+        self.assertGreater(len(set(affects)), 1)                         # DIFFERENTIATED, not uniform
+
+    def test_classified_outcome_diverges_by_relational_history(self):
+        # THE PASS CLAIM: same seed, same moral environment, run twice -- the relational life reaches a
+        # DIFFERENT classified outcome than the environment-only life, and (by the byte-identical stream
+        # above) the divergence traces to the relationship history alone. Emergent, not scripted.
+        from sim_experiment.lifecourse import run_life
+        from affective_engine import shared_root_seed
+        S, spec = shared_root_seed(), self._spec()
+        base = run_life(S, spec, situation_seed=3102, relational=False)
+        rel = run_life(S, spec, situation_seed=3102, relational=True, cohort_size=3, cadence=0.6)
+        rel_b = run_life(S, spec, situation_seed=3102, relational=True, cohort_size=3, cadence=0.6)
+        self.assertEqual(rel.classification, rel_b.classification)       # deterministic, not noise
+        self.assertNotEqual(base.classification, rel.classification)     # relational history diverted it
+
+
 if __name__ == "__main__":
     unittest.main()
