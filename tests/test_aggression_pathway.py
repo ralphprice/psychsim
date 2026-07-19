@@ -151,9 +151,16 @@ class TestAggressionPathwayClosesOBS3(unittest.TestCase):
         # the pathway CAN produce overt aggression -- so OBS-3's "aggression cannot win even under
         # strong threat" is genuinely falsified, not merely nudged. Before executive control
         # matures (age 2) provocation -> overt aggress; in adulthood (age 25) the same provocation
-        # is the dominant impulse but held below the act threshold by the maturing STN brake ->
-        # restrain. Reactive aggression's real developmental course (early expression, progressive
-        # restraint), EMERGENT from the v9 pathway meeting the existing maturation mechanism.
+        # is the dominant impulse but held sub-threshold. ★ CORRECTED (S56 diagnosis, verified): the
+        # brake is NOT the STN hold -- removing STN_HOLD_GAIN entirely leaves the outcome unchanged, so
+        # the hold is causally INERT. The real brake is an EFFECTOR-RECRUITMENT failure: VMHvl fires,
+        # but the aggress population (mean VMHvl/dPAG/HYPdm) stays low because dPAG and HYPdm cannot be
+        # recruited through their standing inhibition -- dPAG suppressed by the cortically-over-driven
+        # DRN (+ dPAG-GABA<-DRN), HYPdm by the saturating CeA. The young->aggress / adult->restrain
+        # course is still DEVELOPMENTAL (the cortical circuitry matures and its S56 over-drive of DRN
+        # grows with it) -- but the maturing brake is the cortical over-drive, not the STN. NB grounding
+        # S56 Stage 1 (cortical E-I loop gains) may lift the dPAG suppressor and let the adult aggress:
+        # RE-CHECK this assertion after S56.
         #
         # ★ WHAT HOLDS THE young->aggress HALF (v14, ruled -- the v9 lesson: know what holds a green):
         # it depends on DRN's baseline being LOW at age 2. That is CORRECT -- toddlers aggress (Tremblay:
