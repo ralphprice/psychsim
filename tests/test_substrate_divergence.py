@@ -119,9 +119,22 @@ class TestDivergenceWellPosedAndNear_Zero(unittest.TestCase):
         self.assertEqual(len(signs), 1, f"expected a stable sign (well-posed); got {vals}")
         self.assertLess(max(vals.values()) - min(vals.values()), 0.05)
 
-    @unittest.expectedFailure   # v14 D6 CLOSEOUT: the sentinel FIRED -- expected red, resolution = S56 (below)
     def test_divergence_does_not_robustly_emerge(self):
-        # ★ v14 D6 CLOSEOUT -- THE SENTINEL FIRED, AS DESIGNED. It now reads |interaction_at(500)| = 0.0585,
+        # ★★ RESOLVED BY S56 STAGE 1 -- this xfail's OWN resolution condition, met as predicted. The cortical
+        # E-I loop-gain grounding (detailed balance: inhibitory feedback tracks afferent excitatory load;
+        # dlPFC/vmPFC node->gate drive scaled to load, dACC the fixed reference) returned |interaction_at(500)|
+        # from 0.0585 -> 0.0401 -- BELOW the never-moved 0.05 line -- and STABLE across durations
+        # (350/500/600 = 0.0363/0.0401/0.0417, spread 0.0054). The condition below predicted S56 alone would
+        # do this (estimated ~0.0504 cut-S56); the measured 0.0401 beat the estimate. THE ARC EXTENDS and the
+        # S18 law holds a fourth time -- artifacts inflate, grounded completions shrink:
+        #   0.0755 (saturation artifact) -> 0.0534 (dACC-GABA) -> 0.0335 (PGi afferents) -> 0.0585 (S57 curves)
+        #   -> 0.0401 (S56 Stage 1 cortical E-I grounding).
+        # ONE CORRECTION to the "twin" framing below: S56 Stage 1 did NOT clear the freezing floor (Mc still
+        # 0.050). So it is one CAUSE-FAMILY surfacing as two reds that clear SEPARATELY -- the divergence was
+        # sensitive to the cortical over-drive alone; the floor additionally needs the ungated OFC->DRN
+        # residual (Stage 3) and/or CeA's feedforward blindness (Stage 2). The threshold was never moved.
+        # -- the fired-sentinel record this resolves is preserved below --
+        # ★ v14 D6 CLOSEOUT -- THE SENTINEL FIRED, AS DESIGNED. It read |interaction_at(500)| = 0.0585,
         # ABOVE the 0.05 line: a grounded completion (the S57 neuromodulator maturation curves) grew the
         # dissociation back over threshold -- exactly "the surprise S18 says to stop for" this test was built
         # to catch. It is NOT noise and it is NOT a false alarm: diagnosis shows ~0.008 of the 0.010 growth

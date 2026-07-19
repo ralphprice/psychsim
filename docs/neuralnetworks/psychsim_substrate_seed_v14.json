@@ -6664,7 +6664,7 @@
     {
       "source_circuit": "vmPFC",
       "target_circuit": "vmPFC-GABA",
-      "default_weight": "moderate",
+      "default_weight": 0.8333,
       "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
@@ -6678,7 +6678,7 @@
       "confidence": "E",
       "dominant_receptor": "AMPA",
       "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- vmPFC pyramidal cells excite their local interneuron (feedforward/feedback drive).",
-      "source": "v12c cortical E/I interneuron. AMPA (glutamatergic) EXCITATORY -- vmPFC pyramidal cells excite their local interneuron (feedforward/feedback drive). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
+      "source": "v12c cortical E/I interneuron. AMPA (glutamatergic) EXCITATORY -- vmPFC pyramidal cells excite their local interneuron (feedforward/feedback drive). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone. | S56 STAGE 1 (E-I GROUNDING, detailed balance): weight DERIVED from the grounded relation 'inhibitory feedback tracks excitatory drive PROPORTIONALLY' -- w_up = w_reference x (load_node / load_reference), REFERENCE = dACC (3 circuit excitatory afferents, loop left UNCHANGED at moderate=0.5). load_vmPFC = 5 circuit excitatory afferents (HPCv, VTA, dlPFC, AdrenalCortex, DRN). Derivation: 0.5 x 5/3 = 0.8333 (within the [0,1] bound -- unlike dlPFC, vmPFC achieves TRUE proportionality). Set-point inherited from the dACC reference, never fitted to an outcome; the normalized settling EMERGES from proportional inhibition in the divisive integrator, not separately imposed. No free absolute parameter."
     },
     {
       "source_circuit": "vmPFC-GABA",
@@ -6697,12 +6697,12 @@
       "confidence": "E",
       "dominant_receptor": "GABA-A",
       "dominant_receptor_basis": "GABA-A INHIBITORY -- PV/SST feedback inhibition holds vmPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner).",
-      "source": "v12c cortical E/I interneuron. GABA-A INHIBITORY -- PV/SST feedback inhibition holds vmPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
+      "source": "v12c cortical E/I interneuron. GABA-A INHIBITORY -- PV/SST feedback inhibition holds vmPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone. | S56 STAGE 1 note: this is the INHIBITORY RETURN (gate->node) and is UNCHANGED -- the grounded load-scaling is applied to the EXCITATORY feedback drive (node->gate), because detailed balance puts the load dependence on the interneuron's excitatory input (the population it inhibits drives it), while the GABA-A synaptic strength is a synaptic property, not a load-dependent one."
     },
     {
       "source_circuit": "dlPFC",
       "target_circuit": "dlPFC-GABA",
-      "default_weight": "moderate",
+      "default_weight": 1.0,
       "default_weight_basis": "anatomy",
       "weight_bounds": [
         0.0,
@@ -6716,7 +6716,7 @@
       "confidence": "E",
       "dominant_receptor": "AMPA",
       "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- dlPFC pyramidal cells excite their local interneuron (feedforward/feedback drive).",
-      "source": "v12c cortical E/I interneuron. AMPA (glutamatergic) EXCITATORY -- dlPFC pyramidal cells excite their local interneuron (feedforward/feedback drive). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
+      "source": "v12c cortical E/I interneuron. AMPA (glutamatergic) EXCITATORY -- dlPFC pyramidal cells excite their local interneuron (feedforward/feedback drive). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone. | S56 STAGE 1 (E-I GROUNDING, detailed balance): weight is no longer the family's one-band scaffold -- it is DERIVED from the grounded relation 'inhibitory feedback tracks excitatory drive PROPORTIONALLY' (detailed balance: stimulus-invariant E/I proportionality per input; the feedback interneuron is driven by the population it inhibits, so its drive scales with that population's afferent load). w_up = w_reference x (load_node / load_reference), where the REFERENCE is dACC (lightest cortical load, 3 circuit excitatory afferents, its loop left UNCHANGED at moderate=0.5) and load_dlPFC = 9 circuit excitatory afferents (MDthal, S2-PPC, dACC, FPC, OFC, HPCv, VTA, LC, BF-ACh). Derivation: 0.5 x 9/3 = 1.5 -> CLAMPED to the weight bound 1.0. ** HONEST LIMITATION: dlPFC hits the [0,1] ceiling, so the heaviest node is UNDER-corrected relative to true proportionality (it gets 2x the reference gain, not the 3x proportionality requires) -- the ceiling, not the relation, is the binding constraint here. ** The set-point is INHERITED from the dACC reference, never fitted to an outcome; the normalized/sublinear settling EMERGES from proportional inhibition in the divisive integrator (a = baseline + sum(inputs) -> a_node ~ E/(1+loop_gain)) and is NOT separately imposed. No free absolute parameter: one node fixed, the others derived from it and the connectome's own afferent counts."
     },
     {
       "source_circuit": "dlPFC-GABA",

@@ -2,90 +2,90 @@
   "develop": {
     "psychopathic|harsh_inconsistent": {
       "classification": "reward_approach",
-      "margin": 0.0059,
+      "margin": 0.006,
       "profile": {
-        "affiliation": 0.0767,
-        "defensive_threat": 0.2124,
-        "executive": 0.2214,
-        "reward_approach": 0.2478,
+        "affiliation": 0.0768,
+        "defensive_threat": 0.2118,
+        "executive": 0.2219,
+        "reward_approach": 0.2477,
         "social_cognition": 0.2418
       }
     },
     "psychopathic|warm_firm": {
       "classification": "reward_approach",
-      "margin": 0.0054,
+      "margin": 0.0055,
       "profile": {
-        "affiliation": 0.0773,
-        "defensive_threat": 0.2127,
-        "executive": 0.2205,
+        "affiliation": 0.0775,
+        "defensive_threat": 0.2121,
+        "executive": 0.2209,
         "reward_approach": 0.2475,
         "social_cognition": 0.242
       }
     },
     "shared_root|harsh_inconsistent": {
       "classification": "executive",
-      "margin": 0.0113,
+      "margin": 0.0099,
       "profile": {
-        "affiliation": 0.1302,
-        "defensive_threat": 0.2056,
-        "executive": 0.2292,
-        "reward_approach": 0.2179,
-        "social_cognition": 0.2171
+        "affiliation": 0.1314,
+        "defensive_threat": 0.2041,
+        "executive": 0.2285,
+        "reward_approach": 0.2186,
+        "social_cognition": 0.2173
       }
     },
     "shared_root|warm_firm": {
       "classification": "executive",
-      "margin": 0.0081,
+      "margin": 0.0077,
       "profile": {
-        "affiliation": 0.1452,
-        "defensive_threat": 0.2021,
+        "affiliation": 0.1464,
+        "defensive_threat": 0.2002,
         "executive": 0.224,
-        "reward_approach": 0.2159,
-        "social_cognition": 0.2128
+        "reward_approach": 0.2164,
+        "social_cognition": 0.213
       }
     },
     "sophropathic|harsh_inconsistent": {
       "classification": "executive",
-      "margin": 0.1036,
+      "margin": 0.0914,
       "profile": {
-        "affiliation": 0.1163,
-        "defensive_threat": 0.1823,
-        "executive": 0.3036,
-        "reward_approach": 0.1978,
-        "social_cognition": 0.2
+        "affiliation": 0.1227,
+        "defensive_threat": 0.1788,
+        "executive": 0.2942,
+        "reward_approach": 0.2028,
+        "social_cognition": 0.2016
       }
     },
     "sophropathic|warm_firm": {
       "classification": "executive",
-      "margin": 0.1028,
+      "margin": 0.0881,
       "profile": {
-        "affiliation": 0.1286,
-        "defensive_threat": 0.1805,
-        "executive": 0.2992,
-        "reward_approach": 0.1964,
-        "social_cognition": 0.1953
+        "affiliation": 0.1357,
+        "defensive_threat": 0.1768,
+        "executive": 0.2893,
+        "reward_approach": 0.2012,
+        "social_cognition": 0.197
       }
     },
     "typical_child|harsh_inconsistent": {
       "classification": "defensive_threat",
-      "margin": 0.0762,
+      "margin": 0.0643,
       "profile": {
-        "affiliation": 0.1159,
-        "defensive_threat": 0.2912,
-        "executive": 0.2093,
-        "reward_approach": 0.1686,
-        "social_cognition": 0.215
+        "affiliation": 0.1181,
+        "defensive_threat": 0.2834,
+        "executive": 0.2088,
+        "reward_approach": 0.1706,
+        "social_cognition": 0.2191
       }
     },
     "typical_child|warm_firm": {
       "classification": "defensive_threat",
-      "margin": 0.0775,
+      "margin": 0.0641,
       "profile": {
-        "affiliation": 0.1335,
-        "defensive_threat": 0.2844,
-        "executive": 0.2069,
-        "reward_approach": 0.1701,
-        "social_cognition": 0.2051
+        "affiliation": 0.136,
+        "defensive_threat": 0.275,
+        "executive": 0.2065,
+        "reward_approach": 0.1716,
+        "social_cognition": 0.2109
       }
     }
   },
@@ -95,7 +95,7 @@
     "state": "sought"
   },
   "group": {
-    "belonging": 0.1494,
+    "belonging": 0.1216,
     "encounters": 8,
     "standing": 0.2
   },

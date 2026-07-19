@@ -21,6 +21,19 @@ SCORER and its `probe()` were removed. The baseline is now the EMERGENT read-out
 classify over the Panksepp substrate), not the legacy category arbitration; the golden was
 regenerated to reflect this intended change.
 
+REGEN (S56 STAGE 1 -- the cortical E-I loop-gain grounding): the golden was regenerated because the
+three cortical recurrent-E-I gates stopped sharing ONE scaffold band regardless of afferent load.
+Grounded relation (detailed balance: inhibitory feedback tracks excitatory drive PROPORTIONALLY):
+w(node->gate) scaled by circuit afferent load, dACC the fixed reference (load 3, unchanged), vmPFC
+x5/3 = 0.833, dlPFC x9/3 -> clamped 1.0 by the weight bound. WHAT MOVED, and why it is the grounding
+working rather than a tune: NO classification changed (zero outcome flips -- every seed x environment
+still classifies as before). The shifts are small and all point ONE way -- the signature of reduced
+cortical over-drive: profile/executive DOWN ~0.010 (dlPFC/vmPFC now held off ceiling), margins DOWN
+~0.012-0.015, profile/affiliation UP ~0.007, profile/defensive_threat DOWN ~0.009, group/belonging
+DOWN 0.028 (largest single move). The same pass returned the divergence sentinel from 0.0585 -> 0.0401
+(its xfail resolved, threshold never moved). The pin did its job again: a grounded dynamics change,
+caught and deliberately re-baselined -- not a tune, and no outcome was manufactured.
+
 REGEN (v14 Expression Phase B+): the golden was regenerated because dACC-GABA -- the missing
 cortical feedback interneuron (principle 1) -- changed real cortical dynamics: its recurrent E-I
 loop pulls dlPFC OFF THE CEILING (silence-the-element test demonstrated the mechanism; lesion the
