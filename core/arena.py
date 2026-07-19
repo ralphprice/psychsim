@@ -49,6 +49,7 @@ from substrate.social import is_cohesive_act, is_aggressive_act, felt_response, 
 from sim_world.environment_matrix import Thing, default_things, birth_matrix, encounter
 from sim_world.group_matrix import (GroupMatrix, default_groups, group_encounter,
                                     sample_encounter_type)
+from sim_world.gamemaster import Relationship, accrue_relationship   # dev-social integration (F1/F3)
 from agent_bank import AgentBank
 
 # SCAFFOLD constants (labelled, replace-with-data): initial social presence + tie-accrual step +
@@ -145,6 +146,10 @@ class ArenaSpec:
     slots: List[Slot]
     seed: int = 0
     shared_hours: float = 3.0               # co-located hours/day (the sibling dial, S12.4)
+    relational: bool = False                # dev-social integration (F3): OFF = the descriptive _Tie
+                                            # accrual (byte-identical regression harness); ON = the
+                                            # canonical gm.rel written by accrue_relationship (P2a) and
+                                            # read back into perception as an IN-CONSPEC recognition cue
 
 
 # ---------------------------------------------------------------------------
@@ -347,19 +352,54 @@ class _Tie:
     strain: float = 0.0
 
 
+def _add_relationship_percept(percept: Dict[str, float], rel: Relationship) -> None:
+    """dev-social integration (F2, the emergence keystone): the perceiver's stored relationship with
+    THIS specific known other presents as an IN-CONSPEC RECOGNITION cue -- recognised as warm
+    (familiar_warm -> PVN-OT, oxytocin/approach) or as a threat (familiar_wary -> CeA, defensive). The
+    P1 colouring math IN ROLE: FAMILIARITY gates the whole cue (a stranger, familiarity 0, presents
+    nothing), the SIGN of stored affect selects the arm, low trust adds to wariness. It presents
+    RECOGNITION, NEVER a valuation written onto the affordance channels -- the perceiver's own circuits
+    value it (Fork-2 correction; the same discipline as the kin_signature / physical cues). Non-negative
+    channels force TWO arms. Gains mirror the P1 read (affect 0.5, trust 0.3); SCAFFOLD."""
+    w = rel.familiarity                       # already in [0,1] (accrue clamps); a stranger presents nothing
+    if w <= 0.0:
+        return
+    warm = 0.5 * w * max(0.0, rel.affect)
+    wary = 0.5 * w * max(0.0, -rel.affect) + 0.3 * w * (1.0 - rel.trust)
+    if warm > 0.0:
+        percept["familiar_warm"] = min(1.0, percept.get("familiar_warm", 0.0) + warm)
+    if wary > 0.0:
+        percept["familiar_wary"] = min(1.0, percept.get("familiar_wary", 0.0) + wary)
+
+
+def _strain_of(rel: Relationship) -> float:
+    """The relationship-ON trace's `strain` is a derived VIEW of the canonical gm.rel (F3): the _Tie is
+    demoted to a projection, not an independent store. Strain rises with negative affect and low trust."""
+    return max(0.0, min(1.0, 0.5 * max(0.0, -rel.affect) + 0.5 * (1.0 - rel.trust)))
+
+
 def _social_episode(agent: AffectiveAgent, other_agent: AffectiveAgent, other_last_act: str,
-                    tie: _Tie, age_years: float) -> str:
+                    tie, age_years: float, relational: bool = False) -> str:
     """One co-located moment: THIS agent perceives the other's prior act AND physical presentation as
     a social perturbation (in the trigger vocabulary) and its substrate resolves an emergent act,
-    developing through the moment. The DESCRIPTIVE tie accrues from the feature read-outs of that act
-    (where the two booleans belong)."""
+    developing through the moment.
+
+    relational=False (harness default): the DESCRIPTIVE tie accrues from the feature read-outs of that
+    act (where the two booleans belong) -- the byte-identical regression path. relational=True: `tie` is
+    a canonical gm.rel Relationship; the perceiver's history with this other first COLOURS the percept as
+    an IN-CONSPEC recognition cue (F2 read), then the emergent act WRITES the tie via the shared P2a
+    accrue_relationship mechanism (F1 write). History shapes behaviour ONLY by re-entering perception."""
     percept = _perceive(other_last_act)
     _add_physical_percept(percept, agent, other_agent)   # E2/E4: the other's endowment, sex-valued
     _add_signature_percept(percept, agent, other_agent)  # v14: the other's kin signature, self-matched
     _add_consequence_percept(percept, agent, other_agent)  # v14: the other's DISPLAYED evoked distress
+    if relational:
+        _add_relationship_percept(percept, tie)          # F2: the perceiver's history, as a recognition cue
     fr = felt_response(agent.engine, percept, age_years,
                        getattr(agent, "_rest_baseline", None))
-    if is_aggressive_act(fr.behaviour):
+    if relational:
+        accrue_relationship(tie, fr.behaviour, fr.strength)   # F1/P2a: the SAME emergent write as adjudicate
+    elif is_aggressive_act(fr.behaviour):
         tie.strain = min(1.0, tie.strain + _TIE_STEP); tie.affect = max(-1.0, tie.affect - _TIE_STEP)
     elif is_cohesive_act(fr.behaviour):
         tie.strain = max(0.0, tie.strain - _TIE_STEP); tie.affect = min(1.0, tie.affect + _TIE_STEP)
@@ -411,7 +451,8 @@ def run_arena(spec: ArenaSpec, *, childhood_years: float = 18.0,
         last_act[slot.slot_id] = _INITIAL_PRESENCE
     ids = list(agents)
     ctxs = {iid: _new_ctx(env.present) for iid in ids}
-    ties: Dict[tuple, _Tie] = {}
+    ties: Dict[tuple, _Tie] = {}                   # rel-off: descriptive per-UNORDERED-pair tie
+    rels: Dict[tuple, Relationship] = {}           # rel-on (F3): canonical gm.rel per DIRECTED pair
 
     # the co-located FRACTION: the sibling dial (shared_hours/day) plus a STRUCTURAL confinement
     # boost when few affordances are present (fewer diversions -> more forced proximity). Escape is
@@ -429,15 +470,22 @@ def run_arena(spec: ArenaSpec, *, childhood_years: float = 18.0,
             others = [o for o in ids if o != iid]
             if others and rng.random() < shared_frac:
                 other = rng.choice(others)
-                tie = ties.setdefault(_pair(iid, other), _Tie())
-                b = _social_episode(ag, agents[other], last_act[other], tie, age)
+                if spec.relational:
+                    # directed: how iid regards other (read + written); F1/F2/F3
+                    rel = rels.setdefault((iid, other), Relationship())
+                    b = _social_episode(ag, agents[other], last_act[other], rel, age, relational=True)
+                else:
+                    tie = ties.setdefault(_pair(iid, other), _Tie())
+                    b = _social_episode(ag, agents[other], last_act[other], tie, age)
                 last_act[iid] = b                       # the perceivable social act toward the roster
             else:
                 b = _solo_episode(ag, age, rng, ctxs[iid])   # own stream; not perceivable as a social bid
             acts[iid] = b
             max_act[iid] = max(ag.engine.activation.values()) if ag.engine.activation else 0.0
             drift[iid] = _drift(ag.engine.weight, births[iid])
-        trace.record(i, age, acts, max_act, drift, {p: t.strain for p, t in ties.items()})
+        strain = ({p: _strain_of(r) for p, r in rels.items()} if spec.relational
+                  else {p: t.strain for p, t in ties.items()})   # rel-on: strain is a derived VIEW (F3)
+        trace.record(i, age, acts, max_act, drift, strain)
     return trace
 
 

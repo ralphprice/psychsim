@@ -6247,6 +6247,40 @@
       "source": "v14 Phase-2 kinship: the self-referent kin-recognition signal (signature_match) drives oxytocin. OT mediates BOTH social recognition (Oettl et al. 2016, Neuron -- OT modulates conspecific-odour recognition) and social reward (Dolen et al. 2013, Nature; Hung et al. 2017, Science -- OT is the social-reinforcement signal in NAc/VTA, signalling the salience of a FAMILIAR partner), so a kin-recognition cue reaching affiliation runs THROUGH oxytocin -> the now-drivable PVN-OT -> the Phase-1 bonding scaffold (PVN-OT->NAc-shell/MeA/SEPT/MPOA). Collapses the chemosignal-detection->OT relay into the sensory drive, mirroring the affective_touch->PVN-OT edge. innate_reinforcer: favouring self-similar kin is an innate primary social bias. NEPOTISM EMERGES from OT driving bonding -- NOT a coded similarity->affiliation coefficient; the cue is self-similarity (signature_match: self-referent, signature-only), relatedness never downstream of spawn."
     },
     {
+      "source_circuit": "IN-CONSPEC:familiar_warm",
+      "target_circuit": "PVN-OT",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "innate_reinforcer",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "affiliation_early",
+      "is_innate_reinforcer_link": true,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "dev-social integration pass (F2): the RECOGNITION cue of a positively-regarded KNOWN other -- a familiar conspecific recognised as SAFE/warm -- drives oxytocin/approach, mirroring IN-CONSPEC:kin_signature->PVN-OT byte-for-byte (weight+receptor treatment). GROUNDED: dorsal-CA2 hippocampal social-recognition memory carries an abstract social VALENCE (safe vs threat) whose approach arm runs through OT -- Kassraian 2024 Nat Neurosci (dCA2 discriminates social threat from safety); Oettl 2016 Neuron (OT modulates conspecific-odour recognition); Dolen 2013 Nature / Hung 2017 Science (OT signals the salience of a FAMILIAR partner). LUMP (option i, matching the 3 sibling IN-CONSPEC bands' direct grain): the dCA2->OT relay is collapsed into the direct cue->PVN-OT edge, exactly as kin_signature collapses chemosignal-detection->OT; the explicit dCA2/vCA1/lateral-septum recognition node is REGISTERED as a future un-lumping pass. The cue MAGNITUDE is computed from the perceiver's stored relationship (familiarity gates, positive affect signs this arm, trust modulates) -- LEARNED, per-other; 'innate_reinforcer' marks the PATHWAY (the OT social-reward system), not the partner-values. Affiliation to a known-warm other EMERGES from OT driving bonding, never a coded history->affiliation coefficient."
+    },
+    {
+      "source_circuit": "IN-CONSPEC:familiar_wary",
+      "target_circuit": "CeA",
+      "default_weight": "low",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "dev-social integration pass (F2): the RECOGNITION cue of a distrusted/hostile KNOWN other -- a familiar conspecific recognised as a THREAT -- drives the PERCEIVER'S defensive system, mirroring IN-CONSPEC:formidability_cue->CeA byte-for-byte (defence, NOT attack/VMHvl). GROUNDED: dCA2 discriminates social threat from safety and its defensive/avoidance arm runs dCA2/vHPC -> lateral septum -> defensive -- Kassraian 2024 Nat Neurosci (silencing dCA2 -> generalised social avoidance; the animal can no longer tell safe from threatening and defends against both). LUMP (option i, matching the sibling IN-CONSPEC grain): dCA2->LS->defensive collapsed into the direct cue->CeA edge; explicit recognition node registered as a future un-lumping pass. The cue MAGNITUDE is computed from the perceiver's stored relationship (familiarity gates, negative affect + low trust drive this arm) -- LEARNED, per-other. Wariness of a known-hostile other EMERGES from the perceiver's defensive circuits, never a coded history->threat coefficient."
+    },
+    {
       "source_circuit": "LH",
       "target_circuit": "LHb",
       "default_weight": "moderate",

@@ -203,6 +203,16 @@ _TRIGGER_CHANNELS = {
     # affiliation (nepotism) then EMERGES from OT driving the Phase-1 bonding circuits. The cue is
     # self-similarity, NOT relatedness (relatedness only set the shared loci at spawn) -- the keystone.
     "kin_signature": [("IN-CONSPEC:kin_signature", 1.0)],
+    # dev-social integration (F2): relational-history RECOGNITION cues -- a KNOWN other recognised as
+    # warm (familiar_warm -> PVN-OT, oxytocin/approach, mirror kin_signature) or as a threat
+    # (familiar_wary -> CeA, defensive, mirror formidability_cue). The cue MAGNITUDE is computed by the
+    # perceiver from its OWN stored relationship (familiarity gates, affect signs the arm, trust
+    # modulates); the response EMERGES from the perceiver's circuits -- history is RECOGNISED here, never
+    # a valuation written onto the affordance channels (the emergence keystone, Fork-2 correction).
+    # Grounded in the dCA2 social-recognition-memory circuit (safe-vs-threat valence -> OT vs septo-
+    # defensive). Non-negative channels -> two arms; a signed cue cannot ride one channel.
+    "familiar_warm": [("IN-CONSPEC:familiar_warm", 1.0)],
+    "familiar_wary": [("IN-CONSPEC:familiar_wary", 1.0)],
     # v14 Expression Phase C: the bearer's DISPLAYED distress -- its facial (NuFac) and vocal
     # (NuAmb-vocal) EFFECTOR output, read above rest -- presented on the senses that actually pick a
     # face and a voice up. The face is SEEN (IN-VIS:face_like -> SC-Pv), the cry is HEARD
