@@ -41,6 +41,25 @@ class Relationship:
     trust: float = 0.0
 
 
+def accrue_relationship(rel: Relationship, behaviour: str, win_drive: float) -> None:
+    """The P2a relationship-update mechanism, SHARED so the developing-childhood write (the Arena) is
+    the SAME emergent mechanism as the single-exchange write (adjudicate) -- not a second, flat-stepped
+    implementation. The SIGN is emergent (is_cohesive_act/is_aggressive_act on the emergent behaviour
+    string, category-free -- migration #2); the MAGNITUDE is the pre-P2a bands (0.15/0.1/0.2/0.15,
+    UNCHANGED, no new tunable number) scaled by the winner's own emergent drive INTENSITY `win_drive`
+    (== social.py:269's 'strength' for the winner, a quantity in [0,1]; INTENSITY not margin). min(1.0,
+    ..) enforces the band bound in code. FAMILIARITY is unscaled contact-count; TRUST keeps its 0
+    floor (betrayal = a separate grounded pass). See the emergent-write memory / register."""
+    wd = min(1.0, win_drive)
+    rel.familiarity = clamp(rel.familiarity + 0.1)
+    if is_cohesive_act(behaviour):    # appetitive/affiliative act -> warms the tie
+        rel.affect = clamp(rel.affect + 0.15 * wd, -1.0, 1.0)
+        rel.trust = clamp(rel.trust + 0.1 * wd)
+    elif is_aggressive_act(behaviour):  # defensive-aggression act -> strains the tie
+        rel.affect = clamp(rel.affect - 0.2 * wd, -1.0, 1.0)
+        rel.trust = clamp(rel.trust - 0.15 * wd)
+
+
 @dataclass
 class Interaction:
     """A logged record of one adjudicated action."""
@@ -118,34 +137,12 @@ class GameMaster:
         self.reputation[person.agent_id] = clamp(
             self.reputation.get(person.agent_id, 0.5) + drep, 0.0, 1.0)
         if target is not None:
-            r = self.rel(person.agent_id, target)
-            # P2a: the VALENCED tie deltas scale with the WINNER'S OWN emergent drive INTENSITY --
-            # resp.drives[resp.behaviour], the phasic pull the winning affordance emerged with (the
-            # substrate's own read-out; == social.py:269's 'strength' for the winner). A strongly-driven
-            # act moves the tie TOWARD the full band; a weakly-driven one moves it proportionally less --
-            # up to but NOT reaching the band (drive intensity is < 1 in practice). This is INTENSITY,
-            # NOT margin over the runner-up: a narrowly-won ambivalent act and an uncontested one move the
-            # tie the SAME if their winning drive is equal. (Margin-decisiveness, if wanted, is a separate
-            # scalar d_win-d_second -- FLAGGED to the design session, not chosen here.) The SIGN stays
-            # emergent (is_cohesive/is_aggressive on the behaviour string, category-free -- migration #2);
-            # only the MAGNITUDE is outcome-derived. Bands (0.15/0.1/0.2/0.15) are the pre-P2a constants
-            # KEPT UNCHANGED -- P2a adds NO new tunable number, only the drive factor, so every update is
-            # now uniformly SMALLER than pre-P2a (bands re-read as ceilings). The absolute scale is only
-            # as grounded as 'strength' (flagged-not-tuned) -- an OPEN dependency P2a REUSES, not grounds.
-            # (Society.Tie is a SIBLING not a byte-twin -- different fields/structure/values -- so byte-
-            # for-byte inheritance does not apply; keeping the existing bands is the anti-knob move.)
-            # getattr honours adjudicate's '.behaviour-carrying act' contract; min(1.0,...) enforces the
-            # band bound in code, not by a seed-data convention. FAMILIARITY: contact-count, unscaled
-            # (registered fork). TRUST floor kept at 0 (betrayal = separate grounded pass, registered).
+            # P2a (now via the SHARED accrue_relationship, so the Arena's developing-childhood write is
+            # the SAME mechanism -- F1): the winner's own emergent drive intensity scales the pre-P2a
+            # bands; sign stays emergent. getattr honours adjudicate's '.behaviour-carrying act' contract.
             drives = getattr(resp, "drives", None) or {}
-            win_drive = min(1.0, drives.get(resp.behaviour, 0.0))
-            r.familiarity = clamp(r.familiarity + 0.1)
-            if is_cohesive_act(resp.behaviour):    # appetitive/affiliative act -> warms the tie
-                r.affect = clamp(r.affect + 0.15 * win_drive, -1.0, 1.0)
-                r.trust = clamp(r.trust + 0.1 * win_drive)
-            elif is_aggressive_act(resp.behaviour):  # defensive-aggression act -> strains the tie
-                r.affect = clamp(r.affect - 0.2 * win_drive, -1.0, 1.0)
-                r.trust = clamp(r.trust - 0.15 * win_drive)
+            accrue_relationship(self.rel(person.agent_id, target), resp.behaviour,
+                                drives.get(resp.behaviour, 0.0))
 
         # 2. the institution's response valence (warmth of the climate),
         #    which is what development consumes
