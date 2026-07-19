@@ -2,90 +2,90 @@
   "develop": {
     "psychopathic|harsh_inconsistent": {
       "classification": "reward_approach",
-      "margin": 0.006,
+      "margin": 0.0057,
       "profile": {
-        "affiliation": 0.0768,
-        "defensive_threat": 0.2118,
-        "executive": 0.2219,
-        "reward_approach": 0.2477,
-        "social_cognition": 0.2418
+        "affiliation": 0.0761,
+        "defensive_threat": 0.2185,
+        "executive": 0.22,
+        "reward_approach": 0.2455,
+        "social_cognition": 0.2398
       }
     },
     "psychopathic|warm_firm": {
       "classification": "reward_approach",
-      "margin": 0.0055,
+      "margin": 0.0056,
       "profile": {
-        "affiliation": 0.0775,
-        "defensive_threat": 0.2121,
-        "executive": 0.2209,
-        "reward_approach": 0.2475,
-        "social_cognition": 0.242
+        "affiliation": 0.0769,
+        "defensive_threat": 0.2188,
+        "executive": 0.2189,
+        "reward_approach": 0.2455,
+        "social_cognition": 0.2399
       }
     },
     "shared_root|harsh_inconsistent": {
       "classification": "executive",
       "margin": 0.0099,
       "profile": {
-        "affiliation": 0.1314,
-        "defensive_threat": 0.2041,
-        "executive": 0.2285,
-        "reward_approach": 0.2186,
-        "social_cognition": 0.2173
+        "affiliation": 0.1309,
+        "defensive_threat": 0.2073,
+        "executive": 0.2277,
+        "reward_approach": 0.2177,
+        "social_cognition": 0.2164
       }
     },
     "shared_root|warm_firm": {
       "classification": "executive",
-      "margin": 0.0077,
+      "margin": 0.0075,
       "profile": {
-        "affiliation": 0.1464,
-        "defensive_threat": 0.2002,
-        "executive": 0.224,
-        "reward_approach": 0.2164,
-        "social_cognition": 0.213
+        "affiliation": 0.1459,
+        "defensive_threat": 0.2034,
+        "executive": 0.2231,
+        "reward_approach": 0.2156,
+        "social_cognition": 0.212
       }
     },
     "sophropathic|harsh_inconsistent": {
       "classification": "executive",
-      "margin": 0.0914,
+      "margin": 0.091,
       "profile": {
-        "affiliation": 0.1227,
-        "defensive_threat": 0.1788,
-        "executive": 0.2942,
-        "reward_approach": 0.2028,
-        "social_cognition": 0.2016
+        "affiliation": 0.1222,
+        "defensive_threat": 0.1821,
+        "executive": 0.293,
+        "reward_approach": 0.202,
+        "social_cognition": 0.2008
       }
     },
     "sophropathic|warm_firm": {
       "classification": "executive",
-      "margin": 0.0881,
+      "margin": 0.0878,
       "profile": {
-        "affiliation": 0.1357,
-        "defensive_threat": 0.1768,
-        "executive": 0.2893,
-        "reward_approach": 0.2012,
-        "social_cognition": 0.197
+        "affiliation": 0.1353,
+        "defensive_threat": 0.1796,
+        "executive": 0.2883,
+        "reward_approach": 0.2006,
+        "social_cognition": 0.1963
       }
     },
     "typical_child|harsh_inconsistent": {
       "classification": "defensive_threat",
-      "margin": 0.0643,
+      "margin": 0.0633,
       "profile": {
-        "affiliation": 0.1181,
-        "defensive_threat": 0.2834,
-        "executive": 0.2088,
-        "reward_approach": 0.1706,
-        "social_cognition": 0.2191
+        "affiliation": 0.1201,
+        "defensive_threat": 0.2798,
+        "executive": 0.21,
+        "reward_approach": 0.1736,
+        "social_cognition": 0.2165
       }
     },
     "typical_child|warm_firm": {
       "classification": "defensive_threat",
-      "margin": 0.0641,
+      "margin": 0.063,
       "profile": {
-        "affiliation": 0.136,
-        "defensive_threat": 0.275,
-        "executive": 0.2065,
-        "reward_approach": 0.1716,
-        "social_cognition": 0.2109
+        "affiliation": 0.139,
+        "defensive_threat": 0.2716,
+        "executive": 0.2058,
+        "reward_approach": 0.1749,
+        "social_cognition": 0.2087
       }
     }
   },
@@ -95,7 +95,7 @@
     "state": "sought"
   },
   "group": {
-    "belonging": 0.1216,
+    "belonging": 0.1217,
     "encounters": 8,
     "standing": 0.2
   },
