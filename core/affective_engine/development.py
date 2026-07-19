@@ -20,7 +20,7 @@ caregiving-response variable that Study 2 goes looking for.
 
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, Optional, Callable
 import random
 
 from .core import (Appraisal, clamp)
@@ -197,24 +197,49 @@ def _colour_by_env(a, env):
     return a
 
 
+def _moral_moment(agent: AffectiveAgent, env: Environment, rng: random.Random, i: int, *,
+                  n_episodes: int, cycle_offset: int, span: float, age_window: tuple) -> float:
+    """ONE moral-environment developmental moment: colour a situation by the environment and live it;
+    return the age (years) it was lived at. Extracted from develop()'s loop (behaviour-identical) so a
+    developed-alongside cohort (F4) can be advanced one AGE-MATCHED moment at a time on its OWN
+    persistent rng -- never n_episodes=1 develop() calls, which re-seed and relive one situation.
+
+    PURE w.r.t. agent state: which situation arises is a function of (rng, env, i, cycle_offset,
+    age_window) ONLY -- no agent state feeds back. That is what keeps the moral-env appraisal STREAM
+    byte-identical across the F4 relational=False/True arms even though the relational episodes
+    legitimately mutate the substrate between moments."""
+    a0, a1 = age_window
+    frac = a0 + (a1 - a0) * (i / max(1, n_episodes - 1))
+    kind = CHILDHOOD_CYCLE[(cycle_offset + i) % len(CHILDHOOD_CYCLE)]
+    appr = _colour_by_env(situation(kind, rng), env)
+    age_years = frac * span
+    live_moment(agent, appr, age_years=age_years)
+    return age_years
+
+
 def develop(agent: AffectiveAgent, env: Environment, n_episodes: int = 48,
             situation_seed: int = 20260704, graded: bool = False,
-            age_window: tuple = (0.0, 1.0), cycle_offset: int = 0) -> None:
+            age_window: tuple = (0.0, 1.0), cycle_offset: int = 0,
+            on_episode: Optional[Callable] = None) -> None:
     """Grow an agent by living a childhood in an environment, ON THE SUBSTRATE.
     The environment colours WHICH situations arise; each is fed to live_moment,
     where the agent's primary systems fire, the dominant one drives behaviour, and
     the system used strengthens (use-dependent, window-gated). No outcome is
     decreed -- what the mind becomes emerges. age_window maps the run onto a slice
     of childhood (so a childhood can be lived in segments); cycle_offset shifts the
-    situation cycle. `graded` is retained for signature compatibility."""
+    situation cycle. `graded` is retained for signature compatibility.
+
+    `on_episode` (F4): an optional callback fired AFTER each moral moment, receiving
+    (agent, i, age_years) -- and NEVER develop()'s rng, so a relational episode it
+    fires cannot perturb the moral-env situation stream. on_episode=None (the default)
+    skips the guard, so the baseline development is byte-for-byte the pre-F4 path."""
     rng = random.Random(situation_seed)
     span = 18.0
-    a0, a1 = age_window
     for i in range(n_episodes):
-        frac = a0 + (a1 - a0) * (i / max(1, n_episodes - 1))
-        kind = CHILDHOOD_CYCLE[(cycle_offset + i) % len(CHILDHOOD_CYCLE)]
-        appr = _colour_by_env(situation(kind, rng), env)
-        live_moment(agent, appr, age_years=frac * span)
+        age_years = _moral_moment(agent, env, rng, i, n_episodes=n_episodes,
+                                  cycle_offset=cycle_offset, span=span, age_window=age_window)
+        if on_episode is not None:      # F4 add-only relational hook; never receives rng
+            on_episode(agent, i, age_years)
 
 
 # ---------------------------------------------------------------------------
