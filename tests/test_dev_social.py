@@ -166,6 +166,25 @@ class TestF4RelationalLifecourse(unittest.TestCase):
         affects = [round(r.affect, 3) for r in subj_rels]
         self.assertGreater(len(set(affects)), 1)                         # DIFFERENTIATED, not uniform
 
+    # ★ SUSPENDED (S56 ruling) -- the MECHANISM survives; only this LABEL-reordering claim is retracted.
+    # F4 originally measured ~50% of seeds diverging (executive -> reward_approach). That was measured on an
+    # OVER-DRIVEN, UNGATED cortex. With S56's grounded cortical E-I gate family in place the effect deflates
+    # to 0/10 seeds -- the S18 inflation law (every incompleteness inflates effect sizes; the honest direction
+    # is smaller), for the third time in one session alongside the divergence sentinel (0.0585 -> 0.0401) and
+    # the DA-learning tests (+0.0008 -> -0.0013).
+    # WHAT STILL HOLDS (all green, this class's other tests): relationships form and DIFFERENTIATE warm/wary
+    # emergently; the act distribution differs by history; the SUBSTRATE still diverges (weights differ); and
+    # affiliation moves +0.0088 in the PREDICTED direction (warm childhood -> more affiliation), traceable to
+    # the relationship alone (the moral-env appraisal stream is byte-identical across arms).
+    # WHY THE LABEL NO LONGER FLIPS: the classification is a bare ARGMAX over a knife-edge profile -- the
+    # margin is 0.0021 (social_cognition 0.2263 vs executive 0.2242). A real +0.0088 affiliation shift cannot
+    # reorder domains from there. The effect is REAL and visible in the PROFILE; it is invisible only in the
+    # discretized LABEL. (Second time the bare argmax has proven the wrong instrument -- it exaggerated the
+    # fragile psychopathic flip and now hides a genuine graded effect. Registered.)
+    # RESOLUTION CONDITION: re-enable if (a) a later grounded effect is large enough to reorder the label, OR
+    # (b) the read-out reports the graded profile/margin rather than a bare argmax. Do NOT weaken S56 to
+    # restore this, and do NOT re-base to a seed that happens to flip -- both would be fitting to a wanted result.
+    @unittest.expectedFailure
     def test_classified_outcome_diverges_by_relational_history(self):
         # THE PASS CLAIM: same seed, same moral environment, run twice -- the relational life reaches a
         # DIFFERENT classified outcome than the environment-only life, and (by the byte-identical stream
