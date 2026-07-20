@@ -49,6 +49,17 @@ class TestAnticipatoryValueEmerges(unittest.TestCase):
     # fallback-sign census). Once that pathway is grounded, RE-ENABLE these tests: a robust
     # paired-vs-unpaired dissociation either emerges (a real result) or does not (also a real result).
     # Do NOT "fix" this by weakening the grounded OFC gate to restore a noise-scale effect.
+    # ★ MARGIN CHECKED (ruled), AND IT STAYS SUSPENDED -- the un-suspend was authorised conditional on the
+    # margin proving robust. It is not. Measured paired gain vs the UNPAIRED cue-alone control, by age:
+    #     age  4.0   paired +0.003632   unpaired +0.005439   (0.7x -- the CONTROL gains MORE)
+    #     age  8.0   paired +0.016434   unpaired +0.013907   (1.2x)
+    #     age 15.0   paired -0.013863   unpaired +0.009058   (NEGATIVE)
+    #     age 25.0   paired -0.004655   unpaired +0.010242   (NEGATIVE)
+    # It reports "unexpected success" at age 4 purely because +0.0036 > 0. An effect smaller than its own
+    # control, and sign-unstable across development, is not a demonstrated learning result. Being measured on
+    # DYNAMICS (not the observer double-gain) made it a CANDIDATE to survive the instrument correction -- it
+    # simply did not survive, which is the margin discipline working in the honest direction.
+    # RESOLUTION CONDITION unchanged: ground OFC->VTA / OFC->NAc-core, then re-measure paired vs control.
     @unittest.expectedFailure
     def test_cue_acquires_value_from_da_gated_plasticity(self):
         ag = SubstrateAgent(SubstrateEngine(_MODEL, age_years=4.0))
@@ -67,6 +78,12 @@ class TestAnticipatoryValueEmerges(unittest.TestCase):
         after = ag.anticipatory_value(_CUE)
         # negligible change without the reinforcer (vs the ~0.3 paired gain) -- DA-gated,
         # not plain Hebbian. A tiny drift is fine; a paired-scale change would not be.
+        # ★ THIS GUARD IS CURRENTLY VACUOUS -- REGISTERED, deliberately NOT re-scaled. The "~0.3 paired gain"
+        # above is the scale this bound was written against; the paired gain now measures +0.0036 (~1/80th).
+        # So asserting the unpaired drift is < 0.05 is trivially satisfied when EVERY change is ~0.005: this
+        # control cannot fail, because the effect it controls for no longer exists. Tightening the bound to
+        # the observed magnitude would manufacture a green -- the honest fix is to diagnose why DA-gated
+        # learning collapsed ~2 orders of magnitude. Left loose, and loudly, until that diagnosis lands.
         self.assertLess(abs(after - before), 0.05)
 
     # SUSPENDED with the same resolution condition as above (S56 Stage 3): the +0.0008 paired-vs-unpaired
