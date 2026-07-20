@@ -58,7 +58,7 @@ EXECUTIVE = ("dlPFC", "OFC", "dACC")
 # the emergent-activity idiom of study.py's reward/defensive read-outs. The self-appraisal that
 # feeds the self-matrix is COMPUTED from these circuits' activity, never from the environment.
 _SELF_REWARD = ("VTA", "NAc-core", "NAc-shell", "OFC")     # approach / reward
-_SELF_THREAT = ("CeA", "vlPAG", "BA", "aIns")                # threat / aversive
+_SELF_THREAT = ("CEl", "vlPAG", "BA", "aIns")                # threat / aversive
 _SELF_ATTACH = ("PVN-OT", "MPOA")                          # affiliative / attachment
 
 # SCAFFOLD. The composite outcome nudges executive control by the developed self-regard. This

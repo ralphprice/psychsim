@@ -113,7 +113,7 @@ class TestDeterminismAndRobustnessProbe(unittest.TestCase):
 
     def test_robustness_probe_available(self):
         # the check that promotes a candidate toward a finding is available (per-seed spread)
-        out = robustness_across_seeds({"CeA": Throttle.fully_attenuated()}, "dissociation", [5, 6])
+        out = robustness_across_seeds({"CEl": Throttle.fully_attenuated()}, "dissociation", [5, 6])
         self.assertEqual(set(out), {"5", "6"})
 
 

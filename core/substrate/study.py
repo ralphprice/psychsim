@@ -20,9 +20,9 @@ from .model import load_substrate
 
 # The affective-empathy network (the throttle set, S4.1) and the cognitive mentalizing network
 # (left intact). Circuit ids only -- anatomy, not meaning.
-AFFECTIVE_EMPATHY = ("LA", "BA", "CeA", "MeA", "aIns")
+AFFECTIVE_EMPATHY = ("LA", "BA", "CEl", "MeA", "aIns")
 COGNITIVE_MENTALIZING = ("rSMG-TPJ", "pSTS", "PCun-PCC", "ATL-TP")
-DEFENSIVE_OUTPUT = ("CeA", "vlPAG", "BA")   # v14 Phase A: PAG split -> vlPAG (conditioned freezing / passive coping)
+DEFENSIVE_OUTPUT = ("CEl", "vlPAG", "BA")   # v14 Phase A: PAG split -> vlPAG (conditioned freezing / passive coping)
 
 # neutral, described input patterns (S5.5: perturbation patterns, not stipulated valences)
 _CUE = {"IN-VIS": 0.6}

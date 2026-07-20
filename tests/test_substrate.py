@@ -41,14 +41,14 @@ class TestInstantiation(unittest.TestCase):
         # motor output; M1-face->NuFac/NuAmb-vocal corticobulbar = the posed expression + the crosstalk that
         # tests S22) and +PAG-PANIC-GABA (the vocal suppressor's interneuron; PMC-l -> PAG-PANIC-GABA -| PAG-PANIC
         # -- forced by the receptor-sign convention, a cortical glutamatergic suppressor cannot inhibit directly).
-        self.assertEqual(len(m.circuits), 97)  # S56 Stage 3: +OFC-GABA (the FOURTH and last cortical E-I gate,
+        self.assertEqual(len(m.circuits), 98)  # S56 Stage 3: +OFC-GABA (the FOURTH and last cortical E-I gate,
         # completing the family). Was 96 (v14 freezing OUTPUT: +Mc, the freezing premotor effector).
         self.assertGreater(len(m.connections), 130)     # circuit->circuit edges
         self.assertGreater(len(m.input_edges), 15)      # sensory channel entry edges
         # inhibitory nuclei derived from principal transmitter (GABAergic)
         inh = [c.id for c in m.circuits.values() if c.sign < 0]
         self.assertIn("DStr", inh)
-        self.assertIn("CeA", inh)
+        self.assertIn("CEl", inh)
         self.assertNotIn("LA", inh)                     # glutamatergic projection
 
     def test_gaps_register_carried_not_invented(self):
@@ -59,7 +59,7 @@ class TestInstantiation(unittest.TestCase):
         young = SubstrateEngine(_MODEL, age_years=0.0)
         adult = SubstrateEngine(_MODEL, age_years=25.0)
         self.assertLess(len(young.live_circuits()), len(adult.live_circuits()))
-        self.assertEqual(len(adult.live_circuits()), 97)   # S56 Stage 3: all 97 online by adulthood (+OFC-GABA,
+        self.assertEqual(len(adult.live_circuits()), 98)   # S56 Stage 3: all 97 online by adulthood (+OFC-GABA,
         # online 3.0 with OFC). Was 96 (+Mc online 0.0, the freezing premotor effector).
 
 
@@ -160,7 +160,7 @@ class TestTemperamentIsNotAGateDial(unittest.TestCase):
             self.assertEqual(eng.throttle.get(cid, 0.0), 0.0,
                              f"{cid}: a structural gate must not be a reactivity dial")
         # ...while the DRIVEN circuits of those same domains are throttled (the dial still works)
-        self.assertGreater(eng.throttle.get("CeA", 0.0), 0.0)
+        self.assertGreater(eng.throttle.get("CEl", 0.0), 0.0)
 
     def test_the_gate_class_is_marked_in_the_seed_not_inferred_in_code(self):
         # data, like dominant_receptor -- so the exclusion stays derived and never becomes an id list
@@ -239,7 +239,7 @@ class TestS57BaselineMaturation(unittest.TestCase):
     def test_no_schedule_uses_the_static_baseline(self):
         m = load_substrate()
         e = SubstrateEngine(m, age_years=25.0)
-        c = m.circuits["CeA"]                       # a normal circuit, no baseline schedule
+        c = m.circuits["CEl"]                       # a normal circuit, no baseline schedule
         self.assertEqual(e._baseline_at_age(c), c.baseline)
 
     def test_a_maturing_baseline_rises_from_immature_to_adult(self):

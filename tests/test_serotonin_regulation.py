@@ -65,7 +65,7 @@ class TestOppositeSignsAcrossTargets(unittest.TestCase):
 
     def test_drn_inhibits_attack_area_excites_pfc(self):
         self.assertEqual(self._sign("DRN", "VMHvl"), -1.0)   # 5-HT1A, dampens the attack area
-        self.assertEqual(self._sign("DRN", "CeA"), -1.0)     # 5-HT1A
+        self.assertEqual(self._sign("DRN", "CEl"), -1.0)     # 5-HT1A
         self.assertEqual(self._sign("DRN", "OFC"), +1.0)     # 5-HT2A, facilitates control
         self.assertEqual(self._sign("DRN", "vmPFC"), +1.0)   # 5-HT2A
         self.assertEqual(self._sign("DRN", "dACC"), +1.0)    # 5-HT2A

@@ -196,10 +196,11 @@ class TestCeAInhibitionUntouched(unittest.TestCase):
 
     def test_cea_to_attack_effectors_still_inhibitory_and_unchanged(self):
         conns = {(c.source, c.target): c for c in _MODEL.connections}
-        self.assertEqual(_MODEL.circuits["CeA"].sign, -1.0)     # CeA is GABAergic (inhibitory)
+        self.assertEqual(_MODEL.circuits["CEm"].sign, -1.0)     # CEm output neurons are GABAergic (inhibitory)
+        self.assertEqual(_MODEL.circuits["CEl"].sign, -1.0)     # CEl is GABAergic too
         # the defensive-effector drive: target now explicit (vlPAG-GABA), drive untouched
         for tgt in ("vlPAG-GABA", "HYPdm"):
-            edge = conns.get(("CeA", tgt))
+            edge = conns.get(("CEm", tgt))
             self.assertIsNotNone(edge, f"CeA->{tgt} missing")
             self.assertLess(edge.sign, 0.0, f"CeA->{tgt} must stay an INHIBITORY synapse")
             # moderate-strong == 0.70 (params.WEIGHT_QUALITATIVE); the v8 value, untouched
@@ -209,13 +210,13 @@ class TestCeAInhibitionUntouched(unittest.TestCase):
         # v14 Phase A: the Tovote 2016 mechanism is IMPLEMENTED, not merely cited -- CeA does not
         # synapse on the vlPAG output directly; it acts through the interneuron, which inhibits vlPAG.
         conns = {(c.source, c.target): c for c in _MODEL.connections}
-        self.assertIsNone(conns.get(("CeA", "vlPAG")), "CeA must reach vlPAG via vlPAG-GABA, not directly")
+        self.assertIsNone(conns.get(("CEm", "vlPAG")), "CeA must reach vlPAG via vlPAG-GABA, not directly")
         gate = conns.get(("vlPAG-GABA", "vlPAG"))
         self.assertIsNotNone(gate, "the vlPAG-GABA -> vlPAG inhibitory gate must exist")
         self.assertLess(gate.sign, 0.0)                        # interneuron inhibits the output
         # net effect on vlPAG OUTPUT is DISINHIBITORY: (-1 onto the cell) x (-1 cell->output) = +1.
         # Inhibitory as a synapse, excitatory as a net effect on output -- both true, no contradiction.
-        self.assertGreater(conns[("CeA", "vlPAG-GABA")].sign * gate.sign, 0.0)
+        self.assertGreater(conns[("CEm", "vlPAG-GABA")].sign * gate.sign, 0.0)
 
 
 if __name__ == "__main__":

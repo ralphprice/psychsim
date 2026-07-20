@@ -101,12 +101,12 @@ def observe_agent(agent) -> Dict[str, object]:
 
 # The circuit populations each measured construct is read from (anatomy). These are MEASUREMENT
 # probes over emergent activity -- the same read-out idiom as study.py -- never fed back.
-_OBS_THREAT = ("CeA", "vlPAG", "BA", "LA")          # fear / defensive (v14: vlPAG = passive coping/freezing)
+_OBS_THREAT = ("CEl", "vlPAG", "BA", "LA")          # fear / defensive (v14: vlPAG = passive coping/freezing)
 _OBS_REWARD = ("VTA", "NAc-core", "NAc-shell", "OFC")   # appetitive approach
 _OBS_CARE = ("PVN-OT", "MPOA", "SEPT")              # affiliation / care
 _OBS_EXEC = ("dlPFC", "dACC", "vlPFC", "preSMA")    # executive control
-_OBS_AGGRESS = ("CeA", "dPAG", "HYPdm")             # threat -> attack (v14: dPAG = active coping, VMHvl's column)
-_OBS_EMPATHY = ("LA", "BA", "CeA", "aIns")          # affective empathy (felt distress)
+_OBS_AGGRESS = ("CEl", "dPAG", "HYPdm")             # threat -> attack (v14: dPAG = active coping, VMHvl's column)
+_OBS_EMPATHY = ("LA", "BA", "CEl", "aIns")          # affective empathy (felt distress)
 _OBS_VMPFC = ("vmPFC",)                             # ventromedial PFC (Blair conscience)
 _THREAT_CUE = {"IN-SOMATO:nociception": 0.8}
 _REWARD_CUE = {"IN-GUST:sweet": 0.8}

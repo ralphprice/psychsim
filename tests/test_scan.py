@@ -45,8 +45,8 @@ class TestThrottleConventionIsStructural(unittest.TestCase):
 
     def test_fixed_point_fully_attenuated_silences_the_target(self):
         ag = AffectiveAgent(seed=_intact_seed())
-        ag.engine.set_throttle("CeA", Throttle.fully_attenuated().fraction)
-        self.assertEqual(ag.engine._gain("CeA"), 0.0)               # output silenced
+        ag.engine.set_throttle("CEl", Throttle.fully_attenuated().fraction)
+        self.assertEqual(ag.engine._gain("CEl"), 0.0)               # output silenced
 
 
 class TestFoundNotFittedIsArchitectural(unittest.TestCase):
@@ -139,14 +139,14 @@ class TestObjectiveIsPerSignatureNotBlended(unittest.TestCase):
 
 class TestPrimitiveResultAndDeterminism(unittest.TestCase):
     def test_result_records_scope_and_provenance(self):
-        r = develop_and_measure({"CeA": Throttle.fully_attenuated()}, seed=7)
+        r = develop_and_measure({"CEl": Throttle.fully_attenuated()}, seed=7)
         self.assertIsInstance(r, ProfileResult)
         self.assertEqual(r.manipulation_scope, MANIPULATION_SCOPE)   # "nodes only" -- scope travels
-        self.assertEqual(r.throttles["CeA"], 0.0)                    # recorded in slider convention
+        self.assertEqual(r.throttles["CEl"], 0.0)                    # recorded in slider convention
         self.assertIn("substrate", r.provenance)
 
     def test_deterministic_from_seed(self):
-        cfg = {"CeA": Throttle.from_slider(0), "aIns": Throttle.from_slider(0)}
+        cfg = {"CEl": Throttle.from_slider(0), "aIns": Throttle.from_slider(0)}
         self.assertEqual(develop_and_measure(cfg, 5).signatures,
                          develop_and_measure(cfg, 5).signatures)
 
