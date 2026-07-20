@@ -831,6 +831,9 @@
     "★ LUMP #13 -- THE LUMPING DEFECT RECURSES: CEl-GABA IS ITSELF A LUMP. This is the mechanism behind CEm's silence, and it must NOT be fixed by retuning the 0.85 (which would be fitting the value to hide the missing mechanism). Real CeL delivers its inhibition onto CeM via the SOM+ and PKC-delta+ populations, which are MUTUALLY INHIBITORY -- so only ONE is active at a time and CeL's inhibition of CeM is ROUTED and SELECTIVE, never blanket. PsychSim models both populations as ONE undifferentiated CEl-GABA node delivering a blanket brake. The value makes it worse, and its own provenance says so: the 0.85 \"strong\" is an explicitly-labelled SCAFFOLD sized in v14 Phase 1.1 for a COMPLETELY DIFFERENT structural question -- \"set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge\" -- i.e. calibrated to beat ONE fallback edge onto the PRE-SPLIT LUMP. Re-pointed to CEm it is now the SOLE gate on the entire defensive output stage, a load it was never sized for. The honest reading is the standing one: the arbitrariness is not in the number, it is in the mechanism the number is standing in for. Stage C's SOM+/PKC-delta+ differentiation IS that mechanism.",
     "LUMP #13 -- SEQUENCING CONSEQUENCE (surfaced by measurement; the design session's call): STAGE B IS NOT MEASURABLE BEFORE STAGE C. Stage B's exit measurement is \"are the two CEm output populations independently addressable?\" -- but splitting a node that reads 0.000 yields two populations that both read 0.000. An upstream mask cannot be attributed through until it is removed. Stage C now carries THREE deliverables, all converging on the same SOM+/PKC-delta+ differentiation: (a) it resolves the coupling by gating the CEm outputs separately; (b) it relieves the CEl 1.000 saturation by supplying CEl's missing local inhibition; and (c) it RELEASES CEm by making CEl's brake selective rather than blanket -- halving the net inhibition at any moment AND routing it. Options: invert to A -> C -> B, or fold the CEl-GABA differentiation forward into Stage B.",
     "LUMP #13 -- the two reds at this checkpoint are the MEASURED SIGNATURE of the CEm silence, not separate defects, and both should clear when CEm is driven. (1) test_plain_threat_still_avoids: aggress 0.0239 (wants <1e-6) -- with CEm silent the CeA->HYPdm suppression is gone, so the attack effectors FLOAT UP under plain threat (HYPdm 0.173). (2) test_defensive_threat_produces_freezing: 0.050 (wants >0.10) -- the freezing floor, already red pre-split at 0.071, now DEGRADED. Mechanistically instructive: pre-split freezing came from the saturated lump CRUSHING vlPAG-GABA to 0.000, which DISINHIBITED vlPAG -- i.e. what freezing there was came from blanket suppression of the gate interneuron, not from selective drive. That is the suppression-not-competition reframe showing up in the freezing read-out itself.",
+    "LUMP #13 SELECTOR BUILD -- WHAT MEASURED TRUE. The winner-take-all microcircuit works and it SELECTS EMERGENTLY. CEl-GABA split into CEl-SOM / CEl-PKCd (mutually inhibitory, Fadok 2017); CEm split into CEm-freeze (-> vlPAG-GABA) / CEm-active (-> HYPdm); each population gates the OPPOSITE mode's output; grounded differential afferents LA->SOM+ (Li 2013, potentiated by fear conditioning) and PBN->PKC-delta+ (Han 2015, CGRP) give context somewhere to act. 100 circuits, 260 connections. MEASURED: (a) the selector picks DIFFERENT winners by context, from the drives alone with nothing scripted -- under THREAT SOM+ 0.797 vs PKC-delta+ 0.237 (passive/freezing arm wins), under AFFILIATION PKC-delta+ 0.594 vs SOM+ 0.000 (a TRUE winner-take-all: the loser is fully suppressed). (b) The CEm populations are OPPOSITELY gated and move in OPPOSITE directions by context -- CEm-freeze 0.050 / CEm-active 0.000 under threat, reversing to 0.000 / 0.052 under affiliation. That is the coupling RESOLVED at the gating level: one activation no longer drives both opposite-signed outputs. (c) CEl SATURATION RELIEVED, the ruling's deliverable (b): 1.000 -> 0.813 under threat, rest 0.264 -> 0.077, once CEl-SOM/CEl-PKCd were given their LOCAL inhibition onto CEl (initially under-built -- the mutual inhibition alone left CEl unbraked, so a saturated CEl pumped maximal SYMMETRIC drive into both populations and fought the WTA). (d) OT's Knobloch net effect is preserved MECHANISTICALLY rather than by assertion: OT->PKC-delta+ suppresses the freezing arm.",
+    "★ LUMP #13 -- THE DISINHIBITORY MOTIF FAILS AGAIN ONE LEVEL DOWN: vlPAG HAS NO THREAT-DRIVEN EXCITATORY AFFERENT. This is the same defect as CEm's, third instance in a single pass, and it is very likely the ROOT CAUSE of the long-standing freezing floor. vlPAG has exactly THREE afferents: vlPAG-GABA (inhibitory), DRN (inhibitory), and ONE excitatory -- VMH. But VMH is not a threat node: its own afferents are MPOA (inhibitory) and MeA (excitatory, social/conspecific), and it MEASURES 0.112 under threat AND 0.112 under provocation, i.e. flat at near-baseline regardless of threat. So the freezing column cannot be driven by threat NO MATTER HOW WELL THE DISINHIBITION WORKS -- CEm-freeze correctly drives vlPAG-GABA to 0.000 under threat (perfect disinhibition) and vlPAG still reads 0.000, because disinhibition RELEASES a drive and there is no threat-driven drive to release. The literature names the missing element: the medial prefrontal (prelimbic/infralimbic) projection to vlPAG is a canonical freezing driver, and PMd/SC afferents also excite the vlPAG column. NOT BUILT -- flagged for ruling, because adding a real afferent is exactly the decision that is not the build session's to take unilaterally. PATTERN NOW CONFIRMED THREE TIMES (CEm, vlPAG, and the CEl brake): PsychSim repeatedly models a disinhibitory motif by building the INHIBITION and omitting the DRIVE it is supposed to release. Worth a systematic census of every disinhibitory pathway in the connectome.",
+    "LUMP #13 -- RESIDUAL, HONEST: the CEm output MAGNITUDES sit at/near baseline (CEm-freeze 0.050 under threat) even though the GATING is now correct and context-differentiated. The counterfactual ceiling for this substrate is known -- fully silencing the brake gave CEm 0.269 -- so the selector is delivering a fraction of the available drive, as it must, since a winner-take-all leaves the loser's gate partly closed on the winner too. Whether the remaining magnitude is adequate CANNOT be judged until the vlPAG drive gap is resolved, because the downstream read-out (freezing) is floored by that gap regardless. The effect SIZE here is therefore provisional and, by S18, provisional DOWNWARD once the substrate is completed.",
     "STAGE-1 LIMITATION REGISTERED (S56, honest): the cortical E-I loop-gain grounding scales w(node->gate) by circuit afferent load from the dACC reference (load 3, w 0.50). vmPFC (load 5) lands at 0.8333 -- true proportionality. dlPFC (load 9) wants 1.5 but the [0,1] weight bound CLAMPS it to 1.0, so THE HEAVIEST CORTICAL NODE IS UNDER-CORRECTED. The RELATION is correct (proportional inhibitory tracking / detailed balance); the REPRESENTATION (a single bounded weight) cannot express the gain the heaviest node needs. LEVER HELD IN RESERVE (not built): the missing ~0.5x could go on the gate->node RETURN weight (dlPFC-GABA->dlPFC is 'moderate-strong', with headroom), splitting the loop gain across both limbs. Apply ONLY if a later measurement shows dlPFC's residual over-drive is load-bearing on a standing red -- do not pre-emptively tune it.",
     "FALLBACK SIGNS VERIFIED CORRECT (S59 census, 2 off the list -- confirmed by literature, not assumed): CeA->HYPdm is genuinely INHIBITORY (CeM output neurons are GABAergic and directly inhibit the dorsomedial hypothalamus -- Gilpin, Physiology of Fear); VMHvl->HYPdm is genuinely EXCITATORY (VMHvl core is glutamatergic). Both edges carry receptor:None and were fallback-signed; the audit confirms the fallback got both right BY ACCIDENT but CORRECTLY. Consequence: the S56 aggression-block attribution holds -- at VMHvl=0.361, HYPdm sits at 0.023 because a SATURATED CeA inhibits it. This is a suppression problem, NOT a sign error.",
     "LUMP #13 -- CeA modelled as a saturating RELAY where biology implements an internal SELECTING microcircuit (S56 Stage 2): real CeA is a mutually-inhibitory winner-take-all selector -- CEl SOM+ cells inhibit CEl PKC-delta+ cells, CEl inhibits the CEm output neurons, and ITC inhibits both, so ONE defensive output mode is SELECTED and the others suppressed (Moscarello, threat-imminence; the CeA WTA literature). The model's CeA is ONE lumped node whose SIX outputs (vlPAG-GABA, HYPdm, BNST, PVN, RVLM, LC) all fire together when it is driven -- so it saturates as a lump and suppresses HYPdm regardless of which defensive mode is appropriate. Same pattern as the PAG columns, the vlPAG-GABA selector and the VMH core/shell. The FULL un-lumping (split CeA -> CEl + CEm, re-route 18 afferents and 6 outputs, add the mutual inhibition) is a DEDICATED future pass, deferred with the other lumps; S56 Stage 2 addresses only the saturation (the missing recurrent drive-proportional brake), not the output selection.",
@@ -2782,27 +2785,6 @@
       "structural_element": true
     },
     {
-      "id": "CEl-GABA",
-      "domain": "defensive_threat",
-      "baseline_activation": 0.05,
-      "activation_bounds": [
-        0.0,
-        1.0
-      ],
-      "time_constant_tau_ms": 100,
-      "homeostatic_setpoint": 0.1,
-      "developmental_online_age": 0.0,
-      "plasticity_coeff_schedule_ref": "cea_moderate",
-      "calibration_active_default": true,
-      "transmitters": "GABAergic (CeL local interneuron)",
-      "evidence_base": "animal_dominant",
-      "confidence": "Em",
-      "function": "CeA-lateral (CeL) GABAergic interneuron population: oxytocin EXCITES it (OTR), and it INHIBITS CeA (CeM) output -- so the NET OT effect on CeA output is inhibitory via an excitatory synapse onto an inhibitory cell (v14 Phase 1.1). Resolves the PVN-OT->CeA target-cell subtlety the honest way -- the missing inhibitory element -- rather than asserting OT excites CeA output. Parallel to the v13 DRN-GABA interneuron. STRUCTURAL ELEMENT -- NOT A REACTIVITY DIAL (v14, ruled: the whole gate class). The temperament throttle is a MODEL CLAIM about what varies between individuals, and a local inhibitory GATE is not a thing an individual is \"less of\": throttling it DISINHIBITS its target, so a \"less reactive\" dial yields MORE output -- directionally perverse. The alpha2 argument, verbatim: a structural element is not a reactivity dial any more than it is a learned association. Excluded from seed_substrate ONLY -- it stays LESIONABLE by the scan, which is an experiment, not a claim. Throttling the CeL interneuron DISINHIBITS CeA (CeM) output -> MORE fear output.",
-      "nodes": "central amygdala lateral division (CeL) GABAergic neurons",
-      "sources": "Knobloch et al. 2012 Neuron 73:553 (OT->CeL->CeM microcircuit gating fear output)",
-      "structural_element": true
-    },
-    {
       "activation_bounds": [
         0.0,
         1.0
@@ -3015,10 +2997,75 @@
       "structural_element": true
     },
     {
-      "id": "CEm",
-      "name": "Central amygdala, medial division (CeM)",
+      "id": "CEl-SOM",
       "domain": "defensive_threat",
-      "function": "The CeA OUTPUT STAGE (Lump #13 Stage A). CEm takes ZERO external afferents -- it is driven from CEl (via the CEl-GABA feed-forward inhibition) and gated by ITC -- and it carries ALL SIX former CeA efferents to the hypothalamic/PAG/brainstem defensive column. GABAergic projection neurons, so its outputs INHIBIT their targets; this was already verified independently in the S59 fallback-sign census (\"CeA->HYPdm is genuinely INHIBITORY -- CeM output neurons are GABAergic\"), i.e. the seed had already identified these six edges as CeM edges before the split named the node. Stage B will differentiate its output populations.",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 100,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "calibration_active_default": true,
+      "transmitters": "GABAergic (CeL local interneuron)",
+      "evidence_base": "animal_dominant",
+      "confidence": "Em",
+      "function": "LUMP #13 selector build. The SOM+ (CeL-on) arm of the CeL winner-take-all selection microcircuit. Replaces half of the CEl-GABA lump, which modelled BOTH CeL populations as ONE node delivering a BLANKET brake to CeM. SOM+ and PKC-delta+ are MUTUALLY INHIBITORY, so only one is active at a time and CeL inhibition of CeM is ROUTED, never blanket (Fadok et al. 2017, \"a competitive inhibitory circuit for selection of active and passive fear responses\"). SOM+ selects the PASSIVE/freezing mode: it inhibits PKC-delta+ (releasing the freezing output) and inhibits the active-coping output. Driven preferentially by the LA conditioned-threat pathway (Li et al. 2013 -- LA->CeL SOM+, potentiated by fear conditioning). STRUCTURAL ELEMENT, not a reactivity dial.",
+      "nodes": "central amygdala lateral division (CeL) GABAergic neurons",
+      "sources": "Knobloch et al. 2012 Neuron 73:553 (OT->CeL->CeM microcircuit gating fear output)",
+      "structural_element": true,
+      "name": "CeL SOM+ population (CeL-on)"
+    },
+    {
+      "id": "CEl-PKCd",
+      "domain": "defensive_threat",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 100,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "calibration_active_default": true,
+      "transmitters": "GABAergic (CeL local interneuron)",
+      "evidence_base": "animal_dominant",
+      "confidence": "Em",
+      "function": "LUMP #13 selector build. The PKC-delta+ (CeL-off) arm of the CeL winner-take-all selection microcircuit. Selects the ACTIVE-coping mode: it inhibits the CeM freezing output (the classic CeL->CeM feed-forward inhibition, Ciocchi/Haubensak 2010) while being itself suppressed when SOM+ wins. Driven preferentially by the PBN CGRP nociceptive pathway (Han et al. 2015 -- CGRP PBN->CeL PKC-delta+) and by oxytocin (Knobloch et al. 2012: OT excites CeL and thereby REDUCES CeM output/freezing -- placing OT here is what preserves that measured net effect). STRUCTURAL ELEMENT, not a reactivity dial.",
+      "nodes": "central amygdala lateral division (CeL) GABAergic neurons",
+      "sources": "Knobloch et al. 2012 Neuron 73:553 (OT->CeL->CeM microcircuit gating fear output)",
+      "structural_element": true,
+      "name": "CeL PKC-delta+ population (CeL-off)"
+    },
+    {
+      "id": "CEm-freeze",
+      "name": "CeM passive-defence output population",
+      "domain": "defensive_threat",
+      "function": "LUMP #13 selector build. The CeM output population carrying the PASSIVE/freezing arm (-> vlPAG-GABA, which disinhibits the vlPAG freezing column). Real CeM output neurons are heterogeneous, projecting differentially to PAG vs hypothalamus; modelling CeM as ONE node meant a single activation drove both opposite-signed outputs, so the coupling merely relocated from the CeA lump to CeM. Gated by CEl-PKCd; released when SOM+ wins. Mirrors PsychSim's own v14 Phase A vlPAG (passive coping) / dPAG (active coping) split.",
+      "nodes": "central nucleus, medial division (CeM)",
+      "transmitters": "GABAergic output neurons",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 200,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "calibration_active_default": true,
+      "confidence": "E",
+      "evidence_base": "human+animal",
+      "sources": "Ciocchi et al. 2010; Haubensak et al. 2010; Fadok et al. 2017"
+    },
+    {
+      "id": "CEm-active",
+      "name": "CeM active-defence output population",
+      "domain": "defensive_threat",
+      "function": "LUMP #13 selector build. The CeM output population carrying the ACTIVE-defence arm (-> HYPdm). Gated by CEl-SOM; released when PKC-delta+ wins. Grounded in Fadok et al. 2017 (CeL SOM+ -> freezing / SOM- -> flight) mapped onto PsychSim's existing vlPAG/dPAG passive-vs-active coping split.",
       "nodes": "central nucleus, medial division (CeM)",
       "transmitters": "GABAergic output neurons",
       "baseline_activation": 0.05,
@@ -3125,24 +3172,6 @@
       "dominant_receptor": "AMPA"
     },
     {
-      "source_circuit": "CEm",
-      "target_circuit": "vlPAG-GABA",
-      "default_weight": "moderate-strong",
-      "default_weight_basis": "anatomy",
-      "weight_bounds": [
-        0.0,
-        1.0
-      ],
-      "gating_neuromodulator": "none",
-      "eligibility_trace_tau_ms": 1000,
-      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
-      "is_innate_reinforcer_link": false,
-      "developmental_online_age": 0.0,
-      "confidence": "E",
-      "source": "innate defensive backbone; Tovote et al. 2016. v14 Phase A -- TARGET CELL now explicit: CeA's GABAergic projection targets vlPAG GABAergic INTERNEURONS, which disinhibit the vlPAG glutamatergic output -> freezing. This is the mechanism the edge already cited and did not implement. The synapse is still INHIBITORY (GABA-A, now CITED rather than transmitter-fallback) and still 0.70 -- nothing about CeA's drive changed; only the target became explicit. Resolves the tension: inhibitory AS A SYNAPSE, excitatory AS A NET EFFECT ON OUTPUT. | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census).",
-      "dominant_receptor": "GABA-A"
-    },
-    {
       "source_circuit": "vlPAG-GABA",
       "target_circuit": "vlPAG",
       "default_weight": "strong",
@@ -3161,23 +3190,6 @@
       "source": "vlPAG local GABAergic interneurons INHIBIT the vlPAG glutamatergic output (GABA-A). This is the cell the CeA (Tovote et al. 2016) and BNST (Hao et al. 2019) GABAergic long-projections target -- inhibiting IT disinhibits vlPAG output. Band follows the closest structural precedent, CeA-GABA->CeA (strong): the same motif -- a local GABAergic interneuron gating its output nucleus. SCAFFOLD band, not tuned."
     },
     {
-      "source_circuit": "CEm",
-      "target_circuit": "HYPdm",
-      "default_weight": "moderate-strong",
-      "default_weight_basis": "anatomy",
-      "weight_bounds": [
-        0.0,
-        1.0
-      ],
-      "gating_neuromodulator": "none",
-      "eligibility_trace_tau_ms": 1000,
-      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
-      "is_innate_reinforcer_link": false,
-      "developmental_online_age": 0.0,
-      "confidence": "E",
-      "source": "innate defensive backbone; anatomy | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census)."
-    },
-    {
       "source_circuit": "LA",
       "target_circuit": "BNST",
       "default_weight": "low-moderate",
@@ -3193,23 +3205,6 @@
       "developmental_online_age": 6.0,
       "confidence": "E",
       "source": "sustained-threat route; Davis et al. 2010; strength assumed"
-    },
-    {
-      "source_circuit": "CEm",
-      "target_circuit": "BNST",
-      "default_weight": "low-moderate",
-      "default_weight_basis": "assumption",
-      "weight_bounds": [
-        0.0,
-        1.0
-      ],
-      "gating_neuromodulator": "CRF",
-      "eligibility_trace_tau_ms": 1000,
-      "plasticity_coeff_schedule_ref": "bnst_moderate_later",
-      "is_innate_reinforcer_link": false,
-      "developmental_online_age": 6.0,
-      "confidence": "E",
-      "source": "extended-amygdala; strength assumed | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census)."
     },
     {
       "source_circuit": "BNST",
@@ -5505,59 +5500,6 @@
       "source": "anterior insula translates interoceptive states into autonomic/allostatic control; emerging"
     },
     {
-      "source_circuit": "CEm",
-      "target_circuit": "PVN",
-      "default_weight": "moderate",
-      "default_weight_basis": "anatomy",
-      "weight_bounds": [
-        0.0,
-        1.0
-      ],
-      "gating_neuromodulator": "none",
-      "eligibility_trace_tau_ms": 1000,
-      "plasticity_coeff_schedule_ref": "cea_moderate",
-      "is_innate_reinforcer_link": false,
-      "developmental_online_age": 0.0,
-      "confidence": "E",
-      "source": "limbic drive of autonomic/HPA (CeA -> PVN/NTS); anatomy | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census)."
-    },
-    {
-      "source_circuit": "CEm",
-      "target_circuit": "RVLM",
-      "default_weight": "moderate",
-      "default_weight_basis": "anatomy",
-      "weight_bounds": [
-        0.0,
-        1.0
-      ],
-      "gating_neuromodulator": "none",
-      "eligibility_trace_tau_ms": 1000,
-      "plasticity_coeff_schedule_ref": "cea_moderate",
-      "is_innate_reinforcer_link": false,
-      "developmental_online_age": 0.0,
-      "confidence": "E",
-      "source": "amygdala -> sympathetic drive; anatomy | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census)."
-    },
-    {
-      "source_circuit": "CEm",
-      "target_circuit": "LC",
-      "default_weight": "moderate",
-      "default_weight_basis": "anatomy",
-      "weight_bounds": [
-        0.0,
-        1.0
-      ],
-      "gating_neuromodulator": "none",
-      "eligibility_trace_tau_ms": 1000,
-      "plasticity_coeff_schedule_ref": "cea_moderate",
-      "dominant_receptor": "CRF-R1",
-      "is_innate_reinforcer_link": false,
-      "developmental_online_age": 0.0,
-      "confidence": "E",
-      "source": "central-amygdala threat/arousal drive of the locus coeruleus -- the aversive teaching-signal afferent (LC was UNAFFERENTED, so NA teaching was inert). Signed EXCITATORY via CRF-R1 (Gs-coupled): CeA is GABAergic, so its threat->arousal drive of LC is the CeA-CRF->LC projection acting on CRF-R1, not the GABA output (Van Bockstaele et al.). PHASIC/ADAPTING drive (phasic_drive): CRF release from CeA is phasic -- it fires on the event and adapts, it does NOT tonically clamp LC at CeA's plateau level. So LC is driven by CeA's DEVIATION above its running baseline (the mean_activity machinery this arc built for the teaching signal), not its absolute level. This is what makes the CeA<->LC loop unable to latch: at a sustained-high CeA plateau the phasic drive -> 0, so LC falls and CeA recovers (the tonic version latched CeA at saturation). Same tonic->phasic correction that fixed the teaching signal, applied to the drive itself. | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census).",
-      "phasic_drive": true
-    },
-    {
       "source_circuit": "HYPdm",
       "target_circuit": "PVN",
       "default_weight": "moderate",
@@ -6836,63 +6778,6 @@
       "source": "v12c cortical E/I interneuron. GABA-A INHIBITORY -- PV/SST feedback inhibition holds dlPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone."
     },
     {
-      "source_circuit": "PVN-OT",
-      "target_circuit": "CEl-GABA",
-      "default_weight": "strong",
-      "default_weight_basis": "anatomy",
-      "weight_bounds": [
-        0.0,
-        1.0
-      ],
-      "gating_neuromodulator": "OT",
-      "eligibility_trace_tau_ms": 1000,
-      "plasticity_coeff_schedule_ref": "cea_moderate",
-      "is_innate_reinforcer_link": false,
-      "developmental_online_age": 0.0,
-      "confidence": "Em",
-      "dominant_receptor": "OTR",
-      "dominant_receptor_basis": "OTR (Gq) EXCITATORY -- oxytocin excites CeA-lateral (CeL) GABAergic interneurons (Knobloch et al. 2012 Neuron 73:553). Weight 'strong' (# SCAFFOLD): OT strongly recruits CeL so the disynaptic inhibition dominates the direct edge -> net OT->CeA dampening (Knobloch 2012); silence-tested.",
-      "source": "v14 Phase 1.1 -- OT->CeL excitation (Knobloch 2012)."
-    },
-    {
-      "source_circuit": "CEl-GABA",
-      "target_circuit": "CEm",
-      "default_weight": "strong",
-      "default_weight_basis": "anatomy",
-      "weight_bounds": [
-        0.0,
-        1.0
-      ],
-      "gating_neuromodulator": "none",
-      "eligibility_trace_tau_ms": 1000,
-      "plasticity_coeff_schedule_ref": "cea_moderate",
-      "is_innate_reinforcer_link": false,
-      "developmental_online_age": 0.0,
-      "confidence": "Em",
-      "dominant_receptor": "GABA-A",
-      "dominant_receptor_basis": "GABA-A INHIBITORY -- CeL GABAergic interneurons inhibit CeA (CeM) output; makes the NET OT effect on CeA output inhibitory (Knobloch et al. 2012). Weight 'strong' (# SCAFFOLD): set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge -> net OT->CeA inhibitory; silence CeA-GABA and it flips net-excitatory (the red-if-broken proof it is anatomy, not a tuned sign). Parallel to DRN-GABA->DRN.",
-      "source": "v14 Phase 1.1 -- CeL->CeM feed-forward inhibition (Knobloch 2012). | LUMP #13 STAGE A: endpoint NAMED, not changed. This edge was ALWAYS the CeL->CeM feed-forward inhibition -- its own basis string already read \"CeL GABAergic interneurons inhibit CeA (CeM) output\". So it MOVES to CEm rather than duplicating. CONSEQUENCE, predicted and to be measured: CEl is left with NO local recurrent brake until the Stage C SOM+/PKC-delta+ mutual inhibition is built."
-    },
-    {
-      "source_circuit": "CEl",
-      "target_circuit": "CEl-GABA",
-      "default_weight": 1.0,
-      "default_weight_basis": "anatomy",
-      "weight_bounds": [
-        0.0,
-        1.0
-      ],
-      "gating_neuromodulator": "none",
-      "eligibility_trace_tau_ms": 1000,
-      "plasticity_coeff_schedule_ref": "cea_moderate",
-      "is_innate_reinforcer_link": false,
-      "developmental_online_age": 0.0,
-      "confidence": "E",
-      "dominant_receptor": "AMPA",
-      "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- the drive that reaches CeM also RECRUITS the CeL inhibitory population, so CeL's inhibition scales with the drive it is gating.",
-      "source": "S56 STAGE 2 -- the MISSING DRIVE LIMB of CeA's local E-I loop. CeA-GABA (the CeL->CeM inhibition, Knobloch 2012) already returns inhibition to CeA, but NOTHING DROVE IT from CeA: its only afferent was PVN-OT, so the brake was FEEDFORWARD-BLIND -- structurally unable to scale with CeA's own excitation. Every cortical sibling (dlPFC/vmPFC/dACC-GABA) has BOTH limbs; CeA uniquely had only the return. Closing the loop applies the SAME grounded relation as Stage 1 (detailed balance: inhibitory feedback tracks excitatory drive PROPORTIONALLY -- the interneuron is recruited by the excitation it gates). LOAD-SCALED from the dACC reference (load 3, w 0.50): CeA's excitatory load is 15 (9 circuit + 6 direct sensory-channel drivers -- the heaviest node in the model, and the direct nociceptive channel is exactly why a feedforward gate could not hold it), so 0.50 x 15/3 = 2.5 -> CLAMPED to 1.0 by the weight bound. HONEST LIMITATION: like dlPFC, CeA is UNDER-corrected -- the ceiling binds, not the relation. LUMP CAVEAT (#13): in the lumped CeA node this is written as a self-loop because CeA's activation stands for the shared afferent drive that recruits CeL; a true CEl/CEm un-lumping would model it as shared-afferent feedforward inhibition PLUS CEl mutual inhibition (winner-take-all output SELECTION). This edge fixes CeA's SATURATION, not its output COUPLING -- CeA's outputs are opposite-signed (CeA -| vlPAG-GABA -| vlPAG DISINHIBITS freezing; CeA -| HYPdm SUPPRESSES aggression), so lowering CeA uniformly helps aggression and hurts freezing. Whether that coupling binds is the Stage-2 measurement, and it rules whether Lump #13 is promoted."
-    },
-    {
       "source_circuit": "dPAG-GABA",
       "target_circuit": "dPAG",
       "default_weight": "strong",
@@ -7347,8 +7232,159 @@
       "source": "Rozeske et al. 2018 (Neuron 97:898-910): a dmPFC subpopulation projecting to l/vlPAG controls contextual fear DISCRIMINATION -- optogenetic ACTIVATION -> discrimination (LESS freezing in the neutral context), INHIBITION -> generalisation (MORE freezing). SIGN FORCED BY THE BEHAVIOUR, not assumed: dmPFC is cortical -> glutamatergic -> excitatory; an excitatory source that produces LESS freezing CANNOT land on vlPAG-glut (that would drive freezing) -- it must EXCITE the GABAergic SELECTOR. So the synapse is EXCITATORY (AMPA) onto vlPAG-GABA, and the NET effect on the output is SUPPRESSION. The THIRD instance of the glutamatergic-source -> GABAergic-interneuron architecture (vlPFC->ITC, PMC-l->PAG-PANIC-GABA). It is the SELECTOR's third afferent, NOT the freezing driver -- the convenient candidate resolved into a different, correct thing (the dPAG->PGi pattern). A SECOND dmPFC->vlPAG arm exists (JCI 2022, rabies-transsynaptic): excitatory onto vlPAG-GLUT, descending ANALGESIA (vlPAG->RVM), NOT freezing -- BLOCKED: no RVM node exists; registered, not built. SCAFFOLD band."
     },
     {
-      "source_circuit": "ITC",
-      "target_circuit": "CEm",
+      "source_circuit": "CEl",
+      "target_circuit": "CEl-SOM",
+      "default_weight": 1.0,
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "dominant_receptor": "AMPA",
+      "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- the drive that reaches CeM also RECRUITS the CeL inhibitory population, so CeL's inhibition scales with the drive it is gating.",
+      "source": "LUMP #13 selector build. The Stage-2 CEl drive limb, inherited BYTE-IDENTICAL onto BOTH selector populations -- deliberately SYMMETRIC so the microcircuit carries no built-in preference. Which population wins must emerge from the DIFFERENTIAL grounded afferents (LA->SOM+, PBN/OT->PKC-delta+), never from an asymmetry in the shared drive."
+    },
+    {
+      "source_circuit": "CEl",
+      "target_circuit": "CEl-PKCd",
+      "default_weight": 1.0,
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "dominant_receptor": "AMPA",
+      "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- the drive that reaches CeM also RECRUITS the CeL inhibitory population, so CeL's inhibition scales with the drive it is gating.",
+      "source": "LUMP #13 selector build. The Stage-2 CEl drive limb, inherited BYTE-IDENTICAL onto BOTH selector populations -- deliberately SYMMETRIC so the microcircuit carries no built-in preference. Which population wins must emerge from the DIFFERENTIAL grounded afferents (LA->SOM+, PBN/OT->PKC-delta+), never from an asymmetry in the shared drive."
+    },
+    {
+      "source_circuit": "CEl-SOM",
+      "target_circuit": "CEl-PKCd",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY -- CeL GABAergic interneurons inhibit CeA (CeM) output; makes the NET OT effect on CeA output inhibitory (Knobloch et al. 2012). Weight 'strong' (# SCAFFOLD): set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge -> net OT->CeA inhibitory; silence CeA-GABA and it flips net-excitatory (the red-if-broken proof it is anatomy, not a tuned sign). Parallel to DRN-GABA->DRN.",
+      "source": "LUMP #13 selector build -- the WTA mutual inhibition (SOM+ -| PKC-delta+). LUMP #13 selector build -- WEIGHT GROUNDED FROM THE SELECTION-MICROCIRCUIT LITERATURE, NOT inherited from the retired 0.85 scaffold. The band is the literature's own qualifier: a COMPETITIVE/winner-take-all inhibitory circuit requires STRONG mutual inhibition (Fadok 2017), and the CeL->CeM feed-forward inhibition is characterised as the dominant CeM input (Ciocchi/Haubensak 2010). Note the number is no longer load-bearing the way it was: because the populations are mutually inhibitory, only ONE inhibits CeM at any moment, so a strong weight now ROUTES rather than CRUSHES. That is why the mechanism -- not a smaller value -- was the fix."
+    },
+    {
+      "source_circuit": "CEl-PKCd",
+      "target_circuit": "CEl-SOM",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY -- CeL GABAergic interneurons inhibit CeA (CeM) output; makes the NET OT effect on CeA output inhibitory (Knobloch et al. 2012). Weight 'strong' (# SCAFFOLD): set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge -> net OT->CeA inhibitory; silence CeA-GABA and it flips net-excitatory (the red-if-broken proof it is anatomy, not a tuned sign). Parallel to DRN-GABA->DRN.",
+      "source": "LUMP #13 selector build -- the WTA mutual inhibition (PKC-delta+ -| SOM+), the symmetric twin of SOM+ -| PKC-delta+, byte-identical. LUMP #13 selector build -- WEIGHT GROUNDED FROM THE SELECTION-MICROCIRCUIT LITERATURE, NOT inherited from the retired 0.85 scaffold. The band is the literature's own qualifier: a COMPETITIVE/winner-take-all inhibitory circuit requires STRONG mutual inhibition (Fadok 2017), and the CeL->CeM feed-forward inhibition is characterised as the dominant CeM input (Ciocchi/Haubensak 2010). Note the number is no longer load-bearing the way it was: because the populations are mutually inhibitory, only ONE inhibits CeM at any moment, so a strong weight now ROUTES rather than CRUSHES. That is why the mechanism -- not a smaller value -- was the fix."
+    },
+    {
+      "source_circuit": "CEl-PKCd",
+      "target_circuit": "CEm-freeze",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY -- CeL GABAergic interneurons inhibit CeA (CeM) output; makes the NET OT effect on CeA output inhibitory (Knobloch et al. 2012). Weight 'strong' (# SCAFFOLD): set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge -> net OT->CeA inhibitory; silence CeA-GABA and it flips net-excitatory (the red-if-broken proof it is anatomy, not a tuned sign). Parallel to DRN-GABA->DRN.",
+      "source": "LUMP #13 selector build -- the classic CeL->CeM feed-forward inhibition (Ciocchi/Haubensak 2010), now ROUTED: PKC-delta+ gates the freezing output, so SOM+ winning RELEASES freezing. LUMP #13 selector build -- WEIGHT GROUNDED FROM THE SELECTION-MICROCIRCUIT LITERATURE, NOT inherited from the retired 0.85 scaffold. The band is the literature's own qualifier: a COMPETITIVE/winner-take-all inhibitory circuit requires STRONG mutual inhibition (Fadok 2017), and the CeL->CeM feed-forward inhibition is characterised as the dominant CeM input (Ciocchi/Haubensak 2010). Note the number is no longer load-bearing the way it was: because the populations are mutually inhibitory, only ONE inhibits CeM at any moment, so a strong weight now ROUTES rather than CRUSHES. That is why the mechanism -- not a smaller value -- was the fix."
+    },
+    {
+      "source_circuit": "CEl-SOM",
+      "target_circuit": "CEm-active",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY -- CeL GABAergic interneurons inhibit CeA (CeM) output; makes the NET OT effect on CeA output inhibitory (Knobloch et al. 2012). Weight 'strong' (# SCAFFOLD): set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge -> net OT->CeA inhibitory; silence CeA-GABA and it flips net-excitatory (the red-if-broken proof it is anatomy, not a tuned sign). Parallel to DRN-GABA->DRN.",
+      "source": "LUMP #13 selector build -- SOM+ gates the active-defence output (Fadok 2017: SOM+ activation drives freezing and SUPPRESSES flight), the symmetric twin of PKC-delta+ -| CEm-freeze. LUMP #13 selector build -- WEIGHT GROUNDED FROM THE SELECTION-MICROCIRCUIT LITERATURE, NOT inherited from the retired 0.85 scaffold. The band is the literature's own qualifier: a COMPETITIVE/winner-take-all inhibitory circuit requires STRONG mutual inhibition (Fadok 2017), and the CeL->CeM feed-forward inhibition is characterised as the dominant CeM input (Ciocchi/Haubensak 2010). Note the number is no longer load-bearing the way it was: because the populations are mutually inhibitory, only ONE inhibits CeM at any moment, so a strong weight now ROUTES rather than CRUSHES. That is why the mechanism -- not a smaller value -- was the fix."
+    },
+    {
+      "source_circuit": "PVN-OT",
+      "target_circuit": "CEl-PKCd",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "OT",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "OTR",
+      "dominant_receptor_basis": "OTR (Gq) EXCITATORY -- oxytocin excites CeA-lateral (CeL) GABAergic interneurons (Knobloch et al. 2012 Neuron 73:553). Weight 'strong' (# SCAFFOLD): OT strongly recruits CeL so the disynaptic inhibition dominates the direct edge -> net OT->CeA dampening (Knobloch 2012); silence-tested.",
+      "source": "LUMP #13 selector build. Oxytocin placed on PKC-delta+ SPECIFICALLY TO PRESERVE the measured Knobloch 2012 net effect: OT excites CeL and thereby REDUCES CeM output/freezing. PKC-delta+ is the population that inhibits the freezing output, so OT->PKC-delta+ reproduces \"OT reduces freezing\" mechanistically rather than by assertion. The v14 Phase 1.1 kinship result is carried forward, not disturbed."
+    },
+    {
+      "source_circuit": "LA",
+      "target_circuit": "CEl-SOM",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "LUMP #13 selector build -- the SOM+ differential afferent. LA->CeL SOM+ is documented and is POTENTIATED BY FEAR CONDITIONING (Li et al. 2013, \"experience-dependent modification of a central amygdala fear circuit\"). One edge becoming two (LA->CEl stays), parallel to the ITC and BA splits. This is the conditioned/distal-threat drive to the passive-defence arm.",
+      "dominant_receptor": "AMPA"
+    },
+    {
+      "source_circuit": "PBN",
+      "target_circuit": "CEl-PKCd",
       "default_weight": "moderate",
       "default_weight_basis": "anatomy",
       "weight_bounds": [
@@ -7359,13 +7395,13 @@
       "eligibility_trace_tau_ms": 1000,
       "plasticity_coeff_schedule_ref": "cea_moderate",
       "is_innate_reinforcer_link": false,
-      "developmental_online_age": 0.5,
+      "developmental_online_age": 0.0,
       "confidence": "E",
-      "source": "LUMP #13 STAGE A -- the ITC split. ITC inhibits BOTH central-amygdala divisions, so the single ITC->CeA edge becomes ITC->CEl AND ITC->CEm: one edge becoming two, NOT an edge moving. This is the only NEW edge in Stage A. Grounded: the paracapsular intercalated masses gate both CeL and CeM, and ITC is the cell the entire prefrontal control route runs through (vmPFC->ITC, vlPFC->ITC), so a CEm-only or CEl-only gate would silently truncate prefrontal control over the defensive output."
+      "source": "LUMP #13 selector build -- the PKC-delta+ differential afferent. The CGRP parabrachial projection targets CeL PKC-delta+ (Han et al. 2015). One edge becoming two (PBN->CEl stays). This is the nociceptive drive to the active-coping arm, and together with LA->SOM+ it is what lets CONTEXT (rather than noise or a hardcoded rule) decide which population wins."
     },
     {
       "source_circuit": "BA",
-      "target_circuit": "CEm",
+      "target_circuit": "CEm-freeze",
       "default_weight": "moderate",
       "default_weight_basis": "anatomy",
       "weight_bounds": [
@@ -7378,7 +7414,271 @@
       "is_innate_reinforcer_link": false,
       "developmental_online_age": 0.3,
       "confidence": "E",
-      "source": "LUMP #13 STAGE A, scope correction (RULED). The BLA split: BA projects to BOTH central-amygdala divisions, so BA->CeA becomes BA->CEl AND BA->CEm -- one edge becoming two, exactly parallel to the authorised ITC split, NOT an invented drive. WHY IT IS REQUIRED, measured not assumed: with zero external afferents CEm received ONLY inhibition (CEl-GABA strong + ITC) and measured 0.000 in every condition -- a node with only inhibitory input cannot participate in a disinhibitory motif, because there is nothing to disinhibit. BA glutamatergic excitation of CEm is the drive that CEl-GABA inhibition RELIEVES, which is how the real CeL->CeM architecture works and what makes the Stage C selector gate something rather than nothing. Ranked over the registered alternatives: PBN->CEm is real but CeL/CeC-dominant; LA->CEm is weak (LA reaches CeM largely VIA BA, so a direct edge would double-count). INHERITED BYTE-IDENTICAL from its structural twin BA->CEl (same weight, same basis, same transmitter fallback, same confidence) -- the two divisions take the same BLA projection, so there was no knob to tune here."
+      "source": "LUMP #13 selector build. The ruled BA->CEm excitatory drive, inherited BYTE-IDENTICAL onto both output populations -- the shared BLA drive the selector ROUTES between."
+    },
+    {
+      "source_circuit": "ITC",
+      "target_circuit": "CEm-freeze",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "LUMP #13 selector build. ITC gates both CeM output populations, inherited byte-identical -- the prefrontal control route must reach both defensive modes, not one."
+    },
+    {
+      "source_circuit": "BA",
+      "target_circuit": "CEm-active",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "NA",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "amygdala_high_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.3,
+      "confidence": "E",
+      "source": "LUMP #13 selector build. The ruled BA->CEm excitatory drive, inherited BYTE-IDENTICAL onto both output populations -- the shared BLA drive the selector ROUTES between."
+    },
+    {
+      "source_circuit": "ITC",
+      "target_circuit": "CEm-active",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "confidence": "E",
+      "source": "LUMP #13 selector build. ITC gates both CeM output populations, inherited byte-identical -- the prefrontal control route must reach both defensive modes, not one."
+    },
+    {
+      "source_circuit": "CEm-freeze",
+      "target_circuit": "vlPAG-GABA",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "innate defensive backbone; Tovote et al. 2016. v14 Phase A -- TARGET CELL now explicit: CeA's GABAergic projection targets vlPAG GABAergic INTERNEURONS, which disinhibit the vlPAG glutamatergic output -> freezing. This is the mechanism the edge already cited and did not implement. The synapse is still INHIBITORY (GABA-A, now CITED rather than transmitter-fallback) and still 0.70 -- nothing about CeA's drive changed; only the target became explicit. Resolves the tension: inhibitory AS A SYNAPSE, excitatory AS A NET EFFECT ON OUTPUT. | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census). | LUMP #13 selector build: assigned to the PASSIVE/freezing output population. This dissociation is the GROUNDED one (Fadok 2017 SOM+ freezing / SOM- flight, mapped onto the existing vlPAG/dPAG split) and it is the pair the coupling was about.",
+      "dominant_receptor": "GABA-A"
+    },
+    {
+      "source_circuit": "CEm-active",
+      "target_circuit": "HYPdm",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "brainstem_low_flat",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "innate defensive backbone; anatomy | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census). | LUMP #13 selector build: assigned to the ACTIVE-defence output population. This dissociation is the GROUNDED one (Fadok 2017 SOM+ freezing / SOM- flight, mapped onto the existing vlPAG/dPAG split) and it is the pair the coupling was about."
+    },
+    {
+      "source_circuit": "CEm-freeze",
+      "target_circuit": "BNST",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "CRF",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "bnst_moderate_later",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "extended-amygdala; strength assumed | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census). | LUMP #13 selector build: assigned to BOTH output populations. The autonomic/arousal efferents accompany BOTH defensive modes, and the literature does not support a freezing-vs-active dissociation here -- so no dissociation is CLAIMED. Because the selector is winner-take-all only one population is active at a time, so this target receives ~the original drive from whichever mode is engaged. Finer CeM output-population structure is real and is REGISTERED as un-lumpable later; it is not invented here."
+    },
+    {
+      "source_circuit": "CEm-active",
+      "target_circuit": "BNST",
+      "default_weight": "low-moderate",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "CRF",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "bnst_moderate_later",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 6.0,
+      "confidence": "E",
+      "source": "extended-amygdala; strength assumed | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census). | LUMP #13 selector build: assigned to BOTH output populations. The autonomic/arousal efferents accompany BOTH defensive modes, and the literature does not support a freezing-vs-active dissociation here -- so no dissociation is CLAIMED. Because the selector is winner-take-all only one population is active at a time, so this target receives ~the original drive from whichever mode is engaged. Finer CeM output-population structure is real and is REGISTERED as un-lumpable later; it is not invented here."
+    },
+    {
+      "source_circuit": "CEm-freeze",
+      "target_circuit": "PVN",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "limbic drive of autonomic/HPA (CeA -> PVN/NTS); anatomy | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census). | LUMP #13 selector build: assigned to BOTH output populations. The autonomic/arousal efferents accompany BOTH defensive modes, and the literature does not support a freezing-vs-active dissociation here -- so no dissociation is CLAIMED. Because the selector is winner-take-all only one population is active at a time, so this target receives ~the original drive from whichever mode is engaged. Finer CeM output-population structure is real and is REGISTERED as un-lumpable later; it is not invented here."
+    },
+    {
+      "source_circuit": "CEm-active",
+      "target_circuit": "PVN",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "limbic drive of autonomic/HPA (CeA -> PVN/NTS); anatomy | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census). | LUMP #13 selector build: assigned to BOTH output populations. The autonomic/arousal efferents accompany BOTH defensive modes, and the literature does not support a freezing-vs-active dissociation here -- so no dissociation is CLAIMED. Because the selector is winner-take-all only one population is active at a time, so this target receives ~the original drive from whichever mode is engaged. Finer CeM output-population structure is real and is REGISTERED as un-lumpable later; it is not invented here."
+    },
+    {
+      "source_circuit": "CEm-freeze",
+      "target_circuit": "RVLM",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "amygdala -> sympathetic drive; anatomy | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census). | LUMP #13 selector build: assigned to BOTH output populations. The autonomic/arousal efferents accompany BOTH defensive modes, and the literature does not support a freezing-vs-active dissociation here -- so no dissociation is CLAIMED. Because the selector is winner-take-all only one population is active at a time, so this target receives ~the original drive from whichever mode is engaged. Finer CeM output-population structure is real and is REGISTERED as un-lumpable later; it is not invented here."
+    },
+    {
+      "source_circuit": "CEm-active",
+      "target_circuit": "RVLM",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "amygdala -> sympathetic drive; anatomy | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census). | LUMP #13 selector build: assigned to BOTH output populations. The autonomic/arousal efferents accompany BOTH defensive modes, and the literature does not support a freezing-vs-active dissociation here -- so no dissociation is CLAIMED. Because the selector is winner-take-all only one population is active at a time, so this target receives ~the original drive from whichever mode is engaged. Finer CeM output-population structure is real and is REGISTERED as un-lumpable later; it is not invented here."
+    },
+    {
+      "source_circuit": "CEm-freeze",
+      "target_circuit": "LC",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "dominant_receptor": "CRF-R1",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "central-amygdala threat/arousal drive of the locus coeruleus -- the aversive teaching-signal afferent (LC was UNAFFERENTED, so NA teaching was inert). Signed EXCITATORY via CRF-R1 (Gs-coupled): CeA is GABAergic, so its threat->arousal drive of LC is the CeA-CRF->LC projection acting on CRF-R1, not the GABA output (Van Bockstaele et al.). PHASIC/ADAPTING drive (phasic_drive): CRF release from CeA is phasic -- it fires on the event and adapts, it does NOT tonically clamp LC at CeA's plateau level. So LC is driven by CeA's DEVIATION above its running baseline (the mean_activity machinery this arc built for the teaching signal), not its absolute level. This is what makes the CeA<->LC loop unable to latch: at a sustained-high CeA plateau the phasic drive -> 0, so LC falls and CeA recovers (the tonic version latched CeA at saturation). Same tonic->phasic correction that fixed the teaching signal, applied to the drive itself. | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census). | LUMP #13 selector build: assigned to BOTH output populations. The autonomic/arousal efferents accompany BOTH defensive modes, and the literature does not support a freezing-vs-active dissociation here -- so no dissociation is CLAIMED. Because the selector is winner-take-all only one population is active at a time, so this target receives ~the original drive from whichever mode is engaged. Finer CeM output-population structure is real and is REGISTERED as un-lumpable later; it is not invented here.",
+      "phasic_drive": true
+    },
+    {
+      "source_circuit": "CEm-active",
+      "target_circuit": "LC",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "dominant_receptor": "CRF-R1",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "source": "central-amygdala threat/arousal drive of the locus coeruleus -- the aversive teaching-signal afferent (LC was UNAFFERENTED, so NA teaching was inert). Signed EXCITATORY via CRF-R1 (Gs-coupled): CeA is GABAergic, so its threat->arousal drive of LC is the CeA-CRF->LC projection acting on CRF-R1, not the GABA output (Van Bockstaele et al.). PHASIC/ADAPTING drive (phasic_drive): CRF release from CeA is phasic -- it fires on the event and adapts, it does NOT tonically clamp LC at CeA's plateau level. So LC is driven by CeA's DEVIATION above its running baseline (the mean_activity machinery this arc built for the teaching signal), not its absolute level. This is what makes the CeA<->LC loop unable to latch: at a sustained-high CeA plateau the phasic drive -> 0, so LC falls and CeA recovers (the tonic version latched CeA at saturation). Same tonic->phasic correction that fixed the teaching signal, applied to the drive itself. | LUMP #13 STAGE A: re-pointed from the CeA lump to CEm (the medial output division). Nothing about the synapse changed -- same sign, same weight, same provenance; only the source division became explicit. The seed had ALREADY identified these as CeM edges (S59 census). | LUMP #13 selector build: assigned to BOTH output populations. The autonomic/arousal efferents accompany BOTH defensive modes, and the literature does not support a freezing-vs-active dissociation here -- so no dissociation is CLAIMED. Because the selector is winner-take-all only one population is active at a time, so this target receives ~the original drive from whichever mode is engaged. Finer CeM output-population structure is real and is REGISTERED as un-lumpable later; it is not invented here.",
+      "phasic_drive": true
+    },
+    {
+      "source_circuit": "CEl-SOM",
+      "target_circuit": "CEl",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY -- CeL GABAergic interneurons inhibit CeA (CeM) output; makes the NET OT effect on CeA output inhibitory (Knobloch et al. 2012). Weight 'strong' (# SCAFFOLD): set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge -> net OT->CeA inhibitory; silence CeA-GABA and it flips net-excitatory (the red-if-broken proof it is anatomy, not a tuned sign). Parallel to DRN-GABA->DRN.",
+      "source": "LUMP #13 selector build -- CEl's LOCAL INHIBITION, the ruling's Stage-C deliverable (b). CeL SOM+/PKC-delta+ are LOCAL GABAergic interneurons: besides inhibiting each other and gating CeM, they inhibit CeL principal activity locally. This is the element whose ABSENCE Stage A measured as CEl saturating at 1.000 -- the old CeA-GABA->CeA local brake was re-pointed to CEm (correctly: its own provenance made it the CeL->CeM feed-forward edge), and nothing restored the local arm. It is also what the S56 Stage-2 loop closure was doing before the split, now in its properly DIFFERENTIATED form. Byte-identical to its twin (the same interneuron population, the same GABA-A synapse) -- no knob to tune. Without it the saturated CEl pumps maximal SYMMETRIC drive into both selector populations, which fights the winner-take-all and prevents the loser being suppressed."
+    },
+    {
+      "source_circuit": "CEl-PKCd",
+      "target_circuit": "CEl",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY -- CeL GABAergic interneurons inhibit CeA (CeM) output; makes the NET OT effect on CeA output inhibitory (Knobloch et al. 2012). Weight 'strong' (# SCAFFOLD): set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge -> net OT->CeA inhibitory; silence CeA-GABA and it flips net-excitatory (the red-if-broken proof it is anatomy, not a tuned sign). Parallel to DRN-GABA->DRN.",
+      "source": "LUMP #13 selector build -- CEl's LOCAL INHIBITION, the ruling's Stage-C deliverable (b). CeL SOM+/PKC-delta+ are LOCAL GABAergic interneurons: besides inhibiting each other and gating CeM, they inhibit CeL principal activity locally. This is the element whose ABSENCE Stage A measured as CEl saturating at 1.000 -- the old CeA-GABA->CeA local brake was re-pointed to CEm (correctly: its own provenance made it the CeL->CeM feed-forward edge), and nothing restored the local arm. It is also what the S56 Stage-2 loop closure was doing before the split, now in its properly DIFFERENTIATED form. Byte-identical to its twin (the same interneuron population, the same GABA-A synapse) -- no knob to tune. Without it the saturated CEl pumps maximal SYMMETRIC drive into both selector populations, which fights the winner-take-all and prevents the loser being suppressed."
     }
   ],
   "substrate_hardening_backlog": [

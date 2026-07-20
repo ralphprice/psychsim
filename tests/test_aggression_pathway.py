@@ -196,13 +196,16 @@ class TestCeAInhibitionUntouched(unittest.TestCase):
 
     def test_cea_to_attack_effectors_still_inhibitory_and_unchanged(self):
         conns = {(c.source, c.target): c for c in _MODEL.connections}
-        self.assertEqual(_MODEL.circuits["CEm"].sign, -1.0)     # CEm output neurons are GABAergic (inhibitory)
+        for _p in ("CEm-freeze", "CEm-active"):                 # Lump #13: CeM differentiated into two output populations
+            self.assertEqual(_MODEL.circuits[_p].sign, -1.0)    # CeM output neurons are GABAergic (inhibitory)
         self.assertEqual(_MODEL.circuits["CEl"].sign, -1.0)     # CEl is GABAergic too
         # the defensive-effector drive: target now explicit (vlPAG-GABA), drive untouched
-        for tgt in ("vlPAG-GABA", "HYPdm"):
-            edge = conns.get(("CEm", tgt))
-            self.assertIsNotNone(edge, f"CeA->{tgt} missing")
-            self.assertLess(edge.sign, 0.0, f"CeA->{tgt} must stay an INHIBITORY synapse")
+        # Lump #13: the two coupled outputs now leave from DIFFERENT CeM populations -- that separation IS
+        # the un-lumping. The guarded property is unchanged: same inhibitory sign, same 0.70 drive.
+        for src, tgt in (("CEm-freeze", "vlPAG-GABA"), ("CEm-active", "HYPdm")):
+            edge = conns.get((src, tgt))
+            self.assertIsNotNone(edge, f"{src}->{tgt} missing")
+            self.assertLess(edge.sign, 0.0, f"{src}->{tgt} must stay an INHIBITORY synapse")
             # moderate-strong == 0.70 (params.WEIGHT_QUALITATIVE); the v8 value, untouched
             self.assertAlmostEqual(edge.weight0, 0.70, places=6)
 
@@ -210,13 +213,13 @@ class TestCeAInhibitionUntouched(unittest.TestCase):
         # v14 Phase A: the Tovote 2016 mechanism is IMPLEMENTED, not merely cited -- CeA does not
         # synapse on the vlPAG output directly; it acts through the interneuron, which inhibits vlPAG.
         conns = {(c.source, c.target): c for c in _MODEL.connections}
-        self.assertIsNone(conns.get(("CEm", "vlPAG")), "CeA must reach vlPAG via vlPAG-GABA, not directly")
+        self.assertIsNone(conns.get(("CEm-freeze", "vlPAG")), "CeM must reach vlPAG via vlPAG-GABA, not directly")
         gate = conns.get(("vlPAG-GABA", "vlPAG"))
         self.assertIsNotNone(gate, "the vlPAG-GABA -> vlPAG inhibitory gate must exist")
         self.assertLess(gate.sign, 0.0)                        # interneuron inhibits the output
         # net effect on vlPAG OUTPUT is DISINHIBITORY: (-1 onto the cell) x (-1 cell->output) = +1.
         # Inhibitory as a synapse, excitatory as a net effect on output -- both true, no contradiction.
-        self.assertGreater(conns[("CEm", "vlPAG-GABA")].sign * gate.sign, 0.0)
+        self.assertGreater(conns[("CEm-freeze", "vlPAG-GABA")].sign * gate.sign, 0.0)
 
 
 if __name__ == "__main__":
