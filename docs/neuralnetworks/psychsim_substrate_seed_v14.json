@@ -818,6 +818,8 @@
     "CORRECTION REGISTERED (S56): the model's R4-HOMEO is a FIRING-RATE homeostat, NOT an E-I homeostat -- homeo_factor = 1 - rate*(activity - setpoint) scales ALL of a circuit's incoming weights UNIFORMLY toward a rate set-point, blind to excitatory vs inhibitory. It therefore CANNOT preserve an E-I ratio; applying it to the recurrent E-I loops would erode the grounded balance along with everything else. The biology's E-I homeostat (inhibitory plasticity holding the E/I ratio at a set-point) is a DIFFERENT mechanism from the model's rate homeostat -- do not conflate them. R8 competitive normalisation (normalise_incoming, holding total incoming drive at max(1.0, n*0.5)) was the MAIN eroder: a grounded 1.0 limb sharing a 2-edge incoming pool was renormalised away to ~0.47.",
     "CLAMP REVERSAL + THE LESSON (S56, refuted by measurement): I diagnosed that the grounded E-I loop weights \"decay\" in development and ruled to EXEMPT the 8 limbs from R4/R8/Hebbian plasticity. MEASUREMENT REFUTED IT: with the clamp ON, vmPFC and dlPFC SATURATE to 1.000 at rest with NO input and DRN rises to 0.855; with the clamp OFF and the Stage-1 grounded weights, vmPFC 0.676 / dlPFC 0.851 / DRN 0.566 -- the best of three states (pre-Stage-1 was 0.891/1.000/0.590). THE REFRAMING: the \"decay\" was NOT erosion of a grounding -- it was the homeostat DOING ITS JOB, adapting the E-I limbs to hold each node at its set-point in context. The grounded birth weight is the STARTING POINT; the plasticity is the MAINTENANCE. Exempting the limbs removed the very mechanism maintaining the balance. So the E-I loops are PLASTIC-AND-MAINTAINED, never clamped; grounded start + active maintenance together give the best balance. Caught by the serotonin mechanism-proof (silence DRN-GABA -> the loop runs hot), which is now a twice-proven canary -- keep it central. SHARED ERROR: the ruling cited Vogels/Gerstner (inhibitory plasticity ACTIVELY maintains E-I balance) and then ruled to freeze the inhibition -- the cited mechanism contradicted the fix. A reviewer must verify the cited mechanism supports the FIX, not merely the diagnosis received.",
     "STANDING RULE (adopted both roles, S56): CHARACTERISE A MECHANISM ONLY AFTER MEASURING IT. Three over-attributions in one session -- \"dlPFC directly suppresses aggression\" (false: no such projection; the path is indirect via vmPFC), \"dlPFC does not saturate\" (false: state-dependent; under-settled measurement), \"the grounded balance is eroded by plasticity\" (false: the plasticity IS the maintenance) -- each caught ONLY by measurement, never by reasoning. A clean mechanistic story is now a FLAG TO MEASURE, not a conclusion to act on.",
+    "GROUNDING PASS OWED, MEASUREMENT-INDICATED (S56 Stage 3 exposed it): the OFC->DOPAMINE pathway is UNGROUNDED -- OFC->VTA and OFC->NAc-core are BOTH default_weight_basis=assumption AND fallback-signed (dominant_receptor None), at weight low. The grounded OFC gate (Stage 3) reduced OFC 0.568->0.385 and with it the DA teaching signal ~6% (DA_out 0.3909->0.3684), which flipped two learning tests whose margins were NOISE-SCALE (+0.0008 paired-vs-unpaired; 0.1565 cue-value). So a GROUNDED fix deflated an effect an UNGROUNDED edge was propping up -- the S18 inflation law on the learning tests. The two tests are SUSPENDED (expectedFailure, not deleted) with this as their resolution condition. GROUND THE PATHWAY: OFC->VTA / OFC->NAc-core is real anatomy (orbitofrontal cortex projects to VTA and ventral striatum, glutamatergic/excitatory), so the SIGN is likely correct-but-ungrounded and the WEIGHT is the ungrounded term; both are on the fallback-sign census. This pass RE-ENABLES the learning-dissociation claim: afterwards a robust paired-vs-unpaired effect either emerges (a real result) or does not (also a real result). Do NOT weaken the grounded OFC gate to restore a noise-scale effect.",
+    "S56 STAGE 3 COMPLETE -- the cortical E-I gate family is now WHOLE: dlPFC-GABA, vmPFC-GABA, dACC-GABA and (new) OFC-GABA. OFC was the only cortical node with ZERO inhibitory afferents, sitting in a correctly-signed mutual POSITIVE-feedback loop with DRN (DRN->OFC 5-HT2A +1, OFC->DRN AMPA +1) -- the textbook missing-inhibitory-element signature; the fix was to ADD the cited element, never to rebalance a correctly-signed edge. Load-scaled under Stage 1's grounded relation: OFC load 4 vs the dACC reference 3 -> 0.6667, and NOTABLY this is the ONE cortical gate where true proportionality is fully expressible (dlPFC load 9 -> 1.5 and CeA load 15 -> 2.5 are both bound-clamped to 1.0). All limbs PLASTIC -- the homeostat maintains them (the clamp experiment was refuted). MEASURED: OFC 0.295->0.150, DRN over-drive 0.439->0.338, vlPAG 0.035->0.063, Mc 0.061->0.071 (floor still short of 0.10), dPAG still 0.000.",
     "STAGE-1 LIMITATION REGISTERED (S56, honest): the cortical E-I loop-gain grounding scales w(node->gate) by circuit afferent load from the dACC reference (load 3, w 0.50). vmPFC (load 5) lands at 0.8333 -- true proportionality. dlPFC (load 9) wants 1.5 but the [0,1] weight bound CLAMPS it to 1.0, so THE HEAVIEST CORTICAL NODE IS UNDER-CORRECTED. The RELATION is correct (proportional inhibitory tracking / detailed balance); the REPRESENTATION (a single bounded weight) cannot express the gain the heaviest node needs. LEVER HELD IN RESERVE (not built): the missing ~0.5x could go on the gate->node RETURN weight (dlPFC-GABA->dlPFC is 'moderate-strong', with headroom), splitting the loop gain across both limbs. Apply ONLY if a later measurement shows dlPFC's residual over-drive is load-bearing on a standing red -- do not pre-emptively tune it.",
     "FALLBACK SIGNS VERIFIED CORRECT (S59 census, 2 off the list -- confirmed by literature, not assumed): CeA->HYPdm is genuinely INHIBITORY (CeM output neurons are GABAergic and directly inhibit the dorsomedial hypothalamus -- Gilpin, Physiology of Fear); VMHvl->HYPdm is genuinely EXCITATORY (VMHvl core is glutamatergic). Both edges carry receptor:None and were fallback-signed; the audit confirms the fallback got both right BY ACCIDENT but CORRECTLY. Consequence: the S56 aggression-block attribution holds -- at VMHvl=0.361, HYPdm sits at 0.023 because a SATURATED CeA inhibits it. This is a suppression problem, NOT a sign error.",
     "LUMP #13 -- CeA modelled as a saturating RELAY where biology implements an internal SELECTING microcircuit (S56 Stage 2): real CeA is a mutually-inhibitory winner-take-all selector -- CEl SOM+ cells inhibit CEl PKC-delta+ cells, CEl inhibits the CEm output neurons, and ITC inhibits both, so ONE defensive output mode is SELECTED and the others suppressed (Moscarello, threat-imminence; the CeA WTA literature). The model's CeA is ONE lumped node whose SIX outputs (vlPAG-GABA, HYPdm, BNST, PVN, RVLM, LC) all fire together when it is driven -- so it saturates as a lump and suppresses HYPdm regardless of which defensive mode is appropriate. Same pattern as the PAG columns, the vlPAG-GABA selector and the VMH core/shell. The FULL un-lumping (split CeA -> CEl + CEm, re-route 18 afferents and 6 outputs, add the mutual inhibition) is a DEDICATED future pass, deferred with the other lumps; S56 Stage 2 addresses only the saturation (the missing recurrent drive-proportional brake), not the output selection.",
@@ -2727,6 +2729,25 @@
       "nodes": "vmPFC local GABAergic interneurons (PV basket / SST Martinotti)",
       "sources": "Ferguson & Gao 2018 Front Neural Circuits 12:37 (PV/E-I in PFC); Isaacson & Scanziani 2011 Neuron 72:231; Markram et al. 2004 Nat Rev Neurosci 5:793",
       "structural_element": true
+    },
+    {
+      "id": "OFC-GABA",
+      "domain": "reward_approach",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 100,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 3.0,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "calibration_active_default": true,
+      "transmitters": "GABAergic (PV/SST cortical interneurons)",
+      "evidence_base": "human+animal",
+      "confidence": "E",
+      "function": "Local cortical GABAergic (PV/SST) interneuron for OFC: feedback inhibition holding the pyramidal circuit at an E/I set-point. S56 STAGE 3 -- the FOURTH and last cortical gate, completing the family (dlPFC/vmPFC/dACC already had one; OFC uniquely had ZERO inhibitory afferents). WHY IT WAS THE DEFECT: OFC sat in a mutual POSITIVE-feedback loop with DRN (DRN->OFC 5-HT2A +1 and OFC->DRN AMPA +1, BOTH correctly signed and grounded) with NO braking element anywhere in the loop -- the textbook missing-inhibitory-element signature. An ungated OFC fed the DRN over-drive that suppressed BOTH output columns (DRN -| vlPAG freezing; DRN -| dPAG and DRN -> dPAG-GABA aggression). The fix is to ADD the cited missing element, never to rebalance a correctly-signed edge. Comes online WITH OFC (3.0). STRUCTURAL ELEMENT, not a reactivity dial -- like its three siblings. PLASTIC and homeostatically maintained like every other edge (the S56 clamp experiment was refuted: the plasticity IS the maintenance).",
+      "source": "S56 Stage 3 -- cortical feedback inhibition (PV/SST), the same grounded element as the dlPFC/vmPFC/dACC interneurons."
     },
     {
       "id": "dlPFC-GABA",
@@ -6705,6 +6726,44 @@
       "dominant_receptor": "GABA-A",
       "dominant_receptor_basis": "GABA-A INHIBITORY -- PV/SST feedback inhibition holds vmPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner).",
       "source": "v12c cortical E/I interneuron. GABA-A INHIBITORY -- PV/SST feedback inhibition holds vmPFC at an E/I set-point off ceiling (Ferguson&Gao 2018; the missing cortical inhibitory partner). | RE-MARKED assumption->anatomy (HSO-shelved restoration, design §2.11): structural-regulatory BACKBONE (grounded existence -- DRN serotonergic system / interneuron E/I feedback / Allen afferent), scaffold weight; NOT an associative site. The 'assumption' marker had conflated 'scaffold weight' with 'assumed edge' -- the edge is well-grounded backbone. | S56 STAGE 1 note: this is the INHIBITORY RETURN (gate->node) and is UNCHANGED -- the grounded load-scaling is applied to the EXCITATORY feedback drive (node->gate), because detailed balance puts the load dependence on the interneuron's excitatory input (the population it inhibits drives it), while the GABA-A synaptic strength is a synaptic property, not a load-dependent one."
+    },
+    {
+      "source_circuit": "OFC",
+      "target_circuit": "OFC-GABA",
+      "default_weight": 0.6667,
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 3.0,
+      "confidence": "E",
+      "dominant_receptor": "AMPA",
+      "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- OFC pyramidal cells excite their local PV/SST interneuron (the feedback-inhibition drive limb), as in the three sibling cortical loops.",
+      "source": "S56 STAGE 3 -- the drive limb of OFC's recurrent E-I loop. LOAD-SCALED under Stage 1's grounded relation (detailed balance: inhibitory feedback tracks excitatory drive PROPORTIONALLY): dACC reference load 3 at w 0.50, OFC load 4 -> 0.50 x 4/3 = 0.6667. NO CLAMP NEEDED -- OFC is the LIGHTEST-loaded cortical node, so true proportionality is fully expressible here (unlike dlPFC load 9 -> 1.5 and CeA load 15 -> 2.5, both bound-clamped to 1.0). Left PLASTIC like every other edge: the homeostat MAINTAINS the balance (the clamp experiment was refuted by measurement -- freezing the limbs saturated the cortex at rest)."
+    },
+    {
+      "source_circuit": "OFC-GABA",
+      "target_circuit": "OFC",
+      "default_weight": "moderate-strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "pfc_low_early_high_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 3.0,
+      "confidence": "E",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY -- the PV/SST interneuron's inhibitory return onto the OFC pyramidal population, holding it at an E/I set-point. Same receptor and band as the dlPFC/vmPFC/dACC returns (moderate-strong): the family's grounded synaptic strength, not a load-dependent quantity.",
+      "source": "S56 STAGE 3 -- the inhibitory return limb of OFC's recurrent E-I loop, completing the cortical gate family. Mirrors the three sibling returns byte-for-byte in band and receptor (no new knob). This is the braking element the DRN<->OFC positive-feedback loop lacked."
     },
     {
       "source_circuit": "dlPFC",
