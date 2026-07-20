@@ -60,6 +60,13 @@ class LifeResult:
     condition_label: str
     classification: str                                    # the emergent dominant primary system
     stage_trace: List[str] = field(default_factory=list)   # classification after each stage
+    # The classification is a bare ARGMAX over a normalised profile, and this project has now been bitten
+    # by that twice in opposite directions: it EXAGGERATED a fragile psychopathic flip (~0.05 margin) and
+    # HID a real graded F4 effect (0.0021 margin). MindReadout already carries the diagnostic -- it was
+    # computed and then DISCARDED here, so no consumer could tell a confident label from a coin flip.
+    # Carrying it means a label difference can be asked "is this real?" instead of being taken on trust.
+    margin: float = 0.0                                    # normalised gap dominant - runner_up
+    runner_up: str = ""                                    # the domain it beat
 
 
 class _RelationalChildhood:
@@ -105,16 +112,18 @@ class _RelationalChildhood:
         self._env: Optional[Environment] = None
         self._n = 0
 
-    def stage_hook(self, stage: StageEnv):
+    def stage_hook(self, stage: StageEnv, age_window: tuple = (0.0, 1.0)):
         self._env = stage.to_environment()
         self._n = stage.episodes
+        self._window = age_window     # the cohort lives the SAME life-stage slice as the subject
         return self._on_episode
 
     def _on_episode(self, subject, i: int, age_years: float) -> None:
         # (a) advance each cohort member one AGE-MATCHED moral moment on its own persistent rng
         for cid in self.ids:
             _moral_moment(self.cohort[cid], self._env, self.member_rng[cid], i,
-                          n_episodes=self._n, cycle_offset=0, span=18.0, age_window=(0.0, 1.0))
+                          n_episodes=self._n, cycle_offset=0, span=18.0,
+                          age_window=getattr(self, "_window", (0.0, 1.0)))
         # (b) ADD one relational episode with probability cadence -- a MUTUAL exchange with one
         # uniformly-sampled partner: each perceives the other's PRIOR act + the recognition cue from
         # its OWN stored history, each acts, each accrues its own directed tie. Warm/wary EMERGES from
@@ -142,11 +151,29 @@ def run_life(seed: TraitSeed, spec: LifeCourseSpec,
     agent = AffectiveAgent(seed=seed, temperament_seed=situation_seed)
     childhood = _RelationalChildhood(situation_seed, cohort_size, cadence) if relational else None
     stage_trace: List[str] = []
+    # ---- each stage occupies its OWN, MONOTONIC slice of the lifespan -------------------------
+    # BUG FIXED HERE (found by an independent construct-validity audit): develop()'s `age_window`
+    # defaults to (0.0, 1.0), and run_life never passed one -- so EVERY stage re-lived ages 0->18 and
+    # the "adulthood" stage was lived at age 0. Every age-gated mechanism (maturation curves,
+    # developmental_online_age, plasticity schedules) reset to infancy at each stage boundary, which
+    # silently violated the project's hardest constraint: never compress or reorder developmental time.
+    # Any claim with life-course ORDERING in it (e.g. the harsh-home-then-warm-turn condition) was
+    # measured through this -- the "turn" happened to an agent that had become age 0 again.
+    # The window is allocated in proportion to each stage's episode count, so a stage that is lived in
+    # more episodes occupies more of the lifespan and the age axis advances monotonically across stages.
+    # RESIDUAL, FLAGGED NOT DECIDED: develop() hardcodes span = 18.0, so even with correct windows the
+    # final "adulthood" stage maps onto late adolescence rather than adult years. Extending the span is
+    # a model decision (it changes what the life course IS), not a bug fix, so it is left for ruling.
+    _total = sum(st.episodes for st in spec.stages) or 1
+    _acc = 0
     for i, stage in enumerate(spec.stages):
+        _a0 = _acc / _total
+        _acc += stage.episodes
+        _a1 = _acc / _total
         # a distinct situation stream per stage, but reproducible
         develop(agent, stage.to_environment(), n_episodes=stage.episodes,
-                situation_seed=situation_seed + i * 1000,
-                on_episode=(childhood.stage_hook(stage) if childhood else None))
+                situation_seed=situation_seed + i * 1000, age_window=(_a0, _a1),
+                on_episode=(childhood.stage_hook(stage, (_a0, _a1)) if childhood else None))
         if trace:
             stage_trace.append(f"{stage.name}: {classify(agent).classification}")
 
@@ -156,4 +183,6 @@ def run_life(seed: TraitSeed, spec: LifeCourseSpec,
         condition_label=spec.label,
         classification=o.classification,
         stage_trace=stage_trace,
+        margin=o.margin,
+        runner_up=o.runner_up,
     )

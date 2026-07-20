@@ -181,9 +181,13 @@ class TestF4RelationalLifecourse(unittest.TestCase):
     # reorder domains from there. The effect is REAL and visible in the PROFILE; it is invisible only in the
     # discretized LABEL. (Second time the bare argmax has proven the wrong instrument -- it exaggerated the
     # fragile psychopathic flip and now hides a genuine graded effect. Registered.)
-    # RESOLUTION CONDITION: re-enable if (a) a later grounded effect is large enough to reorder the label, OR
-    # (b) the read-out reports the graded profile/margin rather than a bare argmax. Do NOT weaken S56 to
-    # restore this, and do NOT re-base to a seed that happens to flip -- both would be fitting to a wanted result.
+    # RESOLUTION CONDITION (TIGHTENED after this test began passing for the wrong reason): re-enable only when
+    # the classified outcome diverges AND BOTH lives are confidently classified (margin >= _BLEND_MARGIN). The
+    # bare label is not sufficient evidence and never was -- see the margin gate at the end of this test. Do NOT
+    # weaken S56 to restore this, and do NOT re-base to a seed that happens to flip -- both would be fitting to a
+    # wanted result. NOTE the trap this test walked into: it went GREEN (unexpected success) while the effect was
+    # SHRINKING, because the margin collapsed to 0.000158 and the argmax started landing on the other side of a
+    # coin flip. A green here without the margin gate would have re-instated a retracted claim on noise.
     @unittest.expectedFailure
     def test_classified_outcome_diverges_by_relational_history(self):
         # THE PASS CLAIM: same seed, same moral environment, run twice -- the relational life reaches a
@@ -197,6 +201,20 @@ class TestF4RelationalLifecourse(unittest.TestCase):
         rel_b = run_life(S, spec, situation_seed=3102, relational=True, cohort_size=3, cadence=0.6)
         self.assertEqual(rel.classification, rel_b.classification)       # deterministic, not noise
         self.assertNotEqual(base.classification, rel.classification)     # relational history diverted it
+        # ★ THE MARGIN GATE (added after this test began passing again for the WRONG REASON). A label
+        # difference is only a RESULT if the label itself is trustworthy. The classification is a bare
+        # argmax, so when the top two domains are a near-tie the label is decided by noise and will
+        # "diverge" on a coin flip. That is exactly what happened here: the test started passing not
+        # because the relational effect grew, but because the margin COLLAPSED to 0.000158 -- a label
+        # difference sitting on ~1/300th of the tie threshold. Without this assertion an unexpected
+        # success would read as confirmation and would silently re-instate the claim that was retracted.
+        # So: divergence counts only if BOTH lives are confidently classified. Below _BLEND_MARGIN the
+        # readout's own docstring says the top two are "effectively a tie".
+        from substrate.readout import _BLEND_MARGIN
+        self.assertGreaterEqual(base.margin, _BLEND_MARGIN,               # baseline is a real label...
+                                f"baseline label is a near-tie (margin {base.margin}) -- not a result")
+        self.assertGreaterEqual(rel.margin, _BLEND_MARGIN,                # ...and so is the relational one
+                                f"relational label is a near-tie (margin {rel.margin}) -- not a result")
 
 
 if __name__ == "__main__":
