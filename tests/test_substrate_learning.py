@@ -76,14 +76,23 @@ class TestAnticipatoryValueEmerges(unittest.TestCase):
         for _ in range(60):
             ag.experience(_CUE, ticks=12)        # cue only, no sweet
         after = ag.anticipatory_value(_CUE)
-        # negligible change without the reinforcer (vs the ~0.3 paired gain) -- DA-gated,
-        # not plain Hebbian. A tiny drift is fine; a paired-scale change would not be.
-        # ★ THIS GUARD IS CURRENTLY VACUOUS -- REGISTERED, deliberately NOT re-scaled. The "~0.3 paired gain"
-        # above is the scale this bound was written against; the paired gain now measures +0.0036 (~1/80th).
-        # So asserting the unpaired drift is < 0.05 is trivially satisfied when EVERY change is ~0.005: this
-        # control cannot fail, because the effect it controls for no longer exists. Tightening the bound to
-        # the observed magnitude would manufacture a green -- the honest fix is to diagnose why DA-gated
-        # learning collapsed ~2 orders of magnitude. Left loose, and loudly, until that diagnosis lands.
+        # DA-gated, not plain Hebbian: a tiny drift is fine; a paired-scale change would not be.
+        # ★ EXPECTATION RECALIBRATED (ruled). This bound was written against a "~0.3 paired gain" that was
+        # REAL but belongs to a plasticity regime that no longer exists. S10.1 (experience-decreasing
+        # plasticity, 542dd48) made the nth relevant experience of a connection carry ~1/n of the weight --
+        # a running average, so the developed state rigidifies. That is a GROUNDED mechanism, not a
+        # regression: adult plasticity is genuinely reduced relative to the developmental peak (Hensch 2004;
+        # Katz & Shatz 1996), and S10.1 implements exactly that. Under a 60-trial protocol the running
+        # average costs sum(1/n, n=1..60)=4.68 vs 60 flat, so the S10.1-REGIME EXPECTATION IS ~0.038, not
+        # ~0.3 -- and that is what was measured immediately after S10.1 landed. Counterfactual-proven:
+        # neutralising S10.1 alone (EXP_PLASTICITY_FLOOR 0.001 -> 1.0) restores exactly +0.320588.
+        # ★ THE BOUND STAYS LOOSE, DELIBERATELY. The paired gain now measures +0.0036, a further ~10.5x below
+        # the S10.1-regime expectation, and THAT residual is unexplained (open diagnosis: the associative
+        # pathway specifically, since the unpaired drift below is unchanged across 157 commits -- suspects are
+        # R8 competitive normalisation as the connectome grew 77->100 circuits, and cumulative E-I damping of
+        # the DA teaching signal). Tightening this bound to the observed magnitude would manufacture a green
+        # over that open question. Set it to the grounded magnitude only once the residual is diagnosed AND
+        # the adult-plasticity floor is grounded -- not before.
         self.assertLess(abs(after - before), 0.05)
 
     # SUSPENDED with the same resolution condition as above (S56 Stage 3): the +0.0008 paired-vs-unpaired
