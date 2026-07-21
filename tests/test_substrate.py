@@ -41,7 +41,7 @@ class TestInstantiation(unittest.TestCase):
         # motor output; M1-face->NuFac/NuAmb-vocal corticobulbar = the posed expression + the crosstalk that
         # tests S22) and +PAG-PANIC-GABA (the vocal suppressor's interneuron; PMC-l -> PAG-PANIC-GABA -| PAG-PANIC
         # -- forced by the receptor-sign convention, a cortical glutamatergic suppressor cannot inhibit directly).
-        self.assertEqual(len(m.circuits), 100)  # Lump #13: 97 -> 100. The CeA lump un-lumped into CEl + CEm-freeze + CEm-active, and the CeL
+        self.assertEqual(len(m.circuits), 101)  # Lump #13: 97 -> 100. The CeA lump un-lumped into CEl + CEm-freeze + CEm-active, and the CeL
         # interneuron lump into the CEl-SOM / CEl-PKCd selector populations (net +3 over the 97).
         # Before that, S56 Stage 3: +OFC-GABA (the FOURTH and last cortical E-I gate,
         # completing the family). Was 96 (v14 freezing OUTPUT: +Mc, the freezing premotor effector).
@@ -61,7 +61,7 @@ class TestInstantiation(unittest.TestCase):
         young = SubstrateEngine(_MODEL, age_years=0.0)
         adult = SubstrateEngine(_MODEL, age_years=25.0)
         self.assertLess(len(young.live_circuits()), len(adult.live_circuits()))
-        self.assertEqual(len(adult.live_circuits()), 100)   # S56 Stage 3: all 100 online by adulthood (+OFC-GABA,
+        self.assertEqual(len(adult.live_circuits()), 101)   # S56 Stage 3: all 100 online by adulthood (+OFC-GABA,
         # online 3.0 with OFC). Was 96 (+Mc online 0.0, the freezing premotor effector).
 
 

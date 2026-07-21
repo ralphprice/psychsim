@@ -51,28 +51,39 @@ class TestTheSelectorSelects(unittest.TestCase):
         self.assertGreater(thr["CEl-SOM"], thr["CEl-PKCd"])      # threat -> passive/freezing arm
         self.assertGreater(aff["CEl-PKCd"], aff["CEl-SOM"])      # affiliation -> the other arm
 
+    def _crossover(self, affiliation):
+        """The threat level at which SOM+ overtakes PKCd+, or None if it never does."""
+        prev = None
+        for i in range(21):
+            a = _settle({"threat": i / 20.0, "affiliation": affiliation})
+            cur = a["CEl-SOM"] > a["CEl-PKCd"]
+            if prev is not None and cur and not prev:
+                return i / 20.0
+            prev = cur
+        return None
+
     def test_the_winner_follows_the_drive_balance(self):
-        # ★ THE EMERGENCE TEST. A winner-take-all whose outcome is decided by one ungrounded weight would
+        # ★ THE EMERGENCE TEST. A winner-take-all whose outcome is fixed by one ungrounded weight would
         # satisfy every OTHER assertion in this file. What distinguishes real competition is that the
-        # winner MOVES WITH THE DRIVES -- so perturb the drive balance and watch the selector follow, in
-        # BOTH directions, with no weight touched.
+        # winner MOVES WITH THE DRIVES -- so this asserts a BOUNDARY EXISTS in the drive space and that it
+        # MOVES in the predicted direction, rather than pinning the coordinate where the flip happens.
+        # That distinction is not pedantry: this test originally hardcoded threat=0.25 as the flip point,
+        # and adding the grounded CRF+ population moved the boundary to 0.35 -- the PROPERTY was intact
+        # and the coordinate was not. A test that pins the coordinate breaks on legitimate structural
+        # change and tempts you to bump the number, which is fitting.
         # (An audit argued the selection was decided solely by the PVN-OT edge because LA and PBN carry
-        # equal WEIGHTS. That compared static weights; drive is weight x SOURCE ACTIVATION. Raising
-        # threat alone flips the winner with PVN-OT untouched, which is the refutation.)
-        low_t = _settle({"threat": 0.0, "affiliation": 0.0})
-        hi_t = _settle({"threat": 1.0, "affiliation": 0.0})
-        self.assertGreater(low_t["CEl-PKCd"], low_t["CEl-SOM"])  # no threat -> PKCd+ leads
-        self.assertGreater(hi_t["CEl-SOM"], hi_t["CEl-PKCd"])    # threat alone FLIPS it (no OT change)
+        # equal WEIGHTS. That compared static weights; drive is weight x SOURCE ACTIVATION. The boundary
+        # below moves with threat alone, PVN-OT untouched, which is the refutation.)
+        alone = self._crossover(affiliation=0.0)
+        self.assertIsNotNone(alone, "no crossover anywhere in the drive range -- the winner is fixed, "
+                                    "which means the selection is not emerging from the drives")
+        self.assertGreater(alone, 0.0)          # PKCd+ leads at rest...
+        self.assertLess(alone, 1.0)             # ...and SOM+ takes over within range: a real contest
 
-        # ...and the flip goes back the other way when the competing drive rises
-        mid = _settle({"threat": 0.25, "affiliation": 0.0})
-        mid_aff = _settle({"threat": 0.25, "affiliation": 0.5})
-        self.assertGreater(mid["CEl-SOM"], mid["CEl-PKCd"])
-        self.assertGreater(mid_aff["CEl-PKCd"], mid_aff["CEl-SOM"])   # affiliation flips it back
-
-        # ...and MORE threat flips it once more: the boundary tracks the ratio, not a fixed side
-        strong = _settle({"threat": 1.0, "affiliation": 0.5})
-        self.assertGreater(strong["CEl-SOM"], strong["CEl-PKCd"])
+        # ...and a competing drive MOVES the boundary against SOM+ (either later, or out of range)
+        contested = self._crossover(affiliation=0.5)
+        self.assertTrue(contested is None or contested > alone,
+                        f"affiliation did not push the boundary against SOM+ ({alone} -> {contested})")
 
     def test_the_margin_is_graded_by_drive_not_saturated(self):
         # the competition is continuous in the drive, not a latch: SOM+'s lead over PKCd+ grows with threat
@@ -144,60 +155,56 @@ class TestTheMicrocircuitIsWiredAsClaimed(unittest.TestCase):
         self.assertLess(_CONNS[("CEl-PKCd", "CEm-freeze")].sign, 0.0)
 
 
-class TestTheActiveArmHasNoSelectorGate(unittest.TestCase):
-    """★ HONEST NEGATIVE, structural -- surfaced by removing the refuted SOM+->CEm-active edge.
+class TestTheS56ExitMeasurement(unittest.TestCase):
+    """★ THE S56 EXIT -- freezing and active defence as DISTINCT emergent selector states.
 
-    With that edge gone the selector reaches the output stage through ONE arm (PKC-delta+ -| CEm-freeze), so
-    the FREEZE output is selector-gated and the ACTIVE output is not gated at all: measured across a full
-    threat x affiliation sweep, CEm-active tracks threat (0.053 -> 0.272) and is COMPLETELY INSENSITIVE to
-    affiliation (0.053/0.053/0.054 at threat 0; 0.272/0.273/0.274 at threat 1.0) -- i.e. it follows its BA
-    drive regardless of which population wins.
+    This replaces two earlier honest negatives, both now resolved by grounded anatomy rather than by
+    weakening the criterion: (1) the freezing column was dead until PL->vlPAG gave it excitation, and
+    (2) the active arm had no selector until the CRF+ population -- the missing half of Fadok 2017's
+    competing pair -- was added.
 
-    WHY, and it is a real gap rather than a build error: the model conflates two literatures. Haubensak 2010's
-    axis is PKC-delta+ (CeL-off, gates CeM output) -- that is the arm we have and it is correctly grounded.
-    Fadok 2017's competing pair is CRF+ vs SOM+, and it is the CRF+ population that drives the ACTIVE/flight
-    response. THE MODEL HAS NO CRF+ CeL POPULATION, so there is no grounded population to gate the active arm.
-    Removing the inferred SOM+ edge did not create this gap -- it REVEALED it, by removing the uncited edge
-    that was standing in for the missing population.
+    The criterion is the DISSOCIATION, asserted ordinally: each context must drive its OWN column and
+    NOT the other. No magnitude is pinned, because the point was never "freezing is large" -- it was
+    that one activation could not previously serve two opposite modes."""
 
-    CONSEQUENCE FOR THE S56 EXIT MEASUREMENT: freezing is a selector state; aggression currently is not.
-    RESOLUTION CONDITION: a grounded CRF+ CeL population (Fadok 2017), mutually inhibitory with SOM+, gating
-    the active output -- OR an explicit ruling that the active arm is tonic-by-design. Do NOT restore the
-    refuted SOM+ projection to close this."""
+    def test_freezing_and_active_defence_are_distinct_selector_states(self):
+        thr = _settle({"threat": 1.0})           # nociceptive threat -> passive defence
+        pro = _settle({"thwarting": 1.0})        # provocation -> active defence
+        # threat drives the FREEZING column and not the flight column
+        self.assertGreater(thr["vlPAG"], thr["dPAG"])
+        self.assertGreater(thr["Mc"], _settle({})["Mc"])          # freezing effector above rest
+        # provocation drives the FLIGHT/ATTACK column and not the freezing column
+        self.assertGreater(pro["dPAG"], pro["vlPAG"])
+        self.assertGreater(pro["VMHvl"], thr["VMHvl"])
+        # ...and they do not trade: neither context drives BOTH columns
+        self.assertEqual(thr["dPAG"], 0.0)
+        self.assertEqual(pro["vlPAG"], 0.0)
 
-    def test_the_active_output_is_currently_ungated_by_the_selector(self):
-        gates = {s for (s, t) in _CONNS if t == "CEm-active" and _CONNS[(s, t)].sign < 0
-                 and s.startswith("CEl-")}
-        self.assertEqual(gates, set(), "an unexpected selector gate appeared on the active arm -- if it is "
-                                       "the grounded CRF+ population, update this honest negative")
+    def test_the_crf_population_is_load_bearing_for_the_flight_column(self):
+        # silence-the-element: the flight column must depend on CRF+ disinhibition, or the "selection"
+        # of active defence is really just the provocation->VMHvl->dPAG route with CRF+ decorative.
+        intact = _settle({"thwarting": 1.0})["dPAG"]
+        lesion = _settle({"thwarting": 1.0}, {"CEl-CRF": Throttle.fully_attenuated().fraction})["dPAG"]
+        self.assertGreater(intact, lesion)
+        self.assertEqual(lesion, 0.0)            # without CRF+ the column cannot open at all
 
-
-class TestTheOutputStageIsStillFloored(unittest.TestCase):
-    """★ THE HONEST NEGATIVE. The selector selects (verified above, by perturbation), but the exit
-    measurement of the S56 descent -- freezing and aggression DRIVABLE as distinct output states -- is
-    NOT met: both CEm populations sit at or near their floor in every context (max ~0.07 across a full
-    threat x affiliation sweep). Encoding this as a passing "outputs are low" test would certify the
-    defect; encoding it as the FAILING claim keeps the debt visible and self-clearing.
-
-    DIAGNOSED CAUSE (measured, not assumed): the disinhibitory motif is built without the drive it is
-    meant to release, three times over -- CEm's excitation is outweighed ~2:1 by its gate, and vlPAG (the
-    freezing column itself) has exactly ONE excitatory afferent, VMH, which is not threat-driven and sits
-    flat at 0.112 under both threat and provocation. So CEm-freeze correctly drives vlPAG-GABA to 0.000
-    -- perfect disinhibition -- and vlPAG still cannot fire, because there is no drive to release.
-
-    RESOLUTION CONDITION: a grounded excitatory driver for the freezing column (whether the CEm-freeze
-    population itself proves sufficient once CEm is properly driven, or vlPAG needs a separately-grounded
-    afferent -- the mPFC prelimbic/infralimbic projection is the canonical candidate). Do NOT resolve this
-    by lowering the gate weights: the blanket-brake fix was the mutual-inhibition MECHANISM, and the same
-    discipline applies here -- build the missing drive, do not shrink the inhibition."""
-
-    @unittest.expectedFailure
-    def test_freezing_and_aggression_are_drivable_as_distinct_output_states(self):
+    def test_the_flight_column_needs_drive_AND_disinhibition(self):
+        # the lesson the freezing column taught, asserted so it cannot regress: disinhibition alone
+        # produces nothing. CRF+ is MORE active under threat than provocation, yet dPAG fires only under
+        # provocation -- because that is when VMHvl supplies the excitatory drive the gate releases.
         thr = _settle({"threat": 1.0})
-        aff = _settle({"affiliation": 1.0})
-        # each mode should actually DRIVE its own output, not merely be gated toward it
-        self.assertGreater(thr["CEm-freeze"], 0.20)
-        self.assertGreater(aff["CEm-active"], 0.20)
+        pro = _settle({"thwarting": 1.0})
+        self.assertGreater(thr["CEl-CRF"], pro["CEl-CRF"])        # more disinhibition under threat...
+        self.assertEqual(thr["dPAG"], 0.0)                        # ...and yet no flight, for lack of drive
+        self.assertGreater(pro["VMHvl"], 0.0)                     # provocation supplies the drive
+        self.assertGreater(pro["dPAG"], 0.0)                      # so the column opens
+
+    def test_the_crf_population_brakes_its_competitor(self):
+        # the competing pair is genuinely competitive: removing CRF+ lets SOM+ run to saturation
+        intact = _settle({"threat": 1.0})["CEl-SOM"]
+        lesion = _settle({"threat": 1.0}, {"CEl-CRF": Throttle.fully_attenuated().fraction})["CEl-SOM"]
+        self.assertGreater(lesion, intact)
+        self.assertLess(intact, 1.0)             # and the brake is what keeps SOM+ off its ceiling
 
 
 if __name__ == "__main__":

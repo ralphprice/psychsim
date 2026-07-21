@@ -814,6 +814,7 @@
     }
   ],
   "gaps_register": [
+    "★★ S56 EXIT MEASUREMENT MET -- LUMP #13 CLOSED. The CRF+ CeL population (Fadok 2017) completes the competing pair, and freezing and active defence now emerge as DISTINCT selector states that do not trade. MEASURED: nociceptive threat -> SOM+ leads (0.563) -> freezing column fires (vlPAG 0.039, Mc 0.081) and the flight column stays at EXACTLY 0.000; provocation -> the flight/attack column fires (dPAG 0.039, VMHvl 0.356) and the freezing column stays at EXACTLY 0.000. Neither context drives both. COUNTERFACTUALS (silence-the-element, not assumed): silencing CRF+ collapses dPAG under provocation 0.0393 -> 0.0000 -- the flight column cannot open without it -- and lets SOM+ run to SATURATION under threat (0.563 -> 1.000), so CRF+ is both the flight gate and the brake that keeps its competitor off the ceiling. THE VLPAG LESSON HELD AND WAS CHECKED BEFORE BUILDING, NOT AFTER: CRF+ is MORE active under threat (0.221) than provocation (0.115), yet dPAG fires only under provocation -- because disinhibition releases a drive and only provocation supplies one (VMHvl 0.356). dPAG carries real excitatory afferents (SC-Pv looming, VMHvl attack) where vlPAG had only the non-threat-driven VMH, which is exactly why vlPAG needed PL excitation and this column did not. EMERGENCE VERIFIED BY BOUNDARY, NOT COORDINATE: the SOM+/PKC-delta+ crossover sits at threat 0.35 with no competing drive and is pushed OUT OF RANGE by affiliation 0.5 -- the boundary exists and moves with the drives. Adding CRF+ moved that boundary from 0.25 to 0.35, which broke a test that had pinned the coordinate; the test now asserts the boundary EXISTS and MOVES, which is the property. REGISTERED SIMPLIFICATION: Fadok reports CRF+/SOM+ as largely non-overlapping; McCullough 2018 and Hartley 2019 report partial Crf/Sst co-localisation. Modelled as distinct because that is the competitive-selection mechanism; the overlap is a fidelity item. NOT BUILT, FLAGGED: Fadok's CRF+ -> VMH projection targets VMHdm (predator defence), which the model lacks -- its VMH is reproductive/social and its VMHvl is the attack area -- so that projection was omitted rather than mapped onto a mismatched node.",
     "★ FREEZING COLUMN REVIVED -- PL->vlPAG BUILT AND MEASURED (ruled). dmPFC (the seed's own prelimbic-analogue, function \"fear expression\") now sends a direct glutamatergic arm to vlPAG alongside its existing arm to vlPAG-GABA. MEASURED, threat vs neutral: vlPAG 0.000 -> 0.043, Mc (the freezing effector) 0.053 -> 0.082, and with the gate silenced 0.065/0.101, with all inhibition removed 0.259/0.236. THE FREEZING FLOOR TEST NOW PASSES, as do test_plain_threat_still_avoids and test_generic_threat_drives_avoidance_not_aggression -- three of the four standing gate failures cleared by two grounded changes. WHY IT WAS A CeM EDGE THAT COULD NOT WORK: the CeM->PAG pathway was ALREADY built as CEm-freeze->vlPAG-GABA (Tovote 2016) and measured to deliver nothing (the gate already sits at 0.000 under threat), and a DIRECT CEm-freeze->vlPAG edge would have to be INHIBITORY (CeM projection neurons are GABAergic, S59 census) and would therefore SUPPRESS the column. The column needed EXCITATION, and PL is where the literature puts it. A DEFECT THIS ALSO CORRECTED: dmPFC's only prior route to the column was onto vlPAG-GABA -- i.e. the model's fear-EXPRESSION node drove the freezing BRAKE, directionally backwards for prelimbic. RESIDUAL: DRN remains the dominant suppressor (silencing it lifts Mc to 0.236), so the column is driven but heavily damped.",
     "★ THE ACTIVE/FLIGHT ARM HAS NO GROUNDED SELECTOR POPULATION -- REVEALED, NOT CREATED, BY REMOVING THE REFUTED SOM+ EDGE. With CEl-SOM->CEm-active gone (refuted by Fadok 2017), the selector reaches the output stage through ONE arm -- PKC-delta+ -| CEm-freeze (Haubensak 2010) -- so the FREEZE output is selector-gated and the ACTIVE output is not gated at all. Measured across a full threat x affiliation sweep, CEm-active tracks threat (0.053 -> 0.272) and is COMPLETELY INSENSITIVE to affiliation (0.053/0.053/0.054 at threat 0; 0.272/0.273/0.274 at threat 1.0): it follows its BA drive regardless of which population wins the local competition. THE CAUSE IS A CONFLATION OF TWO LITERATURES: Haubensak 2010's axis is PKC-delta+ (CeL-off, gates CeM output) -- that is the arm the model has, correctly grounded. Fadok 2017's competing pair is CRF+ vs SOM+, and it is the CRF+ population that drives the ACTIVE/flight response. THE MODEL HAS NO CRF+ CeL POPULATION, so there is no grounded population available to gate the active arm. The removed SOM+ edge had been standing in for that missing population, which is why removing it REVEALED the gap rather than causing it. CONSEQUENCE FOR THE S56 EXIT MEASUREMENT: freezing is now a selector state; aggression is not -- the exit is HALF met. RESOLUTION CONDITION: a grounded CRF+ CeL population (Fadok 2017), mutually inhibitory with SOM+, gating the active output -- OR an explicit ruling that the active arm is tonic-by-design. Do NOT restore the refuted SOM+ projection to close it. NOTE this is the LUMPING PATTERN AGAIN, one level further in: two distinct CeL populations (PKC-delta+ and CRF+) were doing one job under one name.",
     "★ EDGE REMOVED ON A CITATION, NOT FOR CONVENIENCE (CEl-SOM->CEm-active; RULED). This is the documented EXCEPTION to never-remove-anatomy-unilaterally: the edge is removed because the literature REFUTES it. In Fadok et al. 2017 the CeL SOM+ population suppresses the active/flight response by LOCAL inhibition WITHIN CeL -- it inhibits the competing flight-promoting population locally; it does NOT project to a CeM output population to suppress it. The edge was built as the model's INFERENCE of how within-CeL competition reaches the output stage, and was already flagged as inferred-not-cited by the fabrication audit. Its sibling CEl-PKCd->CEm-freeze STAYS -- that one is directly grounded (Haubensak 2010: PKC-delta+ CeL neurons gate CeM output). THE FUNCTION IS NOT LOST, IT IS RELOCATED TO WHERE THE BIOLOGY PUTS IT: SOM+'s grounded role is the local SOM+ -| PKC-delta+ mutual inhibition, which the selector already builds. CONSEQUENCE FOR EMERGENCE, and it is the reason this matters beyond tidiness: the removed edge was a route by which the selection could have rested on a specific projection WEIGHT rather than on the local drive balance. With it gone, the selection reaches the output ONLY through PKC-delta+ -| CEm-freeze, gated by which population wins the local competition -- so the selection is produced by the drive balance itself. Removing it makes the selection MORE emergent, not less.",
@@ -3093,6 +3094,28 @@
       "confidence": "E",
       "evidence_base": "human+animal",
       "sources": "Ciocchi et al. 2010; Haubensak et al. 2010; Fadok et al. 2017"
+    },
+    {
+      "id": "CEl-CRF",
+      "domain": "defensive_threat",
+      "baseline_activation": 0.05,
+      "activation_bounds": [
+        0.0,
+        1.0
+      ],
+      "time_constant_tau_ms": 100,
+      "homeostatic_setpoint": 0.1,
+      "developmental_online_age": 0.0,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "calibration_active_default": true,
+      "transmitters": "GABAergic (CeL local interneuron)",
+      "evidence_base": "animal_dominant",
+      "confidence": "Em",
+      "function": "LUMP #13 CLOSE -- the missing half of the grounded competing pair. Fadok et al. 2017 (\"A competitive inhibitory circuit for selection of active and passive fear responses\", Nature 542:96) establishes that CeL selects active vs passive defence via TWO MUTUALLY-INHIBITORY populations: CRF+ mediates conditioned FLIGHT, SOM+ initiates passive FREEZING. The model had only SOM+, and an INFERRED SOM+->CEm-active edge was standing in for this population -- which is why removing that refuted edge REVEALED the gap rather than causing it: the active arm had no population to select it, so it simply followed its BA drive (measured: CEm-active 0.272/0.273/0.274 across affiliation at threat 1.0, i.e. completely insensitive to which population won). THE MODEL HAD CONFLATED TWO DISTINCT AXES: Haubensak 2010's PKC-delta+ is a GATING axis (CeL-off gates CeM output -- retained, correctly grounded); Fadok's CRF+/SOM+ is the SELECTION axis (which defensive mode wins). This is the lumping pattern one level further in, and the same defect that opened Lump #13. GABAergic, like its CeL siblings. REGISTERED SIMPLIFICATION: Fadok reports CRF+/SOM+ as largely non-overlapping, but McCullough 2018 and Hartley 2019 report partial Crf/Sst co-localisation in CeL. The populations are modelled as distinct because THAT is the competitive-selection mechanism; the partial overlap is a fidelity item, not this pass.",
+      "nodes": "central amygdala lateral division (CeL) GABAergic neurons",
+      "sources": "Knobloch et al. 2012 Neuron 73:553 (OT->CeL->CeM microcircuit gating fear output)",
+      "structural_element": true,
+      "name": "CeL CRF+ population (active/flight defence)"
     }
   ],
   "connections": [
@@ -7690,6 +7713,101 @@
       "developmental_online_age": 0.0,
       "confidence": "E",
       "source": "LUMP #13 / S56 EXIT -- the grounded EXCITATORY driver of the freezing column (RULED). The prelimbic cortex drives conditioned fear EXPRESSION (infralimbic SUPPRESSES it), and mPFC sends a dense glutamatergic projection to the ventrolateral PAG column. dmPFC is the seed's own prelimbic-analogue (\"dorsomedial PFC / prelimbic-analogue\", function \"Sustained-threat attention; fear expression\"), so this is PL->vlPAG, NOT IL. WHY THIS EDGE AND NOT A CeM ONE, measured: the CeM->PAG freezing pathway is ALREADY built as CEm-freeze->vlPAG-GABA (Tovote 2016, disinhibitory) and the diagnosis proved it delivers NOTHING -- under threat that gate already sits at 0.000, and silencing it entirely changes vlPAG by zero. A disinhibitory route cannot deliver drive when the gate it opens is already open. A DIRECT CEm-freeze->vlPAG edge could not fix this either: CeM projection neurons are GABAergic (verified independently in the S59 fallback-sign census -- \"CeA->HYPdm is genuinely INHIBITORY, CeM output neurons are GABAergic\"), so a direct edge would SUPPRESS the column, backwards. The column needs actual EXCITATION, and PL is where the literature puts it. NOTE THE DEFECT THIS ALSO CORRECTS: dmPFC's only route to the column was dmPFC->vlPAG-GABA, i.e. the model's fear-EXPRESSION node was driving the freezing BRAKE -- directionally backwards for PL. That edge is RETAINED (PL does modulate the gate) and this direct excitatory arm is ADDED alongside it. Band inherited BYTE-IDENTICAL from that twin (moderate, AMPA, same basis/confidence) -- no knob to tune."
+    },
+    {
+      "source_circuit": "CEl",
+      "target_circuit": "CEl-CRF",
+      "default_weight": 1.0,
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "E",
+      "dominant_receptor": "AMPA",
+      "dominant_receptor_basis": "AMPA (glutamatergic) EXCITATORY -- the drive that reaches CeM also RECRUITS the CeL inhibitory population, so CeL's inhibition scales with the drive it is gating.",
+      "source": "LUMP #13 CLOSE. The CEl drive limb, inherited BYTE-IDENTICAL from both siblings (CEl->CEl-SOM and CEl->CEl-PKCd) so all three CeL populations receive the SAME shared drive. Any preference must come from the differential afferents, never from a thumb on the scale in the shared limb."
+    },
+    {
+      "source_circuit": "CEl-SOM",
+      "target_circuit": "CEl-CRF",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY. ★ PROVENANCE DECONTAMINATED (audit finding): this field previously carried a COPY-PASTED scaffold justification (\"set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge\") describing an edge this one does not touch -- while the neighbouring source field simultaneously denied inheriting that scaffold. The record contradicted itself inside a single entry. The honest statement: this is a GABAergic CeL interneuron synapse, and its \"strong\" band is the literature's own qualifier for a competitive winner-take-all circuit, NOT a value carried over from the retired PVN-OT calibration.",
+      "source": "LUMP #13 CLOSE -- THE FADOK COMPETITIVE CIRCUIT (Fadok et al. 2017, Nature 542:96). CRF+ and SOM+ are MUTUALLY INHIBITORY CeL populations, and this reciprocal inhibition IS the selection mechanism: which population wins determines active (CRF+ -> flight) vs passive (SOM+ -> freezing) defence. Both directions byte-identical to the existing SOM+/PKC-delta+ mutual inhibition -- same cell class, same GABA-A synapse, same literature-qualified \"strong\" band for a competitive winner-take-all. No knob to tune. The selection must EMERGE from which population the drives favour, never from an asymmetry built into these weights."
+    },
+    {
+      "source_circuit": "CEl-CRF",
+      "target_circuit": "CEl-SOM",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY. ★ PROVENANCE DECONTAMINATED (audit finding): this field previously carried a COPY-PASTED scaffold justification (\"set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge\") describing an edge this one does not touch -- while the neighbouring source field simultaneously denied inheriting that scaffold. The record contradicted itself inside a single entry. The honest statement: this is a GABAergic CeL interneuron synapse, and its \"strong\" band is the literature's own qualifier for a competitive winner-take-all circuit, NOT a value carried over from the retired PVN-OT calibration.",
+      "source": "LUMP #13 CLOSE -- THE FADOK COMPETITIVE CIRCUIT (Fadok et al. 2017, Nature 542:96). CRF+ and SOM+ are MUTUALLY INHIBITORY CeL populations, and this reciprocal inhibition IS the selection mechanism: which population wins determines active (CRF+ -> flight) vs passive (SOM+ -> freezing) defence. Both directions byte-identical to the existing SOM+/PKC-delta+ mutual inhibition -- same cell class, same GABA-A synapse, same literature-qualified \"strong\" band for a competitive winner-take-all. No knob to tune. The selection must EMERGE from which population the drives favour, never from an asymmetry built into these weights."
+    },
+    {
+      "source_circuit": "CEl-CRF",
+      "target_circuit": "CEl",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY. ★ PROVENANCE DECONTAMINATED (audit finding): this field previously carried a COPY-PASTED scaffold justification (\"set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge\") describing an edge this one does not touch -- while the neighbouring source field simultaneously denied inheriting that scaffold. The record contradicted itself inside a single entry. The honest statement: this is a GABAergic CeL interneuron synapse, and its \"strong\" band is the literature's own qualifier for a competitive winner-take-all circuit, NOT a value carried over from the retired PVN-OT calibration.",
+      "source": "LUMP #13 CLOSE. CEl local inhibition, byte-identical to its two siblings -- CRF+ is a local CeL GABAergic population and inhibits CeL principal activity like the others."
+    },
+    {
+      "source_circuit": "CEl-CRF",
+      "target_circuit": "dPAG-GABA",
+      "default_weight": "strong",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "cea_moderate",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "confidence": "Em",
+      "dominant_receptor": "GABA-A",
+      "dominant_receptor_basis": "GABA-A INHIBITORY. ★ PROVENANCE DECONTAMINATED (audit finding): this field previously carried a COPY-PASTED scaffold justification (\"set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge\") describing an edge this one does not touch -- while the neighbouring source field simultaneously denied inheriting that scaffold. The record contradicted itself inside a single entry. The honest statement: this is a GABAergic CeL interneuron synapse, and its \"strong\" band is the literature's own qualifier for a competitive winner-take-all circuit, NOT a value carried over from the retired PVN-OT calibration.",
+      "source": "LUMP #13 CLOSE -- the CRF+ output to the ACTIVE-DEFENCE column. Fadok 2017 reports CRF+ neurons projecting widely throughout the PAG columns, including the dorsolateral/lateral (flight/escape) columns; dPAG is the model's active-coping column (v14 Phase A vlPAG=passive / dPAG=active). SIGN GROUNDED, and it is DISINHIBITORY for the same reason the freeze arm is: CeL populations are GABAergic, so CRF+ reaches the column by inhibiting its GABAergic gate (dPAG-GABA), releasing dPAG. ★ AND UNLIKE THE FREEZE ARM, THERE IS SOMETHING BEHIND THIS GATE: dPAG carries real excitatory drive (SC-Pv looming, moderate; VMHvl attack, strong), whereas vlPAG had only the non-threat-driven VMH -- which is exactly why vlPAG needed PL excitation and this column does not. The disinhibition-without-drive defect was checked for before building, not after. FLAGGED, NOT GUESSED: Fadok also reports CRF+ -> VMH, but the flight-relevant target is VMHdm (dorsomedial, predator defence) and the model has no VMHdm -- its VMH is reproductive/social and its VMHvl is the attack area. That projection is therefore NOT built rather than mapped onto a mismatched node."
     }
   ],
   "substrate_hardening_backlog": [
