@@ -80,7 +80,8 @@ def punishment_learning(eng: SubstrateEngine, trials: int = 60) -> float:
     punishment delivered UNPAIRED (a yoked control run on an identical copy of the agent). Positive
     = the CS-specific aversion was learned; ~0 = no associative learning (the CU failure-to-learn).
 
-    Why the yoked control (v14): DEFENSIVE_OUTPUT = (CeA, PAG, BA), and LC projects DIRECTLY into
+    Why the yoked control (v14): DEFENSIVE_OUTPUT = (CEl, vlPAG, BA) -- and note the audit finding: post-Lump-#13 this set contains
+    NO live output population, so it is pending ruled re-derivation. LC projects DIRECTLY into
     CeA and BA -- so the naive `after - before` was CONFOUNDED BY CONSTRUCTION by tonic NA tone (it
     was only ever valid while LC was structurally dead). The conditioned and yoked arms share tonic
     tone AND non-associative sensitization (same cue exposures, same punishments); only the CS->US

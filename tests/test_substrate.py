@@ -26,7 +26,7 @@ class TestInstantiation(unittest.TestCase):
         m = _MODEL
         # v14 Expression Phase A -- the DELTA, named (a pin that records a number is a speed bump; a pin
         # that records WHY is a guard). 83 -> 88:  -PAG (lumped; its own function field named two opposite
-        # columns)  +vlPAG  +dPAG  +vlPAG-GABA (CeA's cited Tovote-2016 target cell)  +dPAG-GABA (the
+        # columns)  +vlPAG  +dPAG  +vlPAG-GABA (the cited Tovote-2016 target cell, now driven by CEm-freeze)  +dPAG-GABA (the
         # tonically-active escape-threshold gate, Stempel & Evans 2024)  +NuAmb-vocal  +NuFac.
         # NuAmb -> NuAmb-cardiac is a RENAME (mis-scoped, not mixed) -- no count change.
         # v14 Expression Phase B, 88 -> 89:  +NRA (nucleus retroambiguus) -- the PAG's premotor relay to the
@@ -36,12 +36,14 @@ class TestInstantiation(unittest.TestCase):
         # 1). Grounding BA->dACC gave dACC real drive and it SATURATED (no local inhibition; 3 excitatory
         # afferents), driving dlPFC to ceiling and manufacturing a 'divergence emerges' artifact. dACC-GABA is
         # the cortical E/I brake (mirrors dlPFC-GABA; Ferguson & Gao 2018) -- FIRST of a systemic gap (the
-        # cortical brake layer is 2-of-11; gaps-register S18), not the last closed.
+        # cortical brake layer COMPLETE at 4 as of S56 Stage 3 -- this read "2-of-11" until the audit; gaps-register S18), not the last closed.
         # v14 Expression Phase D, 90 -> 93:  +M1-face +PMC-l (the VOLITIONAL/pyramidal route -- the model's first
         # motor output; M1-face->NuFac/NuAmb-vocal corticobulbar = the posed expression + the crosstalk that
         # tests S22) and +PAG-PANIC-GABA (the vocal suppressor's interneuron; PMC-l -> PAG-PANIC-GABA -| PAG-PANIC
         # -- forced by the receptor-sign convention, a cortical glutamatergic suppressor cannot inhibit directly).
-        self.assertEqual(len(m.circuits), 100)  # S56 Stage 3: +OFC-GABA (the FOURTH and last cortical E-I gate,
+        self.assertEqual(len(m.circuits), 100)  # Lump #13: 97 -> 100. The CeA lump un-lumped into CEl + CEm-freeze + CEm-active, and the CeL
+        # interneuron lump into the CEl-SOM / CEl-PKCd selector populations (net +3 over the 97).
+        # Before that, S56 Stage 3: +OFC-GABA (the FOURTH and last cortical E-I gate,
         # completing the family). Was 96 (v14 freezing OUTPUT: +Mc, the freezing premotor effector).
         self.assertGreater(len(m.connections), 130)     # circuit->circuit edges
         self.assertGreater(len(m.input_edges), 15)      # sensory channel entry edges
@@ -59,7 +61,7 @@ class TestInstantiation(unittest.TestCase):
         young = SubstrateEngine(_MODEL, age_years=0.0)
         adult = SubstrateEngine(_MODEL, age_years=25.0)
         self.assertLess(len(young.live_circuits()), len(adult.live_circuits()))
-        self.assertEqual(len(adult.live_circuits()), 100)   # S56 Stage 3: all 97 online by adulthood (+OFC-GABA,
+        self.assertEqual(len(adult.live_circuits()), 100)   # S56 Stage 3: all 100 online by adulthood (+OFC-GABA,
         # online 3.0 with OFC). Was 96 (+Mc online 0.0, the freezing premotor effector).
 
 
@@ -154,13 +156,47 @@ class TestTemperamentIsNotAGateDial(unittest.TestCase):
                "CARE": 0.1, "SOCIAL_LOSS": 0.1, "CONTROL": 0.1, "INSTRUMENTAL_CONTROL": 0.1}
         eng = SubstrateEngine(_MODEL, age_years=25.0)
         seed_substrate(eng, low)                       # every dial at the floor
-        gates = [cid for cid, c in _MODEL.circuits.items() if c.structural_element]
+        # ★ GUARD REPAIRED (audit finding): this previously derived `gates` FROM structural_element -- the very
+        # property it exists to validate -- so a gate that shipped WITHOUT the flag was invisible to it and the
+        # test passed vacuously. OFC-GABA did exactly that: it sits in domain reward_approach (driven by the
+        # SEEKING dial), so a low-SEEKING seed throttled the OFC brake and DISINHIBITED OFC -- the precise
+        # perversity this test names -- while the test stayed green. Now the gate class is derived BY
+        # CONSTRUCTION from what a gate IS (a local inhibitory interneuron population, identified by its id and
+        # its inhibitory transmitter), and the flag is checked AGAINST that independent derivation.
+        by_construction = sorted(cid for cid, c in _MODEL.circuits.items()
+                                 if cid.endswith("-GABA") and c.sign < 0)
+        self.assertTrue(by_construction)
+        flagged = sorted(cid for cid, c in _MODEL.circuits.items() if c.structural_element)
+        missing = [cid for cid in by_construction if cid not in flagged]
+        self.assertEqual(missing, [], f"local inhibitory gate(s) missing structural_element: {missing} -- "
+                                      "an unflagged gate is throttleable by temperament, which DISINHIBITS "
+                                      "its target (directionally perverse)")
+        gates = flagged
         self.assertTrue(gates)
         for cid in gates:                              # no gate is touched by any dial...
             self.assertEqual(eng.throttle.get(cid, 0.0), 0.0,
                              f"{cid}: a structural gate must not be a reactivity dial")
         # ...while the DRIVEN circuits of those same domains are throttled (the dial still works)
         self.assertGreater(eng.throttle.get("CEl", 0.0), 0.0)
+
+    def test_a_low_dial_never_raises_its_own_domains_output(self):
+        # ★ THE PERVERSITY MEASURED, not merely flagged (audit finding). Asserting structural_element is set is
+        # a proxy; this asserts the BEHAVIOUR the flag exists to produce -- that turning a temperament dial DOWN
+        # never turns its domain's output UP. OFC-GABA's missing flag made low-SEEKING disinhibit OFC; a proxy
+        # assertion could not see that, so the property itself is asserted here.
+        from substrate.seeding import seed_substrate
+        base = {"THREAT": 0.5, "ANXIETY": 0.5, "SEEKING": 0.5, "FRUSTRATION": 0.5,
+                "CARE": 0.5, "SOCIAL_LOSS": 0.5, "CONTROL": 0.5, "INSTRUMENTAL_CONTROL": 0.5}
+        def settled(dials, node):
+            eng = SubstrateEngine(_MODEL, age_years=25.0)
+            seed_substrate(eng, dials)
+            eng.settle(40)
+            return eng.activity(node)
+        mid = settled(base, "OFC")
+        low = settled({**base, "SEEKING": 0.1}, "OFC")
+        self.assertLessEqual(low, mid + 1e-9,
+                             f"low SEEKING RAISED OFC ({mid:.4f} -> {low:.4f}): a dial turned DOWN increased its "
+                             "domain's output -- the gate-throttling perversity is open again")
 
     def test_the_gate_class_is_marked_in_the_seed_not_inferred_in_code(self):
         # data, like dominant_receptor -- so the exclusion stays derived and never becomes an id list

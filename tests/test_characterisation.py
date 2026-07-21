@@ -96,6 +96,23 @@ REGEN (v14 D6 CLOSEOUT -- two grounded builds + a read-out honesty fix, one deli
   clear `executive` (margin ~0.10). The bare label flipped because the grounded curves moved a close race; the
   margin field records how close, so the flip is honest and visible. Deliberate + demonstrable, not a tune --
   no curve/weight was chosen to move a result.
+
+REGEN NOTE -- S56 STAGE 3 (5f3dd2d), WRITTEN RETROACTIVELY (audit finding). This file's own rule is that a
+phase which intentionally changes these read-outs regenerates the golden WITH A NOTE and records the change
+in the commit. That was not done for Stage 3, whose commit recorded it in five words ("golden regenerated;
+library regrown") -- and FOUR OF EIGHT CLASSIFICATIONS FLIPPED:
+    psychopathic|harsh    reward_approach -> social_cognition
+    psychopathic|warm     reward_approach -> social_cognition
+    shared_root|harsh     executive       -> social_cognition
+    shared_root|warm      executive       -> social_cognition
+The mechanism of the omission is worth recording: regenerating the golden MAKES THE TEST PASS, so "no
+classification flips" was inferred from a green suite instead of from the diff. The pin exists precisely to
+catch this, and the regen masked it.
+NOTE ALSO that the two notes above are now stale in place: the D6 CLOSEOUT note describes a golden that has
+not existed since Stage 3, and the S56 Stage 1 note's "NO classification changed" was true of Stage 1 only.
+Read both as dated, not current.
+OWED (ruled): split this golden so a LABEL flip and a fourth-decimal wobble cannot present as the same
+signal -- labels asserted exact and hard, profile values toleranced and reported.
 """
 
 import json

@@ -156,7 +156,9 @@ class TestAggressionPathwayClosesOBS3(unittest.TestCase):
         # the hold is causally INERT. The real brake is an EFFECTOR-RECRUITMENT failure: VMHvl fires,
         # but the aggress population (mean VMHvl/dPAG/HYPdm) stays low because dPAG and HYPdm cannot be
         # recruited through their standing inhibition -- dPAG suppressed by the cortically-over-driven
-        # DRN (+ dPAG-GABA<-DRN), HYPdm by the saturating CeA. The young->aggress / adult->restrain
+        # DRN (+ dPAG-GABA<-DRN), HYPdm by the saturating CeA. ** STALE, CORRECTED (Lump #13): CeA no longer exists and no longer
+        # saturates -- CEl does, and CEm-active (which projects to HYPdm) reads ~0.000. The lump was
+        # FLATTENING its targets, not driving them; this comment described the opposite **. The young->aggress / adult->restrain
         # course is still DEVELOPMENTAL (the cortical circuitry matures and its S56 over-drive of DRN
         # grows with it) -- but the maturing brake is the cortical over-drive, not the STN. NB grounding
         # S56 Stage 1 (cortical E-I loop gains) may lift the dPAG suppressor and let the adult aggress:
@@ -182,7 +184,9 @@ class TestAggressionPathwayClosesOBS3(unittest.TestCase):
 
 
 class TestCeAInhibitionUntouched(unittest.TestCase):
-    """Guardrail proof: v9 does NOT dis-inhibit the attack effectors by hand -- CeA is GABAergic and
+    """Guardrail proof (class name and prose predate Lump #13: "CeA" below now means the CEl/CEm-freeze/
+    CEm-active family, and the guarded property is asserted against CEm-freeze/CEm-active).
+    v9 does NOT dis-inhibit the attack effectors by hand -- CeA is GABAergic and
     its drive onto the defensive effectors is unaltered (inhibitory synapse, weight untouched).
 
     v14 Phase A -- RE-EXPRESSED to what this guard PROTECTS, not what it literally asserted. It

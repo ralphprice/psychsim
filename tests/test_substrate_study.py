@@ -35,7 +35,8 @@ class TestPunishmentLearning(unittest.TestCase):
         # teaching signal + phasic CeA->LC + grounded LC pacemaker) with a CORRECTED, tone-invariant
         # read-out, then multi-seed-validated. This RETIRES the old confounded framing.
         #
-        # WHY the read-out was corrected: DEFENSIVE_OUTPUT = (CeA, PAG, BA) and LC projects DIRECTLY
+        # WHY the read-out was corrected: DEFENSIVE_OUTPUT = (CEl, vlPAG, BA) -- STALE AS WRITTEN and flagged by audit: it names no live
+        # output population (CEm-freeze/CEm-active); re-derivation is ruled and pending and LC projects DIRECTLY
         # into CeA and BA, so the old `after - before` metric summed LC's own tonic output -- it was
         # confounded BY CONSTRUCTION by tonic NA tone, and only ever "worked" while LC was
         # structurally dead (unafferented, NA flat at 0.05). Giving LC its correct afferents +
