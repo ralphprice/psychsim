@@ -105,13 +105,15 @@ class TestTheMicrocircuitIsWiredAsClaimed(unittest.TestCase):
             self.assertLess(e.sign, 0.0, f"{a}->{b} must be inhibitory")
 
     def test_the_routing_is_selective_not_blanket(self):
-        # THE DEFECT THE UN-LUMPING FIXED: one interneuron population delivering a BLANKET brake. Each
-        # population must gate a DIFFERENT output, or the lump is merely relocated.
-        som = {t for (s, t) in _CONNS if s == "CEl-SOM" and t.startswith("CEm")}
+        # THE DEFECT THE UN-LUMPING FIXED: one interneuron population delivering a BLANKET brake.
+        # ★ UPDATED after CEl-SOM->CEm-active was REMOVED on a citation (Fadok 2017: SOM+ suppresses flight by
+        # LOCAL inhibition within CeL, not by projecting to a CeM output population). The selector now reaches
+        # the output stage through ONE grounded arm -- PKC-delta+ gating CEm-freeze (Haubensak 2010) -- and the
+        # blanket-brake property is what still matters: that arm must gate ONE output, not all of them.
         pkc = {t for (s, t) in _CONNS if s == "CEl-PKCd" and t.startswith("CEm")}
-        self.assertTrue(som and pkc)
-        self.assertNotEqual(som, pkc, "both populations gate the same CEm target -- that is blanket, not routed")
-        self.assertEqual(som & pkc, set(), "a population gating BOTH outputs re-creates the blanket brake")
+        som = {t for (s, t) in _CONNS if s == "CEl-SOM" and t.startswith("CEm")}
+        self.assertEqual(pkc, {"CEm-freeze"}, "the grounded arm must gate the freeze output and only that")
+        self.assertEqual(som, set(), "SOM+ acts by LOCAL CeL inhibition; a CeM projection is refuted (Fadok 2017)")
 
     def test_the_differential_afferents_exist_and_are_excitatory(self):
         # the structural precondition for contextual selection: without DIFFERENTIAL drive the WTA has
@@ -136,11 +138,38 @@ class TestTheMicrocircuitIsWiredAsClaimed(unittest.TestCase):
         self.assertGreater(e.sign, 0.0)
         self.assertIn("CEm-freeze", {t for (s, t) in _CONNS if s == "CEl-PKCd"})
 
-    def test_the_two_output_populations_are_oppositely_gated(self):
-        # the whole point of the un-lumping: one activation can no longer drive both opposite-signed
-        # outputs, because the outputs are gated by populations that cannot both be active.
+    def test_the_grounded_gate_onto_the_freeze_output_is_inhibitory(self):
+        # the surviving, cited arm: PKC-delta+ inhibits the CeM freeze output (Haubensak 2010), so when SOM+
+        # wins the local competition PKC-delta+ is suppressed and the freeze output is RELEASED.
         self.assertLess(_CONNS[("CEl-PKCd", "CEm-freeze")].sign, 0.0)
-        self.assertLess(_CONNS[("CEl-SOM", "CEm-active")].sign, 0.0)
+
+
+class TestTheActiveArmHasNoSelectorGate(unittest.TestCase):
+    """★ HONEST NEGATIVE, structural -- surfaced by removing the refuted SOM+->CEm-active edge.
+
+    With that edge gone the selector reaches the output stage through ONE arm (PKC-delta+ -| CEm-freeze), so
+    the FREEZE output is selector-gated and the ACTIVE output is not gated at all: measured across a full
+    threat x affiliation sweep, CEm-active tracks threat (0.053 -> 0.272) and is COMPLETELY INSENSITIVE to
+    affiliation (0.053/0.053/0.054 at threat 0; 0.272/0.273/0.274 at threat 1.0) -- i.e. it follows its BA
+    drive regardless of which population wins.
+
+    WHY, and it is a real gap rather than a build error: the model conflates two literatures. Haubensak 2010's
+    axis is PKC-delta+ (CeL-off, gates CeM output) -- that is the arm we have and it is correctly grounded.
+    Fadok 2017's competing pair is CRF+ vs SOM+, and it is the CRF+ population that drives the ACTIVE/flight
+    response. THE MODEL HAS NO CRF+ CeL POPULATION, so there is no grounded population to gate the active arm.
+    Removing the inferred SOM+ edge did not create this gap -- it REVEALED it, by removing the uncited edge
+    that was standing in for the missing population.
+
+    CONSEQUENCE FOR THE S56 EXIT MEASUREMENT: freezing is a selector state; aggression currently is not.
+    RESOLUTION CONDITION: a grounded CRF+ CeL population (Fadok 2017), mutually inhibitory with SOM+, gating
+    the active output -- OR an explicit ruling that the active arm is tonic-by-design. Do NOT restore the
+    refuted SOM+ projection to close this."""
+
+    def test_the_active_output_is_currently_ungated_by_the_selector(self):
+        gates = {s for (s, t) in _CONNS if t == "CEm-active" and _CONNS[(s, t)].sign < 0
+                 and s.startswith("CEl-")}
+        self.assertEqual(gates, set(), "an unexpected selector gate appeared on the active arm -- if it is "
+                                       "the grounded CRF+ population, update this honest negative")
 
 
 class TestTheOutputStageIsStillFloored(unittest.TestCase):
