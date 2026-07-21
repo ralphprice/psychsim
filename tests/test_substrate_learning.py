@@ -67,6 +67,18 @@ class TestAnticipatoryValueEmerges(unittest.TestCase):
         _pair(ag)
         after = ag.anticipatory_value(_CUE)
         self.assertGreater(after, before)       # the cue alone now drives reward/value circuits
+        # ★ AGAINST ITS OWN CONTROL (added after this reported "unexpected success" on +0.0036). The claim is
+        # that the cue acquires value FROM DA-GATED PLASTICITY -- so beating zero is not the test; beating the
+        # NON-DA control is. A bare `after > before` made this an unreliable narrator: it went green while the
+        # effect was smaller than the cue-alone drift and sign-unstable across development (negative at ages
+        # 15 and 25). Same shape as the F4 label test passing on a 0.000158 margin.
+        un = SubstrateAgent(SubstrateEngine(_MODEL, age_years=4.0))
+        u0 = un.anticipatory_value(_CUE)
+        for _ in range(60):
+            un.experience(_CUE, ticks=12)       # the SAME exposure, no reinforcer -> no DA burst
+        self.assertGreater(after - before, un.anticipatory_value(_CUE) - u0,
+                           "the paired gain does not exceed its own unpaired control -- this is exposure "
+                           "drift, not DA-gated learning")
 
     def test_learning_requires_the_reinforcer_da_gating(self):
         # control: the SAME cue, repeatedly, with NO reinforcer -> no DA burst -> no learning.
