@@ -217,6 +217,12 @@ class SubstrateEngine:
                 self.mean_activity[cid] = 0.99 * self.mean_activity[cid] + 0.01 * new_a[cid]
 
         # 3) per-connection plasticity: R3-BCM -> eligibility -> R5-gate -> R6-eta
+        # PERF: the R5 teaching signal depends ONLY on (nmod, activation, mean_activity, gains), all of
+        # which are fixed for the whole plasticity loop (activation was replaced in step 1, mean_activity
+        # updated in step 2, both BEFORE this loop). So neuromod_teaching(nmod) is constant across the ~265
+        # connections that share a neuromodulator -- memoise it per step instead of recomputing per edge.
+        # Byte-identical by construction: same function, same inputs, cached; verified on a fixed seed.
+        _teach: Dict[str, float] = {}
         for j, k in enumerate(m.connections):
             if not self.live_conn[j] or self.pruned[j]:
                 continue
@@ -225,7 +231,10 @@ class SubstrateEngine:
             corr = P.bcm_term(a_pre, a_post, self.theta[k.target])
             self.eligibility[j] = P.decay_eligibility(self.eligibility[j], dt,
                                                       k.eligibility_tau_ms) + corr
-            mod = self.neuromod_teaching(k.gating_neuromodulator)  # R5: PHASIC teaching signal (deviation above baseline)
+            nmod = k.gating_neuromodulator
+            mod = _teach.get(nmod)
+            if mod is None:
+                mod = _teach[nmod] = self.neuromod_teaching(nmod)  # R5: PHASIC teaching signal (once per nmod/step)
             # S10.1: experience-decreasing plasticity. The nth relevant EXPERIENCE (episode, not
             # step -- committed once per settle()) of this connection carries ~1/n weight
             # (running average), so the developed weight naturally rigidifies -- no separate
