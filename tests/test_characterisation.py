@@ -210,6 +210,25 @@ def build_snapshot() -> dict:
         "environment": _environment_snapshot(),
     }
 
+REGEN -- POST READ-OUT RE-DERIVATION (gate-4 cycle), WITH PER-DELTA ATTRIBUTION (ruled: a note that lists
+causes is annotation; a note that maps each delta to its cause is verification). The diff was inspected
+BEFORE regenerating and every one of 49 changed fields traces to a named cause; NOTHING unattributable was
+baked in. ZERO classification labels flipped (verified FROM THE DIFF, not inferred from a green suite -- the
+Stage-3 lesson).
+  * 46 /develop fields -- defensive_threat RISES uniformly +0.009..0.019 across ALL 8 cells (warm AND harsh,
+    every temperament); the other domains fall slightly and margins shift. ATTRIBUTION: the UNIFORMITY across
+    environments is the signature of a DOMAIN-COUNT cause (Lump #13 added 4-5 circuits tagged
+    domain=defensive_threat: CEm-freeze/CEm-active/CEl-SOM/CEl-PKCd/CEl-CRF, and _domain_activity is the mean
+    over a domain's live circuits) rather than a developmental one; the AGE_WINDOW fix (f47d992 -- stages now
+    run at their correct ages instead of replaying 0->18 four times) drives the residual per-cell variation.
+  * /environment/attraction +0.0001, /group/belonging +0.0002 -- rounding-level shifts in the brain's
+    stimulus response, from the Lump #13 CONNECTOME change (added circuits slightly alter every response).
+  * NOT PRESENT, and that is itself a finding: the read-out re-derivation (observer _OBS_* sets +
+    DEFENSIVE_OUTPUT) and the harsh-mirror routes touch the golden NOT AT ALL -- the develop snapshot
+    classifies on domain tags (_domain_activity over _READOUT_DOMAINS), not the observer sets, and the
+    relations/group/environment snapshots use the matrices. So the biggest change of the cycle leaves this
+    baseline untouched.
+
 
 class TestCharacterisationBaseline(unittest.TestCase):
     def test_matches_committed_baseline(self):
