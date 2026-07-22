@@ -258,7 +258,17 @@ _ARENA_PERCEPTION: Dict[str, Dict[str, float]] = {   # SCAFFOLD strengths
     "play":         {"affiliation": 0.4, "play_signal": 0.5},
     "court":        {"affiliation": 0.6},
     "aggress":      {"thwarting": 0.7, "threat": 0.3},              # an attack: provocation + threat
-    "avoid":        {"separation": 0.4},                           # the other pulling away: contact-loss
+    # ROUTE 1 (harsh-mirror link 1, RULED): being AVOIDED is social rejection, and social rejection is the
+    # most-replicated aggression elicitor in the literature (Twenge 2001; Warburton 2006; childhood
+    # peer-rejection -> later aggression) -- it requires NO prior aggression, which is what breaks the
+    # bootstrap (previously only the "aggress" act carried provocation, so aggression was perceivable only
+    # once it existed). Being pulled away from therefore presents contact-loss AND provocation. This is
+    # PRESENT-not-assign (the F2 keystone): the rejection is presented; the perceiver's own selector decides
+    # whether to aggress, absorb, or withdraw. `thwarting` 0.3 is SCAFFOLD -- deliberately milder than an
+    # assault's 0.7 (rejection is an aversive social stimulus, not a physical attack) -- and NOT tuned to a
+    # wanted outcome: the emergent act is MEASURED, and a sub-threshold value is reported as a finding, not
+    # cranked. See the harsh-mirror link-1 register entry.
+    "avoid":        {"separation": 0.4, "thwarting": 0.3},          # being rejected: contact-loss + provocation
     "seek_comfort": {"vulnerable_other": 0.6, "separation": 0.2},   # a distressed other, a contact bid
     "restrain":     {"affiliation": 0.1},                          # present, holding back: faint co-presence
 }
@@ -337,13 +347,28 @@ def _add_consequence_percept(percept: Dict[str, float], perceiver: AffectiveAgen
     if eng is None:
         return
     rest = rest_activation(eng.model, eng.age_years, eng.throttle)
+    total_displayed = 0.0
     for effector, trigger in _DISTRESS_DISPLAY:
         if not eng.live_circuit.get(effector, False):
             continue
         # the effector's output above the bearer's FIXED rest -- the face/voice displaced from neutral
         displayed = (eng.activation.get(effector, 0.0) - rest.get(effector, 0.0)) * eng._gain(effector)
         if displayed > 0.0:
-            percept[trigger] = percept.get(trigger, 0.0) + min(1.0, displayed)
+            d = min(1.0, displayed)
+            percept[trigger] = percept.get(trigger, 0.0) + d
+            total_displayed += d
+    # ROUTE 2 (harsh-mirror link 1, RULED -- the Berkowitz route, and the LOAD-BEARING one). Route 1
+    # (avoid->provocation) measured as a no-op because the "avoid" ACT never occurs in the cohort exchange
+    # (the mix is locked to nurture/approach/restrain); only graded DISTRESS DISPLAY varies with harshness,
+    # so this is where provocation must enter. Berkowitz's reformulation: aversive events produce aggressive
+    # inclinations to the extent they produce NEGATIVE AFFECT -- another's displayed distress IS an aversive
+    # social stimulus. So the SAME display that presents vicarious distress (empathy, above) ALSO presents
+    # provocation. PRESENT-not-assign (F2 keystone): the aversive display is presented; the perceiver's own
+    # circuits value it, and its selector decides empathy (CARE) vs aggression -- nothing is written. The
+    # 0.5 scale is SCAFFOLD (a display is a milder provocation than a direct attack's 0.7) and is NOT tuned
+    # to a wanted outcome: the emergent act is MEASURED; sub-threshold or flooding are reported, not cranked.
+    if total_displayed > 0.0:
+        percept["thwarting"] = percept.get("thwarting", 0.0) + min(1.0, 0.5 * total_displayed)
 
 
 @dataclass
