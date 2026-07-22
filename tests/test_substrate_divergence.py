@@ -112,12 +112,36 @@ class TestRegimeBStability(unittest.TestCase):
 
 
 class TestDivergenceWellPosedAndNear_Zero(unittest.TestCase):
-    def test_interaction_is_stable_across_durations(self):
-        # now development settles, the interaction is well-posed: stable sign + magnitude
-        vals = interaction_across_durations(_MODEL, durations=(350, 500, 600))
-        signs = {v > 0 for v in vals.values()}
-        self.assertEqual(len(signs), 1, f"expected a stable sign (well-posed); got {vals}")
-        self.assertLess(max(vals.values()) - min(vals.values()), 0.05)
+    def test_interaction_has_collapsed_below_the_robust_effect_line(self):
+        # ★ RESTATED (was test_interaction_is_stable_across_durations), because the thing it asserted --
+        # a STABLE SIGN -- is no longer a meaningful property. The interaction has GROUND TO NOISE, and the
+        # sign of a ~0.001 quantity is arbitrary. Asserting sign-stability on a vanished effect is the same
+        # defect as pinning a coordinate on an effect that has moved: it asserts a property the measurement
+        # no longer has. So this now asserts what IS true and what the sentinel was always really about --
+        # the interaction magnitude sits BELOW the 0.05 robust-effect line (the never-moved S18 threshold).
+        #
+        # THE ARC, MEASURED BY ATTRIBUTION (worktree measurement at four boundary commits, 2026-07-21):
+        #   0.0755 -> 0.0534 -> 0.0335 -> 0.0585 -> 0.0401 (S56 Stage 1)  [the documented S18 arc]
+        #   -> ~0.003 by 8c146dc  [collapsed further across S56 Stages 2-3: CeA de-saturation + the OFC gate]
+        #   -> sign flips at 3896e69 (Lump #13)  [the anatomy nudged an already-noise-scale value across zero]
+        # ATTRIBUTION CORRECTION (the ruling's leading hypothesis was age_window; the measurement refutes it):
+        # the interaction is byte-IDENTICAL across the age_window fix (f47d992) -- because divergence.develop
+        # is self-contained and never used lifecourse's buggy path. The magnitude collapse is the S56
+        # cortical-gate grounding continuing the S18 deflation; Lump #13 only flipped the SIGN. So the S18 law
+        # HAS claimed its own sentinel -- an effect the model tracked across six grounding passes, ground to
+        # noise by grounding -- but by the cortical E-I completion, not the timing fix.
+        #
+        # THIS IS A LIVE SENTINEL, NOT A VACUOUS GUARD: if a future grounding change RESURRECTED the
+        # divergence above 0.05, this fires -- which is exactly the "surprise S18 says to stop for". It asserts
+        # the effect stays absent, and would catch its return.
+        #
+        # NAMING FIXED (audit finding): `durations` varies integration TICKS at a FIXED developmental span
+        # (DEVELOP_YEARS = 18.0), so this is integration-RESOLUTION robustness, not developmental duration.
+        # The old name and docstring claimed "across durations", which the code does not vary.
+        vals = interaction_across_durations(_MODEL, durations=(350, 500, 600))   # ticks, fixed 18.0-yr span
+        self.assertLess(max(abs(v) for v in vals.values()), 0.05,
+                        f"the divergence interaction is back above the robust-effect line: {vals} -- "
+                        "an effect the S18 arc ground to noise has re-emerged; STOP and diagnose")
 
     def test_divergence_does_not_robustly_emerge(self):
         # ★★ RESOLVED BY S56 STAGE 1 -- this xfail's OWN resolution condition, met as predicted. The cortical
