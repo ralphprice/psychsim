@@ -105,7 +105,14 @@ _OBS_THREAT = ("CEl", "vlPAG", "BA", "LA")          # fear / defensive (v14: vlP
 _OBS_REWARD = ("VTA", "NAc-core", "NAc-shell", "OFC")   # appetitive approach
 _OBS_CARE = ("PVN-OT", "MPOA", "SEPT")              # affiliation / care
 _OBS_EXEC = ("dlPFC", "dACC", "vlPFC", "preSMA")    # executive control
-_OBS_AGGRESS = ("CEl", "dPAG", "HYPdm")             # threat -> attack (v14: dPAG = active coping, VMHvl's column)
+# RE-DERIVED (audit, ruled -- an OUTPUT/attack construct must read the attack output, not the selector).
+# Was ("CEl", "dPAG", "HYPdm"): CEl is the CeL SELECTOR whose GABAergic CeM output SUPPRESSES the attack
+# effectors -- including it made the aggression measure ANTI-CORRELATED with its own signal -- and VMHvl,
+# which the seed itself calls the necessary-and-sufficient attack locus, was absent. Now reads the actual
+# active-defence/attack output: VMHvl (attack area) + CEm-active (the active-defence CeM population) +
+# dPAG (active-coping fight/flight motor) + HYPdm (autonomic defensive drive). This removal is on OUTPUT
+# grounds (CEl is not an attack output), independent of the held felt-set question.
+_OBS_AGGRESS = ("VMHvl", "CEm-active", "dPAG", "HYPdm")   # threat -> attack: the active-defence OUTPUT
 _OBS_EMPATHY = ("LA", "BA", "CEl", "aIns")          # affective empathy (felt distress)
 _OBS_VMPFC = ("vmPFC",)                             # ventromedial PFC (Blair conscience)
 _THREAT_CUE = {"IN-SOMATO:nociception": 0.8}
@@ -132,7 +139,11 @@ def profile_from_substrate(engine) -> BehaviourProfile:
     saved = {a: _copy.copy(getattr(engine, a)) for a in _FROZEN}
 
     def _mean(cids):
-        live = [engine.activity(c) * engine._gain(c)
+        # DOUBLE-GAIN REMOVED (audit, ruled): the temperament throttle already shaped DEVELOPMENT (it
+        # enters the dynamics via _gain during every step), so multiplying the developed activity by
+        # _gain AGAIN here counted the manipulation twice -- a construct score that collapsed by the
+        # gain factor from the seed alone. Read the developed activity; the throttle is already in it.
+        live = [engine.activity(c)
                 for c in cids if engine.live_circuit.get(c, False)]
         return sum(live) / len(live) if live else 0.0
 

@@ -22,7 +22,12 @@ from .model import load_substrate
 # (left intact). Circuit ids only -- anatomy, not meaning.
 AFFECTIVE_EMPATHY = ("LA", "BA", "CEl", "MeA", "aIns")
 COGNITIVE_MENTALIZING = ("rSMG-TPJ", "pSTS", "PCun-PCC", "ATL-TP")
-DEFENSIVE_OUTPUT = ("CEl", "vlPAG", "BA")   # v14 Phase A: PAG split -> vlPAG (conditioned freezing / passive coping)
+# RE-DERIVED (audit, ruled -- an OUTPUT set must read the output stage). Was ("CEl", "vlPAG", "BA"): CEl is
+# the CeL input SELECTOR and BA a relay -- post-Lump-#13 this "output" set contained NO live output
+# population. Now reads the actual defensive OUTPUT stage: the two differentiated CeM output populations
+# (CEm-freeze, CEm-active) + both PAG coping columns (vlPAG passive/freezing, dPAG active/fight-flight) +
+# HYPdm (autonomic defensive drive).
+DEFENSIVE_OUTPUT = ("CEm-freeze", "CEm-active", "vlPAG", "dPAG", "HYPdm")
 
 # neutral, described input patterns (S5.5: perturbation patterns, not stipulated valences)
 _CUE = {"IN-VIS": 0.6}
