@@ -92,6 +92,21 @@ class TestClockDrivesDevelopment(unittest.TestCase):
     """Advancing the clock ages the population through their lived days to
     classified outcomes -- the clock, day loop and development rule connected."""
 
+    # PERF: three of these tests each re-ran the SAME 160-agent x 25-year development (same seed=5
+    # universe, same seed=1 stepper) to assert three different things about the one result -- three of
+    # the most expensive tests in the suite computing an identical simulation. They now share ONE run
+    # in setUpClass. Behaviour-neutral: same seeds, same computation, read three ways. (The 3-step
+    # ageing test below builds its own fresh universe -- it reads state BEFORE running, so it cannot
+    # share the developed fixture.)
+    @classmethod
+    def setUpClass(cls):
+        from project import ProjectSpec, spawn_universe
+        from sophropathy import make_life_stepper
+        uni = spawn_universe(ProjectSpec(name="P", target_population=160, extensions=["sophropathy"],
+                                         fearless_frac=0.2, seed=5), place_residents=False)
+        cls._step = make_life_stepper(uni, seed=1)
+        cls._periods = TimeController(cls._step).run(TimeScale.YEAR, steps=25)   # a full childhood span
+
     def _universe(self):
         from project import ProjectSpec, spawn_universe
         return spawn_universe(ProjectSpec(name="P", target_population=160,
@@ -110,36 +125,36 @@ class TestClockDrivesDevelopment(unittest.TestCase):
         self.assertTrue(all(aged) and aged)              # every developing child aged
 
     def test_children_reach_classified_outcomes(self):
-        from sophropathy import make_life_stepper
-        uni = self._universe()
-        step = make_life_stepper(uni, seed=1)
-        tc = TimeController(step)
-        tc.run(TimeScale.YEAR, steps=25)                 # a full childhood span
-        outcomes = [d["outcome"] for d in step.dev.values() if d["done"]]
+        outcomes = [d["outcome"] for d in self._step.dev.values() if d["done"]]
         self.assertTrue(outcomes)                        # some grew up
         from substrate.readout import _READOUT_DOMAINS as valid
         self.assertTrue(all(o in valid for o in outcomes))   # emergent system readouts
 
+    @unittest.skip("retired verdict vocabulary; re-enable after the read-out re-derivation "
+                   "(maps outcome DOMAINS -> the sophropathy gradient this test asserts a direction on)")
     def test_outcome_tracks_home_climate(self):
-        # the environment must transmit: warmer homes -> more sophropathic
-        import statistics as st
-        from sophropathy import make_life_stepper
-        uni = self._universe()
-        step = make_life_stepper(uni, seed=1)
-        TimeController(step).run(TimeScale.YEAR, steps=25)
-        by = {}
-        for d in step.dev.values():
-            if d["done"]:
-                by.setdefault(d["outcome"], []).append(d["warmth"])
-        if "sophropathic" in by and "intermediate" in by:
-            self.assertGreater(st.mean(by["sophropathic"]), st.mean(by["intermediate"]))
+        # ★ SUSPENDED, NOT SILENTLY-GREEN (audit / perf sweep -- the 4th vacuous guard this session, and the
+        # most expensive: a full 25-year run that asserted NOTHING). The old body guarded
+        #     if "sophropathic" in by and "intermediate" in by: self.assertGreater(...)
+        # but `by` is keyed on d["outcome"], and outcomes are now _READOUT_DOMAINS members
+        # (reward_approach/affiliation/defensive_threat/social_cognition/executive). "sophropathic" and
+        # "intermediate" are the RETIRED verdict vocabulary and can NEVER be keys, so the guard never fired.
+        #
+        # I did NOT replace it with a proxy. Measured on this fixture: warmth by outcome is
+        # defensive_threat 0.674 (n=36) vs social_cognition 0.653 (n=8) -- a 0.021 spread on small,
+        # unequal n (noise-scale), and the direction does not obviously match the old "warmer -> more
+        # sophropathic (prosocial)" intent (here warmth weakly tracks defensive_threat). Asserting
+        # "max-min > 0" would pass on almost any two subsamples -- a second near-vacuous guard, which is the
+        # exact defect being removed. And asserting the DIRECTION requires a domain->sophropathy mapping that
+        # does not exist yet.
+        #
+        # RESOLUTION CONDITION: the RULED read-out re-derivation supplies the domain->sophropathy-gradient
+        # mapping. Re-enable then, asserting the real intent (warmer homes -> more of the sophropathic
+        # domain) against a null, on adequate n. Until then this stays visibly skipped, not falsely green.
+        self.fail("unreachable -- skipped")
 
     def test_outcomes_emit_as_milestones(self):
-        from sophropathy import make_life_stepper
-        uni = self._universe()
-        tc = TimeController(make_life_stepper(uni, seed=1))
-        periods = tc.run(TimeScale.YEAR, steps=25)
-        milestones = [e for p in periods for e in p.events if e.kind == "milestone"]
+        milestones = [e for p in self._periods for e in p.events if e.kind == "milestone"]
         self.assertTrue(any("reaches adulthood" in e.text for e in milestones))
 
 
