@@ -250,3 +250,15 @@ class TestCharacterisationBaseline(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+_REGEN_NOTE_TIMENORM = """
+REGEN -- TIME-NORMALISATION (plasticity accrues per developmental TIME, not per episode), WITH PER-DELTA
+ATTRIBUTION. The diff was inspected BEFORE regenerating: 48 /develop fields shifted, all SMALL (~0.001-0.006),
+and ZERO classification labels flipped (verified FROM THE DIFF). ATTRIBUTION -- ALL 48 trace to ONE cause: the
+time-normalised develop() path now scales the per-settle weight update by dt/EXP_PERIOD_YEARS. For the golden's
+config that factor is ~1 (hence the shifts are small), but not exactly 1, so every developed profile moves a
+little. Nothing else changed (no connectome, no read-out change). The shifts are the develop path being made
+episode-count-INDEPENDENT; at this config the magnitudes barely move (PERIOD was derived to preserve the ~64-ep
+behaviour), the payoff being N-invariance not a magnitude shift. The other snapshot sections (relations/group/
+environment) are UNCHANGED -- they do not use the time-normalised develop path.
+"""

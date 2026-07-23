@@ -1,0 +1,25 @@
+==============================================================================================
+FIRST END-TO-END PROTOTYPE STUDY -- graded developmental profiles (corrected instrument, gate-6 clean)
+==============================================================================================
+seed x env            | domain profile (sorted)                                   | label (margin)
+----------------------------------------------------------------------------------------------
+shared_root  warm env | soci=0.227  exec=0.225  rewa=0.201  defe=0.193  affi=0.154 | social_cogni m=0.0024 knife-edge
+shared_root  warm rel | soci=0.228  exec=0.224  rewa=0.197  defe=0.192  affi=0.159 | social_cogni m=0.0042 knife-edge
+shared_root  harsh env | soci=0.231  exec=0.229  rewa=0.202  defe=0.196  affi=0.142 | social_cogni m=0.0026 knife-edge
+shared_root  harsh rel | soci=0.229  exec=0.225  rewa=0.196  defe=0.194  affi=0.156 | social_cogni m=0.0045 knife-edge
+fearless     warm env | soci=0.227  exec=0.225  rewa=0.201  defe=0.193  affi=0.154 | social_cogni m=0.0024 knife-edge
+fearless     warm rel | soci=0.228  exec=0.224  rewa=0.197  defe=0.192  affi=0.159 | social_cogni m=0.0042 knife-edge
+fearless     harsh env | soci=0.231  exec=0.229  rewa=0.202  defe=0.196  affi=0.142 | social_cogni m=0.0026 knife-edge
+fearless     harsh rel | soci=0.229  exec=0.225  rewa=0.196  defe=0.194  affi=0.156 | social_cogni m=0.0045 knife-edge
+typical      warm env | defe=0.258  soci=0.222  exec=0.207  rewa=0.164  affi=0.149 | defensive_th m=0.0356 knife-edge
+typical      warm rel | defe=0.255  soci=0.222  exec=0.205  rewa=0.159  affi=0.159 | defensive_th m=0.0326 knife-edge
+typical      harsh env | defe=0.261  soci=0.229  exec=0.210  rewa=0.164  affi=0.136 | defensive_th m=0.0327 knife-edge
+typical      harsh rel | defe=0.256  soci=0.225  exec=0.205  affi=0.158  rewa=0.157 | defensive_th m=0.0312 knife-edge
+sophropathic warm env | exec=0.293  soci=0.207  rewa=0.188  defe=0.171  affi=0.140 | executive    m=0.0853 CONFIDENT
+sophropathic warm rel | exec=0.293  soci=0.208  rewa=0.185  defe=0.170  affi=0.145 | executive    m=0.0850 CONFIDENT
+sophropathic harsh env | exec=0.296  soci=0.211  rewa=0.190  defe=0.172  affi=0.131 | executive    m=0.0852 CONFIDENT
+sophropathic harsh rel | exec=0.293  soci=0.209  rewa=0.186  defe=0.170  affi=0.142 | executive    m=0.0839 CONFIDENT
+psychopathic warm env | soci=0.257  rewa=0.233  exec=0.218  defe=0.209  affi=0.083 | social_cogni m=0.0231 knife-edge
+psychopathic warm rel | soci=0.259  rewa=0.229  exec=0.218  defe=0.210  affi=0.084 | social_cogni m=0.0298 knife-edge
+psychopathic harsh env | soci=0.257  rewa=0.234  exec=0.219  defe=0.208  affi=0.082 | social_cogni m=0.0233 knife-edge
+psychopathic harsh rel | soci=0.259  rewa=0.229  exec=0.218  defe=0.210  affi=0.084 | social_cogni m=0.0301 knife-edge

@@ -2,90 +2,90 @@
   "develop": {
     "psychopathic|harsh_inconsistent": {
       "classification": "social_cognition",
-      "margin": 0.0187,
+      "margin": 0.0226,
       "profile": {
-        "affiliation": 0.0812,
-        "defensive_threat": 0.2069,
-        "executive": 0.2189,
-        "reward_approach": 0.2372,
-        "social_cognition": 0.2559
+        "affiliation": 0.0816,
+        "defensive_threat": 0.2085,
+        "executive": 0.2186,
+        "reward_approach": 0.2343,
+        "social_cognition": 0.2569
       }
     },
     "psychopathic|warm_firm": {
       "classification": "social_cognition",
-      "margin": 0.0209,
+      "margin": 0.0252,
       "profile": {
-        "affiliation": 0.082,
-        "defensive_threat": 0.2073,
-        "executive": 0.2188,
-        "reward_approach": 0.2355,
-        "social_cognition": 0.2564
+        "affiliation": 0.0825,
+        "defensive_threat": 0.209,
+        "executive": 0.2186,
+        "reward_approach": 0.2323,
+        "social_cognition": 0.2575
       }
     },
     "shared_root|harsh_inconsistent": {
       "classification": "social_cognition",
-      "margin": 0.0017,
+      "margin": 0.0027,
       "profile": {
-        "affiliation": 0.1392,
-        "defensive_threat": 0.1954,
-        "executive": 0.229,
-        "reward_approach": 0.2056,
-        "social_cognition": 0.2307
+        "affiliation": 0.1408,
+        "defensive_threat": 0.1964,
+        "executive": 0.2289,
+        "reward_approach": 0.2022,
+        "social_cognition": 0.2317
       }
     },
     "shared_root|warm_firm": {
       "classification": "social_cognition",
-      "margin": 0.0012,
+      "margin": 0.0021,
       "profile": {
-        "affiliation": 0.1545,
-        "defensive_threat": 0.1912,
-        "executive": 0.2243,
-        "reward_approach": 0.2045,
-        "social_cognition": 0.2255
+        "affiliation": 0.1577,
+        "defensive_threat": 0.1915,
+        "executive": 0.2237,
+        "reward_approach": 0.2013,
+        "social_cognition": 0.2258
       }
     },
     "sophropathic|harsh_inconsistent": {
       "classification": "executive",
-      "margin": 0.0856,
+      "margin": 0.0853,
       "profile": {
-        "affiliation": 0.1282,
-        "defensive_threat": 0.1711,
-        "executive": 0.2967,
-        "reward_approach": 0.1929,
-        "social_cognition": 0.2111
+        "affiliation": 0.1293,
+        "defensive_threat": 0.1724,
+        "executive": 0.2968,
+        "reward_approach": 0.1901,
+        "social_cognition": 0.2115
       }
     },
     "sophropathic|warm_firm": {
       "classification": "executive",
-      "margin": 0.085,
+      "margin": 0.0845,
       "profile": {
-        "affiliation": 0.1418,
-        "defensive_threat": 0.1689,
-        "executive": 0.2914,
-        "reward_approach": 0.1915,
-        "social_cognition": 0.2064
+        "affiliation": 0.1442,
+        "defensive_threat": 0.17,
+        "executive": 0.2906,
+        "reward_approach": 0.1889,
+        "social_cognition": 0.2062
       }
     },
     "typical_child|harsh_inconsistent": {
       "classification": "defensive_threat",
-      "margin": 0.0221,
+      "margin": 0.0247,
       "profile": {
-        "affiliation": 0.133,
-        "defensive_threat": 0.2569,
-        "executive": 0.2116,
-        "reward_approach": 0.1637,
-        "social_cognition": 0.2348
+        "affiliation": 0.1343,
+        "defensive_threat": 0.2587,
+        "executive": 0.2109,
+        "reward_approach": 0.1621,
+        "social_cognition": 0.234
       }
     },
     "typical_child|warm_firm": {
       "classification": "defensive_threat",
-      "margin": 0.0208,
+      "margin": 0.0229,
       "profile": {
-        "affiliation": 0.1515,
-        "defensive_threat": 0.2493,
-        "executive": 0.2079,
-        "reward_approach": 0.1629,
-        "social_cognition": 0.2285
+        "affiliation": 0.1574,
+        "defensive_threat": 0.2496,
+        "executive": 0.2061,
+        "reward_approach": 0.1602,
+        "social_cognition": 0.2267
       }
     }
   },
