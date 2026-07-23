@@ -20,6 +20,13 @@ DT_MS = 50.0                      # SCAFFOLD integration step (ms) for the Euler
 # separate stabiliser. This is a plasticity RATE, not an outcome; it composes with R6.
 EXP_PLASTICITY_FLOOR = 0.001      # SCAFFOLD adult floor (nonzero lifelong plasticity)
 EXP_COACTIVE_THRESHOLD = 0.15     # SCAFFOLD both endpoints above this = one 'relevant experience'
+# TIME-NORMALISATION (prototype after-item): a 'relevant experience' accrues per unit developmental TIME, not
+# per episode, so exp_count (-> S10.1 rigidification) no longer tracks an arbitrary harness episode count. This
+# is the years one relevant co-activation experience represents. SCAFFOLD, but TIME-referenced (grounded-able)
+# rather than episode-referenced (arbitrary); its value is set so the adult:developmental ratio lands inside the
+# literature <=0.5 band N-INDEPENDENTLY (= 18yr span / 64 ep, the config that already landed in band). The
+# specific value within the band is NOT pinned by the literature -- the band is the grounded constraint.
+EXP_PERIOD_YEARS = 0.28
 
 # qualitative newborn connection weights (seed `default_weight`) -> numeric. SCAFFOLD.
 WEIGHT_QUALITATIVE = {

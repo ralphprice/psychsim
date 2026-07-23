@@ -47,7 +47,10 @@ class SubstrateEngine:
         # competition, never a determinant of output. Not an outcome weight; what it produces is measured.
         self.reactivity: Dict[str, float] = {}
         self._silent: List[int] = [0] * len(m.connections)
-        self.exp_count: List[int] = [0] * len(m.connections)   # relevant experiences (S10.1)
+        self.exp_count: List[float] = [0.0] * len(m.connections)  # relevant experiences (S10.1); FLOAT since
+        #                                   time-normalisation accrues per developmental TIME, not per episode
+        self._settle_dt = None            # one-shot: developmental years the NEXT settle represents (None=legacy +=1)
+        self._time_scale = 1.0            # per-settle plasticity time-scale (dt/EXP_PERIOD_YEARS; 1.0 legacy)
         self._coactive_flag: List[bool] = [False] * len(m.connections)
         self.pruned: List[bool] = [False] * len(m.connections)
         self._step_i = 0
@@ -244,7 +247,7 @@ class SubstrateEngine:
             n = self.exp_count[j]
             exp_factor = max(params.EXP_PLASTICITY_FLOOR, 1.0 / n) if n > 0 else 1.0
             dw = P.consolidate(self.eligibility[j], mod,
-                               P.eta(k.schedule_ref, self.age_years)) * exp_factor   # R6 x 1/n
+                               P.eta(k.schedule_ref, self.age_years)) * exp_factor * self._time_scale  # R6 x 1/n x dt
             w = P.clamp_weight(self.weight[j] + dw, k.bounds[0], k.bounds[1])   # R8 clamp
             thr = max(self.throttle.get(k.source, 0.0), self.throttle.get(k.target, 0.0))
             if thr > 0.0:                                          # plasticity ceiling (S4.1)
@@ -286,12 +289,21 @@ class SubstrateEngine:
         """Run several ticks as ONE lived experience/episode: connections co-active during it
         accrue one 'relevant experience' (S10.1), so plasticity decreases per episode, not per
         integration step."""
+        # TIME-NORMALISATION: a developmental settle representing dt_years accrues dt/EXP_PERIOD_YEARS
+        # "relevant experiences" and scales its weight update by the same, so total developmental learning
+        # over a span is (aimed to be) independent of how many episodes the harness sampled it into. A probe
+        # or legacy settle (dt None) keeps the pre-existing +=1 per episode. One-shot: consumed here.
+        dt = self._settle_dt
+        self._settle_dt = None
+        self._time_scale = (dt / params.EXP_PERIOD_YEARS) if dt is not None else 1.0
+        inc = self._time_scale if dt is not None else 1.0
         self._coactive_flag = [False] * len(self.model.connections)
         for _ in range(ticks):
             self.step(dt_ms)
         for j, hot in enumerate(self._coactive_flag):
             if hot:
-                self.exp_count[j] += 1
+                self.exp_count[j] += inc
+        self._time_scale = 1.0
 
     # -- read-outs (measurement only) -------------------------------------
     def activity(self, circuit_id: str) -> float:

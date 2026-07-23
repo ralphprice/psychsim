@@ -213,6 +213,9 @@ def _moral_moment(agent: AffectiveAgent, env: Environment, rng: random.Random, i
     kind = CHILDHOOD_CYCLE[(cycle_offset + i) % len(CHILDHOOD_CYCLE)]
     appr = _colour_by_env(situation(kind, rng), env)
     age_years = frac * span
+    # TIME-NORMALISATION: tell the engine how many developmental YEARS this episode represents, so plasticity
+    # accrual tracks time rather than the (arbitrary) episode count. dt = the age step between episodes.
+    agent.engine._settle_dt = (a1 - a0) * span / max(1, n_episodes - 1)
     live_moment(agent, appr, age_years=age_years)
     return age_years
 
