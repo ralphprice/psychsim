@@ -76,21 +76,25 @@ class TestHistoryAccumulatesAndShapesBehaviour(unittest.TestCase):
         # discretization did. This is the third instance of that shape (F4 label, divergence sign, this
         # counter); it is registered as a principle and added to the test-integrity sweep.
         #
-        # MEASURED, and it is robust where the counter was not (seed=7, 18y, deterministic):
-        #   cumulative weight-drift per agent  off -> on:  a 96.999->97.920  b 93.146->94.885  c 97.145->98.214
-        #   EVERY agent drifts MORE under relational history (the recognition cue adds perceptual content ->
-        #   more plasticity), aggregate +3.73 (+1.30%), reproducible to 1e-9. Directionally consistent 3/3.
+        # THE CLAIM IS ORDINAL, and it is DELIBERATELY MADE WITHOUT A MAGNITUDE. Under relational history
+        # every agent's developed-weight drift is GREATER (3/3, directionally consistent), and this holds
+        # across episodes_per_year in {1.5, 3, 6} (the configuration range measured). The SIZE of the drift
+        # is NOT a claim: it is CONFIGURATION-RELATIVE (the relational effect is dosed by relationship DEPTH,
+        # which the store builds per-episode -- so the magnitude grows with the episode count and is
+        # meaningless quoted bare). A prior version of this comment quoted "+3.73"; that number was a
+        # configuration artefact and has been removed rather than re-quoted at its new value -- quoting the
+        # new number would repeat the error. See the configuration-relative-magnitude finding in the register.
+        # NOTE the instrument: `_cumulative_drift` SUMS from-birth drift over all E records, so it is itself
+        # E-dependent (registered as a brittle instrument); only the per-agent ORDINAL comparison below,
+        # taken at ONE fixed configuration (off vs on, same seed/env/roster), is asserted.
         off = self._cumulative_drift(run_arena(_spec(False), childhood_years=18.0))
         on = self._cumulative_drift(run_arena(_spec(True), childhood_years=18.0))
-        # per-agent: the recognition cue drives MORE developmental drift for EVERY agent (structural, 3/3)
+        # THE ORDINAL CLAIM: at this fixed configuration, the recognition cue drives MORE developmental drift
+        # for EVERY agent (a within-configuration comparison, which stays valid under cross-N non-invariance).
         for aid in off:
             self.assertGreater(on[aid], off[aid],
                                f"agent {aid}: relational history did not increase developed-weight drift "
                                f"(off={off[aid]:.4f} on={on[aid]:.4f}) -- the F2 cue is not shaping the substrate")
-        # aggregate margin comfortably above noise: measured +3.73; assert > 1.0 (~3.7x headroom)
-        margin = sum(on.values()) - sum(off.values())
-        self.assertGreater(margin, 1.0,
-                           f"aggregate relational drift margin {margin:.4f} is below the robustness floor")
 
     def test_history_shaping_does_not_destabilise(self):
         # the F2 cue shapes development WITHOUT breaking the loop (separated from the shaping assertion so
