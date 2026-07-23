@@ -29,10 +29,13 @@ class CohortResult:
     contacts: List[int] = field(default_factory=list)
 
     def shares(self) -> Dict[str, float]:
+        # ★ FIXED: was counting against the RETIRED verdict vocabulary ("sophropathic"/"intermediate"/
+        # "psychopathic") -- impossible keys, since classify() returns _READOUT_DOMAINS. Every share read
+        # 0.0%, a structural zero printed as a result. Now counts against the ACTUAL emergent domain labels.
+        from substrate.readout import _READOUT_DOMAINS
         n = max(1, len(self.outcomes))
         labels = [o.classification for o in self.outcomes]
-        return {k: labels.count(k) / n
-                for k in ("sophropathic", "intermediate", "psychopathic")}
+        return {k: labels.count(k) / n for k in _READOUT_DOMAINS}
 
 
 def _grow(seed_fn: Callable[[], TraitSeed], base_env: Environment,
@@ -81,9 +84,9 @@ def report(off: CohortResult, on: CohortResult) -> str:
         "",
         f"  {'outcome':<15}{'justice OFF':>12}{'justice ON':>12}{'delta':>9}",
     ]
-    for k in ("sophropathic", "intermediate", "psychopathic"):
-        lines.append(f"  {k:<15}{so[k]:>11.1%}{sn[k]:>12.1%}"
-                     f"{sn[k]-so[k]:>+9.1%}")
+    for k in sorted(set(so) | set(sn)):
+        lines.append(f"  {k:<18}{so.get(k,0):>11.1%}{sn.get(k,0):>12.1%}"
+                     f"{sn.get(k,0)-so.get(k,0):>+9.1%}")
     mean_contacts = sum(on.contacts) / max(1, len(on.contacts))
     labelled = sum(1 for c in on.contacts if c > 0) / max(1, len(on.contacts))
     lines += [

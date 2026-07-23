@@ -98,12 +98,21 @@ class TestComparison(unittest.TestCase):
         self.assertGreater(on.shares()["psychopathic"], 0.5)
 
     def test_default_parameters_do_not_manufacture_out_of_thin_air(self):
-        """With default (late-biting) parameters and a base env clear of the
-        boundary, the mechanism should NOT flip children -- guarding against a
-        module that fabricates effects."""
+        """With default (late-biting) parameters and a base env clear of the boundary, the mechanism should
+        NOT shift children -- guarding against a module that fabricates effects.
+
+        ★ RESTATED (prototype item 3a): the old body asserted on.shares()["psychopathic"] == 0.0 -- a
+        VACUOUS guard on a RETIRED verdict key that classify() never emits (it returns _READOUT_DOMAINS),
+        so it was trivially true and printed a structural zero as a result (the audit finding). Restated on
+        the REAL emergent vocabulary and the intent it was always for: default (inert) justice leaves the
+        outcome DISTRIBUTION essentially unchanged -- no domain's share moves appreciably between off and on."""
         base = Environment("clearly-intermediate", 0.45, 0.47, 0.43)
         off, on = run_comparison(n_children=30, base_env=base)
-        self.assertEqual(on.shares()["psychopathic"], 0.0)
+        so, sn = off.shares(), on.shares()
+        max_shift = max(abs(sn.get(k, 0) - so.get(k, 0)) for k in set(so) | set(sn))
+        self.assertLess(max_shift, 0.20,                     # default justice does not manufacture a shift
+                        f"default (inert) justice shifted the outcome distribution by {max_shift:.1%} "
+                        "-- it should not manufacture an effect out of thin air")
 
 
 if __name__ == "__main__":

@@ -117,6 +117,11 @@ def boundary_cells(pm: PhaseMap) -> List[Tuple[int, int]]:
 # Bisection edge-finder
 # ---------------------------------------------------------------------------
 
+# The minimum continuous-score change across a boundary for it to be a REAL bifurcation rather than a
+# knife-edge argmax crossing (the discretization principle). SCAFFOLD -- a noise floor, not a tuned value.
+_BIFURCATION_MIN_SCORE_GAP = 0.02
+
+
 def bisect_edge(base: Config, param: str, lo: float, hi: float,
                 tol: float = 1e-3, max_iter: int = 40) -> Optional[Dict[str, object]]:
     """Between param=lo and param=hi, if the classification differs, bisect to
@@ -136,6 +141,14 @@ def bisect_edge(base: Config, param: str, lo: float, hi: float,
             a = mid
         else:
             b = mid
+    # ★ THE BOUNDARY MUST BE A REAL REGIME CHANGE, NOT A KNIFE-EDGE ARGMAX CROSSING. Bisecting on the
+    # bare classification label converges to precision `tol`=1e-3 even when the profile's top-two gap is
+    # ~1.6e-4 -- a precise-looking boundary over noise (the standing discretization principle). So report
+    # the CONTINUOUS score (profile_axis: appetitive - aversive) either side, its gap, and a `confident`
+    # flag: a label flip whose underlying score barely moves is a coin-flip crossing, not a bifurcation.
+    rb, ra = run_config(base.with_(**{param: a})), run_config(base.with_(**{param: b}))
+    score_gap = abs(ra.score - rb.score)
     return {"param": param, "boundary": (a + b) / 2, "tol": b - a,
-            "below": (a, run_config(base.with_(**{param: a})).classification),
-            "above": (b, run_config(base.with_(**{param: b})).classification)}
+            "below": (a, rb.classification), "above": (b, ra.classification),
+            "score_below": rb.score, "score_above": ra.score, "score_gap": score_gap,
+            "confident": score_gap > _BIFURCATION_MIN_SCORE_GAP}
