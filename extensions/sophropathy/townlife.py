@@ -324,6 +324,7 @@ def simulate_townlife(universe, days: int = 1, tick_minutes: int = 30, seed: int
 
     frames = []
     ticks_per_day = int(24 * 60 / tick_minutes)
+    _tick_years = tick_minutes / (60.0 * 24.0 * 365.25)   # one tick, in developmental years (time-normalisation)
     day_names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     for day in range(days):
         is_weekend = (day % 7) >= 5
@@ -369,8 +370,11 @@ def simulate_townlife(universe, days: int = 1, tick_minutes: int = 30, seed: int
                         grp = groups[hash(cell) % len(groups)]
                         mem = gmats[cid].membership(grp.id, grp.kind)
                         before = mem.standing + mem.belonging
-                        r = group_encounter(person.mind, grp, mem,
-                                            sample_encounter_type(rng), age_years=20)
+                        # TIME-NORMALISATION: this encounter spans one tick (tick_minutes) of adult life, so its
+                        # plasticity accrues on developmental time, not +=1 per tick -- one clock across all loops.
+                        with person.mind.engine.developmental_dt(_tick_years):
+                            r = group_encounter(person.mind, grp, mem,
+                                                sample_encounter_type(rng), age_years=20)
                         after = mem.standing + mem.belonging
                         # remember the encounter: who they were with, where, and how
                         # it went (emergent valence) -- so the inspector can show it

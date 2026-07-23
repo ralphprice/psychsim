@@ -26,6 +26,8 @@ from .person import Person
 from .interior import Venue, Area, Affordance
 from .norms import category_of, assess, observer_reaction, Norm
 
+_HOUR_YEARS = 1.0 / (365.25 * 24.0)   # one lived hour, in developmental years (time-normalisation)
+
 
 # ---------------------------------------------------------------------------
 # Routines -- a rule-based timetable (the class; studies supply the content)
@@ -125,7 +127,11 @@ def _resolve_activity(inhab: Inhabitant, block: Block, venue: Venue,
         aff = None                              # the named action is not available here/now
     appr = aff.to_appraisal() if aff is not None else Appraisal(label=block.activity or "idle")
 
-    _resp = agent.social_act(appr)              # the substrate's emergent act
+    # TIME-NORMALISATION: one lived hour of daily life spans one hour of developmental time, so its plasticity
+    # accrues on the same clock as childhood development rather than +=1 per hour -- adult daily accrual is thus
+    # correctly tiny (~1.1e-4 yr) and a life that chains develop() into daily life stays on ONE clock.
+    with agent.engine.developmental_dt(_HOUR_YEARS):
+        _resp = agent.social_act(appr)          # the substrate's emergent act
     behaviour = _resp.behaviour                 # the emergent action, not a category
     val = _valence(appr)
     agent.memory.add(appr.label, appr, behaviour, val, _importance(appr))

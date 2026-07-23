@@ -444,8 +444,10 @@ def _build_agent(slot: Slot, rng: random.Random, present: tuple) -> AffectiveAge
     if slot.source == "grown":
         ctx = _new_ctx(present)
         n = max(6, int(round(slot.grow_years * 3.0)))
+        dt_step = slot.grow_years / n                 # TIME-NORMALISATION: each solo aging-step spans grow_years/n
         for i in range(n):
-            _solo_episode(ag, slot.grow_years * i / n, rng, ctx)   # age it forward via its own stream
+            with ag.engine.developmental_dt(dt_step):
+                _solo_episode(ag, slot.grow_years * i / n, rng, ctx)   # age it forward via its own stream
     return ag
 
 
@@ -486,6 +488,10 @@ def run_arena(spec: ArenaSpec, *, childhood_years: float = 18.0,
     shared_frac = max(0.0, min(1.0, spec.shared_hours / 24.0 + confine))
 
     E = max(len(ids) + 2, int(round(childhood_years * episodes_per_year)))
+    dt_episode = childhood_years / E              # TIME-NORMALISATION: real developmental years ONE arena
+    #     episode-slice represents. Applied to EVERY settle in the slice (a solo episode fires three --
+    #     activity/thing/group -- as concurrent facets, each carrying dt_episode), so accrual tracks the
+    #     18-yr childhood, not the episode count E. Makes drift episode-count-independent (F3 re-measured).
     trace = ArenaTrace(spec)
     for i in range(E):
         age = childhood_years * i / E
@@ -493,18 +499,19 @@ def run_arena(spec: ArenaSpec, *, childhood_years: float = 18.0,
         for iid in ids:
             ag = agents[iid]
             others = [o for o in ids if o != iid]
-            if others and rng.random() < shared_frac:
-                other = rng.choice(others)
-                if spec.relational:
-                    # directed: how iid regards other (read + written); F1/F2/F3
-                    rel = rels.setdefault((iid, other), Relationship())
-                    b = _social_episode(ag, agents[other], last_act[other], rel, age, relational=True)
+            with ag.engine.developmental_dt(dt_episode):
+                if others and rng.random() < shared_frac:
+                    other = rng.choice(others)
+                    if spec.relational:
+                        # directed: how iid regards other (read + written); F1/F2/F3
+                        rel = rels.setdefault((iid, other), Relationship())
+                        b = _social_episode(ag, agents[other], last_act[other], rel, age, relational=True)
+                    else:
+                        tie = ties.setdefault(_pair(iid, other), _Tie())
+                        b = _social_episode(ag, agents[other], last_act[other], tie, age)
+                    last_act[iid] = b                   # the perceivable social act toward the roster
                 else:
-                    tie = ties.setdefault(_pair(iid, other), _Tie())
-                    b = _social_episode(ag, agents[other], last_act[other], tie, age)
-                last_act[iid] = b                       # the perceivable social act toward the roster
-            else:
-                b = _solo_episode(ag, age, rng, ctxs[iid])   # own stream; not perceivable as a social bid
+                    b = _solo_episode(ag, age, rng, ctxs[iid])   # own stream; not perceivable as a social bid
             acts[iid] = b
             max_act[iid] = max(ag.engine.activation.values()) if ag.engine.activation else 0.0
             drift[iid] = _drift(ag.engine.weight, births[iid])

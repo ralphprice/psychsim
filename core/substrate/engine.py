@@ -13,6 +13,7 @@ engine or the live sim yet (that unification is 8b). Acceptance here is mechanis
 """
 
 from __future__ import annotations
+from contextlib import contextmanager
 from typing import Dict, List, Optional
 
 from . import params
@@ -50,6 +51,13 @@ class SubstrateEngine:
         self.exp_count: List[float] = [0.0] * len(m.connections)  # relevant experiences (S10.1); FLOAT since
         #                                   time-normalisation accrues per developmental TIME, not per episode
         self._settle_dt = None            # one-shot: developmental years the NEXT settle represents (None=legacy +=1)
+        self._dt_years = None             # PERSISTENT (scoped): developmental years EACH settle in a lived slice
+        #                                   represents. A lived moment can fire several settles (e.g. an arena
+        #                                   solo episode = activity+thing+group, three settles); they are CONCURRENT
+        #                                   facets of one developmental slice, so each carries the slice's dt (the
+        #                                   ruled "adds, never replaces" -- a richer moment accrues more time-weight,
+        #                                   not a divided one). Set via developmental_dt(); the one-shot _settle_dt
+        #                                   still wins where set (develop()'s moral-moment path, byte-unchanged).
         self._time_scale = 1.0            # per-settle plasticity time-scale (dt/EXP_PERIOD_YEARS; 1.0 legacy)
         self._coactive_flag: List[bool] = [False] * len(m.connections)
         self.pruned: List[bool] = [False] * len(m.connections)
@@ -293,7 +301,7 @@ class SubstrateEngine:
         # "relevant experiences" and scales its weight update by the same, so total developmental learning
         # over a span is (aimed to be) independent of how many episodes the harness sampled it into. A probe
         # or legacy settle (dt None) keeps the pre-existing +=1 per episode. One-shot: consumed here.
-        dt = self._settle_dt
+        dt = self._settle_dt if self._settle_dt is not None else self._dt_years
         self._settle_dt = None
         self._time_scale = (dt / params.EXP_PERIOD_YEARS) if dt is not None else 1.0
         inc = self._time_scale if dt is not None else 1.0
@@ -304,6 +312,22 @@ class SubstrateEngine:
             if hot:
                 self.exp_count[j] += inc
         self._time_scale = 1.0
+
+    @contextmanager
+    def developmental_dt(self, dt_years):
+        """Scope a lived slice so EVERY settle inside it accrues on developmental TIME, not per episode:
+        each such settle behaves as if `_settle_dt=dt_years` were set (dt/EXP_PERIOD_YEARS time-weight).
+        Used by the life-loops whose lived moment fires more than one settle (arena solo episode; the
+        relational exchange; daily/townlife ticks) where the one-shot `_settle_dt` would cover only the
+        first. `dt_years` is the REAL wall-clock span the slice represents (a childhood arena episode
+        ~0.33 yr, an adult daily hour ~1.1e-4 yr) -- so accrual is episode-count-independent everywhere.
+        Restores the prior value on exit, so a probe/read-out settle after the slice stays legacy."""
+        prev = self._dt_years
+        self._dt_years = dt_years
+        try:
+            yield
+        finally:
+            self._dt_years = prev
 
     # -- read-outs (measurement only) -------------------------------------
     def activity(self, circuit_id: str) -> float:

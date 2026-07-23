@@ -139,8 +139,19 @@ class _RelationalChildhood:
             member = self.cohort[cid]
             rel_s = self.rels.setdefault(("subject", cid), self._Relationship())   # subject's history of member
             rel_m = self.rels.setdefault((cid, "subject"), self._Relationship())   # member's history of subject
-            s_act = self._social_episode(subject, member, self.member_last[cid], rel_s, age_years, relational=True)
-            m_act = self._social_episode(member, subject, self.subject_last[cid], rel_m, age_years, relational=True)
+            # TIME-NORMALISATION -- mapping (B), RULED: the relational episode is a SECOND channel of experience
+            # within the SAME developmental slice as the moral moment it accompanies (concurrent, at the same age),
+            # so it inherits that moment's dt -- NOT the legacy +=1 that put it on a different clock than the moral
+            # content it develops alongside. dt is derived from the moral age-window ALONE (identical across the
+            # relational=on/off arms), so this does NOT perturb the byte-identical moral stream; it only puts both
+            # channels of a single life on one clock. The subject develops in the first call, the member in the
+            # second, so each carries the slice dt on its own engine.
+            a0, a1 = getattr(self, "_window", (0.0, 1.0))
+            dt_moral = (a1 - a0) * 18.0 / max(1, self._n - 1)
+            with subject.engine.developmental_dt(dt_moral):
+                s_act = self._social_episode(subject, member, self.member_last[cid], rel_s, age_years, relational=True)
+            with member.engine.developmental_dt(dt_moral):
+                m_act = self._social_episode(member, subject, self.subject_last[cid], rel_m, age_years, relational=True)
             self.member_last[cid] = m_act
             self.subject_last[cid] = s_act
 

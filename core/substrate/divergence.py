@@ -97,15 +97,20 @@ def develop(engine: SubstrateEngine, environment: Dict[str, float],
     meaning-blind) and updates the self-relation by the same RPE as observing anyone else. The
     self channel is purely a READ-OUT of the substrate here -- it does not feed back into the
     dynamics -- so the executive trajectory is byte-identical with or without it."""
-    for i in range(ticks):
-        engine.set_age(0.2 + years * i / ticks)
-        engine.clear_inputs()
-        for k, v in environment.items():
-            engine.inject_channel(k, v)
-        engine.settle(3)
-        if reflection is not None:
-            r, attach, threat = _self_signals(engine)
-            reflection.reflect(r, attachment_pull=attach, threat_pull=threat)
+    # TIME-NORMALISATION: each tick spans years/ticks developmental years, so the harsh-mirror 2x2 accrues
+    # on developmental TIME rather than the tick count -- making the interaction tick-count-independent (the
+    # divergence sentinel is measured across durations 350/500/600; this removes the sampling from its scale).
+    # Scoped to the loop only, so the post-development executive/self-regard PROBES stay legacy read-outs.
+    with engine.developmental_dt(years / ticks):
+        for i in range(ticks):
+            engine.set_age(0.2 + years * i / ticks)
+            engine.clear_inputs()
+            for k, v in environment.items():
+                engine.inject_channel(k, v)
+            engine.settle(3)
+            if reflection is not None:
+                r, attach, threat = _self_signals(engine)
+                reflection.reflect(r, attachment_pull=attach, threat_pull=threat)
     engine.set_age(25.0)
     return reflection
 
