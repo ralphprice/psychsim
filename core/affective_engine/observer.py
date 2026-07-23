@@ -52,14 +52,18 @@ def triarchic(bp: BehaviourProfile) -> Dict[str, float]:
     return {"boldness": boldness, "meanness": meanness, "disinhibition": disinhibition}
 
 
-def callous_unemotional(bp: BehaviourProfile) -> float:
-    """Callous-unemotional traits (Frick): blunted empathy + weak affective conscience."""
-    return clamp(0.5 * (1.0 - bp.vicarious_response) + 0.5 * (1.0 - bp.moral_orientation))
-
-
 def empathy(bp: BehaviourProfile) -> float:
-    """Empathic concern: vicarious response to distress + care-based moral orientation."""
+    """Empathic concern: vicarious response to distress + care-based moral orientation. THE PRIMARY
+    construct of this complementary pair (ruled: report ONE, derive the other as its labelled complement)."""
     return clamp(0.5 * bp.vicarious_response + 0.5 * bp.moral_orientation)
+
+
+def callous_unemotional(bp: BehaviourProfile) -> float:
+    """Callous-unemotional traits (Frick): blunted empathy + weak affective conscience. ★ CU IS THE EXACT
+    COMPLEMENT OF empathy -- CU = 0.5(1-v)+0.5(1-m) = 1 - (0.5v+0.5m) = 1 - empathy -- i.e. the SAME variable,
+    not an independent construct (audit finding). Written as the explicit complement so the identity is
+    transparent in code and a figure reporting both cannot present one variable as two."""
+    return clamp(1.0 - empathy(bp))
 
 
 def aggression_profile(bp: BehaviourProfile) -> Dict[str, float]:
@@ -121,6 +125,13 @@ _DISTRESS_CUE = {"IN-VIS:biological_motion": 0.8, "IN-AUD:voice": 0.7, "IN-VIS:f
 _WARMTH_CUE = {"IN-SOMATO:affective_touch": 0.8, "IN-INTERO:thermal_warmth": 0.6}
 
 
+def _punishment_sensitivity(engine) -> float:
+    """The yoked-control learned aversion, on an isolated copy (never conditions the real engine)."""
+    import copy as _c
+    from substrate.study import punishment_learning
+    return clamp(punishment_learning(_c.deepcopy(engine)))
+
+
 def profile_from_substrate(engine) -> BehaviourProfile:
     """Build a BehaviourProfile from the developed SUBSTRATE engine's EMERGENT activity (Part 6
     substrate-social phase). This is the circuit-engine adapter that supersedes profile_from_legacy.
@@ -173,7 +184,16 @@ def profile_from_substrate(engine) -> BehaviourProfile:
         moral_orientation=moral, reactive_aggression=reactive,
         instrumental_aggression=0.0,           # cold/calculated exploitation: not grounded in v8
         vicarious_response=vicarious,
-        punishment_sensitivity=clamp(0.3 + 0.7 * fear),   # low-fear -> reward-dominant
+        # ★ punishment_sensitivity -- the REAL yoked-control probe (ruled), replacing the BANNED hardcode
+        # `clamp(0.3 + 0.7*fear)` (a direct trait->outcome mapping, and it was standing as the headline
+        # learning result). study.punishment_learning is the CS-specific learned aversion measured as a
+        # yoked-control DIFFERENCE (paired minus unpaired) -- confound-cancelled and, being a DIFFERENTIAL,
+        # robust to the R8 common-mode normalisation (the R8 finding). Run on a deep copy so the frozen
+        # engine is never conditioned. NOTE: the absolute magnitude is SMALL (~0.03-0.05, the honest
+        # differential value on this substrate) with a ~2x relative discrimination across reactivity; whether
+        # the [0,1] construct wants a grounded reference SCALE is a reward/value-characterisation question,
+        # registered -- the raw differential is wired here rather than a tuned scale.
+        punishment_sensitivity=_punishment_sensitivity(engine),
     )
 
 
