@@ -210,6 +210,7 @@ def build_snapshot() -> dict:
         "environment": _environment_snapshot(),
     }
 
+_REGEN_NOTE_GATE4 = """
 REGEN -- POST READ-OUT RE-DERIVATION (gate-4 cycle), WITH PER-DELTA ATTRIBUTION (ruled: a note that lists
 causes is annotation; a note that maps each delta to its cause is verification). The diff was inspected
 BEFORE regenerating and every one of 49 changed fields traces to a named cause; NOTHING unattributable was
@@ -228,6 +229,7 @@ Stage-3 lesson).
     classifies on domain tags (_domain_activity over _READOUT_DOMAINS), not the observer sets, and the
     relations/group/environment snapshots use the matrices. So the biggest change of the cycle leaves this
     baseline untouched.
+"""
 
 
 class TestCharacterisationBaseline(unittest.TestCase):
