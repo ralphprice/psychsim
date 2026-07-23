@@ -67,6 +67,12 @@ class LifeResult:
     # Carrying it means a label difference can be asked "is this real?" instead of being taken on trust.
     margin: float = 0.0                                    # normalised gap dominant - runner_up
     runner_up: str = ""                                    # the domain it beat
+    profile: Dict[str, float] = field(default_factory=dict)  # ★ THE GRADED PROFILE -- the full per-domain
+    # activation the argmax discretizes. Carried so study consumers can read the CONTINUOUS quantity (the
+    # standing principle: study-layer results go on the graded quantity, never on a discretization of it).
+    # The bare label EXAGGERATED one finding (the psychopathic flip), HID another (F4 +0.0088), broke a
+    # test, and killed a fourth (Buckholtz) on the corrected instrument -- all argmax artifacts. A consumer
+    # that reads `profile` + `margin` can distinguish a real graded shift from a coin-flip label.
 
 
 class _RelationalChildhood:
@@ -185,4 +191,5 @@ def run_life(seed: TraitSeed, spec: LifeCourseSpec,
         stage_trace=stage_trace,
         margin=o.margin,
         runner_up=o.runner_up,
+        profile=dict(o.profile),
     )

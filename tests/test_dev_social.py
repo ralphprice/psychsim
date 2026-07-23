@@ -148,6 +148,22 @@ class TestF4RelationalLifecourse(unittest.TestCase):
         return LifeCourseSpec("t", [StageEnv("home", 0.6, 0.6, 0.6, 32),
                                     StageEnv("school", 0.5, 0.7, 0.5, 32)])
 
+    def test_life_result_carries_the_graded_profile_not_just_the_label(self):
+        # ★ THE PROTOTYPE-BLOCKER GUARD: the study output must carry the CONTINUOUS profile + margin, not only
+        # the bare argmax label. The label alone destroyed one finding (Buckholtz), hid another (F4 +0.0088),
+        # exaggerated a third and broke a test -- all argmax artifacts over a knife-edge profile. A consumer
+        # that reads `profile` + `margin` can tell a real graded shift from a coin-flip label.
+        from sim_experiment.lifecourse import run_life
+        from affective_engine import shared_root_seed
+        r = run_life(shared_root_seed(), self._spec(), situation_seed=3102)
+        self.assertTrue(r.profile, "LifeResult must carry the graded profile, not just the label")
+        self.assertAlmostEqual(sum(r.profile.values()), 1.0, places=3)   # a normalised profile
+        self.assertIn(r.classification, r.profile)                       # the label is the profile's argmax
+        self.assertEqual(r.classification, max(r.profile, key=r.profile.get))
+        # margin is the real dominant-runnerup gap, readable so a near-tie is visible as one
+        top = sorted(r.profile.values(), reverse=True)
+        self.assertAlmostEqual(r.margin, top[0] - top[1], places=5)
+
     def test_baseline_life_is_reproducible_and_default_off(self):
         from sim_experiment.lifecourse import run_life
         from affective_engine import shared_root_seed
