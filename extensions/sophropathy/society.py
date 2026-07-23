@@ -92,18 +92,31 @@ PARENT_SEEDS = {
 # ---------------------------------------------------------------------------
 
 def parent_to_environment(parent: TraitSeed, name: Optional[str] = None) -> Environment:
-    """Derive the caregiving environment a parent provides from their capacity
-    for warmth (CARE) and conscience-linked self-command (CONTROL).
+    """Derive the caregiving environment a parent provides from their capacity for warmth (CARE) and
+    conscience-linked self-command (CONTROL).
 
-    warmth      grows with the parent's CARE gain
-    structure   grows with the parent's CONTROL gain (consistent, firm limits)
-    recognition grows with both (attuned, deliberate engagement with the child)
+    ★★ CLAIM WITHDRAWN -- SCAFFOLD, NOT A GROUNDED MECHANISM (prototype item 2b). This is a hand-authored
+    trait->environment mapping and it carries THREE banned patterns the honesty wall forbids:
+      1. THREE invented coefficients (1.3, 0.4, 0.6) map disposition straight to warmth/structure/recognition
+         -- scalars chosen, not grounded.
+      2. THE PARENT IS NEVER AN AGENT. A grounded transmission would instantiate the parent, let it DEVELOP
+         from its own temperament and rearing, and let its EMERGENT caregiving BEHAVIOUR create the child's
+         environment (wire what the agent perceives; behaviour emerges). Here disposition -> environment is a
+         direct formula with no agent, no development, no behaviour.
+      3. PARENT_SEEDS feeds psychopathic_seed / sophropathic_seed -- documented DEVELOPED END-STATES (outcome
+         categories, core.py) -- in as a CAUSAL INPUT: the outcome-category-as-primitive violation.
+    CONSEQUENCE: the Stage-6/7 intergenerational-TRANSMISSION CLAIM ("dispositional parents transmit outcome
+    via the environment they create") is NOT a grounded emergent result and is WITHDRAWN. The stages still RUN
+    as a scaffold demonstration, clearly marked; no thesis claim rests on them until grounded.
+    GROUNDING PATH (registered, a future pass, NOT a prototype blocker): parent-as-agent -- the parent develops
+    and acts, and the child's Environment EMERGES from the parent's caregiving behaviour, not a coefficient.
+    The coefficients below are SCAFFOLD and are left only so the scaffold stages execute; they are not a claim.
     """
     care = parent.gains.get("CARE", 0.4)
     control = parent.gains.get("CONTROL", 0.4)
-    warmth = clamp(1.3 * care)
-    structure = clamp(control)
-    recognition = clamp(0.4 * warmth + 0.6 * structure)
+    warmth = clamp(1.3 * care)         # SCAFFOLD (withdrawn claim -- see docstring)
+    structure = clamp(control)         # SCAFFOLD
+    recognition = clamp(0.4 * warmth + 0.6 * structure)   # SCAFFOLD
     return Environment(name or f"{parent.name}_parenting",
                        warmth=warmth, structure=structure, recognition=recognition)
 

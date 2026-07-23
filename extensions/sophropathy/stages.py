@@ -197,7 +197,8 @@ def run_stage6(n: int = N_DEFAULT) -> StageResult:
                        conditions=conds,
                        notes=["the parent's disposition shapes the environment "
                               "(warmth from CARE, structure from CONTROL)",
-                              "tests the parent -> environment -> child pathway"])
+                              "tests the parent -> environment -> child pathway",
+                              "★ TRANSMISSION CLAIM WITHDRAWN (prototype item 2b): parent_to_environment is a hand-authored scaffold (invented coeffs; parent never an agent; PARENT_SEEDS uses developed end-states as inputs). This stage RUNS as a scaffold demo; no grounded transmission claim rests on it until parent-as-agent is built."])
 
 
 # ---------------------------------------------------------------------------
@@ -216,7 +217,12 @@ def run_stage7(n: int = N_DEFAULT) -> StageResult:
                        conditions=conds,
                        notes=["heritable disposition AND parent-shaped environment together",
                               "fearless child + sophropathic parent vs + psychopathic parent: "
-                              "same disposition, opposite outcome -- transmission via environment"])
+                              "same disposition, opposite outcome -- transmission via environment",
+                              "★ TRANSMISSION CLAIM WITHDRAWN (prototype item 2b): the 'opposite outcome via "
+                              "environment' claim rests on the hand-authored parent_to_environment scaffold "
+                              "(invented coeffs; parent never an agent; PARENT_SEEDS feeds developed end-states "
+                              "as inputs). Scaffold demo only; no grounded transmission claim rests on it until "
+                              "parent-as-agent is built."])
 
 
 ALL_STAGES = [run_stage1, run_stage2, run_stage3, run_stage4,
