@@ -423,7 +423,10 @@ def _social_episode(agent: AffectiveAgent, other_agent: AffectiveAgent, other_la
     fr = felt_response(agent.engine, percept, age_years,
                        getattr(agent, "_rest_baseline", None))
     if relational:
-        accrue_relationship(tie, fr.behaviour, fr.strength)   # F1/P2a: the SAME emergent write as adjudicate
+        # F1/P2a: the SAME emergent write as adjudicate. dt_years = the episode's developmental contact-time
+        # (scoped on the engine by the arena/childhood loop, mapping-B) so relationship DEPTH tracks contact
+        # TIME, not the episode count -- the RULED units correction for the discriminator-located dose defect.
+        accrue_relationship(tie, fr.behaviour, fr.strength, dt_years=agent.engine._dt_years)
     elif is_aggressive_act(fr.behaviour):
         tie.strain = min(1.0, tie.strain + _TIE_STEP); tie.affect = max(-1.0, tie.affect - _TIE_STEP)
     elif is_cohesive_act(fr.behaviour):

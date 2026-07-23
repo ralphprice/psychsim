@@ -41,23 +41,42 @@ class Relationship:
     trust: float = 0.0
 
 
-def accrue_relationship(rel: Relationship, behaviour: str, win_drive: float) -> None:
+# TIME-NORMALISATION (units correction, RULED): a relationship deepens with cumulative CONTACT-TIME, not
+# contact-COUNT. REL_CONTACT_PERIOD_YEARS is the reference contact-time that accrues one unit of the bands
+# below -- so accrual scales by dt_years/REF. This matters because the childhood Arena re-samples ONE fixed
+# 18-yr childhood into a VARIABLE episode count N; without the units correction, more episodes -> a deeper
+# relationship by a given age -> a stronger recognition cue -> a dose that scaled with the harness's sampling
+# (the discriminator-located residual: familiarity depth spread 61% across N, dose 147%). SCAFFOLD value:
+# anchored to the developmental-episode scale (load-bearing status MEASURED, see the register); a distinct
+# constant from EXP_PERIOD_YEARS because familiarity and plasticity are different quantities.
+REL_CONTACT_PERIOD_YEARS = 0.28
+
+
+def accrue_relationship(rel: Relationship, behaviour: str, win_drive: float,
+                        dt_years: Optional[float] = None) -> None:
     """The P2a relationship-update mechanism, SHARED so the developing-childhood write (the Arena) is
     the SAME emergent mechanism as the single-exchange write (adjudicate) -- not a second, flat-stepped
     implementation. The SIGN is emergent (is_cohesive_act/is_aggressive_act on the emergent behaviour
     string, category-free -- migration #2); the MAGNITUDE is the pre-P2a bands (0.15/0.1/0.2/0.15,
     UNCHANGED, no new tunable number) scaled by the winner's own emergent drive INTENSITY `win_drive`
     (== social.py:269's 'strength' for the winner, a quantity in [0,1]; INTENSITY not margin). min(1.0,
-    ..) enforces the band bound in code. FAMILIARITY is unscaled contact-count; TRUST keeps its 0
-    floor (betrayal = a separate grounded pass). See the emergent-write memory / register."""
+    ..) enforces the band bound in code. TRUST keeps its 0 floor (betrayal = a separate grounded pass).
+
+    `dt_years` (RULED units correction): the developmental CONTACT-TIME this exchange represents. When given,
+    ALL bands (familiarity included -- it was 'unscaled contact-count', the discriminator-located dose defect)
+    scale by dt_years/REL_CONTACT_PERIOD_YEARS, so relationship DEPTH at a given age tracks cumulative contact
+    time and is episode-count-independent. dt_years=None keeps the legacy per-exchange step -- correct for a
+    bare single adult exchange, which is a real distinct interaction (one contact-event), NOT a re-sampling of
+    fixed calendar time; only the childhood Arena, which chunks a fixed childhood into a variable N, needs it."""
     wd = min(1.0, win_drive)
-    rel.familiarity = clamp(rel.familiarity + 0.1)
+    scale = 1.0 if dt_years is None else dt_years / REL_CONTACT_PERIOD_YEARS
+    rel.familiarity = clamp(rel.familiarity + 0.1 * scale)
     if is_cohesive_act(behaviour):    # appetitive/affiliative act -> warms the tie
-        rel.affect = clamp(rel.affect + 0.15 * wd, -1.0, 1.0)
-        rel.trust = clamp(rel.trust + 0.1 * wd)
+        rel.affect = clamp(rel.affect + 0.15 * wd * scale, -1.0, 1.0)
+        rel.trust = clamp(rel.trust + 0.1 * wd * scale)
     elif is_aggressive_act(behaviour):  # defensive-aggression act -> strains the tie
-        rel.affect = clamp(rel.affect - 0.2 * wd, -1.0, 1.0)
-        rel.trust = clamp(rel.trust - 0.15 * wd)
+        rel.affect = clamp(rel.affect - 0.2 * wd * scale, -1.0, 1.0)
+        rel.trust = clamp(rel.trust - 0.15 * wd * scale)
 
 
 @dataclass
@@ -141,8 +160,13 @@ class GameMaster:
             # the SAME mechanism -- F1): the winner's own emergent drive intensity scales the pre-P2a
             # bands; sign stays emergent. getattr honours adjudicate's '.behaviour-carrying act' contract.
             drives = getattr(resp, "drives", None) or {}
+            # RULED units correction: read the developmental contact-time this exchange represents from the
+            # engine's scoped context (set by a life-loop that wraps the moment). None in the bare world path
+            # -> legacy per-exchange step, correct because an adjudicated adult exchange is a real distinct
+            # interaction (one contact-event), not a re-sampling of fixed calendar time (see accrue_relationship).
+            _dt = getattr(person.mind.engine, "_dt_years", None)
             accrue_relationship(self.rel(person.agent_id, target), resp.behaviour,
-                                drives.get(resp.behaviour, 0.0))
+                                drives.get(resp.behaviour, 0.0), dt_years=_dt)
 
         # 2. the institution's response valence (warmth of the climate),
         #    which is what development consumes
