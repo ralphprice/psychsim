@@ -7845,6 +7845,78 @@
       "dominant_receptor": "GABA-A",
       "dominant_receptor_basis": "GABA-A INHIBITORY. ★ PROVENANCE DECONTAMINATED (audit finding): this field previously carried a COPY-PASTED scaffold justification (\"set so the disynaptic feed-forward inhibition DOMINATES the residual direct PVN-OT->CeA fallback edge\") describing an edge this one does not touch -- while the neighbouring source field simultaneously denied inheriting that scaffold. The record contradicted itself inside a single entry. The honest statement: this is a GABAergic CeL interneuron synapse, and its \"strong\" band is the literature's own qualifier for a competitive winner-take-all circuit, NOT a value carried over from the retired PVN-OT calibration.",
       "source": "LUMP #13 CLOSE -- the CRF+ output to the ACTIVE-DEFENCE column. Fadok 2017 reports CRF+ neurons projecting widely throughout the PAG columns, including the dorsolateral/lateral (flight/escape) columns; dPAG is the model's active-coping column (v14 Phase A vlPAG=passive / dPAG=active). SIGN GROUNDED, and it is DISINHIBITORY for the same reason the freeze arm is: CeL populations are GABAergic, so CRF+ reaches the column by inhibiting its GABAergic gate (dPAG-GABA), releasing dPAG. ★ AND UNLIKE THE FREEZE ARM, THERE IS SOMETHING BEHIND THIS GATE: dPAG carries real excitatory drive (SC-Pv looming, moderate; VMHvl attack, strong), whereas vlPAG had only the non-threat-driven VMH -- which is exactly why vlPAG needed PL excitation and this column does not. The disinhibition-without-drive defect was checked for before building, not after. FLAGGED, NOT GUESSED: Fadok also reports CRF+ -> VMH, but the flight-relevant target is VMHdm (dorsomedial, predator defence) and the model has no VMHdm -- its VMH is reproductive/social and its VMHvl is the attack area. That projection is therefore NOT built rather than mapped onto a mismatched node."
+    },
+    {
+      "source_circuit": "SC-Pv",
+      "target_circuit": "V-dorsal",
+      "default_weight": "moderate",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "visual_dorsal_childhood",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "calibration_active_default": true,
+      "confidence": "E",
+      "source": "anatomy (existence, scaffold newborn weight); colliculo-pulvinar -> MT/dorsal-stream projection, the subcortical biological-motion 'low road' to MT (Vuilleumier et al. 2003; Grossman & Blake 2002). Route A1 of the vicarious pathway (S82): routes biological_motion (already landing on SC-Pv) up to V-dorsal->pSTS."
+    },
+    {
+      "source_circuit": "SC-Pv",
+      "target_circuit": "V-ventral",
+      "default_weight": "moderate",
+      "default_weight_basis": "assumption",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "visual_ventral_childhood",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.5,
+      "calibration_active_default": true,
+      "confidence": "E",
+      "source": "anatomy (existence, scaffold newborn weight); colliculo-pulvinar -> ventral-extrastriate projection, the subcortical face route to cortex. Route A2 of the vicarious pathway (S82): routes face_like (already on SC-Pv) up to V-ventral->pSTS and V-ventral->MeA. NB S83: SC-Pv is a lump, so this also hands non-social SC-Pv signals a route to MeA -- the pre-recorded specificity failure mode."
+    },
+    {
+      "source_circuit": "A1-belt",
+      "target_circuit": "pSTS",
+      "default_weight": "moderate",
+      "default_weight_basis": "literature",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "ACh",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "social_cortex_late",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 2.0,
+      "calibration_active_default": true,
+      "confidence": "E",
+      "source": "literature (existence, scaffold newborn weight); the temporal voice area lies in/near STS and receives from auditory belt -- voice-selective STS (Belin et al. 2000). Route A3 of the vicarious pathway (S82): connects the existing voice->A1-belt landing onward to pSTS."
+    },
+    {
+      "source_circuit": "IN-SOMATO:nociception",
+      "target_circuit": "VMpo-thal",
+      "default_weight": "moderate",
+      "default_weight_basis": "anatomy",
+      "weight_bounds": [
+        0.0,
+        1.0
+      ],
+      "gating_neuromodulator": "none",
+      "eligibility_trace_tau_ms": 1000,
+      "plasticity_coeff_schedule_ref": "interoceptive_early",
+      "is_innate_reinforcer_link": false,
+      "developmental_online_age": 0.0,
+      "calibration_active_default": true,
+      "confidence": "E",
+      "source": "anatomy (existence, scaffold weight); lamina-I spinothalamic nociceptive projection to VMpo, the interoceptive/affective pain thalamus (Craig 2002) -- distinct from the sensory-discriminative VPL route. Route B1 of the vicarious pathway (S82): the traced break -- VMpo-thal (Interoceptive thalamus) received nothing noxious; this gives aIns the first-person affective pain the shared representation borrows. NOT a reinforcer link (the aversive VALUE goes via nociception->LA/CEl); this is the sensory-affective relay."
     }
   ],
   "substrate_hardening_backlog": [
