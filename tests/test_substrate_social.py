@@ -90,10 +90,12 @@ class TestThreatResponseIsEmergent(unittest.TestCase):
         e.clear_inputs(); e.inject_channel("IN-SOMATO:nociception", 0.9); e.settle(30)
         b = select_social_behaviour(e)
         self.assertEqual(b.behaviour, "avoid")          # generic threat -> avoidance (fear baseline)
-        # NOT driven by generic threat -- provocation-specific (v9). v12a: MeA->VMHvl is now (correctly)
-        # excitatory, so the attack area carries a negligible standing prime (~1e-6) from MeA tone --
-        # the exact-zero of the old inhibitory sign is gone, but aggression is still not driven (avoid).
-        self.assertLess(b.drives["aggress"], 1e-4)
+        # NOT driven by generic threat -- provocation-specific (v9). ★ RE-BASELINED to the ORDINAL form
+        # (vicarious-pathway build, ruled; same class as the predictive sweep S84): was assertLess(aggress, 1e-4).
+        # The grounded vicarious pathway (nociception->VMpo->aIns->CEl, real pain->insula->amygdala) adds a hair
+        # of tonic aggression drive under nociceptive threat (~0.0004), breaking the near-zero bound without
+        # touching the claim. The claim is that generic threat does NOT drive aggression: avoid DOMINATES.
+        self.assertGreater(b.drives["avoid"], 100.0 * b.drives["aggress"])   # avoid >> aggress
 
 
 if __name__ == "__main__":

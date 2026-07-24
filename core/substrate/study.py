@@ -20,7 +20,13 @@ from .model import load_substrate
 
 # The affective-empathy network (the throttle set, S4.1) and the cognitive mentalizing network
 # (left intact). Circuit ids only -- anatomy, not meaning.
-AFFECTIVE_EMPATHY = ("LA", "BA", "CEl", "MeA", "aIns")
+# ★ RE-DERIVED (vicarious-pathway build, RULED) -- on the nodes that measurably carry the vicarious signal after
+# the pathway was built. Was ("LA","BA","CEl","MeA","aIns"): the amygdala nodes (LA/BA/CEl) are own-pain-dominant
+# and made the construct read own pain 6.6x. Now the shared-affect / conspecific / ACC-affective nodes: aIns
+# (shared representation), MeA (conspecific-specific, the specificity term), dACC (ACC pain-affect, carries the
+# distress signal). CEl remains a valid THREAT term elsewhere -- it is just not vicarious. Weak-signal caveat:
+# within-configuration comparisons only, absolute magnitudes not quotable (aIns distress +0.016, not tuned).
+AFFECTIVE_EMPATHY = ("aIns", "MeA", "dACC")
 COGNITIVE_MENTALIZING = ("rSMG-TPJ", "pSTS", "PCun-PCC", "ATL-TP")
 # RE-DERIVED (audit, ruled -- an OUTPUT set must read the output stage). Was ("CEl", "vlPAG", "BA"): CEl is
 # the CeL input SELECTOR and BA a relay -- post-Lump-#13 this "output" set contained NO live output

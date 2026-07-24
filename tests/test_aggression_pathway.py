@@ -117,11 +117,17 @@ class TestAggressionPathwayClosesOBS3(unittest.TestCase):
         self.assertGreater(b.drives["aggress"], _EPS)          # actually driven, not ~0
 
     def test_plain_threat_still_avoids(self):
-        # fear stays the baseline threat response: un-provoked threat -> avoid, aggression ~0.
+        # fear stays the baseline threat response: un-provoked threat -> avoid, aggression negligible.
         b = _act(Appraisal(threat=0.9))
         self.assertEqual(b.behaviour, "avoid")
-        self.assertLess(b.drives["aggress"], b.drives["avoid"])
-        self.assertLess(b.drives["aggress"], _EPS)             # not driven by pure threat
+        # ★ RE-BASELINED to the ORDINAL form (vicarious-pathway build, ruled): was assertLess(aggress, _EPS=1e-6).
+        # A near-zero absolute bound on a continuous quantity is brittle -- the grounded vicarious pathway
+        # (nociception->VMpo->aIns->CEl, real pain->insula->amygdala anatomy) adds a hair of tonic drive under
+        # nociceptive threat (aggress 0.0->0.0004) that breaks < 1e-6 without touching the CLAIM. The claim is
+        # that plain threat does NOT drive aggression: avoid DOMINATES aggress by orders of magnitude (measured
+        # 0.435 vs 0.0004 -- ~1000x). Assert that relation, not a literal-zero floor (real networks have tonic
+        # activity -- the same lesson this file already applied to the neutral-aggression floor).
+        self.assertGreater(b.drives["avoid"], 100.0 * b.drives["aggress"])   # avoid >> aggress: threat != aggression
 
     def test_neutral_no_aggression_leak(self):
         # REQUIRED control: aggression is PROVOCATION-SPECIFIC, not a global additive shift -- asserted

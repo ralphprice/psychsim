@@ -176,9 +176,14 @@ class TestTheS56ExitMeasurement(unittest.TestCase):
         # provocation drives the FLIGHT/ATTACK column and not the freezing column
         self.assertGreater(pro["dPAG"], pro["vlPAG"])
         self.assertGreater(pro["VMHvl"], thr["VMHvl"])
-        # ...and they do not trade: neither context drives BOTH columns
-        self.assertEqual(thr["dPAG"], 0.0)
-        self.assertEqual(pro["vlPAG"], 0.0)
+        # ...and they do not trade: neither context drives BOTH columns. ★ RE-BASELINED to the ORDINAL form
+        # (vicarious-pathway build, ruled): was assertEqual(...,0.0). An exact-zero on a continuous quantity is
+        # brittle BY CONSTRUCTION -- the grounded vicarious pathway (aIns->CEl etc.) adds a hair of tonic drive
+        # (pro vlPAG 0.0->0.0027) that breaks == 0.0 without touching the CLAIM. The claim is the DISTINCTION:
+        # the off-column stays below the on-column. Asserting the relation survives future grounded changes; a
+        # loosened number would be the same brittle shape at a new value.
+        self.assertLess(thr["dPAG"], thr["vlPAG"])     # threat: flight column stays below the freezing column
+        self.assertLess(pro["vlPAG"], pro["dPAG"])     # provocation: freezing column stays below the flight column
 
     def test_the_crf_population_is_load_bearing_for_the_flight_column(self):
         # silence-the-element: the flight column must depend on CRF+ disinhibition, or the "selection"

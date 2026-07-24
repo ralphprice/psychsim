@@ -59,13 +59,11 @@ class TestProfileIsAMeasurement(unittest.TestCase):
 
     def test_constructs_compute_over_the_substrate_profile(self):
         out = observe_substrate(_grow("IN-SOMATO:affective_touch"))
-        for key in ("triarchic", "distress_cue_amygdala_reactivity", "aggression",
+        # ★ empathy/CU RE-INSTATED (vicarious-pathway build, ruled)
+        for key in ("triarchic", "callous_unemotional", "empathy", "aggression",
                     "passive_avoidance_deficit"):
             self.assertIn(key, out)
         self.assertNotIn("psychopathy", out)    # no single verdict -- measurement only
-        # ★ SUSPENDED (CEl-discrimination, ruled): empathy/CU not implemented -> not reported
-        self.assertNotIn("empathy", out)
-        self.assertNotIn("callous_unemotional", out)
 
     def test_restraint_grows_with_maturation(self):
         # a read-out property: executive control capacity is higher in an adult than a child

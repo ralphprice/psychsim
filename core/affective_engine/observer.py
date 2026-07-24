@@ -53,21 +53,27 @@ def triarchic(bp: BehaviourProfile) -> Dict[str, float]:
 
 
 def empathy(bp: BehaviourProfile) -> float:
-    """★ SUSPENDED -- NOT IMPLEMENTED (CEl-discrimination, RULED). This is NOT a valid empathy measure and is no
-    longer reported by read_out(). Its vicarious_response half is the amygdala's aversive response to a distress
-    cue's perceptual features (own-pain drives it 6.6x harder), because the substrate has NO vicarious pathway:
-    the distress-perception channels never reach the cortical social-perception route (pSTS->rSMG-TPJ->aIns).
-    A model that cannot represent empathy cannot represent its deficit; this is a missing MECHANISM. Kept only
-    so existing imports resolve; DO NOT reintroduce it as a measure until the vicarious pathway is built.
-    See docs/CEl_discrimination_preregistration.md and the register."""
+    """Empathic concern: vicarious response to another's distress + care-based moral orientation.
+
+    ★ RE-INSTATED (vicarious-pathway build, RULED) after suspension. The vicarious pathway was built and
+    grounded on ANATOMY (colliculo-pulvinar->extrastriate; auditory belt->STS; lamina-I spinothalamic->VMpo->
+    insula) so the distress-perception channels now reach the shared-affect nodes, and `vicarious_response` is
+    re-derived on the nodes that MEASURABLY carry the vicarious signal -- aIns/MeA/dACC (see _OBS_EMPATHY), not
+    the own-pain-dominant amygdala nodes that made the old measure read own-pain.
+
+    ★ CAVEAT THAT TRAVELS WITH THE CONSTRUCT (do not strip): the underlying signal is WEAK -- the distress
+    response at aIns is +0.016 (multi-hop cortical attenuation), and the weight was NOT tuned to inflate it.
+    Therefore: claims using empathy are WITHIN-CONFIGURATION comparisons only; absolute magnitudes are NOT
+    quotable. Re-instated on a weak-but-real signal with the weakness stated -- pre-registered criterion met
+    (reach +0.0475, ratio 2.26x own/other vs the 6.6x baseline, MeA specificity clean). See the register."""
     return clamp(0.5 * bp.vicarious_response + 0.5 * bp.moral_orientation)
 
 
 def callous_unemotional(bp: BehaviourProfile) -> float:
-    """★ SUSPENDED -- NOT IMPLEMENTED (CEl-discrimination, RULED). CU is the exact complement of `empathy`
-    (CU = 1 - empathy -- the SAME variable), so it inherits empathy's invalidity: it measures 1 minus the
-    amygdala's aversive tone, not blunted empathy. Removed from read_out(); kept only for import resolution.
-    A blunted-empathy construct requires a vicarious pathway that the substrate does not implement."""
+    """Callous-unemotional traits (Frick): blunted empathy + weak affective conscience. ★ CU IS THE EXACT
+    COMPLEMENT of `empathy` (CU = 1 - empathy -- the SAME variable, written as the explicit complement so a
+    figure cannot present one variable as two). RE-INSTATED with `empathy`; inherits its WEAK-SIGNAL CAVEAT
+    (within-configuration comparisons only, absolute magnitudes not quotable)."""
     return clamp(1.0 - empathy(bp))
 
 
@@ -90,19 +96,13 @@ def read_out(bp: BehaviourProfile) -> Dict[str, object]:
     tri = triarchic(bp)
     return {
         "triarchic": tri,
-        # ★ SUSPENDED (CEl-discrimination, RULED): `empathy` and `callous_unemotional` are DECLARED NOT
-        # IMPLEMENTED and removed as measures -- suspended, not caveated. Pre-registered measurement (contamination
-        # ratio 6.6x, robust across fresh+developed agents) proved the affective-empathy read-out reports the
-        # AMYGDALA'S AVERSIVE RESPONSE to a distress cue's perceptual features -- own-pain drives the same nodes
-        # 6.6x harder -- NOT vicarious distress. Root cause is a MISSING MECHANISM, not a read-out defect: the
-        # distress-perception channels reach only the subcortical aversive route (biological_motion/face_like->
-        # SC-Pv->CEl/dPAG, voice->A1-belt->LA) and NEVER the cortical social-perception route (pSTS->rSMG-TPJ->
-        # aIns, which is itself already wired). aIns/MeA (shared-affect / conspecific-specific) are inert to the
-        # distress cue because nothing reaches them. No felt-set re-derivation can point at a signal that is
-        # absent from the substrate. CONSEQUENCE (recorded): every claim resting on empathy/CU is currently
-        # unsupported. The raw quantity is exposed under its TRUE name so nothing downstream reads an empathy
-        # number that is not one. See docs/CEl_discrimination_preregistration.md and register.
-        "distress_cue_amygdala_reactivity": clamp(bp.vicarious_response),
+        # ★ RE-INSTATED (vicarious-pathway build, RULED). empathy/CU were suspended when the affective-empathy
+        # read-out was found to measure own-pain 6.6x (no vicarious pathway existed). The pathway was built and
+        # grounded on anatomy; `vicarious_response` is now re-derived on the nodes that measurably carry the
+        # vicarious signal (aIns/MeA/dACC -- see _OBS_EMPATHY). WEAK-SIGNAL CAVEAT travels with the construct
+        # (see empathy()): within-configuration comparisons only, absolute magnitudes not quotable.
+        "callous_unemotional": callous_unemotional(bp),
+        "empathy": empathy(bp),
         "aggression": aggression_profile(bp),
         "passive_avoidance_deficit": passive_avoidance_deficit(bp),
     }
@@ -133,7 +133,14 @@ _OBS_EXEC = ("dlPFC", "dACC", "vlPFC", "preSMA")    # executive control
 # dPAG (active-coping fight/flight motor) + HYPdm (autonomic defensive drive). This removal is on OUTPUT
 # grounds (CEl is not an attack output), independent of the held felt-set question.
 _OBS_AGGRESS = ("VMHvl", "CEm-active", "dPAG", "HYPdm")   # threat -> attack: the active-defence OUTPUT
-_OBS_EMPATHY = ("LA", "BA", "CEl", "aIns")          # affective empathy (felt distress)
+# ★ RE-DERIVED (vicarious-pathway build, RULED) -- on the nodes that MEASURABLY carry the vicarious signal
+# after the pathway was built. Was ("LA","BA","CEl","aIns"): those amygdala nodes are OWN-PAIN-dominant (CEl
+# +0.94 own vs +0.26 distress) -- they made the construct read own pain 6.6x. Now the shared-affect / conspecific
+# / ACC-affective nodes the built distress-perception pathway actually reaches: aIns (shared representation),
+# MeA (conspecific-specific -- distress +0.073, own-pain +0.000, the specificity term), dACC (ACC pain-affect;
+# carries the distress signal +0.054). CEl is DROPPED from EMPATHY but remains a valid THREAT term (_OBS_THREAT)
+# -- it rises with threat (inversion premise refuted), it just is not vicarious. Weak-signal caveat on empathy().
+_OBS_EMPATHY = ("aIns", "MeA", "dACC")              # affective empathy (shared representation of another's distress)
 _OBS_VMPFC = ("vmPFC",)                             # ventromedial PFC (Blair conscience)
 _THREAT_CUE = {"IN-SOMATO:nociception": 0.8}
 _REWARD_CUE = {"IN-GUST:sweet": 0.8}
