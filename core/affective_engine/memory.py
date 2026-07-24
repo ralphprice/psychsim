@@ -36,8 +36,11 @@ class EpisodicMemory:
     appraisal: Appraisal   # how it was appraised (descriptive record)
     dominant: str          # behavioural network the agent ran (part of the public act-record)
     valence: float         # response value -- the computed drive reduction
-    importance: float      # salience of the event (0..1) -- descriptive (was retrieval-scoring input; now a record field)
-    # optional per-variable drive reduction -- feeds anticipatory-value learning (App. C.5). Absent for legacy call sites.
+    importance: float      # salience of the event (0..1) -- descriptive; VESTIGIAL (was retrieval-scoring input,
+    #                        lost its consumer when retrieve() was retired; zero reads now -- see register S76)
+    # optional per-variable drive reduction -- RECORDED ONLY, currently UNREAD. The App-C.5 anticipatory-value
+    # path this was meant to feed is NOT wired to the episodic record (zero reads across core/+extensions/);
+    # the causal claim was corrected in the integrity sweep. See register S75. Absent for legacy call sites.
     drive_reduction: Optional[Dict[str, float]] = None
 
 
