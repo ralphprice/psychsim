@@ -24,11 +24,15 @@ def _agent(seed_fn):
 class TestConstructsAreBoundedReadouts(unittest.TestCase):
     def test_read_out_shape_no_single_verdict(self):
         r = read_out(BehaviourProfile())
-        for key in ("triarchic", "callous_unemotional", "empathy", "aggression",
+        for key in ("triarchic", "distress_cue_amygdala_reactivity", "aggression",
                     "passive_avoidance_deficit"):
             self.assertIn(key, r)
         # deliberately NO single "psychopathy" verdict baked in
         self.assertNotIn("psychopathy", r)
+        # ★ SUSPENDED (CEl-discrimination, ruled): empathy/CU are declared NOT IMPLEMENTED and removed as
+        # measures (no vicarious pathway in the substrate); assert they are NOT reported.
+        self.assertNotIn("empathy", r)
+        self.assertNotIn("callous_unemotional", r)
 
     def test_all_metrics_bounded(self):
         bp = BehaviourProfile(fear=0.9, seeking=0.8, care=0.1, restraint=0.2,
@@ -37,8 +41,7 @@ class TestConstructsAreBoundedReadouts(unittest.TestCase):
         tri = triarchic(bp)
         for v in tri.values():
             self.assertTrue(0.0 <= v <= 1.0)
-        self.assertTrue(0.0 <= callous_unemotional(bp) <= 1.0)
-        self.assertTrue(0.0 <= empathy(bp) <= 1.0)
+        # empathy/CU boundedness dropped: those constructs are SUSPENDED (not implemented).
 
 
 class TestConstructsTrackTheSignals(unittest.TestCase):
@@ -47,6 +50,10 @@ class TestConstructsTrackTheSignals(unittest.TestCase):
         timid = triarchic(BehaviourProfile(fear=0.9, seeking=0.7))["boldness"]
         self.assertGreater(bold, timid)
 
+    @unittest.skip("SUSPENDED (CEl-discrimination, ruled): empathy/callous_unemotional are NOT IMPLEMENTED -- "
+                   "the vicarious_response term is amygdala aversive tone, not vicarious distress (no vicarious "
+                   "pathway in the substrate). Re-enable once the distress-perception -> pSTS -> rSMG-TPJ -> aIns "
+                   "pathway is built and the construct is re-derived on it.")
     def test_callous_unemotional_rises_as_empathy_conscience_fall(self):
         cu_low = callous_unemotional(BehaviourProfile(vicarious_response=0.9,
                                                       moral_orientation=0.9))

@@ -70,8 +70,11 @@ class TestObserverAdapterMeasuresThePerson(unittest.TestCase):
         for _ in range(15):
             p.social_act(Appraisal(social_valence=0.7, reward=0.4, label="warm"), age_years=20.0)
         out = observe_substrate(p.engine)   # circuit-engine adapter, read-only
-        for key in ("triarchic", "callous_unemotional", "empathy"):
+        # ★ SUSPENDED (CEl-discrimination, ruled): empathy/callous_unemotional are NOT IMPLEMENTED (no vicarious
+        # pathway); the observer reports the raw quantity under its true name instead.
+        for key in ("triarchic", "distress_cue_amygdala_reactivity"):
             self.assertIn(key, out)
+        self.assertNotIn("empathy", out)
 
 
 if __name__ == "__main__":

@@ -53,16 +53,21 @@ def triarchic(bp: BehaviourProfile) -> Dict[str, float]:
 
 
 def empathy(bp: BehaviourProfile) -> float:
-    """Empathic concern: vicarious response to distress + care-based moral orientation. THE PRIMARY
-    construct of this complementary pair (ruled: report ONE, derive the other as its labelled complement)."""
+    """★ SUSPENDED -- NOT IMPLEMENTED (CEl-discrimination, RULED). This is NOT a valid empathy measure and is no
+    longer reported by read_out(). Its vicarious_response half is the amygdala's aversive response to a distress
+    cue's perceptual features (own-pain drives it 6.6x harder), because the substrate has NO vicarious pathway:
+    the distress-perception channels never reach the cortical social-perception route (pSTS->rSMG-TPJ->aIns).
+    A model that cannot represent empathy cannot represent its deficit; this is a missing MECHANISM. Kept only
+    so existing imports resolve; DO NOT reintroduce it as a measure until the vicarious pathway is built.
+    See docs/CEl_discrimination_preregistration.md and the register."""
     return clamp(0.5 * bp.vicarious_response + 0.5 * bp.moral_orientation)
 
 
 def callous_unemotional(bp: BehaviourProfile) -> float:
-    """Callous-unemotional traits (Frick): blunted empathy + weak affective conscience. ★ CU IS THE EXACT
-    COMPLEMENT OF empathy -- CU = 0.5(1-v)+0.5(1-m) = 1 - (0.5v+0.5m) = 1 - empathy -- i.e. the SAME variable,
-    not an independent construct (audit finding). Written as the explicit complement so the identity is
-    transparent in code and a figure reporting both cannot present one variable as two."""
+    """★ SUSPENDED -- NOT IMPLEMENTED (CEl-discrimination, RULED). CU is the exact complement of `empathy`
+    (CU = 1 - empathy -- the SAME variable), so it inherits empathy's invalidity: it measures 1 minus the
+    amygdala's aversive tone, not blunted empathy. Removed from read_out(); kept only for import resolution.
+    A blunted-empathy construct requires a vicarious pathway that the substrate does not implement."""
     return clamp(1.0 - empathy(bp))
 
 
@@ -85,8 +90,19 @@ def read_out(bp: BehaviourProfile) -> Dict[str, object]:
     tri = triarchic(bp)
     return {
         "triarchic": tri,
-        "callous_unemotional": callous_unemotional(bp),
-        "empathy": empathy(bp),
+        # ★ SUSPENDED (CEl-discrimination, RULED): `empathy` and `callous_unemotional` are DECLARED NOT
+        # IMPLEMENTED and removed as measures -- suspended, not caveated. Pre-registered measurement (contamination
+        # ratio 6.6x, robust across fresh+developed agents) proved the affective-empathy read-out reports the
+        # AMYGDALA'S AVERSIVE RESPONSE to a distress cue's perceptual features -- own-pain drives the same nodes
+        # 6.6x harder -- NOT vicarious distress. Root cause is a MISSING MECHANISM, not a read-out defect: the
+        # distress-perception channels reach only the subcortical aversive route (biological_motion/face_like->
+        # SC-Pv->CEl/dPAG, voice->A1-belt->LA) and NEVER the cortical social-perception route (pSTS->rSMG-TPJ->
+        # aIns, which is itself already wired). aIns/MeA (shared-affect / conspecific-specific) are inert to the
+        # distress cue because nothing reaches them. No felt-set re-derivation can point at a signal that is
+        # absent from the substrate. CONSEQUENCE (recorded): every claim resting on empathy/CU is currently
+        # unsupported. The raw quantity is exposed under its TRUE name so nothing downstream reads an empathy
+        # number that is not one. See docs/CEl_discrimination_preregistration.md and register.
+        "distress_cue_amygdala_reactivity": clamp(bp.vicarious_response),
         "aggression": aggression_profile(bp),
         "passive_avoidance_deficit": passive_avoidance_deficit(bp),
     }
